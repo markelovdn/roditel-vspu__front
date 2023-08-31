@@ -1,6 +1,6 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <h1><q-btn color="primary">This is quasar btn</q-btn></h1>
   </div>
 </template>
 
