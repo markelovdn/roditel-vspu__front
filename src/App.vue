@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import TheLayout from '@/layouts/TheLayout.vue'
+import LayoutConstructor from "./layouts/LayoutConstructor.vue";
 
+LayoutConstructor;
 </script>
 
 <template>
-  <TheLayout />
+  <LayoutConstructor />
 </template>
 
 <style scoped></style>

@@ -1,49 +1,38 @@
-// path: src/router/routes.ts
-
 import type { RouteRecordRaw } from "vue-router";
-import HomePage from "@/pages/HomePage.vue";
-import WebinarsPage from "@/pages/WebinarsPage.vue";
-import Questions from "@/pages/QuestionsPage.vue";
-import Questionnaires from "@/pages/QuestionnairesPage.vue";
-import UserData from "@/pages/UserDataPage.vue";
-// import NotFoundPage from "@/pages/NotFoundPage.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    name: "Home",
-    component: HomePage,
+    name: "Main",
+    component: () => import("@/pages/MainPage/MainPage.vue"),
     meta: {
-      layout: "Home",
-    },
-  },
-  {
-    path: "/",
-    meta: {
-      layout: "App",
+      layout: "Main",
     },
     children: [
       {
-        path: "/Webinars",
+        path: "/webinars",
         name: "Webinars",
-        component: WebinarsPage,
+        component: () => import("@/pages/WebinarsPage/WebinarsPage.vue"),
       },
-      {
-        path: "/Questions",
-        name: "Questions",
-        component: Questions,
-      },
-      {
-        path: "/Questionnaires",
-        name: "Questionnaires",
-        component: Questionnaires,
-      },
-      {
-        path: "/UserData",
-        name: "UserData",
-        component: UserData,
-      },
+      // {
+      //   path: "/questions",
+      //   name: "Questions",
+      //   component: Questions,
+      // },
+      // {
+      //   path: "/questionnaires",
+      //   name: "Questionnaires",
+      //   component: Questionnaires,
+      // },
     ],
+  },
+  {
+    path: "/ui",
+    name: "Ui",
+    component: () => import("@/pages/UiComponents.vue"),
+    meta: {
+      layout: "Home",
+    },
   },
 ];
 
