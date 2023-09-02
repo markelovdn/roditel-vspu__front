@@ -4,7 +4,10 @@
   "compilerOptions": {
     "composite": true,
     "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "types": ["node"]
+    "moduleResolution": "node",
+    "useDefineForClassFields": true,
+    "strict": true,
+    "types": ["node", "vite/client", "@types/jest"],
+    "lib": ["esnext", "dom", "dom.iterable"]
   }
 }
