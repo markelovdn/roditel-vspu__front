@@ -1,23 +1,5 @@
 <script setup lang="ts">
-//TODO: вынести наружу
-const headerMenuItems = [
-  {
-    name: "Консультанты",
-    to: "url",
-  },
-  {
-    name: "Вебинары",
-    to: "url",
-  },
-  {
-    name: "Формы",
-    to: "url",
-  },
-  {
-    name: "Кому оказывается помощь",
-    to: "url",
-  },
-];
+import { headerMenuItems } from "./types";
 </script>
 
 <template>

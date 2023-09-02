@@ -6,7 +6,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "Main",
     component: () => import("@/pages/MainPage/MainPage.vue"),
     meta: {
-      layout: "Main",
+      background: "primary",
     },
     children: [
       {
@@ -29,10 +29,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/ui",
     name: "Ui",
-    component: () => import("@/pages/UiComponents.vue"),
-    meta: {
-      layout: "Home",
-    },
+    component: () => import("@/pages/UiPage/UiPage.vue"),
   },
 ];
 
