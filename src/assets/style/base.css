@@ -18,3 +18,17 @@ body {
   border-radius: 10px;
   border: 1px solid var(--grey-2, #bababa);
 }
+
+body {
+  font-family: "Ubuntu";
+  font-style: normal;
+  line-height: 120%;
+}
+
+.btn-link {
+  cursor: pointer;
+  text-decoration: none;
+}
+.btn-link:hover {
+  text-decoration: underline !important;
+}
