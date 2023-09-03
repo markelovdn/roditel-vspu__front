@@ -2,7 +2,11 @@
 import IconTelegram from "@/components/icons/IconTelegram.vue";
 import IconWhatsapp from "@/components/icons/IconWhatsapp.vue";
 import IconSkype from "@/components/icons/IconSkype.vue";
+<<<<<<< HEAD
 import CommonLink from "@/components/common/CommonLink/CommonLink.vue";
+=======
+import CommonLink from '@/components/common/CommonLink/CommonLink.vue'
+>>>>>>> 239dde8 (Пофиксил вопросы по ревью)
 </script>
 
 <template>
@@ -39,17 +43,31 @@ import CommonLink from "@/components/common/CommonLink/CommonLink.vue";
       </div> -->
     </div>
     <div class="footer__col-3">
-      <span class="text-primary" :to="'https://ya.ru/'">Для жителей Волгограда и Волгоградской области возможны очные
+      <<<<<<< HEAD <span class="text-primary" :to="'https://ya.ru/'">Для жителей Волгограда и Волгоградской области
+        возможны очные
         консультации по адресу г.Волгоград, проспект
         Ленина, 27
-      </span>
-      <CommonLink :to="'https://ya.ru/'">Приказ Об утверждении Положения о Межрегиональной службе консультирования
-        родителей социально - психологическим
-        центром "ВГСПУ"
-      </CommonLink>
-      <CommonLink :to="'https://ya.ru/'">Положение о межрегиональной службе консультирования родителей
-        социально-психологического центра ФГБОУ ВО ВГСПУ
-      </CommonLink>
+        </span>
+        <CommonLink :to="'https://ya.ru/'">Приказ Об утверждении Положения о Межрегиональной службе консультирования
+          родителей социально - психологическим
+          центром "ВГСПУ"
+        </CommonLink>
+        <CommonLink :to="'https://ya.ru/'">Положение о межрегиональной службе консультирования родителей
+          социально-психологического центра ФГБОУ ВО ВГСПУ
+        </CommonLink>
+        =======
+        <CommonLink :color="'#315194'" :to="'https://ya.ru/'">Для жителей Волгограда и Волгоградской области возможны
+          очные консультации по адресу
+          г.Волгоград, проспект
+          Ленина, 27</CommonLink>
+        <CommonLink :to="'https://ya.ru/'">Приказ Об утверждении Положения о Межрегиональной службе консультирования
+          родителей социально -
+          психологическим
+          центром "ВГСПУ"</CommonLink>
+        <CommonLink :to="'https://ya.ru/'">Положение о межрегиональной службе консультирования родителей
+          социально-психологического центра ФГБОУ ВО
+          ВГСПУ</CommonLink>
+        >>>>>>> 239dde8 (Пофиксил вопросы по ревью)
     </div>
   </q-footer>
 </template>
@@ -61,9 +79,9 @@ import CommonLink from "@/components/common/CommonLink/CommonLink.vue";
   display: flex;
   width: 100%;
   justify-content: space-between;
-  font-size: 16px;
+  <<<<<<< HEAD font-size: 16px;
 
-  .footer__col-1 {
+  =======>>>>>>>239dde8 (Пофиксил вопросы по ревью) .footer__col-1 {
     width: 290px;
     display: flex;
     flex-direction: column;
@@ -90,15 +108,19 @@ import CommonLink from "@/components/common/CommonLink/CommonLink.vue";
     }
 
     .col-1__btn_border {
-      padding: 15px 30px;
+      <<<<<<< HEAD padding: 15px 30px;
       margin: 0 10px 0 0;
       color: $grey-2;
+      =======color: $grey-2;
+      margin: 0 10px 0 0;
+      >>>>>>>239dde8 (Пофиксил вопросы по ревью)
     }
 
     .col-1__btn_label {
       color: $Blue-lighter;
-      font-size: 16px;
+      <<<<<<< HEAD font-size: 16px;
       line-height: 120%;
+      =======>>>>>>>239dde8 (Пофиксил вопросы по ревью)
     }
   }
 }
