@@ -1,4 +1,10 @@
 :root {
-    --q-background-primary: #ffffff;
+    --q-background-primary: #F3F3F3;
     --q-background-secondary: #f3f3f3;
+}
+
+body {
+    font-family: 'Ubuntu';
+    font-style: normal;
+    line-height: 120%;
 }
