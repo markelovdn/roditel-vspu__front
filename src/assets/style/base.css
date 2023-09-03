@@ -32,3 +32,9 @@ body {
 .btn-link:hover {
   text-decoration: underline !important;
 }
+
+body {
+  font-family: "Ubuntu";
+  font-style: normal;
+  line-height: 120%;
+}
