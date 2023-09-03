@@ -5,7 +5,7 @@ const props = defineProps<CommonLinkItem>()
 </script>
 
 <template>
-    <a :href="props.to" class="link" :style="`color: ${props.color}`" target="_blank" rel="">
+    <a :href="props.to" class="link" :style="`color: var(${props.color})`" target="_blank" rel="">
         <slot></slot>
     </a>
 </template>

@@ -39,7 +39,8 @@ import CommonLink from '@/components/common/CommonLink/CommonLink.vue'
       </div>
     </div>
     <div class="footer__col-3">
-      <CommonLink :color="'#315194'" :to="'https://ya.ru/'">Для жителей Волгограда и Волгоградской области возможны
+      <CommonLink :color="'--q-Blue-lighter'" :to="'https://ya.ru/'">Для жителей Волгограда и Волгоградской области
+        возможны
         очные консультации по адресу
         г.Волгоград, проспект
         Ленина, 27</CommonLink>
