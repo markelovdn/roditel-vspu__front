@@ -9,7 +9,7 @@ const route = useRoute();
 const pageBackground = computed(() => {
   const backgroundName = (route?.meta?.background ?? "secondary") as string;
 
-  return `background: $background-${backgroundName})`;
+  return `background: var(--q-background-${backgroundName})`;
 });
 </script>
 
