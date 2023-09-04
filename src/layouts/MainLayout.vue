@@ -3,6 +3,7 @@ import TheHeader from "@/components/common/TheHeader/TheHeader.vue";
 import TheFooter from "@/components/common/TheFooter/TheFooter.vue";
 import { computed } from "vue";
 import { useRoute } from "vue-router";
+import ModalWrapper from "@/components/ModalWrapper/ModalWrapper.vue";
 
 const route = useRoute();
 
@@ -22,5 +23,6 @@ const pageBackground = computed(() => {
       </q-page>
     </q-page-container>
     <TheFooter />
+    <ModalWrapper :show="true"></ModalWrapper>
   </q-layout>
 </template>
