@@ -129,6 +129,11 @@ import CommonLink from "@/components/common/CommonLink/CommonLink.vue";
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  .col-3__link {
+    color: $Blue-lighter;
+    cursor: default;
+  }
 }
 
 //Чисто прикинул
