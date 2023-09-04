@@ -8,4 +8,13 @@ body {
   font-family: "Ubuntu";
   font-style: normal;
   line-height: 120%;
+  font-weight: 500;
+}
+
+.q-btn {
+  text-transform: inherit;
+}
+.q-btn--outline {
+  border-radius: 10px;
+  border: 1px solid var(--grey-2, #bababa);
 }
