@@ -8,23 +8,11 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       background: "primary",
     },
-    children: [
-      {
-        path: "/webinars",
-        name: "Webinars",
-        component: () => import("@/pages/WebinarsPage/WebinarsPage.vue"),
-      },
-      // {
-      //   path: "/questions",
-      //   name: "Questions",
-      //   component: Questions,
-      // },
-      // {
-      //   path: "/questionnaires",
-      //   name: "Questionnaires",
-      //   component: Questionnaires,
-      // },
-    ],
+  },
+  {
+    path: "/my",
+    name: "My",
+    component: () => import("@/pages/AccountPage/AccountPage.vue"),
   },
   {
     path: "/ui",
