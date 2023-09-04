@@ -116,6 +116,7 @@ import CommonLink from "@/components/common/CommonLink/CommonLink.vue";
 
   .col-2_link {
     color: $black;
+    text-decoration: none;
   }
 
   .col-2_icons {
