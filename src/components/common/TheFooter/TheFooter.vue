@@ -62,6 +62,7 @@ import CommonLink from '@/components/common/CommonLink/CommonLink.vue'
   display: flex;
   width: 100%;
   justify-content: space-between;
+  font-size: 16px;
 
   .footer__col-1 {
     width: 290px;
@@ -90,12 +91,15 @@ import CommonLink from '@/components/common/CommonLink/CommonLink.vue'
     }
 
     .col-1__btn_border {
-      color: $grey-2;
+      padding: 15px 30px;
       margin: 0 10px 0 0;
+      color: $grey-2;
     }
 
     .col-1__btn_label {
       color: $Blue-lighter;
+      font-size: 16px;
+      line-height: 120%;
     }
   }
 }
@@ -113,6 +117,7 @@ import CommonLink from '@/components/common/CommonLink/CommonLink.vue'
 
   .col-2_link {
     color: $black;
+    text-decoration: none;
   }
 
   .col-2_icons {

@@ -12,7 +12,9 @@ const props = defineProps<CommonLinkItem>()
 
 <style scoped lang="scss">
 .link {
+    font-size: 16px;
     color: $grey-2;
     cursor: pointer;
+    text-decoration: none;
 }
 </style>
