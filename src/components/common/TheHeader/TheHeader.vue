@@ -6,7 +6,6 @@ import IconPersonal from '@/components/icons/IconPersonal.vue'
 
 <template>
   <q-header reveal class="bg-white header">
-
     <div class="row-1">
       <div class="logo">
         <router-link :to="'/'"><q-img class="logo__img" :src="'./public/img/icons/logo.png'"></q-img></router-link>
@@ -19,12 +18,12 @@ import IconPersonal from '@/components/icons/IconPersonal.vue'
         <a href="tel:+78004442232" class="phone-wrapper">
           <IconPhone />
         </a>
-        <div class="personal-cabinet">
+
+        <q-btn outline style="color: #F7B70B;" class="personal-cabinet">
           <IconPersonal />
           <span class="personal-cabinet__label text-primary">Личный кабинет</span>
-        </div>
+        </q-btn>
       </div>
-
     </div>
     <div class="row-2">
       <div class="links">
@@ -32,8 +31,8 @@ import IconPersonal from '@/components/icons/IconPersonal.vue'
           {{ item.name }}
         </router-link>
       </div>
-      <div class="flex">
-        <span class="materials text-primary cursor-pointer">Методические материалы</span>
+      <div class="flex no-wrap">
+        <span class="cursor-pointer materials">Методические материалы</span>
         <div class="link-ask-expert">
           <div>Задать вопрос консультанту</div>
           <svg style="position: relative; top: -10px;" xmlns="http://www.w3.org/2000/svg" width="100%" height="3"
@@ -136,6 +135,19 @@ import IconPersonal from '@/components/icons/IconPersonal.vue'
         font-size: 16px;
         font-weight: 500;
         text-decoration: none;
+
+        &:hover {
+          color: $primary;
+        }
+      }
+    }
+
+    .materials {
+      color: $primary;
+
+      &:hover {
+        color: $black;
+
       }
     }
 
@@ -143,6 +155,10 @@ import IconPersonal from '@/components/icons/IconPersonal.vue'
       color: $Text-color;
       margin: 0 0 0 32px;
       cursor: pointer;
+
+      &:hover {
+        color: $Blue-lighter;
+      }
     }
 
   }
