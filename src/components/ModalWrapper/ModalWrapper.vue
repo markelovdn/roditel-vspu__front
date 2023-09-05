@@ -79,7 +79,7 @@ watch(
 
 <template>
   <Teleport to="body">
-    <q-dialog :modelValue="show" basic>
+    <q-dialog :modelValue="show" :attrs="$attrs" basic>
       <q-card class="dialog-card" basic>
         <div class="dialog-card__header">
           <slot name="header" />
@@ -87,7 +87,13 @@ watch(
         <div class="dialog-card__sub-header">
           <slot name="subHeader" />
         </div>
-        <slot name="form" class="dialog-card__form" @change="hasChanges = true" @hide="onHide" wrapper-class="flex-column-h100" />
+        <slot
+          name="form"
+          class="dialog-card__form"
+          @change="hasChanges = true"
+          @hide="onHide"
+          wrapper-class="flex-column-h100"
+        />
 
         <div class="dialog-card__footer">
           <slot name="footer" />
@@ -100,13 +106,9 @@ watch(
 <style lang="scss" scoped>
 .dialog-card {
   padding: 69px 63px 69px 63px;
-  width: 476px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column  ;
   background-color: $background-secondary;
-
+  overflow-y: auto;
+  overflow-x: hidden;
   &__header {
     margin-bottom: 24px !important;
   }
@@ -116,15 +118,13 @@ watch(
   }
 
   &__form {
-    width: 343px;
   }
 
   &__footer {
     display: flex;
     justify-content: space-between;
-    width:100%;
+    width: 100%;
     margin-top: 32px;
-    
   }
 }
 </style>
