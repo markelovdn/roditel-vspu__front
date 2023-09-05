@@ -39,10 +39,8 @@ import { headerMenuItems } from "@/components/common/TheHeader/types";
       </div> -->
     </div>
     <div class="footer__col-3">
-      <span class="text-primary" :to="'https://ya.ru/'">Для жителей Волгограда и Волгоградской
-        области
-        возможны очные
-        консультации по адресу г.Волгоград, проспект
+      <span class="text-primary col-3__link" :to="'https://ya.ru/'">Для жителей Волгограда и Волгоградской области
+        возможны очные консультации по адресу г.Волгоград, проспект
         Ленина, 27
       </span>
       <CommonLink :to="'https://ya.ru/'">Приказ Об утверждении Положения о Межрегиональной службе консультирования
