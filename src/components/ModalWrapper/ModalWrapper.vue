@@ -79,8 +79,8 @@ watch(
 
 <template>
   <Teleport to="body">
-    <q-dialog :modelValue="show">
-      <q-card class="dialog-card">
+    <q-dialog :modelValue="show" basic>
+      <q-card class="dialog-card" basic>
         <div class="dialog-card__header">
           <slot name="header" />
         </div>
@@ -120,7 +120,11 @@ watch(
   }
 
   &__footer {
+    display: flex;
+    justify-content: space-between;
+    width:100%;
     margin-top: 32px;
+    
   }
 }
 </style>

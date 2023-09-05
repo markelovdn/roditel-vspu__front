@@ -2,6 +2,7 @@
   --q-background-primary: #f3f3f3;
   --q-background-secondary: #f3f3f3;
   --q-Blue-lighter: #315194;
+  --text-color: #525252
 }
 
 body {
@@ -17,6 +18,13 @@ body {
 .q-btn--outline {
   border-radius: 10px;
   border: 1px solid var(--grey-2, #bababa);
+}
+.q-btn--form {
+  width: 165px;
+  height: 48px;
+  border-radius: 10px;
+  background-color: var(--q-Blue-lighter);
+  color: white;
 }
 
 body {
@@ -41,16 +49,35 @@ h4 {
   margin: 0;
 }
 
-.q-input {
+.q-input--form {
   border: 1px solid #BABABA;
   border-radius: 5px;
   margin: 3px;
+  padding: 15px 41px 15px 21px;
+  width: 329px;
+  height: 48px;
+  color: var(--q-Blue-lighter);
+  font-weight: 500;
+}
+
+.select--form > div {
+background-color: #315194;
+
+  
+}
+
+.q-input--form-label {
+  width: 98%;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  color: var(--text-color);
+  font-weight: 500;
 }
 
 .label-text {
   font-weight: 500;
   font-size: 14px;
-  line-height: 16px;
-  text-align: center;
-  color: #525252;
+  line-height: 18px;
+  align-self: self-start;
+  color: var(--text-color);
 }
