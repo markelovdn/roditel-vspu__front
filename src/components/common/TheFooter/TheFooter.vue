@@ -3,6 +3,7 @@ import IconTelegram from "@/components/icons/IconTelegram.vue";
 import IconWhatsapp from "@/components/icons/IconWhatsapp.vue";
 import IconSkype from "@/components/icons/IconSkype.vue";
 import CommonLink from "@/components/common/CommonLink/CommonLink.vue";
+import { headerMenuItems } from "@/components/common/TheHeader/types";
 </script>
 
 <template>
@@ -21,10 +22,9 @@ import CommonLink from "@/components/common/CommonLink/CommonLink.vue";
     </div>
     <div class="footer__col-2">
       <div class="col-2_links">
-        <router-link class="col-2_link btn-link" :to="'https://ya.ru'">Консультанты</router-link>
-        <router-link class="col-2_link btn-link" :to="'https://ya.ru'">Вебинары</router-link>
-        <router-link class="col-2_link btn-link" :to="'https://ya.ru'">Формы оказания услуг</router-link>
-        <router-link class="col-2_link btn-link" :to="'https://ya.ru'">Кому оказывается помощь</router-link>
+        <router-link class="col-2_link btn-link" v-for="item in headerMenuItems" :to="item.to" :key="item.name">
+          {{ item.name }}
+        </router-link>
       </div>
       <!-- <div class="col-2_icons">
         <router-link to="">
@@ -52,30 +52,6 @@ import CommonLink from "@/components/common/CommonLink/CommonLink.vue";
       <CommonLink :to="'https://ya.ru/'">Положение о межрегиональной службе консультирования родителей
         социально-психологического центра ФГБОУ ВО ВГСПУ
       </CommonLink>
-      <CommonLink :color="'#315194'" :to="'https://ya.ru/'">Для жителей Волгограда и Волгоградской области возможны
-        очные консультации по адресу
-        г.Волгоград, проспект
-        Ленина, 27</CommonLink>
-      <CommonLink :to="'https://ya.ru/'">Приказ Об утверждении Положения о Межрегиональной службе консультирования
-        родителей социально -
-        психологическим
-        центром "ВГСПУ"</CommonLink>
-      <CommonLink :to="'https://ya.ru/'">Положение о межрегиональной службе консультирования родителей
-        социально-психологического центра ФГБОУ ВО
-        ВГСПУ</CommonLink>
-      <CommonLink :color="'--q-Blue-lighter'" :to="'https://ya.ru/'">Для жителей Волгограда и Волгоградской области
-        возможны
-        очные консультации по адресу
-        г.Волгоград, проспект
-        Ленина, 27</CommonLink>
-      <CommonLink :to="'https://ya.ru/'">Приказ Об утверждении Положения о Межрегиональной службе консультирования
-        родителей социально -
-        психологическим
-        центром "ВГСПУ"</CommonLink>
-      <CommonLink :to="'https://ya.ru/'">Положение о межрегиональной службе консультирования родителей
-        социально-психологического центра ФГБОУ ВО
-        ВГСПУ</CommonLink>
-
     </div>
   </q-footer>
 </template>
@@ -160,7 +136,6 @@ import CommonLink from "@/components/common/CommonLink/CommonLink.vue";
   justify-content: space-between;
 
   .col-3__link {
-    color: $Blue-lighter;
     cursor: default;
   }
 }

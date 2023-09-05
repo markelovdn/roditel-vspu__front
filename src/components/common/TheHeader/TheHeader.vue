@@ -1,25 +1,150 @@
 <script setup lang="ts">
 import { headerMenuItems } from "./types";
+import IconPhone from '@/components/icons/IconPhone.vue'
+import IconPersonal from '@/components/icons/IconPersonal.vue'
 </script>
 
 <template>
-  <q-header reveal class="bg-cyan">
-    <q-toolbar>
-      <q-btn flat round dense icon="assignment_ind" />
+  <q-header reveal class="bg-white header">
 
-      <q-space />
+    <div class="row-1">
+      <div class="logo">
+        <router-link :to="'/'"><q-img class="logo__img" :src="'./public/img/icons/logo.png'"></q-img></router-link>
+        <span class="logo__text">Социально-психологический центр ВГСПУ</span>
+      </div>
+      <div class="contacts">
+        <a href="tel:+78004442232" class="contacts__phone-number text-primary">8 (800) 444-22-32 <span
+            class="contacts__phone-number_optional">
+            (доб. 711)</span></a>
+        <a href="tel:+78004442232" class="phone-wrapper">
+          <IconPhone />
+        </a>
+        <div class="personal-cabinet">
+          <IconPersonal />
+          <span class="personal-cabinet__label text-primary">Личный кабинет</span>
+        </div>
+      </div>
 
-      <q-btn flat round dense icon="sim_card" class="q-mr-xs" />
-      <q-btn flat round dense icon="gamepad" />
-    </q-toolbar>
-
-    <q-toolbar inset>
-      <!-- TODO: стилизовать -->
-      <router-link class="q-mr-lg" v-for="(item, index) in headerMenuItems" :to="item.to" :key="index">{{
-        item.name
-      }}</router-link>
-    </q-toolbar>
+    </div>
+    <div class="row-2">
+      <div class="links">
+        <router-link class="links__link" v-for="(item, index) in headerMenuItems" :to="item.to" :key="index">
+          {{ item.name }}
+        </router-link>
+      </div>
+      <div class="flex">
+        <span class="materials text-primary cursor-pointer">Методические материалы</span>
+        <div class="link-ask-expert">
+          <div>Задать вопрос консультанту</div>
+          <svg style="position: relative; top: -10px;" xmlns="http://www.w3.org/2000/svg" width="100%" height="3"
+            viewBox="0 0 218 3" preserveAspectRatio="none" fill="none">
+            <path d="M0.0830078 1.8418H218.894" stroke="#F7B70B" stroke-width="2" stroke-dasharray="5 5" />
+          </svg>
+        </div>
+      </div>
+    </div>
   </q-header>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.header {
+  padding: 12px 55px;
+
+  .row-1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+
+    .logo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 18px;
+
+      .logo__img {
+        width: 66px;
+      }
+
+      .logo__text {
+        color: $Text-color;
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 139%;
+        text-transform: uppercase;
+        cursor: default;
+      }
+    }
+
+    .contacts {
+      display: flex;
+      align-items: center;
+
+      .contacts__phone-number {
+        font-size: 20px;
+        margin: 0 38px 0 0;
+        text-decoration: none;
+
+        .contacts__phone-number_optional {
+          color: $grey-2;
+        }
+      }
+
+      .phone-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 48px;
+        height: 48px;
+        border-radius: 10px;
+        border: 1px solid #F3F3F3;
+        background: $background;
+        margin: 0 19px 0 0;
+      }
+
+      .personal-cabinet {
+        display: flex;
+        justify-content: space-between;
+        cursor: pointer;
+
+        width: 200px;
+        border-radius: 10px;
+        border: solid 1px #F7B70B;
+        padding: 12px 16px;
+
+        .personal-cabinet__label {
+          font-size: 16px;
+          display: flex;
+          align-items: center;
+        }
+      }
+    }
+  }
+
+  .row-2 {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+
+    .links {
+      display: flex;
+      gap: 32px;
+
+      .links__link {
+        color: $grey-2;
+        font-size: 16px;
+        font-weight: 500;
+        text-decoration: none;
+      }
+    }
+
+    .link-ask-expert {
+      color: $Text-color;
+      margin: 0 0 0 32px;
+      cursor: pointer;
+    }
+
+  }
+}
+</style>

@@ -10,7 +10,7 @@ export const headerMenuItems: THeaderMenuItem[] = [
     to: "url",
   },
   {
-    name: "Формы",
+    name: "Формы оказания услуг",
     to: "url",
   },
   {
