@@ -23,6 +23,27 @@ const pageBackground = computed(() => {
       </q-page>
     </q-page-container>
     <TheFooter />
-    <ModalWrapper :show="true"></ModalWrapper>
+    <ModalWrapper :show="true">
+      <template v-slot:header>
+        <h4>
+          Добавить данные
+        </h4>
+      </template>
+
+      <template v-slot:subHeader>
+        <span class="label-text">Введите свои данные для регистрации</span>
+      </template>
+      
+      <template v-slot:form>
+        <q-input class="q-input" borderless :modelValue="'adasdasd'"></q-input>
+          <q-input class="q-input" borderless :modelValue="'adasdasd'"></q-input>
+          <q-input class="q-input" borderless :modelValue="'adasdasd'"></q-input>
+          <q-input class="q-input" borderless :modelValue="'adasdasd'"></q-input>
+      </template>
+
+      <template v-slot:footer>
+        <q-button class="q-btn btn-link">asd</q-button>
+      </template>
+    </ModalWrapper>
   </q-layout>
 </template>

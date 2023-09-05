@@ -80,16 +80,47 @@ watch(
 <template>
   <Teleport to="body">
     <q-dialog :modelValue="show">
-      <q-card class="q-card--modal">
-        <q-input :modelValue="'adasdasd'"></q-input>
-        <q-input :modelValue="'adasdasd'"></q-input>
-        <q-input :modelValue="'adasdasd'"></q-input>
-        <q-input :modelValue="'adasdasd'"></q-input>
+      <q-card class="dialog-card">
+        <div class="dialog-card__header">
+          <slot name="header" />
+        </div>
+        <div class="dialog-card__sub-header">
+          <slot name="subHeader" />
+        </div>
+        <slot name="form" class="dialog-card__form" @change="hasChanges = true" @hide="onHide" wrapper-class="flex-column-h100" />
 
-        <slot name="form" @change="hasChanges = true" @hide="onHide" wrapper-class="flex-column-h100" />
+        <div class="dialog-card__footer">
+          <slot name="footer" />
+        </div>
       </q-card>
     </q-dialog>
   </Teleport>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.dialog-card {
+  padding: 69px 63px 69px 63px;
+  width: 476px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column  ;
+  background-color: $background-secondary;
+
+  &__header {
+    margin-bottom: 24px !important;
+  }
+
+  &__sub-header {
+    margin-bottom: 24px !important;
+  }
+
+  &__form {
+    width: 343px;
+  }
+
+  &__footer {
+    margin-top: 32px;
+  }
+}
+</style>

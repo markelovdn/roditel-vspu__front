@@ -32,3 +32,25 @@ body {
 .btn-link:hover {
   text-decoration: underline !important;
 }
+
+h4 {
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 39px;
+  text-align: center;
+  margin: 0;
+}
+
+.q-input {
+  border: 1px solid #BABABA;
+  border-radius: 5px;
+  margin: 3px;
+}
+
+.label-text {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  text-align: center;
+  color: #525252;
+}
