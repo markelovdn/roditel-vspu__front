@@ -79,13 +79,18 @@ watch(
 
 <template>
   <Teleport to="body">
-    <q-dialog :modelValue="show" :attrs="$attrs" basic>
+      <q-dialog :modelValue="show" :attrs="$attrs" basic>
       <q-card class="dialog-card" basic>
         <div class="dialog-card__header">
-          <slot name="header" />
+          <h4>
+            <slot name="header" />
+          </h4>
         </div>
         <div class="dialog-card__sub-header">
-          <slot name="subHeader" />
+          <span class="sub-header__text">
+            <slot name="subHeader" />
+          </span>
+          
         </div>
         <slot
           name="form"
@@ -95,11 +100,11 @@ watch(
           wrapper-class="flex-column-h100"
         />
 
-        <div class="dialog-card__footer">
+        <div class="fit q-mb-sm dialog-card__footer">
           <slot name="footer" />
         </div>
       </q-card>
-    </q-dialog>
+    </q-dialog>    
   </Teleport>
 </template>
 
@@ -115,15 +120,20 @@ watch(
 
   &__sub-header {
     margin-bottom: 24px !important;
+    display: flex;
+    justify-content: center;
+    & .sub-header__text {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 18px;
+      color: $Text-color;
+    }
   }
 
   &__form {
   }
 
   &__footer {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
     margin-top: 32px;
   }
 }
