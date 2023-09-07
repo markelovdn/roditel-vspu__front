@@ -5,7 +5,11 @@ import { computed, type ComputedRef, nextTick, onBeforeUnmount, ref, watch } fro
 const emit = defineEmits<{
   (event: "modal-hide", key?: string): void;
 }>();
-const props = defineProps({ show: Boolean });
+const props = defineProps({ 
+  show: Boolean,
+  header: String,
+  subHeader: String
+});
 const hasChanges = ref(false);
 const forceClose = ref(false);
 const modalKey = uuid();
@@ -81,6 +85,16 @@ watch(
   <Teleport to="body">
       <q-dialog :modelValue="show" :attrs="$attrs" basic>
       <q-card class="dialog-card" basic>
+        <div class="dialog-card__header">
+          <h4>
+            {{ header }}
+          </h4>
+        </div>
+        <div class="dialog-card__sub-header">
+          <span class="sub-header__text">
+            {{ subHeader}}
+          </span>
+        </div>
         <slot
           @change="hasChanges = true"
           @hide="onHide"
@@ -97,5 +111,21 @@ watch(
   background-color: $background-secondary;
   overflow-y: auto;
   overflow-x: hidden;
+
+  &__header {
+    margin-bottom: 24px !important;
+  }
+
+&__sub-header {
+    margin-bottom: 24px !important;
+    display: flex;
+    justify-content: center;
+    &__text {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 18px;
+      color: $Text-color;
+    }
+  }
 }
 </style>
