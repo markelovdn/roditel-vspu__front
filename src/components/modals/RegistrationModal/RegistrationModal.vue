@@ -1,26 +1,40 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
+import type { TRegistrationPayload } from "./types";
 import axios  from "axios";
 
-const options: Array<string> = ["Google", "Facebook", "Twitter", "Apple", "Oracle"];
+let optionsSpecializations: any = [];
+onMounted(async () => {
+  await axios.get('http://roditel-vspu__back.loc/api/specializations', {
+      }).then((response) => {
+        optionsSpecializations = response.data.data 
+        console.log(optionsSpecializations)
+
+      }).catch((errors) => {
+        console.log(errors)
+      })
+})
+
+
 const subHeader: string = 'Введите свои данные для регистрации';
 const header: string = 'Добавить данные';
 
 const show = ref<boolean>(true);
 const isPwd = ref<boolean>(true);
 
-const data = ref<object>({
-  name: ref<string>(''),
-  phone: ref<string>(''),
-  email: ref<string>(''),
-  specialization_id: ref<number>(),
-  profession_id: ref<number>(),
-  password: ref<string>(''),
-  password_confirmation: ref<string>(''),
-})
+const data = ref<TRegistrationPayload>({
+  firstName: "",
+  secondName: "",
+  surName: "",
+  phone: "",
+  email: "",
+  specializationId: 0,
+  professionId: 0,
+  password: ""
+});
 
-const sentData = async (data: object) => {
+const sendData = async (data: TRegistrationPayload) => {
       await axios.post('https://markelovdn.ru/api/register', {
         data
       }).then((response) => {
@@ -31,6 +45,7 @@ const sentData = async (data: object) => {
         console.log(errors)
       })
 }
+
 </script>
 
 <template>
@@ -41,9 +56,21 @@ const sentData = async (data: object) => {
 
     <template v-slot:subHeader>
       {{ subHeader }}
+      {{ optionsSpecializations }}
     </template>
     
     <template v-slot:form>
+      
+      <q-select
+        input-class="q-select--form"
+        label="Специализация*"
+        outlined
+        class="fit q-mb-sm"
+        :option-value="(optionsSpecializations) => item === null ? null : item.id"
+        :option-label="(optionsSpecializations) => item === null ? 'Null value' : item.title"
+        v-model="data.specializationId"
+      />
+
         <q-input
         outlined
         class="fit q-mb-sm"
@@ -51,7 +78,7 @@ const sentData = async (data: object) => {
         label="Ф.И.О.*"
         borderless
         color="primary"
-        v-model="data.name"
+        v-model="data.firstName"
       ></q-input>
 
       <q-input
@@ -74,21 +101,12 @@ const sentData = async (data: object) => {
       ></q-input>
 
       <q-select
-        input-class="q-select--form"
-        label="Специализация*"
-        outlined
-        class="fit q-mb-sm"
-        :options="options"
-        v-model="data.specialization_id"
-      />
-
-      <q-select
         class="fit q-mb-sm"
         input-class="q-select--form"
         label="Кем Вы являетесь*"
         outlined
         :options="options"
-        v-model="data.profession_id"
+        v-model="data.professions"
       />
 
       <q-input
@@ -111,7 +129,7 @@ const sentData = async (data: object) => {
       outlined
       class="fit q-mb-sm"
       label="Подтвердите пароль*"
-      v-model="data.password_confirmation" 
+      model-value="" 
       :type="isPwd ? 'password' : 'text'"
       >
       <template v-slot:append>
@@ -128,7 +146,7 @@ const sentData = async (data: object) => {
       <q-btn 
       label="Регистрация" 
       class="q-btn--form" color="primary"
-      @click="sentData(data)"
+      @click="sendData(data)"
       ></q-btn>
       
       <q-btn

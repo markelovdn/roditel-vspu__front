@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import { headerMenuItems } from "./types";
 import IconPhone from '@/components/icons/IconPhone.vue'
 import IconPersonal from '@/components/icons/IconPersonal.vue'
