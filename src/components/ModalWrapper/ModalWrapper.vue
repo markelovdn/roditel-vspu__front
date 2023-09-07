@@ -81,28 +81,11 @@ watch(
   <Teleport to="body">
       <q-dialog :modelValue="show" :attrs="$attrs" basic>
       <q-card class="dialog-card" basic>
-        <div class="dialog-card__header">
-          <h4>
-            <slot name="header" />
-          </h4>
-        </div>
-        <div class="dialog-card__sub-header">
-          <span class="sub-header__text">
-            <slot name="subHeader" />
-          </span>
-          
-        </div>
         <slot
-          name="form"
-          class="dialog-card__form"
           @change="hasChanges = true"
           @hide="onHide"
           wrapper-class="flex-column-h100"
         />
-
-        <div class="fit q-mb-sm dialog-card__footer">
-          <slot name="footer" />
-        </div>
       </q-card>
     </q-dialog>    
   </Teleport>
@@ -114,27 +97,5 @@ watch(
   background-color: $background-secondary;
   overflow-y: auto;
   overflow-x: hidden;
-  &__header {
-    margin-bottom: 24px !important;
-  }
-
-  &__sub-header {
-    margin-bottom: 24px !important;
-    display: flex;
-    justify-content: center;
-    & .sub-header__text {
-      font-weight: 500;
-      font-size: 14px;
-      line-height: 18px;
-      color: $Text-color;
-    }
-  }
-
-  &__form {
-  }
-
-  &__footer {
-    margin-top: 32px;
-  }
 }
 </style>
