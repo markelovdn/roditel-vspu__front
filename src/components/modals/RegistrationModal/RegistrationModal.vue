@@ -6,7 +6,7 @@ import axios  from "axios";
 
 let optionsSpecializations: any = [];
 onMounted(async () => {
-  await axios.get('http://roditel-vspu__back.loc/api/specializations', {
+  await axios.get('https://markelovdn.ru/api/specializations', {
       }).then((response) => {
         optionsSpecializations = response.data.data 
         console.log(optionsSpecializations)
