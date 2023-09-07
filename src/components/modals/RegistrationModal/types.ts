@@ -2,8 +2,8 @@ export type TRegistrationPayload = {
   name: string;
   phone: string;
   email: string;
-  specializationId: number;
-  professionId: number;
+  specializationId: number | null;
+  professionId: number | null;
   password: string;
 };
 

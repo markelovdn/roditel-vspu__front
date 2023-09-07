@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { ref, onMounted, toValue } from "vue";
+import { ref, onMounted } from "vue";
 import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
 import type { TSelectItems, TRegistrationPayload } from "./types";
 import axios from "axios";
 
-let optionsSpecializations = ref([Array<TSelectItems | undefined>]);
-let optionsProfessions = ref([Array<TSelectItems | undefined>]);
+let optionsSpecializations = ref<TSelectItems[] | undefined>();
+let optionsProfessions = ref<TSelectItems[] | undefined>();
 
-  onMounted(async () => {
+const getSpecializations = async () => {
   await axios.get('https://markelovdn.ru/api/specializations', {
   }).then((response) => {
 
@@ -19,7 +19,9 @@ let optionsProfessions = ref([Array<TSelectItems | undefined>]);
   }).catch((errors) => {
     console.log(errors)
   })
+}
 
+const getProfessions = async () => {
   await axios.get('https://markelovdn.ru/api/professions', {
   }).then((response) => {
 
@@ -30,10 +32,12 @@ let optionsProfessions = ref([Array<TSelectItems | undefined>]);
   }).catch((errors) => {
     console.log(errors)
   })
-})
+}
 
-const subHeader: string = 'Введите свои данные для регистрации';
-const header: string = 'Добавить данные';
+onMounted(async () => {
+  getSpecializations(); 
+  getProfessions();
+})
 
 const show = ref<boolean>(true);
 const isPwd = ref<boolean>(true);
@@ -42,8 +46,8 @@ const data = ref<TRegistrationPayload>({
   name: "",
   phone: "",
   email: "",
-  specializationId: 0,
-  professionId: 0,
+  specializationId: null,
+  professionId: null,
   password: ""
 });
 
@@ -71,18 +75,7 @@ const sendData = async (data: TRegistrationPayload) => {
 </script>
 
 <template>
-  <ModalWrapper :show="show">
-    <div class="header">
-          <h4>
-            {{ header }}
-          </h4>
-        </div>
-        <div class="sub-header">
-          <span class="sub-header__text">
-            {{ subHeader}}
-          </span>
-        </div>
-
+  <ModalWrapper :show="show" header="Добавить данные" subHeader = 'Введите свои данные для регистрации'>
         <div class="fit q-mb-sm form">
           <q-input
             outlined
@@ -188,22 +181,6 @@ const sendData = async (data: TRegistrationPayload) => {
 </template>
 
 <style lang="scss" scoped>
-.header {
-    margin-bottom: 24px !important;
-  }
-
-.sub-header {
-    margin-bottom: 24px !important;
-    display: flex;
-    justify-content: center;
-    &__text {
-      font-weight: 500;
-      font-size: 14px;
-      line-height: 18px;
-      color: $Text-color;
-    }
-  }
-
 .footer {
     margin-top: 32px;
   }
