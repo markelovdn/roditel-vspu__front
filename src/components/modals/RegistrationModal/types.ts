@@ -1,7 +1,5 @@
 export type TRegistrationPayload = {
-  firstName: string;
-  secondName: string;
-  surName: string;
+  name: string;
   phone: string;
   email: string;
   specializationId: number;
@@ -9,7 +7,7 @@ export type TRegistrationPayload = {
   password: string;
 };
 
-export type OptionSpecializations = {
+export type TSelectItems = {
   id: number;
   title: string;
 };
