@@ -1,4 +1,4 @@
-export type TRegistrationPayload = { 
+export type TRegistrationPayload = {
   firstName: string;
   secondName: string;
   surName: string;
@@ -7,4 +7,9 @@ export type TRegistrationPayload = {
   specializationId: number;
   professionId: number;
   password: string;
+};
+
+export type OptionSpecializations = {
+  id: number;
+  title: string;
 };
