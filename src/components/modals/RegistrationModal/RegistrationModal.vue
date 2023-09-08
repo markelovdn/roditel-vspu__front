@@ -41,6 +41,7 @@ onMounted(async () => {
 
 const show = ref<boolean>(true);
 const isPwd = ref<boolean>(true);
+const passwordConfirm = ref<string>('');
 
 const data = ref<TRegistrationPayload>({
   name: "",
@@ -148,7 +149,7 @@ const sendData = async (data: TRegistrationPayload) => {
           outlined
           class="fit q-mb-sm"
           label="Подтвердите пароль*"
-          model-value=""
+          v-model="passwordConfirm"
           :type="isPwd ? 'password' : 'text'">
 
           <template v-slot:append>
