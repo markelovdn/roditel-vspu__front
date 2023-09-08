@@ -39,8 +39,8 @@ onMounted(async () => {
   getProfessions();
 })
 
-const show = ref<boolean>(true);
-const isPwd = ref<boolean>(true);
+const show = ref(true);
+const isPwd = ref(true);
 const passwordConfirm = ref<string>('');
 
 const data = ref<TRegistrationPayload>({
