@@ -7,8 +7,14 @@ const emit = defineEmits<{
 }>();
 const props = defineProps({ 
   show: Boolean,
-  header: String,
-  subHeader: String
+  header: {
+    type: String,
+    required: false
+  },
+  subHeader: {
+    type: String,
+    required: false
+  }
 });
 const hasChanges = ref(false);
 const forceClose = ref(false);
@@ -85,12 +91,12 @@ watch(
   <Teleport to="body">
       <q-dialog :modelValue="show" :attrs="$attrs" basic>
       <q-card class="dialog-card" basic>
-        <div class="dialog-card__header">
+        <div v-if="header" class="dialog-card__header">
           <h4>
             {{ header }}
           </h4>
         </div>
-        <div class="dialog-card__sub-header">
+        <div v-if="subHeader" class="dialog-card__sub-header">
           <span class="sub-header__text">
             {{ subHeader}}
           </span>
@@ -98,8 +104,7 @@ watch(
         <slot
           @change="hasChanges = true"
           @hide="onHide"
-          wrapper-class="flex-column-h100"
-        />
+          wrapper-class="flex-column-h100" />
       </q-card>
     </q-dialog>    
   </Teleport>
