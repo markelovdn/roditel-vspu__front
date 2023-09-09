@@ -1,136 +1,80 @@
 <script setup lang="ts">
-import { uuid } from "@/utils/uuidv4";
-import { computed, type ComputedRef, nextTick, onBeforeUnmount, ref, watch } from "vue";
+import { useModal } from "@/hooks/useModal";
+import { computed, type ComputedRef } from "vue";
+
+const props = defineProps({
+	showModal: Boolean,
+	header: {
+		type: String,
+		required: false,
+	},
+	subHeader: {
+		type: String,
+		required: false,
+	},
+});
 
 const emit = defineEmits<{
-  (event: "modal-hide", key?: string): void;
+	(event: "update:show-modal" | string, value: boolean): void;
 }>();
-const props = defineProps({ 
-  show: Boolean,
-  header: {
-    type: String,
-    required: false
-  },
-  subHeader: {
-    type: String,
-    required: false
-  }
-});
-const hasChanges = ref(false);
-const forceClose = ref(false);
-const modalKey = uuid();
-
-const hide = (callback?: () => void) => {
-  if (hasChanges.value && !forceClose.value) {
-    alert({
-      confirm: () => {
-        forceClose.value = true;
-        hide(callback);
-      },
-      cancel: () => void 0,
-    });
-  } else {
-    setTimeout(() => {
-      forceClose.value = false;
-      callback?.();
-      emit("modal-hide", modalKey);
-    }, 100);
-  }
-};
-
-const onHide = () => {
-  hide();
-};
-
-const onEscape = (e: KeyboardEvent) => {
-  if (e.key === "Escape") hide();
-};
-
-document.addEventListener("keydown", onEscape);
-
-onBeforeUnmount(() => {
-  document.removeEventListener("keydown", onEscape);
-});
-
-const transitions = {
-  standard: ["scale", "scale"],
-  top: ["slide-down", "slide-up"],
-  bottom: ["slide-up", "slide-down"],
-  right: ["slide-left", "slide-right"],
-  left: ["slide-right", "slide-left"],
-};
 
 const position: ComputedRef<"left" | "right" | "bottom" | "top" | "standard"> = computed(() => {
-  //   if ($q.screen.lt.md) {
-  //     return "right";
-  //   }
-  return "standard";
+	//   if ($q.screen.lt.md) {
+	//     return "right";
+	//   }
+	return "standard";
 });
 
-const transitionState = ref(false);
-
-const transitionShow = computed(() => "q-transition--" + transitions[position.value][0]);
-
-const transitionHide = computed(() => "q-transition--" + transitions[position.value][1]);
-
-const transition = computed(() => (transitionState.value === true ? transitionHide.value : transitionShow.value));
-
-const transitionStyle = "--q-transition-duration: 300ms";
-
-watch(
-  () => props.show,
-  (val) => {
-    nextTick(() => {
-      transitionState.value = val;
-    });
-  },
-);
+const isShow = computed(() => props.showModal);
+const { isModalShown } = useModal(isShow, emit);
 </script>
 
 <template>
-  <Teleport to="body">
-      <q-dialog :modelValue="show" :attrs="$attrs" basic>
-      <q-card class="dialog-card" basic>
-        <div v-if="header" class="dialog-card__header">
-          <h4>
-            {{ header }}
-          </h4>
-        </div>
-        <div v-if="subHeader" class="dialog-card__sub-header">
-          <span class="sub-header__text">
-            {{ subHeader}}
-          </span>
-        </div>
-        <slot
-          @change="hasChanges = true"
-          @hide="onHide"
-          wrapper-class="flex-column-h100" />
-      </q-card>
-    </q-dialog>    
-  </Teleport>
+	<Teleport to="body">
+		<q-dialog :position="position" v-model="isModalShown" :attrs="$attrs" basic>
+			<q-card class="dialog-card" basic>
+				<slot name="header">
+					<div v-if="header" class="dialog-card__header">
+						<h4>
+							{{ header }}
+						</h4>
+					</div>
+				</slot>
+				<slot name="subHeader">
+					<div v-if="subHeader" class="dialog-card__sub-header">
+						<span class="sub-header__text">
+							{{ subHeader }}
+						</span>
+					</div>
+				</slot>
+
+				<slot wrapper-class="flex-column-h100" />
+			</q-card>
+		</q-dialog>
+	</Teleport>
 </template>
 
 <style lang="scss" scoped>
 .dialog-card {
-  padding: 69px 63px 69px 63px;
-  background-color: $background-secondary;
-  overflow-y: auto;
-  overflow-x: hidden;
+	padding: 70px 62px 70px 62px;
+	background-color: $background-secondary;
+	overflow-y: auto;
+	overflow-x: hidden;
 
-  &__header {
-    margin-bottom: 24px !important;
-  }
+	&__header {
+		margin-bottom: 24px !important;
+	}
 
-&__sub-header {
-    margin-bottom: 24px !important;
-    display: flex;
-    justify-content: center;
-    &__text {
-      font-weight: 500;
-      font-size: 14px;
-      line-height: 18px;
-      color: $Text-color;
-    }
-  }
+	&__sub-header {
+		margin-bottom: 24px !important;
+		display: flex;
+		justify-content: center;
+		&__text {
+			font-weight: 500;
+			font-size: 14px;
+			line-height: 18px;
+			color: $Text-color;
+		}
+	}
 }
 </style>
