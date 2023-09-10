@@ -7,9 +7,9 @@ import { email, helpers, minLength, required } from "@vuelidate/validators";
 export type TRule<T> = ValidationArgs<T>;
 
 export const requiredValidator = helpers.withMessage("Обязательное поле", required);
-export const emailValidator = helpers.withMessage("Введен не верный формат email адреса", email);
-export const minLengthValidator = helpers.withMessage(`Минимальная длина: 11 цифр`, minLength(17))
-export const splitName = (value: string) => value.split(' ').length >= 3;
+export const emailValidator = helpers.withMessage("Не верный формат email адреса", email);
+export const minLengthValidator = (length: number) => helpers.withMessage(`Не верная длина номера`, minLength(length))
+export const splitNameValidator =  helpers.withMessage(`ФИО должно состоять из трех слов`, (value: string) => value.trim().split(' ').length >= 3);
 
 export function useValidation<T extends {}>(data: Ref<T>, rules: TRule<T>) {
   const getRules = computed(() => rules);

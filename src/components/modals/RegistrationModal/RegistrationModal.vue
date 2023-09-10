@@ -4,7 +4,7 @@ import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
 import type { TSelectItems, TRegistrationPayload } from "./types";
 import axios from "axios";
 import { useModal } from "@/hooks/useModal";
-import { useValidation, requiredValidator, splitName, emailValidator, minLengthValidator } from "@/hooks/useValidation";
+import { useValidation, requiredValidator, splitNameValidator, emailValidator, minLengthValidator } from "@/hooks/useValidation";
 
 let optionsSpecializations = ref<TSelectItems[] | undefined>();
 let optionsProfessions = ref<TSelectItems[] | undefined>();
@@ -59,8 +59,8 @@ const data = ref<TRegistrationPayload>({
 const isShow = computed(() => props.showModal);
 const { isModalShown } = useModal(isShow, emit, data);
 const { hasError, handleBlur, $v, getErrorAttrs } = useValidation<TRegistrationPayload>(data, {
-  name: { requiredValidator, splitName },
-  phone: { requiredValidator, minLengthValidator },
+  name: { requiredValidator, splitNameValidator },
+  phone: { requiredValidator, minLengthValidator(17) },
   email: { requiredValidator, emailValidator },
   specializationId: { requiredValidator },
   professionId: { requiredValidator },
