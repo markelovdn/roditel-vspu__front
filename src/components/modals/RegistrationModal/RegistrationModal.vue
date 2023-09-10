@@ -4,7 +4,7 @@ import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
 import type { TSelectItems, TRegistrationPayload } from "./types";
 import axios from "axios";
 import { useModal } from "@/hooks/useModal";
-import { useValidation, requiredValidator } from "@/hooks/useValidation";
+import { useValidation, requiredValidator, splitName, emailValidator, minLengthValidator } from "@/hooks/useValidation";
 
 let optionsSpecializations = ref<TSelectItems[] | undefined>();
 let optionsProfessions = ref<TSelectItems[] | undefined>();
@@ -59,13 +59,14 @@ const data = ref<TRegistrationPayload>({
 const isShow = computed(() => props.showModal);
 const { isModalShown } = useModal(isShow, emit, data);
 const { hasError, handleBlur, $v, getErrorAttrs } = useValidation<TRegistrationPayload>(data, {
-  name: { requiredValidator },
-  phone: { requiredValidator },
-  email: { requiredValidator },
+  name: { requiredValidator, splitName },
+  phone: { requiredValidator, minLengthValidator },
+  email: { requiredValidator, emailValidator },
   specializationId: { requiredValidator },
   professionId: { requiredValidator },
   password: { requiredValidator },
 });
+
 const sendData = async (data: TRegistrationPayload) => {
   const splitName: Array<any> = data.name.split(" ");
 
@@ -101,6 +102,7 @@ onMounted(async () => {
     v-model:show-modal="isModalShown"
     header="Добавить данные"
     subHeader="Введите свои данные для регистрации">
+
     <q-form class="fit q-mb-sm form">
       <q-input
         outlined
