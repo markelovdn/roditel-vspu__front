@@ -81,6 +81,7 @@
 
   &__border {
     color: $grey-2;
+
   }
 }
 </style>
