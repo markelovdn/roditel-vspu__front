@@ -3,6 +3,7 @@
   --q-background-secondary: #f3f3f3;
   --q-Blue-lighter: #315194;
   --text-color: #525252;
+  --grey-2: #BABABA;
 }
 
 body {
@@ -14,15 +15,15 @@ body {
 
 .q-btn {
   text-transform: inherit;
+  border-radius: 10px;
+  padding: 15px 30px;
 }
 .q-btn--outline {
-  border-radius: 10px;
-  border: 1px solid var(--grey-2, #bababa);
+  border: 1px solid var(--grey-2);
 }
 .q-btn--form {
   width: 165px;
   height: 48px;
-  border-radius: 10px;
 }
 
 body {

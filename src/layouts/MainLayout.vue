@@ -17,10 +17,16 @@ const pageBackground = computed(() => {
   <q-layout view="lhh LpR lff" container style="height: 100vh">
     <TheHeader />
     <q-page-container :style="pageBackground">
-      <q-page style="padding-top: 60px" class="q-pa-md">
+      <q-page class="wrapper">
         <router-view />
       </q-page>
     </q-page-container>
     <TheFooter />
   </q-layout>
 </template>
+
+<style lang="scss" scoped>
+.wrapper {
+  padding: 0 75px
+}
+</style>
