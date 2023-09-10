@@ -59,7 +59,8 @@ const showLoginModal = ref(false);
 
 <style lang="scss" scoped>
 .header {
-  padding: 12px 55px;
+  padding: 12px 75px;
+  white-space: nowrap;
 
   .row-1 {
     display: flex;

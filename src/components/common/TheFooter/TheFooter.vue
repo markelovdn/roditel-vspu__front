@@ -90,7 +90,6 @@ import { headerMenuItems } from "@/components/common/TheHeader/types";
     }
 
     .col-1__btn_border {
-      padding: 15px 30px;
       margin: 0 10px 0 0;
       color: $grey-2;
     }
