@@ -27,6 +27,7 @@ const pageBackground = computed(() => {
 
 <style lang="scss" scoped>
 .wrapper {
-  padding: 0 75px
+  padding: 0 75px;
+  overflow-x: hidden;
 }
 </style>
