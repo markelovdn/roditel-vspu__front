@@ -5,6 +5,8 @@ export type TRegistrationPayload = {
   specializationId: number | null;
   professionId: number | null;
   password: string;
+  role_code: string;
+  region?: string;
 };
 
 export type TSelectItems = {
