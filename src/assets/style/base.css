@@ -40,10 +40,26 @@ body {
   text-decoration: underline !important;
 }
 
+.btn__label{
+  font-size: 16px;
+}
+
+h2 {
+  font-weight: 700;
+  font-size: 42px;
+  line-height: 120%;
+  margin: 0;
+}
+
 h4 {
   font-weight: 700;
   font-size: 30px;
   line-height: 39px;
   text-align: center;
   margin: 0;
+}
+h5 {
+  color: var(--black, #313131);
+  font-size: 24px;
+  font-weight: 700;
 }
