@@ -4,6 +4,7 @@ import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
 import type { TSelectItems, TRegistrationPayload } from "./types";
 import axios from "axios";
 import { useModal } from "@/hooks/useModal";
+import { CONSULTANT, PARENTED} from '@/components/modals/RegistrationModal/const'
 import {
   useValidation,
   requiredValidator,
@@ -14,6 +15,7 @@ import {
 
 let optionsSpecializations = ref<TSelectItems[] | undefined>();
 let optionsProfessions = ref<TSelectItems[] | undefined>();
+let regions = ref<string[] | undefined>(['Москва', 'Санкт-Петербург', 'Волгоград']);
 
 const props = defineProps({
   showModal: Boolean,
@@ -60,6 +62,8 @@ const data = ref<TRegistrationPayload>({
   specializationId: null,
   professionId: null,
   password: "",
+  role_code: "",
+  region: ""
 });
 
 const isShow = computed(() => props.showModal);
@@ -71,7 +75,17 @@ const { hasError, handleBlur, $v, getErrorAttrs } = useValidation<TRegistrationP
   specializationId: { requiredValidator },
   professionId: { requiredValidator },
   password: { requiredValidator },
+  role_code: { requiredValidator }
 });
+const whoAmI = ref(true);
+const isConsultant = ref(false);
+const isParented = ref(false);
+const setRole = (role_code: string) => {
+  whoAmI.value = false;
+  data.value.role_code = role_code;
+
+  role_code === CONSULTANT ? isConsultant.value = true : isParented.value = true; 
+}
 
 const sendData = async (data: TRegistrationPayload) => {
   const splitName: Array<any> = data.name.split(" ");
@@ -108,7 +122,15 @@ onMounted(async () => {
     v-model:show-modal="isModalShown"
     header="Добавить данные"
     subHeader="Введите свои данные для регистрации">
-    <q-form class="fit q-mb-sm form">
+
+    <template v-if="whoAmI" v-slot:subHeader>
+      <div class="fit q-mb-sm">
+      <q-btn label="Я консультант" class="q-btn--form" color="primary" @click="setRole(CONSULTANT)" />
+      <q-btn label="Я родитель" class="q-ml-sm q-btn--form" color="primary" @click="setRole(PARENTED)" />
+    </div>
+    </template>
+    
+    <q-form v-if="!whoAmI && isConsultant" class="fit q-mb-sm form">
       <q-input
         outlined
         class="fit q-mb-sm"
@@ -196,7 +218,82 @@ onMounted(async () => {
       </q-input>
     </q-form>
 
-    <div class="fit q-mb-sm footer">
+    <q-form v-if="!whoAmI && isParented" class="fit q-mb-sm form">
+      <q-input
+        outlined
+        class="fit q-mb-sm"
+        input-class="q-input--form"
+        label="Ф.И.О.*"
+        borderless
+        color="primary"
+        v-bind="getErrorAttrs('name')"
+        @blur="handleBlur('name')"
+        v-model="data.name" />
+
+      <q-input
+        outlined
+        class="fit q-mb-sm"
+        input-class="q-input--form"
+        label="Телефон*"
+        mask="+7 (###) ### ####"
+        borderless
+        v-bind="getErrorAttrs('phone')"
+        @blur="handleBlur('phone')"
+        v-model="data.phone" />
+
+      <q-input
+        outlined
+        class="fit q-mb-sm"
+        input-class="q-input--form"
+        label="Почта*"
+        borderless
+        v-bind="getErrorAttrs('email')"
+        @blur="handleBlur('email')"
+        v-model="data.email" />
+
+      <q-select
+        input-class="q-select--form"
+        label="Регион*"
+        outlined
+        class="fit q-mb-sm"
+        :options="regions"
+        :option-label="(item) => item"
+        emit-value
+        map-options
+        v-bind="getErrorAttrs('specializationId')"
+        @blur="handleBlur('specializationId')"
+        v-model="data.region" />
+
+      <q-input
+        outlined
+        class="fit q-mb-sm"
+        label="Пароль*"
+        v-bind="getErrorAttrs('password')"
+        @blur="handleBlur('password')"
+        aria-autocomplete="new-password"
+        v-model="data.password"
+        :type="isPwd ? 'password' : 'text'">
+        <template v-slot:append>
+          <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="isPwd = !isPwd" />
+        </template>
+      </q-input>
+
+      <q-input
+        outlined
+        class="fit q-mb-sm"
+        label="Подтвердите пароль*"
+        v-model="passwordConfirm"
+        v-bind="getErrorAttrs('passwordConfirm')"
+        @blur="handleBlur('passwordConfirm')"
+        aria-autocomplete="new-password"
+        :type="isPwd ? 'password' : 'text'">
+        <template v-slot:append>
+          <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="isPwd = !isPwd" />
+        </template>
+      </q-input>
+    </q-form>
+
+    <div v-if="!whoAmI" class="fit q-mb-sm footer">
       <q-btn label="Регистрация" :disable="hasError" class="q-btn--form" color="primary" @click="sendData(data)" />
 
       <q-btn
