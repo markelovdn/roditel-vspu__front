@@ -32,7 +32,6 @@ const getSpecializations = async () => {
       optionsSpecializations.value = response.data.data.map((item: TSelectItems) => {
         return { label: item.title, value: item.id };
       });
-      console.log(optionsSpecializations);
     })
     .catch((errors) => {
       console.log(errors);
@@ -260,8 +259,8 @@ onMounted(async () => {
         :option-label="(item) => item"
         emit-value
         map-options
-        v-bind="getErrorAttrs('specializationId')"
-        @blur="handleBlur('specializationId')"
+        v-bind="getErrorAttrs('region')"
+        @blur="handleBlur('region')"
         v-model="data.region" />
 
       <q-input
