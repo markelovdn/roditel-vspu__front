@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
-import ConsultantFormVue from "./ConsultantForm.vue";
-import ParentedFormVue from "./ParentedForm.vue";
-import type { TRegistrationPayload } from "./types";
+import ConsultantForm from "./ConsultantForm.vue";
+import ParentedForm from "./ParentedForm.vue";
+import { type TRegistrationPayload, RegistrationRoleMap } from "./types";
 import axios from "axios";
 import { useModal } from "@/hooks/useModal";
-import { CONSULTANT, PARENTED} from '@/components/modals/RegistrationModal/constants'
+import { computedEager } from "@vueuse/core";
 
 const props = defineProps({
   showModal: Boolean,
@@ -24,21 +24,19 @@ const data = ref<TRegistrationPayload>({
   professionId: null,
   password: "",
   role_code: "",
-  region: ""
+  region: "",
 });
 
 const isShow = computed(() => props.showModal);
 const { isModalShown } = useModal(isShow, emit, data);
 
-const whoAmI = ref(true);
-const isConsultant = ref(false);
-const isParented = ref(false);
+const isRoleSelected = ref(false);
 const setRole = (role_code: string) => {
-  whoAmI.value = false;
   data.value.role_code = role_code;
-  role_code === CONSULTANT ? isConsultant.value = true : isParented.value = true; 
-}
-
+  isRoleSelected.value = true;
+};
+const isConsultant = computedEager(() => data.value.role_code === RegistrationRoleMap.CONSULTANT);
+const isValid = ref(false);
 const sendData = async (data: TRegistrationPayload) => {
   const splitName: Array<any> = data.name.split(" ");
 
@@ -62,6 +60,10 @@ const sendData = async (data: TRegistrationPayload) => {
       console.log(errors);
     });
 };
+//TODO: добавить тип нормальный вместо any
+const handleValidChange = (eventPayload: any) => {
+  isValid.value = eventPayload.isValid;
+};
 </script>
 
 <template>
@@ -69,20 +71,27 @@ const sendData = async (data: TRegistrationPayload) => {
     v-model:show-modal="isModalShown"
     header="Добавить данные"
     subHeader="Введите свои данные для регистрации">
-
-    <template v-if="whoAmI" v-slot:subHeader>
+    <template v-if="!isRoleSelected" v-slot:subHeader>
       <div class="fit q-mb-sm">
-      <q-btn label="Я консультант" class="q-btn--form" color="primary" @click="setRole(CONSULTANT)" />
-      <q-btn label="Я родитель" class="q-ml-sm q-btn--form" color="primary" @click="setRole(PARENTED)" />
-    </div>
+        <q-btn
+          label="Я консультант"
+          class="q-btn--form"
+          color="primary"
+          @click="setRole(RegistrationRoleMap.CONSULTANT)" />
+        <q-btn
+          label="Я родитель"
+          class="q-ml-sm q-btn--form"
+          color="primary"
+          @click="setRole(RegistrationRoleMap.PARENTED)" />
+      </div>
     </template>
-    
-    <ConsultantFormVue v-if="!whoAmI && isConsultant" :role="CONSULTANT"/>
 
-    <ParentedFormVue v-if="!whoAmI && isParented" :role="PARENTED"/>
+    <ConsultantForm v-if="isRoleSelected && isConsultant" v-model="data" @validation-change="handleValidChange" />
 
-    <div v-if="!whoAmI" class="fit q-mb-sm footer">
-      <q-btn label="Регистрация" :disable="hasError" class="q-btn--form" color="primary" @click="sendData(data)" />
+    <ParentedForm v-if="isRoleSelected && !isConsultant" v-model="data" @validation-change="handleValidChange" />
+
+    <div v-if="isRoleSelected" class="fit q-mb-sm footer">
+      <q-btn label="Регистрация" :disable="!isValid" class="q-btn--form" color="primary" @click="sendData(data)" />
 
       <q-btn
         label="Закрыть"
