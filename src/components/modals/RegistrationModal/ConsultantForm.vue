@@ -66,7 +66,6 @@ onMounted(async () => {
 </script>
 
 <template>
-  {{ data }}
 <q-form class="fit q-mb-sm form">
       <q-input
         outlined

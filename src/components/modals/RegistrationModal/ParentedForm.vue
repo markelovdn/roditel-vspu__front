@@ -27,6 +27,7 @@ const { hasError, handleBlur, $v, getErrorAttrs } = useValidation<TRegistrationP
   phone: { requiredValidator, minLengthValidator: minLengthValidator(17) },
   email: { requiredValidator, emailValidator },
   password: { requiredValidator },
+  region: { requiredValidator },
   role_code: { requiredValidator }
 });
 </script>
@@ -66,10 +67,10 @@ const { hasError, handleBlur, $v, getErrorAttrs } = useValidation<TRegistrationP
         v-model="data.email" />
 
       <q-select
+        class="fit q-mb-sm"
         input-class="q-select--form"
         label="Регион*"
         outlined
-        class="fit q-mb-sm"
         :options="regions"
         :option-label="(item) => item"
         emit-value
