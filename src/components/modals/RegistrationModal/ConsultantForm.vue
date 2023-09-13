@@ -8,6 +8,7 @@ import {
   splitNameValidator,
   emailValidator,
   minLengthValidator,
+  passwordConfirmation
 } from "@/hooks/useValidation";
 
 const emit = defineEmits(["validation-change", "update:model-value"]);
@@ -33,7 +34,7 @@ const { handleBlur, $v, getErrorAttrs } = useValidation<TRegistrationPayload>(da
   email: { requiredValidator, emailValidator },
   specializationId: { requiredValidator },
   professionId: { requiredValidator },
-  password: { requiredValidator },
+  password: { requiredValidator, passwordConfirmation: passwordConfirmation(data.value.password) },
   role_code: { requiredValidator },
 });
 
