@@ -5,7 +5,7 @@ import type { ConsultantsResponse } from './type';
 import type { Consultant } from '../ConsultantsCard/type';
 import ConsultantsCard from '@/components/common/Home/ConsultantsCard/ConsultantsCard.vue'
 
-const slide = ref()
+const slide = ref(0)
 const consultants = ref<Consultant[]>([])
 
 
@@ -17,8 +17,6 @@ const getConsultants = async () => {
       consultants.value = response.data.data
       consultants.value.push(...response.data.data) // аля моки пока нет пагинации
       console.log(consultants.value);
-
-
     })
     .catch((errors) => {
       console.log(errors);
@@ -31,13 +29,12 @@ getConsultants()
 
 <template>
   <div class="wrapper">
-    <h2>Наши консультанты</h2>
+    <h2 class="consultants__title">Наши консультанты</h2>
     <div class="consultants__carousel">
-
       <q-carousel v-model="slide" transition-prev="slide-right" transition-next="slide-left" swipeable animated infinite
-        control-color="primary" navigation :navigation-position="'bottom'" padding height="600px" class="">
+        control-color="primary" navigation :navigation-position="'bottom'" padding height="600px" class="carousel">
 
-        <q-carousel-slide :name="list" v-for="list in Math.trunc(consultants.length / 4)" :key="list">
+        <q-carousel-slide :name="slideIndex" v-for="(list, slideIndex) in Math.trunc(consultants.length / 4)" :key="list">
           <div v-if="consultants.length" class="flex carousel-slide">
             <ConsultantsCard :consultant="consultants[list + index]" v-for="index in 4" :key="index" />
           </div>
@@ -57,16 +54,18 @@ getConsultants()
 }
 
 .consultants {
-  &__title {
-    font-size: 42px;
-    font-weight: 700;
-    line-height: 120%;
-  }
+  &__title {}
 
   &__carousel {}
 }
 
 .carousel-slide {
-  gap: 32px
+  gap: 32px;
+}
+
+.carousel {
+  &:deep(.q-carousel__navigation-inner) {
+    justify-content: left;
+  }
 }
 </style>
