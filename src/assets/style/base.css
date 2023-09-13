@@ -62,4 +62,6 @@ h5 {
   color: var(--black, #313131);
   font-size: 24px;
   font-weight: 700;
+  line-height: 120%;
+  margin: 0;
 }
