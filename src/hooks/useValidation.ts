@@ -10,8 +10,8 @@ export type TRule<T> = ValidationArgs<T>;
 export const requiredValidator = helpers.withMessage("Обязательное поле", required);
 export const emailValidator = helpers.withMessage("Не верный формат email адреса", email);
 export const minLengthValidator = (length: number) => helpers.withMessage(`Не верная длина номера`, minLength(length));
-export const passwordConfirmation = (password: string) => helpers.withMessage( "Пароли не совпадают", sameAs(password)
-);
+export const repeatPasswordValidator = (password: Ref<string>) =>
+  helpers.withMessage("Пароли не совпадают", sameAs(password));
 export const splitNameValidator = helpers.withMessage(
   `ФИО должно состоять из трех слов`,
   (value: string) => value.trim().split(" ").length >= 3,
