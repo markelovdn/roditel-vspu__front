@@ -26,7 +26,6 @@ const data = computed({
   },
 });
 const isPwd = ref(true);
-const passwordConfirm = ref<string>("");
 
 const { handleBlur, $v, getErrorAttrs } = useValidation<TRegistrationPayload>(data, emit, {
   name: { requiredValidator, splitNameValidator },
@@ -34,7 +33,8 @@ const { handleBlur, $v, getErrorAttrs } = useValidation<TRegistrationPayload>(da
   email: { requiredValidator, emailValidator },
   specializationId: { requiredValidator },
   professionId: { requiredValidator },
-  password: { requiredValidator, repeatPasswordValidator: repeatPasswordValidator(passwordConfirm) },
+  password: { requiredValidator },
+  passwordConfirm: { repeatPasswordValidator: repeatPasswordValidator(computed(()=> data.value.password ) ) },
   role_code: { requiredValidator },
 });
 
@@ -149,7 +149,7 @@ onMounted(async () => {
       outlined
       class="fit q-mb-sm"
       label="Подтвердите пароль*"
-      v-model="passwordConfirm"
+      v-model="data.passwordConfirm"
       v-bind="getErrorAttrs('passwordConfirm')"
       @blur="handleBlur('passwordConfirm')"
       aria-autocomplete="new-password"

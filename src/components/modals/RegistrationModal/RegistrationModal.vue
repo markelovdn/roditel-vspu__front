@@ -23,6 +23,7 @@ const data = ref<TRegistrationPayload>({
   specializationId: null,
   professionId: null,
   password: "",
+  passwordConfirm: "",
   role_code: "",
   region: "",
 });
@@ -49,7 +50,7 @@ const sendData = async (data: TRegistrationPayload) => {
       email: data.email,
       specialization_id: data.specializationId,
       profession_id: data.professionId,
-      password: data.password,
+      password: data.passwordConfirm,
       role_id: 1,
     })
     .then((response) => {

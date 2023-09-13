@@ -7,6 +7,7 @@ import {
   splitNameValidator,
   emailValidator,
   minLengthValidator,
+  repeatPasswordValidator
 } from "@/hooks/useValidation";
 import { watchDebounced } from "@vueuse/core";
 
@@ -17,7 +18,7 @@ const props = defineProps<{
 
 let regions = ref<string[] | undefined>(["Москва", "Санкт-Петербург", "Волгоград"]);
 const isPwd = ref(true);
-const passwordConfirm = ref<string>("");
+
 const data = computed({
   get() {
     return props.modelValue;
@@ -30,6 +31,7 @@ const { handleBlur, getErrorAttrs } = useValidation<TRegistrationPayload>(data, 
   name: { requiredValidator, splitNameValidator },
   phone: { requiredValidator, minLengthValidator: minLengthValidator(17) },
   email: { requiredValidator, emailValidator },
+  passwordConfirm: { repeatPasswordValidator: repeatPasswordValidator(computed(() => data.value.password ) ) },
   password: { requiredValidator },
   region: { requiredValidator },
   role_code: { requiredValidator },
@@ -101,7 +103,7 @@ const { handleBlur, getErrorAttrs } = useValidation<TRegistrationPayload>(data, 
       outlined
       class="fit q-mb-sm"
       label="Подтвердите пароль*"
-      v-model="passwordConfirm"
+      v-model="data.passwordConfirm"
       v-bind="getErrorAttrs('passwordConfirm')"
       @blur="handleBlur('passwordConfirm')"
       aria-autocomplete="new-password"
