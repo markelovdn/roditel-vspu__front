@@ -35,7 +35,7 @@ const sendData = async (data: TRegistrationPayload) => {
   const splitName: Array<any> = data.name.split(" ");
 
   await axios
-    .post("https://markelovdn.ru/api/register", {
+    .post("/api/register", {
       first_name: splitName[0],
       second_name: splitName[1],
       patronymic: splitName[2],
@@ -48,7 +48,7 @@ const sendData = async (data: TRegistrationPayload) => {
     })
     .then((response) => {
       localStorage.setItem("token", response.data.token);
-      // console.log(response.data);
+      console.log(response.data);
     })
     .catch((errors) => {
       console.log(errors);

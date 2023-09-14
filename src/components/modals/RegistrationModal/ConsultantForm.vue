@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from "vue";
-import axios from "axios";
+import axios from "axios"
 import { type TSelectItems, type TRegistrationPayload } from "./types";
 import {
   useValidation,
@@ -41,7 +41,7 @@ const { handleBlur, $v, getErrorAttrs } = useValidation<TRegistrationPayload>(da
 //TODO: вынести в store и в api сервисы
 const getSpecializations = async () => {
   await axios
-    .get("https://markelovdn.ru/api/specializations", {})
+    .get("/api/specializations", {})
     .then((response) => {
       optionsSpecializations.value = response.data.data.map((item: TSelectItems) => {
         return { label: item.title, value: item.id };
@@ -54,7 +54,7 @@ const getSpecializations = async () => {
 
 const getProfessions = async () => {
   await axios
-    .get("https://markelovdn.ru/api/professions", {})
+    .get("/api/professions", {})
     .then((response) => {
       optionsProfessions.value = response.data.data.map((item: TSelectItems) => {
         return { label: item.title, value: item.id };
