@@ -43,7 +43,7 @@ const sendData = async (data: TRegistrationPayload) => {
       email: data.email,
       specialization_id: data.specializationId,
       profession_id: data.professionId,
-      password: data.passwordConfirm,
+      password: data.password,
       role_id: 1,
     })
     .then((response) => {
