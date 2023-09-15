@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import RegistrationModal from "@/components/modals/RegistrationModal/RegistrationModal.vue";
+import LoginModal from "@/components/modals/RegistrationModal/RegistrationModal.vue";
 import { ref } from "vue";
 
 const showModal = ref(false);
