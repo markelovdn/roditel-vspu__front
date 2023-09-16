@@ -4,7 +4,7 @@ import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
 import ConsultantForm from "./ConsultantForm.vue";
 import ParentedForm from "./ParentedForm.vue";
 import { type TRegistrationPayload, RegistrationRoleMap } from "./types";
-import axios from "axios";
+import axios from "@/common/axios";
 import { useModal } from "@/hooks/useModal";
 import { computedEager } from "@vueuse/core";
 

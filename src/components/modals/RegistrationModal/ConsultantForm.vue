@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from "vue";
-import axios from "axios"
+import axios from "@/common/axios";
 import { type TSelectItems, type TRegistrationPayload } from "./types";
 import {
   useValidation,
@@ -34,7 +34,7 @@ const { handleBlur, $v, getErrorAttrs } = useValidation<TRegistrationPayload>(da
   specializationId: { requiredValidator },
   professionId: { requiredValidator },
   password: { requiredValidator },
-  passwordConfirm: { repeatPasswordValidator: repeatPasswordValidator(computed(()=> data.value.password ) ) },
+  passwordConfirm: { repeatPasswordValidator: repeatPasswordValidator(computed(() => data.value.password)) },
   role_code: { requiredValidator },
 });
 
