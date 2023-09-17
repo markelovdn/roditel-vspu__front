@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
+import RegistrationModal from "@/components/modals/RegistrationModal/RegistrationModal.vue";
 import { type TLoginPayload } from "./types";
 import axios from "axios";
 import { useModal } from "@/hooks/useModal";
@@ -20,6 +21,8 @@ const data = ref<TLoginPayload>({
 const { closeModal } = useModal(emit, data);
 
 const isPwd = ref(true);
+const showRegistrationModal = ref(false);
+const isValid = ref(false);
 
 const { handleBlur, $v, getErrorAttrs } = useValidation<TLoginPayload>(data, emit, {
   email: { requiredValidator, emailValidator },
@@ -40,11 +43,15 @@ const sendData = async (data: TLoginPayload) => {
       console.log(errors);
     });
 };
+
+const handleValidChange = (eventPayload: any) => {
+  isValid.value = eventPayload.isValid;
+};
 </script>
 
 <template>
-  <ModalWrapper header="Войти">
-
+  <RegistrationModal v-if="showRegistrationModal" @close="showRegistrationModal = false"></RegistrationModal>
+  <ModalWrapper v-if="!showRegistrationModal" header="Войти">
     <q-form class="fit q-mb-sm form">
     <q-input
       outlined
@@ -72,8 +79,11 @@ const sendData = async (data: TLoginPayload) => {
 
   </q-form>
     <div class="fit q-mb-sm footer">
-      <q-btn label="Регистрация" :disable="!$v.$dirty" class="q-btn--form" color="primary" @click="sendData(data)" />
+      <q-btn label="Войти" :disable="!isValid" class="q-btn--form" color="primary" @click="sendData(data)" />
       <q-btn label="Закрыть" class="q-ml-sm q-btn--form" flat :ripple="false" color="grey-1" @click="closeModal" />
+    </div>
+    <div class="q-pt-md">
+      <q-btn label="Зарегистрироваться" class="q-ml-sm q-btn--form full-width" flat :ripple="false" color="primary" @click="showRegistrationModal = true" />
     </div>
   </ModalWrapper>
 </template>
