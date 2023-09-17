@@ -9,10 +9,6 @@ defineProps({
   subHeader: {
     type: String,
     required: false,
-  },
-  closeHeaderButton: {
-    type: Boolean,
-    required: false
   }
 });
 
@@ -28,8 +24,6 @@ const position: ComputedRef<"left" | "right" | "bottom" | "top" | "standard"> = 
   <Teleport to="body">
     <q-dialog :position="position" :persistent="true" :modelValue="true" :attrs="$attrs" basic>
       <q-card class="dialog-card" basic>
-
-        <slot name="closeButton" v-if="closeHeaderButton"></slot>
         <slot name="header">
           <div v-if="header" class="dialog-card__header">
             <h4>
