@@ -61,7 +61,12 @@ const handleValidChange = (eventPayload: any) => {
 </script>
 
 <template>
-  <ModalWrapper header="Добавить данные" subHeader="Введите свои данные для регистрации">
+  <ModalWrapper header="Добавить данные" subHeader="Введите свои данные для регистрации" closeHeaderButton>
+    <template v-slot:closeButton>
+      <div class="fit absolute-top q-pt-md q-pr-md">
+        <span class="float-right cursor-pointer" @click="closeModal">X</span>
+      </div>
+    </template>  
     <template v-if="!isRoleSelected" v-slot:subHeader>
       <div class="fit q-mb-sm">
         <q-btn
