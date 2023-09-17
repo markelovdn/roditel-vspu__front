@@ -1,8 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref } from "vue";
 import { headerMenuItems } from "./types";
-import IconPhone from '@/components/icons/IconPhone.vue'
-import IconPersonal from '@/components/icons/IconPersonal.vue'
+import IconPhone from "@/components/icons/IconPhone.vue";
+import IconPersonal from "@/components/icons/IconPersonal.vue";
+import LoginModal from "@/components/modals/LoginModal/LoginModal.vue";
+
+const showLoginModal = ref(false);
 </script>
 
 <template>
@@ -13,14 +16,15 @@ import IconPersonal from '@/components/icons/IconPersonal.vue'
         <span class="logo__text">Социально-психологический центр ВГСПУ</span>
       </div>
       <div class="contacts">
-        <a href="tel:+78004442232" class="contacts__phone-number text-primary">8 (800) 444-22-32 <span
-            class="contacts__phone-number_optional">
-            (доб. 711)</span></a>
+        <a href="tel:+78004442232" class="contacts__phone-number text-primary">
+          8 (800) 444-22-32
+          <span class="contacts__phone-number_optional">(доб. 711)</span>
+        </a>
         <a href="tel:+78004442232" class="phone-wrapper">
           <IconPhone />
         </a>
 
-        <q-btn outline style="color: #F7B70B;" class="personal-cabinet">
+        <q-btn @click="showLoginModal = true" outline style="color: #f7b70b" class="personal-cabinet">
           <IconPersonal />
           <span class="personal-cabinet__label text-primary">Личный кабинет</span>
         </q-btn>
@@ -36,13 +40,20 @@ import IconPersonal from '@/components/icons/IconPersonal.vue'
         <span class="cursor-pointer materials">Методические материалы</span>
         <div class="link-ask-expert">
           <div>Задать вопрос консультанту</div>
-          <svg style="position: relative; top: -10px;" xmlns="http://www.w3.org/2000/svg" width="100%" height="3"
-            viewBox="0 0 218 3" preserveAspectRatio="none" fill="none">
+          <svg
+            style="position: relative; top: -10px"
+            xmlns="http://www.w3.org/2000/svg"
+            width="100%"
+            height="3"
+            viewBox="0 0 218 3"
+            preserveAspectRatio="none"
+            fill="none">
             <path d="M0.0830078 1.8418H218.894" stroke="#F7B70B" stroke-width="2" stroke-dasharray="5 5" />
           </svg>
         </div>
       </div>
     </div>
+    <LoginModal v-if="showLoginModal" @close="showLoginModal = false"></LoginModal>
   </q-header>
 </template>
 
@@ -98,7 +109,7 @@ import IconPersonal from '@/components/icons/IconPersonal.vue'
         width: 48px;
         height: 48px;
         border-radius: 10px;
-        border: 1px solid #F3F3F3;
+        border: 1px solid #f3f3f3;
         background: $background;
         margin: 0 19px 0 0;
       }
@@ -110,7 +121,7 @@ import IconPersonal from '@/components/icons/IconPersonal.vue'
 
         width: 200px;
         border-radius: 10px;
-        border: solid 1px #F7B70B;
+        border: solid 1px #f7b70b;
         padding: 12px 16px;
 
         .personal-cabinet__label {
@@ -148,7 +159,6 @@ import IconPersonal from '@/components/icons/IconPersonal.vue'
 
       &:hover {
         color: $black;
-
       }
     }
 
@@ -161,7 +171,6 @@ import IconPersonal from '@/components/icons/IconPersonal.vue'
         color: $Blue-lighter;
       }
     }
-
   }
 }
 </style>
