@@ -58,7 +58,7 @@ const position: ComputedRef<"left" | "right" | "bottom" | "top" | "standard"> = 
 
 <style lang="scss" scoped>
 .dialog-card {
-  padding: 70px 62px 70px 62px;
+  padding: 35px;
   background-color: $background-secondary;
   overflow-y: auto;
   overflow-x: hidden;

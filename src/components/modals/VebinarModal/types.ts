@@ -1,11 +1,11 @@
 export type TVebinarGetData = {
-  title: string;
+  title: string | undefined;
   questions: {
-    id?: number,
-    question_text: string,
-    vebinar_id?: number,
-    created_at?: string,
-    updated_at?: string
+    id?: number | undefined,
+    question_text: string | undefined,
+    vebinar_id?: number | undefined,
+    created_at?: string | undefined,
+    updated_at?: string | undefined
   };
 };
 
