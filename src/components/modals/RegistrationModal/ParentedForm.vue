@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import { type TRegistrationPayload } from "./types";
+import { computed, ref, onMounted, } from "vue";
+import { type TSelectItems, type TRegistrationPayload } from "./types";
+import axios from "@/common/axios";
 import {
   useValidation,
   requiredValidator,
@@ -16,7 +17,21 @@ const props = defineProps<{
   modelValue: TRegistrationPayload;
 }>();
 
-let regions = ref<string[] | undefined>(["Москва", "Санкт-Петербург", "Волгоград"]);
+let optionsRegions = ref<TSelectItems[] | undefined>();
+
+const getRegions = async () => {
+  await axios
+    .get("/api/regions", {})
+    .then((response) => {
+      console.log(response)
+      optionsRegions.value = response.data.data.map((item: TSelectItems) => {
+        return { label: item.title, value: item.id };
+      });
+    })
+    .catch((errors) => {
+      console.log(errors);
+    });
+};
 const isPwd = ref(true);
 
 const data = computed({
@@ -33,8 +48,12 @@ const { handleBlur, getErrorAttrs } = useValidation<TRegistrationPayload>(data, 
   email: { requiredValidator, emailValidator },
   passwordConfirm: { repeatPasswordValidator: repeatPasswordValidator(computed(() => data.value.password ) ) },
   password: { requiredValidator },
-  region: { requiredValidator },
+  region_id: { requiredValidator },
   role_code: { requiredValidator },
+});
+
+onMounted(async () => {
+  getRegions();
 });
 </script>
 
@@ -77,13 +96,13 @@ const { handleBlur, getErrorAttrs } = useValidation<TRegistrationPayload>(data, 
       input-class="q-select--form"
       label="Регион*"
       outlined
-      :options="regions"
-      :option-label="(item) => item"
+      :options="optionsRegions"
+      :option-label="(item) => item.label"
       emit-value
       map-options
-      v-bind="getErrorAttrs('region')"
-      @blur="handleBlur('region')"
-      v-model="data.region" />
+      v-bind="getErrorAttrs('region_id')"
+      @blur="handleBlur('region_id')"
+      v-model="data.region_id" />
 
     <q-input
       outlined
