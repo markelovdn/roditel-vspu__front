@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import ShortProgramModal from '@/components/modals/VebinarModal/ShortProgramModal.vue'
+import ShortProgramModal from '@/components/modals/WebinarModal/ShortProgram.vue'
 const showProgramModal = ref(true);
 </script>
 

@@ -1,26 +1,39 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted } from "vue";
 import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
-import { type TVebinarGetData } from "./types";
+import { type TWebinarGetData } from "./types";
 import axios from "@/common/axios";
 import { mdiClose } from '@quasar/extras/mdi-v6'
 
 const emit = defineEmits(["close"]);
 
-const vebinar = ref<TVebinarGetData>({
+const webinar = ref<TWebinarGetData>({
+  id: null,
   title: "",
   questions: {
     question_text: ""
   }
 })
 
-const getData = async () => {
+const getWebinarsQuestions = async () => {
   await axios
-//передать id нормально
-    .get("/api/vebinarsQuestions/11")
+//TODO:передать id нормально
+    .get("/api/webinarsQuestions/11")
     .then((response) => {
-      vebinar.value = response.data.data[0]
-      console.log(response.data);
+      webinar.value = response.data.data[0]
+      console.log(response);
+    })
+    .catch((errors) => {
+      console.log(errors);
+    });
+};
+
+const registrationPartisipantToWebinar = async () => {
+  await axios
+//TODO:передать user_id из стора зарегистрированного пользователя
+    .post("/api/webinarPartisipants")
+    .then((response) => {
+      console.log(response);
     })
     .catch((errors) => {
       console.log(errors);
@@ -28,7 +41,7 @@ const getData = async () => {
 };
 
 onMounted(async () => {
-  getData();
+  getWebinarsQuestions();
 });
 
 </script>
@@ -40,19 +53,19 @@ onMounted(async () => {
     </div>
 
     <div class="q-pb-lg">
-      <span class="header-title text-uppercase text-primary">{{ vebinar.title }}</span>
+      <span class="header-title text-uppercase text-primary">{{ webinar.title }}</span>
     </div>
     <div class="q-mb-lg line"></div>
     <div class="q-pb-lg">
       <span class="question-title text-uppercase">Вопросы к обсуждению:</span>
     </div>
-  <div v-for="(question, index) in vebinar.questions">
+  <div v-for="(question, index) in webinar.questions">
 
-  <div class="text-question q-pb-xs">{{ index+1 }}. {{ question.question_text }}</div>
+  <div class="text-question q-pb-md">{{ index+1 }}. {{ question.question_text }}</div>
   </div>
 
     <div class="fit q-pt-lg footer">
-      <q-btn label="Принять участие" class="q-btn--form" color="primary" />
+      <q-btn label="Принять участие" class="q-btn--form" color="primary" @click="registrationPartisipantToWebinar"/>
     </div>
   </ModalWrapper>
 </template>

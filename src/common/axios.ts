@@ -13,6 +13,9 @@ axios.interceptors.request.use(
     return {
       ...config,
       baseURL: apiUrl,
+      headers: {
+        'Authorization': `Bearer ${localStorage.token}`
+    },
     };
   },
   async (err) => Promise.reject(err),
