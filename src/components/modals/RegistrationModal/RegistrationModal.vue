@@ -19,7 +19,7 @@ const data = ref<TRegistrationPayload>({
   password: "",
   passwordConfirm: "",
   role_code: "",
-  region: "",
+  region_id: null,
 });
 
 const { closeModal } = useModal(emit, data);
@@ -44,11 +44,14 @@ const sendData = async (data: TRegistrationPayload) => {
       specialization_id: data.specializationId,
       profession_id: data.professionId,
       password: data.password,
-      role_id: 1,
+      role_code: data.role_code,
+      region_id: data.region_id
     })
     .then((response) => {
       localStorage.setItem("token", response.data.token);
       console.log(response.data);
+      console.log(data.role_code);
+      //TODO: Добавить перенаправление после успешной регистрации
     })
     .catch((errors) => {
       console.log(errors);
@@ -76,7 +79,7 @@ const handleValidChange = (eventPayload: any) => {
           @click="setRole(RegistrationRoleMap.PARENTED)" />
       </div>
     </template>
-
+    
     <ConsultantForm v-if="isRoleSelected && isConsultant" v-model="data" @validation-change="handleValidChange" />
 
     <ParentedForm v-if="isRoleSelected && !isConsultant" v-model="data" @validation-change="handleValidChange" />

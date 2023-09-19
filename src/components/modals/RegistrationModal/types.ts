@@ -7,7 +7,7 @@ export type TRegistrationPayload = {
   password: string;
   passwordConfirm?: string;
   role_code: string;
-  region?: string;
+  region_id?: number | null;
 };
 
 export type TSelectItems = {

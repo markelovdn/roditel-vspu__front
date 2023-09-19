@@ -44,6 +44,7 @@ const getSpecializations = async () => {
     .get("/api/specializations", {})
     .then((response) => {
       optionsSpecializations.value = response.data.data.map((item: TSelectItems) => {
+        console.log(response)
         return { label: item.title, value: item.id };
       });
     })
