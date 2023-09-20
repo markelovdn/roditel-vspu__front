@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { computed, type ComputedRef } from "vue";
+import { mdiClose } from '@quasar/extras/mdi-v6'
+
+const emit = defineEmits(["close"]);
 
 defineProps({
   header: {
@@ -9,6 +12,10 @@ defineProps({
   subHeader: {
     type: String,
     required: false,
+  },
+  closeButtonHeader: {
+    type: Boolean,
+    required: false
   }
 });
 
@@ -24,6 +31,9 @@ const position: ComputedRef<"left" | "right" | "bottom" | "top" | "standard"> = 
   <Teleport to="body">
     <q-dialog :position="position" :persistent="true" :modelValue="true" :attrs="$attrs" basic>
       <q-card class="dialog-card" basic>
+        <div v-if="closeButtonHeader" class="fit absolute-top q-pt-md q-pr-md">
+          <q-icon :name="mdiClose" class="float-right cursor-pointer" @click="emit('close')"/>
+        </div>
         <slot name="header">
           <div v-if="header" class="dialog-card__header">
             <h4>
