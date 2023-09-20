@@ -12,10 +12,10 @@ const { closeModal } = useModal(emit);
 const webinar = ref<TWebinarResponse>({
   id: null,
   title: "",
-  questions: {
-    id: null,
-    questionText: ""
-  }
+  questions: [
+    {id: null,
+    questionText: ""}
+  ]  
 })
 
 const getWebinarsQuestions = async () => {
@@ -63,7 +63,7 @@ onMounted(async () => {
     </div>
   <div v-for="(question, index) in webinar.questions">
 
-  <div class="text-question q-pb-md">{{ index+1 }}. {{ question }}</div>
+  <div class="text-question q-pb-md">{{ index+1 }}. {{ question.questionText }}</div>
   </div>
 
     <div class="fit q-pt-lg footer">
