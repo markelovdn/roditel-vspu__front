@@ -1,24 +1,27 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
-import { type TWebinarGetData } from "./types";
+import { type TWebinarResponse } from "./types";
 import axios from "@/common/axios";
-import { mdiClose } from '@quasar/extras/mdi-v6'
+import { useModal } from "@/hooks/useModal";
 
 const emit = defineEmits(["close"]);
 
-const webinar = ref<TWebinarGetData>({
+const { closeModal } = useModal(emit);
+
+const webinar = ref<TWebinarResponse>({
   id: null,
   title: "",
   questions: {
-    question_text: ""
+    id: null,
+    questionText: ""
   }
 })
 
 const getWebinarsQuestions = async () => {
   await axios
 //TODO:передать id нормально
-    .get("/api/webinarsQuestions/11")
+    .get("/api/webinars/11")
     .then((response) => {
       webinar.value = response.data.data[0]
       console.log(response);
@@ -31,7 +34,10 @@ const getWebinarsQuestions = async () => {
 const registrationPartisipantToWebinar = async () => {
   await axios
 //TODO:передать user_id из стора зарегистрированного пользователя
-    .post("/api/webinarPartisipants")
+    .post("/api/webinarPartisipants", {
+      user_id: 1,
+      webinar_id: 1
+    })
     .then((response) => {
       console.log(response);
     })
@@ -47,11 +53,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <ModalWrapper >
-    <div class="fit absolute-top q-pt-md q-pr-md">
-      <q-icon :name="mdiClose" class="float-right cursor-pointer" @click="emit('close')"/>
-    </div>
-
+  <ModalWrapper closeButtonHeader @close="closeModal">
     <div class="q-pb-lg">
       <span class="header-title text-uppercase text-primary">{{ webinar.title }}</span>
     </div>
@@ -61,7 +63,7 @@ onMounted(async () => {
     </div>
   <div v-for="(question, index) in webinar.questions">
 
-  <div class="text-question q-pb-md">{{ index+1 }}. {{ question.question_text }}</div>
+  <div class="text-question q-pb-md">{{ index+1 }}. {{ question }}</div>
   </div>
 
     <div class="fit q-pt-lg footer">

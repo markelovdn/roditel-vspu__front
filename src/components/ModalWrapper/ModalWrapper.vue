@@ -33,7 +33,6 @@ const position: ComputedRef<"left" | "right" | "bottom" | "top" | "standard"> = 
       <q-card class="dialog-card" basic>
         <div v-if="closeButtonHeader" class="fit absolute-top q-pt-md q-pr-md">
           <q-icon :name="mdiClose" class="float-right cursor-pointer close" @click="emit('close')"/>
-          
         </div>
         <slot name="header">
           <div v-if="header" class="dialog-card__header">
