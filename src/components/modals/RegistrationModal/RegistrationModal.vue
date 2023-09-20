@@ -7,7 +7,6 @@ import { type TRegistrationPayload, RegistrationRoleMap } from "./types";
 import axios from "@/common/axios";
 import { useModal } from "@/hooks/useModal";
 import { computedEager } from "@vueuse/core";
-import { mdiClose } from '@quasar/extras/mdi-v6'
 
 const emit = defineEmits(["close"]);
 
