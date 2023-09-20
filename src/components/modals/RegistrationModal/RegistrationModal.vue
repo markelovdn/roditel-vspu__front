@@ -7,7 +7,6 @@ import { type TRegistrationPayload, RegistrationRoleMap } from "./types";
 import axios from "@/common/axios";
 import { useModal } from "@/hooks/useModal";
 import { computedEager } from "@vueuse/core";
-import { mdiClose } from '@quasar/extras/mdi-v6'
 
 const emit = defineEmits(["close"]);
 
@@ -62,10 +61,7 @@ const handleValidChange = (eventPayload: any) => {
 </script>
 
 <template>
-  <ModalWrapper header="Добавить данные" subHeader="Введите свои данные для регистрации">
-    <div v-if="!isRoleSelected" class="fit absolute-top q-pt-md q-pr-md">
-      <q-icon :name="mdiClose" class="float-right cursor-pointer" @click="closeModal"/>
-    </div>
+  <ModalWrapper header="Добавить данные" subHeader="Введите свои данные для регистрации" :closeButtonHeader="!isRoleSelected" @close="closeModal">
     <template v-if="!isRoleSelected" v-slot:subHeader>
       <div class="fit q-mb-sm">
         <q-btn
