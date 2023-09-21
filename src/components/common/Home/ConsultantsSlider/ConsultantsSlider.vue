@@ -39,6 +39,7 @@ getConsultants()
             <ConsultantsCard :consultant="consultants[list + index]" v-for="index in 4" :key="index" />
           </div>
 
+
         </q-carousel-slide>
       </q-carousel>
     </div>
