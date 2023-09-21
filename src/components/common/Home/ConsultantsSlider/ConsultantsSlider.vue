@@ -32,7 +32,7 @@ getConsultants()
     <h2 class="consultants__title">Наши консультанты</h2>
     <div class="consultants__carousel">
       <q-carousel v-model="slide" transition-prev="slide-right" transition-next="slide-left" swipeable animated infinite
-        control-color="primary" navigation :navigation-position="'bottom'" padding height="600px" class="carousel">
+        control-color="primary" navigation :navigation-position="'bottom'" padding class="carousel">
 
         <q-carousel-slide :name="slideIndex" v-for="(list, slideIndex) in Math.trunc(consultants.length / 4)" :key="list">
           <div v-if="consultants.length" class="flex carousel-slide">
@@ -56,7 +56,15 @@ getConsultants()
 .consultants {
   &__title {}
 
-  &__carousel {}
+  &__carousel {
+    &:deep(.q-carousel) {
+      height: 100%;
+    }
+
+    &:deep(.q-carousel .absolute) {
+      position: static;
+    }
+  }
 }
 
 .carousel-slide {
@@ -64,8 +72,30 @@ getConsultants()
 }
 
 .carousel {
+
+
   &:deep(.q-carousel__navigation-inner) {
     justify-content: left;
   }
+
+  &:deep(.q-carousel__slide) {
+    padding: 52px 0;
+    // margin: 52px 0;
+  }
+
+  &:deep(.q-carousel__navigation .q-btn) {
+    margin: 0 4px;
+    padding: 0 5px;
+  }
+
+  &:deep(.q-carousel__navigation-icon--active) {
+    font-size: 6px !important;
+  }
+
+  &:deep(.q-carousel__navigation-icon--inactive) {
+    color: #D9D9D9 !important;
+    font-size: 5px !important;
+  }
+
 }
 </style>
