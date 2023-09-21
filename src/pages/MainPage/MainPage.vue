@@ -3,7 +3,10 @@ import { ref } from "vue";
 import MainBanner from '@/components/common/Home/MainBanner/MainBanner.vue'
 import ConsultantsSlider from '@/components/common/Home/ConsultantsSlider/ConsultantsSlider.vue'
 import WebinarsPreview from '@/components/common/Home/WebinarsPreview/WebinarsPreview.vue'
+import ServiceDeliveryFormat from '@/components/common/Home/ServiceDeliveryFormat/ServiceDeliveryFormat.vue'
+import ShortProgramModal from '@/components/modals/WebinarModal/ShortProgram.vue'
 
+const showProgramModal = ref(false);
 const showModal = ref(false);
 </script>
 
@@ -12,17 +15,12 @@ const showModal = ref(false);
     <MainBanner />
     <ConsultantsSlider />
     <WebinarsPreview />
+    <ServiceDeliveryFormat />
 
-    <div>Формат оказания услуг</div>
-    <div>Формат оказания услуг</div>
     <div>Help</div>
     <q-btn @click="showModal = true">show modal</q-btn>
     <RegistrationModal v-model:show-modal="showModal"></RegistrationModal>
-    <p v-for="n in 15" :key="n">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit nihil praesentium molestias a adipisci, dolore vitae
-      odit, quidem consequatur optio voluptates asperiores pariatur eos numquam rerum delectus commodi perferendis
-      voluptate?
-    </p>
+
   </div>
 </template>
 
