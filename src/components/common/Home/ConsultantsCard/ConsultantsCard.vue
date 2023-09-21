@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, onMounted } from 'vue';
 import type { Consultant } from './type';
-
+import ConsultantDescriptionModal from '@/components/modals/ConsultantDescriptionModal/ConsultantDescriptionModal.vue'
 
 const props = defineProps<{
     consultant: Consultant
@@ -9,6 +9,8 @@ const props = defineProps<{
 
 const description = ref<HTMLElement | null>(null)
 const isFullShow = ref(false)
+const isShowModal = ref(false)
+
 
 onMounted(() => {
     if (description.value && description.value?.getBoundingClientRect().height > 73) {
@@ -27,7 +29,9 @@ onMounted(() => {
         <h5 class="card__name">{{ consultant.user.surName }}</h5>
         <div ref="description" class="card__description" :class="{ card__description_hide: isFullShow }"><span>{{
             consultant.description }}</span></div>
-        <div v-if="isFullShow" class="card__next"><span>читать далее</span></div>
+        <div v-if="isFullShow" class="card__next"><span @click="isShowModal = true">читать далее</span></div>
+        <ConsultantDescriptionModal :consultant="consultant" v-if="isShowModal" @close="isShowModal = !isShowModal" />
+
         <q-btn color="yellow card__button">
             <div class="btn__label">Задать вопрос специалисту</div>
         </q-btn>
