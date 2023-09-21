@@ -13,8 +13,10 @@ const webinar = ref<TWebinarResponse>({
   id: null,
   title: "",
   questions: [
-    {id: null,
-    questionText: ""}
+    {
+      id: null,
+      questionText: ""
+    }
   ]  
 })
 
