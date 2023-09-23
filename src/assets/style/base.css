@@ -26,11 +26,6 @@ body {
   height: 48px;
 }
 
-body {
-  font-family: "Ubuntu";
-  font-style: normal;
-  line-height: 120%;
-}
 
 .btn-link {
   cursor: pointer;
