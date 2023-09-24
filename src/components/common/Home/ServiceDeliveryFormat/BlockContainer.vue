@@ -22,7 +22,6 @@
     display: flex;
     justify-content: space-between;
 
-
     &__title {
         display: flex;
         justify-content: space-between;
@@ -32,7 +31,6 @@
             color: #678570;
 
             font-size: 16px;
-
             font-weight: 500;
             line-height: 120%;
         }
@@ -43,6 +41,12 @@
         justify-content: space-between;
         gap: 30px;
         margin: 52px 0 0 0;
+    }
+}
+
+@media screen and (width < 1280px) {
+    .block__content {
+        flex-wrap: wrap;
     }
 }
 </style>
