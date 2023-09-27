@@ -30,10 +30,10 @@ const pageBackground = computed(() => {
   overflow-x: hidden;
 
   &__content {
-    width: 1290px;
+    width: 1280px;
     margin: 0 auto;
 
-    @media screen and (width < 1290px) {
+    @media screen and (width < 1280px) {
       width: 100%;
     }
     @media screen and (width < 721px) {
