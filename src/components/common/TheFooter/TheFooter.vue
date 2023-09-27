@@ -5,10 +5,8 @@ import IconWhatsapp from "@/components/icons/IconWhatsapp.vue";
 import IconSkype from "@/components/icons/IconSkype.vue";
 import CommonLink from "@/components/common/CommonLink/CommonLink.vue";
 import { headerMenuItems } from "@/components/common/TheHeader/types";
-import RegistrationModal from '@/components/modals/RegistrationModal/RegistrationModal.vue'
-import LoginModal from '@/components/modals/LoginModal/LoginModal.vue'
-
-
+import RegistrationModal from "@/components/modals/RegistrationModal/RegistrationModal.vue";
+import LoginModal from "@/components/modals/LoginModal/LoginModal.vue";
 
 const isShowLoginModal = ref(false);
 const isShowRegistrationModal = ref(false);
@@ -52,16 +50,16 @@ const isShowRegistrationModal = ref(false);
       </div> -->
     </div>
     <div class="footer__col-3">
-      <span class="text-primary col-3__link" :to="'https://ya.ru/'">Для жителей Волгограда и Волгоградской области
-        возможны очные консультации по адресу г.Волгоград, проспект
+      <span class="text-primary col-3__link" :to="'https://ya.ru/'">
+        Для жителей Волгограда и Волгоградской области возможны очные консультации по адресу г.Волгоград, проспект
         Ленина, 27
       </span>
-      <CommonLink :to="'https://ya.ru/'">Приказ Об утверждении Положения о Межрегиональной службе консультирования
-        родителей социально - психологическим
+      <CommonLink :to="'https://ya.ru/'">
+        Приказ Об утверждении Положения о Межрегиональной службе консультирования родителей социально - психологическим
         центром "ВГСПУ"
       </CommonLink>
-      <CommonLink :to="'https://ya.ru/'">Положение о межрегиональной службе консультирования родителей
-        социально-психологического центра ФГБОУ ВО ВГСПУ
+      <CommonLink :to="'https://ya.ru/'">
+        Положение о межрегиональной службе консультирования родителей социально-психологического центра ФГБОУ ВО ВГСПУ
       </CommonLink>
     </div>
   </q-footer>
@@ -72,9 +70,10 @@ const isShowRegistrationModal = ref(false);
   background-color: $white;
   padding: 48px 80px;
   display: flex;
-  width: 100%;
   justify-content: space-between;
   font-size: 16px;
+  width: 1280px;
+  margin: 0 auto;
 
   .footer__col-1 {
     width: 290px;
