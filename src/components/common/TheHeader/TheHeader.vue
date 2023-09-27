@@ -61,7 +61,7 @@ const showLoginModal = ref(false);
 .header {
   padding: 12px 0 0 0;
   white-space: nowrap;
-  width: 1280px;
+  max-width: 1280px;
   margin: 0 auto;
   .row-1 {
     display: flex;
