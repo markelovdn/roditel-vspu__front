@@ -24,9 +24,9 @@ const props = defineProps<{
 <style lang="scss" scoped>
 .card-1 {
   overflow: hidden;
-  min-width: 300px;
   width: 100%;
-  max-width: 350px;
+  min-width: 300px;
+  max-width: 300px;
   height: 362px;
 
   @media screen and (width < 1280px) {
