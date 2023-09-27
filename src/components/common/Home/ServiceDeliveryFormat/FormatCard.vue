@@ -25,7 +25,6 @@ const props = defineProps<{
 .card-1 {
   overflow: hidden;
   width: 100%;
-  min-width: 300px;
   max-width: 300px;
   height: 362px;
 
