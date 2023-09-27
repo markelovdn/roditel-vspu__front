@@ -10,10 +10,10 @@ const props = defineProps<{
 const description = ref<HTMLElement | null>(null);
 const isFullShow = ref(false);
 const isShowModal = ref(false);
-const maxWidthClass_card__description = 73;
+const maxDescriptionHeight = 73;
 
 onMounted(() => {
-  if (description.value && description.value?.getBoundingClientRect().height > maxWidthClass_card__description) {
+  if (description.value && description.value?.getBoundingClientRect().height > maxDescriptionHeight) {
     isFullShow.value = true;
   }
 });
