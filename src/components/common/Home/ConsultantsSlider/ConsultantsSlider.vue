@@ -1,19 +1,13 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import axios from "axios";
 import type { ConsultantsResponse } from "./types";
 import type { Consultant } from "../ConsultantsCard/types";
 import ConsultantsCard from "@/components/common/Home/ConsultantsCard/ConsultantsCard.vue";
 
 const slide = ref(0);
-const innerWidth = ref(window.innerWidth);
 const consultants = ref<Consultant[]>([]);
 const sliderQuantityItem = 3;
-
-function setInnerWidth() {
-  innerWidth.value = window.innerWidth;
-}
-window.addEventListener("resize", setInnerWidth);
 
 const getConsultants = async () => {
   await axios
