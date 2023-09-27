@@ -1,37 +1,26 @@
 <script setup lang="ts">
-import { ref, computed, onUnmounted } from 'vue';
+import { ref, computed, onMounted } from "vue";
 import axios from "axios";
-import type { ConsultantsResponse } from './type';
-import type { Consultant } from '../ConsultantsCard/type';
-import ConsultantsCard from '@/components/common/Home/ConsultantsCard/ConsultantsCard.vue'
+import type { ConsultantsResponse } from "./types";
+import type { Consultant } from "../ConsultantsCard/types";
+import ConsultantsCard from "@/components/common/Home/ConsultantsCard/ConsultantsCard.vue";
 
-const slide = ref(0)
-const innerWidth = ref(window.innerWidth)
-const consultants = ref<Consultant[]>([])
+const slide = ref(0);
+const innerWidth = ref(window.innerWidth);
+const consultants = ref<Consultant[]>([]);
+const sliderQuantityItem = 3;
 
 function setInnerWidth() {
-  innerWidth.value = window.innerWidth
+  innerWidth.value = window.innerWidth;
 }
-window.addEventListener('resize', setInnerWidth)
-
-const sliderPageCount = computed(() => {
-  //! доделать колличество в строке в зависимости от ширины экрана.
-  //! погуглить про подписку на измнениение ширины экрана
-  if (innerWidth.value > 2560) { return 10 }
-  if (innerWidth.value > 2430) { return 7 }
-  if (innerWidth.value > 1920) { return 6 }
-  if (innerWidth.value > 1630) { return 5 }
-
-  return 4
-})
-
+window.addEventListener("resize", setInnerWidth);
 
 const getConsultants = async () => {
   await axios
     .get<ConsultantsResponse>("https://markelovdn.ru/api/consultants", {})
     .then((response) => {
-      consultants.value = response.data.data
-      consultants.value.push(...response.data.data) // аля моки пока нет пагинации
+      consultants.value = response.data.data;
+      consultants.value.push(...response.data.data); // аля моки пока нет пагинации
       console.log(consultants.value);
     })
     .catch((errors) => {
@@ -39,23 +28,48 @@ const getConsultants = async () => {
     });
 };
 
-
-getConsultants()
-
-onUnmounted(() => { window.removeEventListener('resize', setInnerWidth) })
+onMounted(() => {
+  getConsultants();
+});
 </script>
 
 <template>
   <div class="wrapper">
-    <h2 class="consultants__title">Наши консультанты</h2>
-    {{ sliderPageCount }}
+    <div class="consultants__title">
+      <h2 class="">Наши консультанты</h2>
+      <div class="consultants__title_subtitle">
+        <span>Показать всех</span>
+        <svg
+          class="consultants__title_underline"
+          width="137"
+          height="3"
+          viewBox="0 0 137 3"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path d="M0.590088 1.70508H136.58" stroke="#F7B70B" stroke-width="2" stroke-dasharray="5 5" />
+        </svg>
+      </div>
+    </div>
     <div class="consultants__carousel">
-      <q-carousel v-model="slide" transition-prev="slide-right" transition-next="slide-left" swipeable animated infinite
-        control-color="primary" navigation :navigation-position="'bottom'" padding class="carousel">
-        <q-carousel-slide :name="slideIndex"
-          v-for="(list, slideIndex) in Math.trunc(consultants.length / sliderPageCount)" :key="list">
+      <q-carousel
+        v-model="slide"
+        transition-prev="slide-right"
+        transition-next="slide-left"
+        swipeable
+        animated
+        infinite
+        control-color="primary"
+        navigation
+        :navigation-position="'bottom'"
+        padding
+        arrows
+        class="carousel">
+        <q-carousel-slide
+          :name="slideIndex"
+          v-for="(list, slideIndex) in Math.trunc(consultants.length / sliderQuantityItem)"
+          :key="list">
           <div v-if="consultants.length" class="flex carousel-slide">
-            <ConsultantsCard :consultant="consultants[list + index]" v-for="index in sliderPageCount" :key="index" />
+            <ConsultantsCard :consultant="consultants[list + index]" v-for="index in sliderQuantityItem" :key="index" />
           </div>
         </q-carousel-slide>
       </q-carousel>
@@ -63,16 +77,32 @@ onUnmounted(() => { window.removeEventListener('resize', setInnerWidth) })
   </div>
 </template>
 
-
-
 <style lang="scss" scoped>
 .wrapper {
   margin: 75px 0 70px;
-  width: 130% !important;
 }
 
 .consultants {
-  &__title {}
+  &__title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h2 {
+    }
+    &_subtitle {
+      cursor: pointer;
+      color: $Text-color;
+      font-size: 20px;
+      line-height: 120%;
+      position: relative;
+    }
+    &_underline {
+      position: absolute;
+      left: 0px;
+      bottom: -6px;
+    }
+  }
 
   &__carousel {
     &:deep(.q-carousel) {
@@ -80,7 +110,7 @@ onUnmounted(() => { window.removeEventListener('resize', setInnerWidth) })
     }
 
     &:deep(.q-carousel .absolute) {
-      position: static;
+      // position: static;
     }
   }
 }
@@ -91,14 +121,14 @@ onUnmounted(() => { window.removeEventListener('resize', setInnerWidth) })
 }
 
 .carousel {
-
+  cursor: grab;
 
   &:deep(.q-carousel__navigation-inner) {
-    justify-content: left;
+    // justify-content: left;
   }
 
   &:deep(.q-carousel__slide) {
-    padding: 52px 0;
+    // padding: 52px 0;
   }
 
   //что бы на маленьких размерах слайдер оставлася в линию
@@ -116,10 +146,9 @@ onUnmounted(() => { window.removeEventListener('resize', setInnerWidth) })
   }
 
   &:deep(.q-carousel__navigation-icon--inactive) {
-    color: #D9D9D9 !important;
+    color: #d9d9d9 !important;
     font-size: 5px !important;
-
   }
-
 }
 </style>
+../ConsultantsCard/types ./types

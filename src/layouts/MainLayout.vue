@@ -16,8 +16,8 @@ const pageBackground = computed(() => {
 <template>
   <q-layout view="lhh LpR lff" container style="height: 100vh">
     <TheHeader />
-    <q-page-container :style="pageBackground">
-      <q-page class="wrapper">
+    <q-page-container class="wrapper" :style="pageBackground">
+      <q-page class="wrapper__content">
         <router-view />
       </q-page>
     </q-page-container>
@@ -27,7 +27,19 @@ const pageBackground = computed(() => {
 
 <style lang="scss" scoped>
 .wrapper {
-  padding: 0 75px;
   overflow-x: hidden;
+
+  &__content {
+    width: 1290px;
+    margin: 0 auto;
+
+    @media screen and (width < 1290px) {
+      width: 100%;
+    }
+    @media screen and (width < 721px) {
+      width: 730px;
+      overflow-x: auto;
+    }
+  }
 }
 </style>
