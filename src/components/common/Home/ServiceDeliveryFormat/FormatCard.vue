@@ -26,6 +26,7 @@ const props = defineProps<{
   overflow: hidden;
   width: 100%;
   max-width: 300px;
+  min-width: 300px;
   height: 362px;
 
   @media screen and (width < 1280px) {
