@@ -1,5 +1,7 @@
 import { TRegistrationRole } from '../../components/modals/RegistrationModal/types';
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import TableWrapper from "@/components/table/TableWrapper.vue";
+</script>
 
 <template>
   <div class="container">
@@ -13,14 +15,16 @@ import { TRegistrationRole } from '../../components/modals/RegistrationModal/typ
         <li>Журналы</li>
         <li>Заявки</li>
         <li>Анкеты</li>
-        <li>Персональные данны</li>
+        <li>Персональные данные</li>
       </div>
-      <div class="table"></div>
+      <div class="table">
+        <TableWrapper />
+      </div>
     </div>
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .container {
   margin: 70px;
 }
@@ -36,7 +40,9 @@ import { TRegistrationRole } from '../../components/modals/RegistrationModal/typ
     line-height: 120%; /* 33.6px */
   }
 }
-
+.content {
+  display: flex;
+}
 .menu {
   width: 300px;
   border: solid 1px black;
