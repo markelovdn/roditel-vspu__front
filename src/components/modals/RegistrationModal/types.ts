@@ -11,6 +11,11 @@ export type TRegistrationPayload = {
 };
 
 export type TSelectItems = {
+  label: string;
+  value: number;
+};
+
+export type TRequestItems = {
   id: number;
   title: string;
 };

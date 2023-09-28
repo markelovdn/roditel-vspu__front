@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { computed, ref, onMounted, } from "vue";
-import { type TSelectItems, type TRegistrationPayload } from "./types";
-import axios from "@/common/axios";
+import { computed, ref, onMounted } from "vue";
+import { type TSelectItems, type TRequestItem, type TRegistrationPayload } from "./types";
+import { useRegionsStore } from "@/stores/regionsStore";
 import {
   useValidation,
   requiredValidator,
   splitNameValidator,
   emailValidator,
   minLengthValidator,
-  repeatPasswordValidator
+  repeatPasswordValidator,
 } from "@/hooks/useValidation";
 import { watchDebounced } from "@vueuse/core";
 
@@ -17,20 +17,12 @@ const props = defineProps<{
   modelValue: TRegistrationPayload;
 }>();
 
-let optionsRegions = ref<TSelectItems[] | undefined>();
+let optionsRegions = ref<TSelectItems[]>();
 
-const getRegions = async () => {
-  await axios
-    .get("/api/regions", {})
-    .then((response) => {
-      console.log(response)
-      optionsRegions.value = response.data.data.map((item: TSelectItems) => {
-        return { label: item.title, value: item.id };
-      });
-    })
-    .catch((errors) => {
-      console.log(errors);
-    });
+const getRegions = () => {
+  optionsRegions.value = useRegionsStore().regions.map((item: TRequestItem) => {
+    return { label: item.title, value: item.id };
+  });
 };
 const isPwd = ref(true);
 
@@ -46,13 +38,15 @@ const { handleBlur, getErrorAttrs } = useValidation<TRegistrationPayload>(data, 
   name: { requiredValidator, splitNameValidator },
   phone: { requiredValidator, minLengthValidator: minLengthValidator(17) },
   email: { requiredValidator, emailValidator },
-  passwordConfirm: { repeatPasswordValidator: repeatPasswordValidator(computed(() => data.value.password ) ) },
+  passwordConfirm: { repeatPasswordValidator: repeatPasswordValidator(computed(() => data.value.password)) },
   password: { requiredValidator },
   region_id: { requiredValidator },
   role_code: { requiredValidator },
 });
 
 onMounted(async () => {
+  useRegionsStore().setRegions;
+  console.log(useRegionsStore().regions);
   getRegions();
 });
 </script>
