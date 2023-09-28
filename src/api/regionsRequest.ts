@@ -7,11 +7,9 @@ export async function regionsRequest() {
     .get("/api/regions", {})
     .then((response) => {
       data = response.data.data;
-      return data;
     })
     .catch((errors) => {
       console.log(errors);
-      return errors;
     });
 
     return data;
