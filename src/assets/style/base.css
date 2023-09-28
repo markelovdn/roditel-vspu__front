@@ -3,8 +3,12 @@
   --q-background-secondary: #f3f3f3;
   --q-Blue-lighter: #315194;
   --text-color: #525252;
+  --yellow: #f7b70b;
+  --grey-1: #a3a3a3;
   --grey-2: #bababa;
+  --light-grey: #f1f1f1;
   --maxContentWidth: 1280px;
+  --background-table: #fcfcfc;
 }
 
 body {
