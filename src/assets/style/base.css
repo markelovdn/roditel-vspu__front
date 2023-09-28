@@ -3,7 +3,8 @@
   --q-background-secondary: #f3f3f3;
   --q-Blue-lighter: #315194;
   --text-color: #525252;
-  --grey-2: #BABABA;
+  --grey-2: #bababa;
+  --maxContentWidth: 1280px;
 }
 
 body {
@@ -26,7 +27,6 @@ body {
   height: 48px;
 }
 
-
 .btn-link {
   cursor: pointer;
   text-decoration: none;
@@ -35,7 +35,7 @@ body {
   text-decoration: underline !important;
 }
 
-.btn__label{
+.btn__label {
   font-size: 16px;
 }
 

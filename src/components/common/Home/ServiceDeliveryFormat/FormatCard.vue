@@ -34,10 +34,6 @@ const props = defineProps<{
     margin: 0 auto;
   }
 
-  @media screen and (width < 1280px) {
-    margin: 0 auto;
-  }
-
   background: #f5f5f5;
   border-radius: 20px;
   border: 1px solid $light-grey;

@@ -73,7 +73,7 @@ const isShowRegistrationModal = ref(false);
   justify-content: space-between;
   font-size: 16px;
   width: 100%;
-  max-width: 1280px;
+  max-width: var(--maxContentWidth);
   margin: 0 auto;
 
   .footer__col-1 {
