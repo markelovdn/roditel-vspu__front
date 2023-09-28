@@ -13,7 +13,7 @@ import IconNotificationsBell from "@/components/icons/IconNotificationsBell.vue"
       </div>
 
       <div class="notifications flex items-center justify-center">
-        <IconNotificationsBell :count="15" />
+        <IconNotificationsBell :count="12" />
       </div>
     </div>
     <div class="content flex no-wrap">
