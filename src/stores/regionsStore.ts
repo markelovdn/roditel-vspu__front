@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-import axios from "@/common/axios";
 import {regionsRequest} from "@/api/regionsRequest.ts";
 import { type TRequestItems } from "@/components/modals/RegistrationModal/types";
 
@@ -11,19 +10,8 @@ export const useRegionsStore = defineStore("regionsStore", {
   },
 
   actions: {
-    setRegions() {
-      this.regions = regionsRequest()
-      return this.regions;
+    async setRegions() {
+      this.regions = await regionsRequest()
     }
-  //   async regionsRequest() {
-  //     await axios
-  //       .get("/api/regions")
-  //       .then((response) => {
-  //         this.regions = response.data.data;
-  //       })
-  //       .catch((errors) => {
-  //         console.log(errors);
-  //       });
-  //   },
   },
 })
