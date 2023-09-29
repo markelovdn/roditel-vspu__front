@@ -1,7 +1,56 @@
-import { TRegistrationRole } from '../../components/modals/RegistrationModal/types';
 <script setup lang="ts">
-import TableWrapper from "@/components/table/TableWrapper.vue";
+import TableWrapper from "@/components/TableWrapper/TableWrapper.vue";
 import IconNotificationsBell from "@/components/icons/IconNotificationsBell.vue";
+import { TWebinarCardData } from "./WebinarCard/types";
+import WebinarCard from "./WebinarCard/WebinarCard.vue";
+
+const mocks: TWebinarCardData[] = [
+  {
+    imageUrl: "https://pm1.aminoapps.com/7593/75e7a6f06e1c74177c45394d882a9b6606bf339cr1-600-800v2_hq.jpg",
+    title:
+      "Развитие креативного и критического мышления как показателя функциональной грамотности у обучающихся основной школы",
+    category: "Основная школа",
+    lecturer: "Ястребова Гульнара Ахмедовна",
+    cost: "Бесплатно",
+    date: "19.11.21 c 14:00 до 15:00 (Мск)",
+  },
+  {
+    imageUrl: "https://pm1.aminoapps.com/7593/75e7a6f06e1c74177c45394d882a9b6606bf339cr1-600-800v2_hq.jpg",
+    title:
+      "Развитие креативного и критического мышления как показателя функциональной грамотности у обучающихся основной школы",
+    category: "Основная школа",
+    lecturer: "Ястребова Гульнара Ахмедовна",
+    cost: "Бесплатно",
+    date: "19.11.21 c 14:00 до 15:00 (Мск)",
+  },
+  {
+    imageUrl: "https://pm1.aminoapps.com/7593/75e7a6f06e1c74177c45394d882a9b6606bf339cr1-600-800v2_hq.jpg",
+    title:
+      "Развитие креативного и критического мышления как показателя функциональной грамотности у обучающихся основной школы",
+    category: "Основная школа",
+    lecturer: "Ястребова Гульнара Ахмедовна",
+    cost: "Бесплатно",
+    date: "19.11.21 c 14:00 до 15:00 (Мск)",
+  },
+  {
+    imageUrl: "https://pm1.aminoapps.com/7593/75e7a6f06e1c74177c45394d882a9b6606bf339cr1-600-800v2_hq.jpg",
+    title:
+      "Развитие креативного и критического мышления как показателя функциональной грамотности у обучающихся основной школы",
+    category: "Основная школа",
+    lecturer: "Ястребова Гульнара Ахмедовна",
+    cost: "Бесплатно",
+    date: "19.11.21 c 14:00 до 15:00 (Мск)",
+  },
+  {
+    imageUrl: "https://pm1.aminoapps.com/7593/75e7a6f06e1c74177c45394d882a9b6606bf339cr1-600-800v2_hq.jpg",
+    title:
+      "Развитие креативного и критического мышления как показателя функциональной грамотности у обучающихся основной школы",
+    category: "Основная школа",
+    lecturer: "Ястребова Гульнара Ахмедовна",
+    cost: "Бесплатно",
+    date: "19.11.21 c 14:00 до 15:00 (Мск)",
+  },
+];
 </script>
 
 <template>
@@ -24,7 +73,11 @@ import IconNotificationsBell from "@/components/icons/IconNotificationsBell.vue"
         <div class="menu__point">Персональные данные</div>
       </div>
       <div class="table">
-        <TableWrapper />
+        <TableWrapper :items="mocks">
+          <template #item="item">
+            <WebinarCard :item="item" />
+          </template>
+        </TableWrapper>
       </div>
     </div>
   </div>

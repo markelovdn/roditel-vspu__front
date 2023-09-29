@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { Webinar } from "./types";
+import { TWebinarCardData } from "./types";
 
 defineProps<{
-  item: Webinar;
+  item: TWebinarCardData;
 }>();
 </script>
 
