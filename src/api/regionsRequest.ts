@@ -1,8 +1,8 @@
 import axios from "@/common/axios";
-import type { TRequestItems } from "@/components/modals/RegistrationModal/types";
+import type { TRequestItem } from "@/components/modals/RegistrationModal/types";
 
 export async function regionsRequest() {
-  let data: TRequestItems[] = [] 
+  let data: TRequestItem[] = [] 
   await axios
     .get("/api/regions", {})
     .then((response) => {

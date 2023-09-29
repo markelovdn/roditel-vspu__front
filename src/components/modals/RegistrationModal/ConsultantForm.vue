@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from "vue";
 import axios from "@/common/axios";
-import { type TRequestItems, type TRegistrationPayload } from "./types";
+import { type TRequestItem, type TRegistrationPayload } from "./types";
 import {
   useValidation,
   requiredValidator,
@@ -15,8 +15,8 @@ const emit = defineEmits(["validation-change", "update:model-value"]);
 const props = defineProps<{
   modelValue: TRegistrationPayload;
 }>();
-let optionsSpecializations = ref<TRequestItems[] | undefined>();
-let optionsProfessions = ref<TRequestItems[] | undefined>();
+let optionsSpecializations = ref<TRequestItem[] | undefined>();
+let optionsProfessions = ref<TRequestItem[] | undefined>();
 const data = computed({
   get() {
     return props.modelValue;
@@ -43,7 +43,7 @@ const getSpecializations = async () => {
   await axios
     .get("/api/specializations", {})
     .then((response) => {
-      optionsSpecializations.value = response.data.data.map((item: TRequestItems) => {
+      optionsSpecializations.value = response.data.data.map((item: TRequestItem) => {
         console.log(response)
         return { label: item.title, value: item.id };
       });
@@ -57,7 +57,7 @@ const getProfessions = async () => {
   await axios
     .get("/api/professions", {})
     .then((response) => {
-      optionsProfessions.value = response.data.data.map((item: TRequestItems) => {
+      optionsProfessions.value = response.data.data.map((item: TRequestItem) => {
         return { label: item.title, value: item.id };
       });
     })
