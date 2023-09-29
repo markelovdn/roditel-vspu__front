@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, onMounted } from "vue";
-import { type TSelectItems, type TRequestItems, type TRegistrationPayload } from "./types";
+import { type TSelectItems, type TRequestItem, type TRegistrationPayload } from "./types";
 import { useRegionsStore } from "@/stores/regionsStore";
 import {
   useValidation,
@@ -20,7 +20,7 @@ const props = defineProps<{
 let optionsRegions = ref<TSelectItems[]>();
 
 const getRegions = () => {
-  optionsRegions.value = useRegionsStore().regions.map((item: TRequestItems) => {
+  optionsRegions.value = useRegionsStore().regions.map((item: TRequestItem) => {
     return { label: item.title, value: item.id };
   });
 };

@@ -15,7 +15,7 @@ export type TSelectItems = {
   value: number;
 };
 
-export type TRequestItems = {
+export type TRequestItem = {
   id: number;
   title: string;
 };
