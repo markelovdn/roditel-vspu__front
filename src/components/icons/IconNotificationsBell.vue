@@ -38,7 +38,7 @@ defineProps<{
   height: 10px;
   border-radius: 40% /50%;
   background-color: var(--error);
-  color: var(--white-back);
+  color: var(--q-background-primary);
   position: absolute;
   right: -2px;
   top: 0px;

@@ -9,60 +9,65 @@ const showLoginModal = ref(false);
 </script>
 
 <template>
-  <q-header reveal class="bg-white header">
-    <div class="row-1">
-      <div class="logo">
-        <router-link :to="'/'"><q-img class="logo__img" :src="'./public/img/icons/logo.png'"></q-img></router-link>
-        <span class="logo__text">Социально-психологический центр ВГСПУ</span>
-      </div>
-      <div class="contacts">
-        <a href="tel:+78004442232" class="contacts__phone-number text-primary">
-          8 (800) 444-22-32
-          <span class="contacts__phone-number_optional">(доб. 711)</span>
-        </a>
-        <a href="tel:+78004442232" class="phone-wrapper">
-          <IconPhone />
-        </a>
+  <q-header reveal class="header">
+    <div class="contentWrapper">
+      <div class="row-1">
+        <div class="logo">
+          <router-link :to="'/'"><q-img class="logo__img" :src="'./public/img/icons/logo.png'"></q-img></router-link>
+          <span class="logo__text">Социально-психологический центр ВГСПУ</span>
+        </div>
+        <div class="contacts">
+          <a href="tel:+78004442232" class="contacts__phone-number text-primary">
+            8 (800) 444-22-32
+            <span class="contacts__phone-number_optional">(доб. 711)</span>
+          </a>
+          <a href="tel:+78004442232" class="phone-wrapper">
+            <IconPhone />
+          </a>
 
-        <q-btn @click="showLoginModal = true" outline style="color: #f7b70b" class="personal-cabinet">
-          <IconPersonal />
-          <span class="personal-cabinet__label text-primary">Личный кабинет</span>
-        </q-btn>
-      </div>
-    </div>
-    <div class="row-2">
-      <div class="links">
-        <router-link class="links__link" v-for="(item, index) in headerMenuItems" :to="item.to" :key="index">
-          {{ item.name }}
-        </router-link>
-      </div>
-      <div class="flex no-wrap">
-        <span class="cursor-pointer materials">Методические материалы</span>
-        <div class="link-ask-expert">
-          <div>Задать вопрос консультанту</div>
-          <svg
-            style="position: relative; top: -10px"
-            xmlns="http://www.w3.org/2000/svg"
-            width="100%"
-            height="3"
-            viewBox="0 0 218 3"
-            preserveAspectRatio="none"
-            fill="none">
-            <path d="M0.0830078 1.8418H218.894" stroke="#F7B70B" stroke-width="2" stroke-dasharray="5 5" />
-          </svg>
+          <q-btn @click="showLoginModal = true" outline style="color: #f7b70b" class="personal-cabinet">
+            <IconPersonal />
+            <span class="personal-cabinet__label text-primary">Личный кабинет</span>
+          </q-btn>
         </div>
       </div>
+      <div class="row-2">
+        <div class="links">
+          <router-link class="links__link" v-for="(item, index) in headerMenuItems" :to="item.to" :key="index">
+            {{ item.name }}
+          </router-link>
+        </div>
+        <div class="flex no-wrap">
+          <span class="cursor-pointer materials">Методические материалы</span>
+          <div class="link-ask-expert">
+            <div>Задать вопрос консультанту</div>
+            <svg
+              style="position: relative; top: -10px"
+              xmlns="http://www.w3.org/2000/svg"
+              width="100%"
+              height="3"
+              viewBox="0 0 218 3"
+              preserveAspectRatio="none"
+              fill="none">
+              <path d="M0.0830078 1.8418H218.894" stroke="#F7B70B" stroke-width="2" stroke-dasharray="5 5" />
+            </svg>
+          </div>
+        </div>
+      </div>
+      <LoginModal v-if="showLoginModal" @close="showLoginModal = false"></LoginModal>
     </div>
-    <LoginModal v-if="showLoginModal" @close="showLoginModal = false"></LoginModal>
   </q-header>
 </template>
 
 <style lang="scss" scoped>
 .header {
-  padding: 12px 0 0 0;
-  white-space: nowrap;
-  max-width: var(--maxContentWidth);
-  margin: 0 auto;
+  background-color: var(--q-background-primary);
+  .contentWrapper {
+    padding: 12px 0 0 0;
+    white-space: nowrap;
+    margin: 0 auto;
+    max-width: var(--maxContentWidth);
+  }
   .row-1 {
     display: flex;
     justify-content: space-between;

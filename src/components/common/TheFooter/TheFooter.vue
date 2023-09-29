@@ -14,30 +14,33 @@ const isShowRegistrationModal = ref(false);
 
 <template>
   <q-footer class="footer">
-    <div class="footer__col-1">
-      <div class="col-1__vgspu">
-        <q-img :src="'./public/img/icons/VGSPU.png'" class="col-1__vgspu_img" />
-        <div class="col-1__vgspu_title">
-          <span>Социально-психологический центр ВГСПУ</span>
+    <div class="contentWrapper">
+      <div class="footer__col-1">
+        <div class="col-1__vgspu">
+          <q-img :src="'./public/img/icons/VGSPU.png'" class="col-1__vgspu_img" />
+          <div class="col-1__vgspu_title">
+            <span>Социально-психологический центр ВГСПУ</span>
+          </div>
         </div>
+        <q-btn outline class="col-1__btn_border">
+          <div class="col-1__btn_label">Задать вопрос специалисту</div>
+        </q-btn>
+        <CommonLink :to="'https://ya.ru/'">Политика конфиденциальности</CommonLink>
       </div>
-      <q-btn outline class="col-1__btn_border">
-        <div class="col-1__btn_label">Задать вопрос специалисту</div>
-      </q-btn>
-      <CommonLink :to="'https://ya.ru/'">Политика конфиденциальности</CommonLink>
-    </div>
-    <div class="footer__col-2">
-      <div class="col-2_links">
-        <router-link class="col-2_link btn-link" v-for="item in headerMenuItems" :to="item.to" :key="item.name">
-          {{ item.name }}
-        </router-link>
+      <div class="footer__col-2">
+        <div class="col-2_links">
+          <router-link class="col-2_link btn-link" v-for="item in headerMenuItems" :to="item.to" :key="item.name">
+            {{ item.name }}
+          </router-link>
 
-        <LoginModal v-if="isShowLoginModal" @close="isShowLoginModal = !isShowLoginModal"></LoginModal>
-        <RegistrationModal v-if="isShowRegistrationModal" @close="isShowRegistrationModal = false"></RegistrationModal>
-        <span class="col-2_link btn-link" @click="isShowLoginModal = true">Login</span>
-        <span class="col-2_link btn-link" @click="isShowRegistrationModal = true">Registration</span>
-      </div>
-      <!-- <div class="col-2_icons">
+          <LoginModal v-if="isShowLoginModal" @close="isShowLoginModal = !isShowLoginModal"></LoginModal>
+          <RegistrationModal
+            v-if="isShowRegistrationModal"
+            @close="isShowRegistrationModal = false"></RegistrationModal>
+          <span class="col-2_link btn-link" @click="isShowLoginModal = true">Login</span>
+          <span class="col-2_link btn-link" @click="isShowRegistrationModal = true">Registration</span>
+        </div>
+        <!-- <div class="col-2_icons">
         <router-link to="">
           <IconTelegram />
         </router-link>
@@ -48,34 +51,37 @@ const isShowRegistrationModal = ref(false);
           <IconSkype />
         </router-link>
       </div> -->
-    </div>
-    <div class="footer__col-3">
-      <span class="text-primary col-3__link" :to="'https://ya.ru/'">
-        Для жителей Волгограда и Волгоградской области возможны очные консультации по адресу г.Волгоград, проспект
-        Ленина, 27
-      </span>
-      <CommonLink :to="'https://ya.ru/'">
-        Приказ Об утверждении Положения о Межрегиональной службе консультирования родителей социально - психологическим
-        центром "ВГСПУ"
-      </CommonLink>
-      <CommonLink :to="'https://ya.ru/'">
-        Положение о межрегиональной службе консультирования родителей социально-психологического центра ФГБОУ ВО ВГСПУ
-      </CommonLink>
+      </div>
+      <div class="footer__col-3">
+        <span class="text-primary col-3__link" :to="'https://ya.ru/'">
+          Для жителей Волгограда и Волгоградской области возможны очные консультации по адресу г.Волгоград, проспект
+          Ленина, 27
+        </span>
+        <CommonLink :to="'https://ya.ru/'">
+          Приказ Об утверждении Положения о Межрегиональной службе консультирования родителей социально -
+          психологическим центром "ВГСПУ"
+        </CommonLink>
+        <CommonLink :to="'https://ya.ru/'">
+          Положение о межрегиональной службе консультирования родителей социально-психологического центра ФГБОУ ВО ВГСПУ
+        </CommonLink>
+      </div>
     </div>
   </q-footer>
 </template>
 
 <style lang="scss" scoped>
 .footer {
-  background-color: $white;
-  padding: 48px 80px;
-  display: flex;
-  justify-content: space-between;
-  font-size: 16px;
-  width: 100%;
-  max-width: var(--maxContentWidth);
-  margin: 0 auto;
+  background-color: var(--q-background-primary);
 
+  .contentWrapper {
+    padding: 48px 0px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    width: 100%;
+    max-width: var(--maxContentWidth);
+    margin: 0 auto;
+  }
   .footer__col-1 {
     width: 290px;
     display: flex;
