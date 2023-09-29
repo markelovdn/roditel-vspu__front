@@ -66,7 +66,7 @@ import IconNotificationsBell from "@/components/icons/IconNotificationsBell.vue"
     line-height: 120%;
 
     &_active {
-      background: var(--white-back, #fff);
+      background: var(--q-background-primary, #fff);
       color: var(--black, #313131);
       font-weight: 700;
     }
@@ -77,7 +77,7 @@ import IconNotificationsBell from "@/components/icons/IconNotificationsBell.vue"
   width: 48px;
   height: 48px;
   border-radius: 10px;
-  background: var(--white-back);
+  background: var(--q-background-primary);
   box-shadow: 0px 4px 35px 0px rgba(46, 56, 144, 0.08);
   cursor: pointer;
 }
