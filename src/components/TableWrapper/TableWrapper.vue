@@ -53,6 +53,7 @@ defineProps<{ items: T[] }>();
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.03));
   }
 }
+
 .content {
   padding: 20px 34px;
 }

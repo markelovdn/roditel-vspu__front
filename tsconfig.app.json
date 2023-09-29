@@ -20,7 +20,6 @@
       "@img/*": [
         "./public/img/*"
       ]
-    },
-    "verbatimModuleSyntax": false
+    }
   }
 }
