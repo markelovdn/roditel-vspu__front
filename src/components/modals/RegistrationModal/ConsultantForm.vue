@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from "vue";
-import axios from "@/common/axios";
-import { type TRequestItem, type TRegistrationPayload } from "./types";
+import { type TSelectItems, type TRegistrationPayload } from "./types";
+import { useCommonStore } from "@/stores/commonStore";
+import { type TCommonRequestItem } from "@/api/types";
 import {
   useValidation,
   requiredValidator,
@@ -15,8 +16,8 @@ const emit = defineEmits(["validation-change", "update:model-value"]);
 const props = defineProps<{
   modelValue: TRegistrationPayload;
 }>();
-let optionsSpecializations = ref<TRequestItem[] | undefined>();
-let optionsProfessions = ref<TRequestItem[] | undefined>();
+let optionsSpecializations = ref<TSelectItems[]>();
+let optionsProfessions = ref<TSelectItems[]>();
 const data = computed({
   get() {
     return props.modelValue;
@@ -38,37 +39,21 @@ const { handleBlur, $v, getErrorAttrs } = useValidation<TRegistrationPayload>(da
   role_code: { requiredValidator },
 });
 
-//TODO: вынести в store и в api сервисы
-const getSpecializations = async () => {
-  await axios
-    .get("/api/specializations", {})
-    .then((response) => {
-      optionsSpecializations.value = response.data.data.map((item: TRequestItem) => {
-        console.log(response)
+const getSpecializations = (specializations: TCommonRequestItem[]) => {
+      optionsSpecializations.value = specializations.map((item) => {
         return { label: item.title, value: item.id };
       });
-    })
-    .catch((errors) => {
-      console.log(errors);
-    });
 };
 
-const getProfessions = async () => {
-  await axios
-    .get("/api/professions", {})
-    .then((response) => {
-      optionsProfessions.value = response.data.data.map((item: TRequestItem) => {
+const getProfessions = (professions: TCommonRequestItem[]) => {
+      optionsProfessions.value = professions.map((item) => {
         return { label: item.title, value: item.id };
       });
-    })
-    .catch((errors) => {
-      console.log(errors);
-    });
 };
 
 onMounted(async () => {
-  getSpecializations();
-  getProfessions();
+  getSpecializations(await useCommonStore().specializations);
+  getProfessions(await useCommonStore().professions);
 });
 </script>
 

@@ -15,11 +15,6 @@ export type TSelectItems = {
   value: number;
 };
 
-export type TRequestItem = {
-  id: number;
-  title: string;
-};
-
 export type TRegistrationRole = "consultant" | "parented";
 export const RegistrationRoleMap: Record<"CONSULTANT" | "PARENTED", TRegistrationRole> = {
   CONSULTANT: "consultant",

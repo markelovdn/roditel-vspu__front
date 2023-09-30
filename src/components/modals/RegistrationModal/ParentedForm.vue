@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed, ref, onMounted } from "vue";
-import { type TSelectItems, type TRequestItem, type TRegistrationPayload } from "./types";
-import { useRegionsStore } from "@/stores/regionsStore";
+import { type TSelectItems, type TRegistrationPayload } from "./types";
+import { type TCommonRequestItem } from "@/api/types";
+import { useCommonStore } from "@/stores/commonStore";
 import {
   useValidation,
   requiredValidator,
@@ -19,11 +20,12 @@ const props = defineProps<{
 
 let optionsRegions = ref<TSelectItems[]>();
 
-const getRegions = () => {
-  optionsRegions.value = useRegionsStore().regions.map((item: TRequestItem) => {
+const getRegions = (regions: TCommonRequestItem[]) => {
+  optionsRegions.value = regions.map((item) => {
     return { label: item.title, value: item.id };
   });
 };
+
 const isPwd = ref(true);
 
 const data = computed({
@@ -45,8 +47,7 @@ const { handleBlur, getErrorAttrs } = useValidation<TRegistrationPayload>(data, 
 });
 
 onMounted(async () => {
-  await useRegionsStore().setRegions();
-  getRegions();
+  getRegions(await useCommonStore().regions);
 });
 </script>
 
@@ -126,3 +127,4 @@ onMounted(async () => {
     </q-input>
   </q-form>
 </template>
+@/stores/commonStore
