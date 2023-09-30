@@ -1,7 +1,11 @@
-<script setup lang="ts">
-const props = defineProps<{
-  items: Record<string, unknown>[];
-}>();
+<script setup lang="ts" generic="T extends TWebinarCardData">
+import { TWebinarCardData } from "@/pages/UserCabinet/WebinarCard/types";
+
+// const props = defineProps<{
+//   items: Record<string, unknown>[];
+// }>();
+
+defineProps<{ items: T[] }>();
 </script>
 
 <template>

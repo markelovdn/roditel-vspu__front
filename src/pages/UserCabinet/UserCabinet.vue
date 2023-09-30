@@ -51,6 +51,18 @@ const mocks: TWebinarCardData[] = [
     date: "19.11.21 c 14:00 до 15:00 (Мск)",
   },
 ];
+const testMocks = [
+  {
+    imageUrl: "https://pm1.aminoapps.com/7593/75e7a6f06e1c74177c45394d882a9b6606bf339cr1-600-800v2_hq.jpg",
+    title:
+      "Развитие креативного и критического мышления как показателя функциональной грамотности у обучающихся основной школы",
+    category: "Основная школа",
+    lecturer: "Ястребова Гульнара Ахмедовна",
+    cost: "Бесплатно",
+    date: "19.11.21 c 14:00 до 15:00 (Мск)",
+    anyThing: "123",
+  },
+];
 </script>
 
 <template>
@@ -73,7 +85,7 @@ const mocks: TWebinarCardData[] = [
         <div class="menu__point">Персональные данные</div>
       </div>
       <div class="table">
-        <TableWrapper :items="mocks">
+        <TableWrapper :items="testMocks">
           <template #item="item">
             <WebinarCard :item="item" />
           </template>
