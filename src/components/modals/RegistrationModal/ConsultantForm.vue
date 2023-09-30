@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from "vue";
-import { type TSelectItems, type TRegistrationPayload } from "./types";
+import { type TCommonRequestItem, type TRegistrationPayload } from "@/api/types";
+import { type TSelectItems } from "./types";
 import { useCommonStore } from "@/stores/commonStore";
-import { type TCommonRequestItem } from "@/api/types";
 import {
   useValidation,
   requiredValidator,

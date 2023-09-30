@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
 import ConsultantForm from "./ConsultantForm.vue";
 import ParentedForm from "./ParentedForm.vue";
-import { type TRegistrationPayload, RegistrationRoleMap } from "./types";
-import axios from "@/common/axios";
+import { RegistrationRoleMap } from "./types";
+import { type TRegistrationPayload } from "@/api/types";
+import { registrationRequest } from "@/api/authRequest";
 import { useModal } from "@/hooks/useModal";
 import { computedEager } from "@vueuse/core";
 
@@ -31,32 +32,7 @@ const setRole = (role_code: string) => {
 };
 const isConsultant = computedEager(() => data.value.role_code === RegistrationRoleMap.CONSULTANT);
 const isValid = ref(false);
-const sendData = async (data: TRegistrationPayload) => {
-  const splitName: Array<any> = data.name.split(" ");
 
-  await axios
-    .post("/api/register", {
-      first_name: splitName[0],
-      second_name: splitName[1],
-      patronymic: splitName[2],
-      phone: data.phone,
-      email: data.email,
-      specialization_id: data.specializationId,
-      profession_id: data.professionId,
-      password: data.password,
-      role_code: data.role_code,
-      region_id: data.region_id
-    })
-    .then((response) => {
-      localStorage.setItem("token", response.data.token);
-      console.log(response.data);
-      console.log(data.role_code);
-      //TODO: Добавить перенаправление после успешной регистрации
-    })
-    .catch((errors) => {
-      console.log(errors);
-    });
-};
 //TODO: добавить тип нормальный вместо any
 const handleValidChange = (eventPayload: any) => {
   isValid.value = eventPayload.isValid;
@@ -85,7 +61,7 @@ const handleValidChange = (eventPayload: any) => {
     <ParentedForm v-if="isRoleSelected && !isConsultant" v-model="data" @validation-change="handleValidChange" />
 
     <div v-if="isRoleSelected" class="fit q-mb-sm footer">
-      <q-btn label="Регистрация" :disable="!isValid" class="q-btn--form" color="primary" @click="sendData(data)" />
+      <q-btn label="Регистрация" :disable="!isValid" class="q-btn--form" color="primary" @click="registrationRequest(data)" />
 
       <q-btn label="Закрыть" class="q-ml-sm q-btn--form" flat :ripple="false" color="grey-1" @click="closeModal" />
     </div>
