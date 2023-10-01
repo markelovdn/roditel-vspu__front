@@ -1,27 +1,38 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import WebinarsTab from "./ParentTabs/WebinarsTab.vue";
+import { defineAsyncComponent } from "vue";
+import AccountWrapper from "@/components/AccountWrapper/AccountWrapper.vue";
 
-const tab = ref("webinars");
-const splitterModel = ref(20);
-const tabs = [{ name: "webinars", label: "Вебинары", panelComponent: WebinarsTab }];
+const tabs = [
+  {
+    name: "webinars",
+    label: "Вебинары",
+    panelComponent: defineAsyncComponent(() => import("./ParentTabs/WebinarsTab.vue")),
+  },
+  {
+    name: "questions",
+    label: "Вопросы",
+    panelComponent: defineAsyncComponent(() => import("./ParentTabs/QuestionsTab.vue")),
+  },
+  {
+    name: "questionaries",
+    label: "Анкеты",
+    panelComponent: defineAsyncComponent(() => import("./ParentTabs/QuestionariesTab.vue")),
+  },
+  {
+    name: "personalData",
+    label: "Персональные данные",
+    panelComponent: defineAsyncComponent(() => import("./ParentTabs/PersonalDataTab.vue")),
+  },
+];
+
+const getUserData = () => {
+  //TODO: через стор получить и тп
+  return { role: "parent", fullName: "Иванова Валентина Сергеевна" };
+};
 </script>
 
 <template>
-  <q-splitter v-model="splitterModel" style="height: 250px">
-    <template v-slot:before>
-      <q-tabs v-model="tab" vertical class="text-teal">
-        <q-tab v-for="(tab, index) in tabs" :key="index" :name="tab.name" :label="tab.label" />
-      </q-tabs>
-    </template>
-
-    <template v-slot:after>
-      <q-tab-panels v-model="tab" animated swipeable vertical transition-prev="jump-up" transition-next="jump-up">
-        <q-tab-panel v-for="(tab, index) in tabs" :key="index" :name="tab.name">
-          <component :is="tab.panelComponent"></component> </q-tab-panel
-      ></q-tab-panels>
-    </template>
-  </q-splitter>
+  <AccountWrapper :tabs="tabs" :title="getUserData().fullName" :account-role="getUserData().role"></AccountWrapper>
 </template>
 
 <style lang="scss" scoped></style>

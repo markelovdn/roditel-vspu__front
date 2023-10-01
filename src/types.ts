@@ -1,5 +1,5 @@
 import type { QBtnProps } from "quasar";
-
+import { defineComponent } from "vue";
 export type GenericEmit = (event: any, ...args: any[]) => void;
 
 export interface AlertDialogOptions {
@@ -16,3 +16,5 @@ export interface AlertDialog<T> {
   cancel: () => void;
   actions?: T[];
 }
+
+export type ComponentDefinition = ReturnType<typeof defineComponent>;
