@@ -18,11 +18,14 @@ axios.interceptors.request.use(
       ...config,
       baseURL: apiUrl,
       headers: {
-        'Authorization': `${checkToken(localStorage.token)}`
-    },
+        Authorization: `${checkToken(localStorage.token)}`,
+      },
     };
   },
-  async (err) => Promise.reject(err),
+  async (err) => {
+    console.log(err);
+    return Promise.reject(err);
+  },
 );
 
 export default axios;

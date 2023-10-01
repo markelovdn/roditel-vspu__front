@@ -2,10 +2,10 @@
 import { ref } from "vue";
 import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
 import RegistrationModal from "@/components/modals/RegistrationModal/RegistrationModal.vue";
-import { type TLoginPayload } from "./types";
-import axios from "@/common/axios";
+import { TLoginPayload } from "./types";
 import { useModal } from "@/hooks/useModal";
 import { useValidation, requiredValidator, emailValidator } from "@/hooks/useValidation";
+import { useAuthStore } from "@/stores/authStore";
 
 const emit = defineEmits(["close"]);
 
@@ -15,7 +15,7 @@ const data = ref<TLoginPayload>({
 });
 
 const { closeModal } = useModal(emit, data);
-
+const authStore = useAuthStore();
 const isPwd = ref(true);
 const showRegistrationModal = ref(false);
 
@@ -25,19 +25,10 @@ const { handleBlur, $v, getErrorAttrs, isValid } = useValidation<TLoginPayload>(
 });
 
 const sendData = async (data: TLoginPayload) => {
-  await axios
-    .post("/api/login", {
-      email: data.email,
-      password: data.password,
-    })
-    .then((response) => {
-      //TODO: Доделать перенаправление после успешного входа
-      localStorage.setItem("token", response.data.token);
-      console.log(response.data);
-    })
-    .catch((errors) => {
-      console.log(errors);
-    });
+  authStore.login({
+    email: data.email,
+    password: data.password,
+  });
 };
 </script>
 
