@@ -4,8 +4,8 @@ import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
 import ConsultantForm from "./ConsultantForm.vue";
 import ParentedForm from "./ParentedForm.vue";
 import { RegistrationRoleMap } from "./types";
-import { type TRegistrationPayload } from "@/api/types";
-import { registrationRequest } from "@/api/authRequest";
+import { type TRegistrationPayload } from "@/api/Auth/types";
+import { registration } from "@/api/Auth/AuthApiService";
 import { useModal } from "@/hooks/useModal";
 import { computedEager } from "@vueuse/core";
 
@@ -61,7 +61,7 @@ const handleValidChange = (eventPayload: any) => {
     <ParentedForm v-if="isRoleSelected && !isConsultant" v-model="data" @validation-change="handleValidChange" />
 
     <div v-if="isRoleSelected" class="fit q-mb-sm footer">
-      <q-btn label="Регистрация" :disable="!isValid" class="q-btn--form" color="primary" @click="registrationRequest(data)" />
+      <q-btn label="Регистрация" :disable="!isValid" class="q-btn--form" color="primary" @click="registration(data)" />
 
       <q-btn label="Закрыть" class="q-ml-sm q-btn--form" flat :ripple="false" color="grey-1" @click="closeModal" />
     </div>
@@ -72,4 +72,4 @@ const handleValidChange = (eventPayload: any) => {
 .footer {
   margin-top: 32px;
 }
-</style>
+</style>@/api/AuthService/authRequest

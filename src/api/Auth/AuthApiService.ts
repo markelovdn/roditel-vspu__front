@@ -1,7 +1,7 @@
 import axios from "@/common/axios";
-import type { TRegistrationPayload } from "@/api/types";
+import type { TRegistrationPayload } from "@/api/Auth/types";
 
-export async function registrationRequest(data:  TRegistrationPayload) {
+export async function registration (data:  TRegistrationPayload) {
   const splitName: Array<string> = data.name.split(" ");
 
   await axios
