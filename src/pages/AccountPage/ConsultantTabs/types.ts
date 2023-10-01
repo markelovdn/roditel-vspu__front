@@ -13,9 +13,9 @@ export const consultantTabs = [
     panelComponent: defineAsyncComponent(() => import("./ApplicationsTab.vue")),
   },
   {
-    name: "questionaries",
+    name: "questionnaires",
     label: "Анкеты",
-    panelComponent: defineAsyncComponent(() => import("./QuestionariesTab.vue")),
+    panelComponent: defineAsyncComponent(() => import("./QuestionnairesTab.vue")),
   },
   {
     name: "personalData",
