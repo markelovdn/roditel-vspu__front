@@ -1,16 +1,15 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { ComponentDefinition } from "@/types";
+import { accountRoleMap } from "@/pages/AccountPage/types";
+
 interface IAccountWrapperProps {
   tabs: Array<{ name: string; label: string; panelComponent: ComponentDefinition }>;
   title: string;
   //TODO: разобраться с типом и названием параметра
   accountRole: "parent" | "consultant" | string;
 }
-const accountRoleMap = {
-  PARENT: "Родитель",
-  CONSULTANT: "Консультант",
-};
+
 const props = defineProps<IAccountWrapperProps>();
 
 const splitterModel = ref(20);
@@ -38,6 +37,7 @@ onMounted(() => openFirstTab());
     <q-splitter class="tabsPanel" v-model="splitterModel" style="height: 250px">
       <template v-slot:before>
         <q-tabs v-model="tab" vertical class="text-teal">
+          <!-- TODO: Сделать сохранение выбранной вкладки в route страницы, через q-route-tab или отдельный метод изменения route -->
           <q-tab v-for="(tab, index) in tabs" :key="index" :name="tab.name" :label="tab.label" />
         </q-tabs>
       </template>
