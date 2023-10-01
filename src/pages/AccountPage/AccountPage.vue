@@ -1,38 +1,19 @@
 <script setup lang="ts">
-import { defineAsyncComponent } from "vue";
 import AccountWrapper from "@/components/AccountWrapper/AccountWrapper.vue";
-
-const tabs = [
-  {
-    name: "webinars",
-    label: "Вебинары",
-    panelComponent: defineAsyncComponent(() => import("./ParentTabs/WebinarsTab.vue")),
-  },
-  {
-    name: "questions",
-    label: "Вопросы",
-    panelComponent: defineAsyncComponent(() => import("./ParentTabs/QuestionsTab.vue")),
-  },
-  {
-    name: "questionaries",
-    label: "Анкеты",
-    panelComponent: defineAsyncComponent(() => import("./ParentTabs/QuestionariesTab.vue")),
-  },
-  {
-    name: "personalData",
-    label: "Персональные данные",
-    panelComponent: defineAsyncComponent(() => import("./ParentTabs/PersonalDataTab.vue")),
-  },
-];
+import { computedEager } from "@vueuse/core";
+import { consultantTabs } from "./ConsultantTabs/types";
+import { parentTabs } from "./ParentTabs/types";
 
 const getUserData = () => {
   //TODO: через стор получить и тп
-  return { role: "parent", fullName: "Иванова Валентина Сергеевна" };
+  return { role: "consultant", fullName: "Иванова Валентина Сергеевна" };
 };
+//TODO: "CONSULTANT" получать по ключу из константы или типа
+const userTabs = computedEager(() => (getUserData().role.toUpperCase() === "CONSULTANT" ? consultantTabs : parentTabs));
 </script>
 
 <template>
-  <AccountWrapper :tabs="tabs" :title="getUserData().fullName" :account-role="getUserData().role"></AccountWrapper>
+  <AccountWrapper :tabs="userTabs" :title="getUserData().fullName" :account-role="getUserData().role"></AccountWrapper>
 </template>
 
 <style lang="scss" scoped></style>
