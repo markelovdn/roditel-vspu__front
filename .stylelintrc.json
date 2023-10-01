@@ -1,0 +1,6 @@
+{
+  "root": true,
+  "extends": ["stylelint-config-standard", "stylelint-config-html"],
+  "defaultSeverity": "warning",
+  "plugins": ["stylelint-scss", "stylelint-order"]
+}
