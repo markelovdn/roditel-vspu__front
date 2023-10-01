@@ -34,7 +34,7 @@ onMounted(() => openFirstTab());
       <q-space />
       <div class="header__notifications">TODO</div>
     </div>
-    <q-splitter class="tabsPanel" v-model="splitterModel" style="height: 250px">
+    <q-splitter class="tabsPanel" v-model="splitterModel">
       <template v-slot:before>
         <q-tabs v-model="tab" vertical class="text-teal">
           <!-- TODO: Сделать сохранение выбранной вкладки в route страницы, через q-route-tab или отдельный метод изменения route -->
@@ -65,5 +65,9 @@ onMounted(() => openFirstTab());
     letter-spacing: 0em;
     color: #a3a3a3;
   }
+}
+
+.tabsPanel {
+  height: 410px
 }
 </style>
