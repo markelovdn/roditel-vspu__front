@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, onMounted } from "vue";
-import { type TSelectItems } from "./types";
-import { type TRegistrationPayload } from "@/api/Auth/types";
-import { type TCollectionsItem } from "@/api/Collections/types";
+import { TRegistrationPayload } from "@/api/Auth/types";
 import { useCollectionsStore } from "@/stores/collectionsStore";
 import {
   useValidation,
@@ -12,20 +10,16 @@ import {
   minLengthValidator,
   repeatPasswordValidator,
 } from "@/hooks/useValidation";
-import { watchDebounced } from "@vueuse/core";
+
+import { storeToRefs } from "pinia";
 
 const emit = defineEmits(["validation-change", "update:model-value"]);
 const props = defineProps<{
   modelValue: TRegistrationPayload;
 }>();
 
-let optionsRegions = ref<TSelectItems[]>();
-
-const getRegions = (regions: TCollectionsItem[]) => {
-  optionsRegions.value = regions.map((item) => {
-    return { label: item.title, value: item.id };
-  });
-};
+const collectionsStore = useCollectionsStore();
+const { getRegions: optionsRegions } = storeToRefs(collectionsStore);
 
 const isPwd = ref(true);
 
@@ -48,7 +42,7 @@ const { handleBlur, getErrorAttrs } = useValidation<TRegistrationPayload>(data, 
 });
 
 onMounted(async () => {
-  getRegions(await useCollectionsStore().regions);
+  collectionsStore.requestRegions();
 });
 </script>
 
