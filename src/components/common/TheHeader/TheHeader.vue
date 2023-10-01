@@ -110,26 +110,24 @@ const showLoginModal = ref(false);
 
       .phone-wrapper {
         display: flex;
-        align-items: center;
         justify-content: center;
-
+        align-items: center;
         width: 48px;
         height: 48px;
-        border-radius: 10px;
-        border: 1px solid #f3f3f3;
-        background: $background;
         margin: 0 19px 0 0;
+        background: $background;
+        border: 1px solid #f3f3f3;
+        border-radius: 10px;
       }
 
       .personal-cabinet {
         display: flex;
         justify-content: space-between;
-        cursor: pointer;
-
         width: 200px;
-        border-radius: 10px;
-        border: solid 1px #f7b70b;
         padding: 12px 16px;
+        border: solid 1px #f7b70b;
+        border-radius: 10px;
+        cursor: pointer;
 
         .personal-cabinet__label {
           font-size: 16px;
@@ -170,8 +168,8 @@ const showLoginModal = ref(false);
     }
 
     .link-ask-expert {
-      color: $Text-color;
       margin: 0 0 0 32px;
+      color: $Text-color;
       cursor: pointer;
 
       &:hover {

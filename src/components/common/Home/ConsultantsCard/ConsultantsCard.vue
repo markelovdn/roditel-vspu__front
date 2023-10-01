@@ -38,11 +38,11 @@ onMounted(() => {
 <style lang="scss" scoped>
 .card {
   position: relative;
-  padding: 25px;
-  border-radius: 20px;
-  background: $background-secondary;
   width: 360px;
   height: 515px;
+  padding: 25px;
+  background: $background-secondary;
+  border-radius: 20px;
   font-size: 16px;
   user-select: none; //Для нормального скролла мышкой
 
@@ -61,10 +61,10 @@ onMounted(() => {
     line-height: 132%;
 
     &_hide {
+      display: -webkit-box;
       height: 65px;
       overflow-y: hidden;
       text-overflow: ellipsis;
-      display: -webkit-box;
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
     }
@@ -79,9 +79,9 @@ onMounted(() => {
   }
 
   &__button {
-    width: calc(100% - 25px * 2);
     position: absolute;
     bottom: 20px;
+    width: calc(100% - 25px * 2);
   }
 }
 </style>

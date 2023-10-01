@@ -36,6 +36,7 @@ const pageBackground = computed(() => {
     @media screen and (width < 1280px) {
       width: 100%;
     }
+
     @media screen and (width < 721px) {
       width: 730px;
       overflow-x: auto;

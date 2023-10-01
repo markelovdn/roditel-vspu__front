@@ -35,7 +35,6 @@ const props = defineProps<{
     &_sub-title {
       width: 541px;
       color: #678570;
-
       font-size: 16px;
       font-weight: 500;
       line-height: 120%;
@@ -43,11 +42,11 @@ const props = defineProps<{
   }
 
   &__content {
-    margin: 52px 0 0 0;
-    margin-top: 75px;
     display: flex;
-    gap: 32px;
     justify-content: space-between;
+    margin: 52px 0 0;
+    margin-top: 75px;
+    gap: 32px;
 
     &_format {
       @media screen and (width < 1280px) {
@@ -56,6 +55,7 @@ const props = defineProps<{
         justify-content: space-around;
       }
     }
+
     &_form {
     }
   }

@@ -79,26 +79,29 @@ onMounted(async () => {
 font-size: 20px;
 font-weight: 500;
 line-height: 30px;
-letter-spacing: 0em;
+letter-spacing: 0;
 text-align: left;
 
 }
+
 .question-title {
+  color: $Text-color;
+  line-height: 19px;
+  text-align: left;
   font-size: 16px;
   font-weight: 500;
-  line-height: 19px;
-  letter-spacing: 0em;
-  text-align: left;
-  color: $Text-color
+  letter-spacing: 0
 }
+
 .text-question {
+  color: $Text-color;
+  line-height: 18px;
+  text-align: left;
   font-size: 14px;
   font-weight: 400;
-  line-height: 18px;
-  letter-spacing: 0em;
-  text-align: left;
-  color: $Text-color
+  letter-spacing: 0
 }
+
 .line {
   border-bottom: .5px solid $grey-1;
 }
