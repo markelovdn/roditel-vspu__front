@@ -5,9 +5,9 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 
 export const useCollectionsStore = defineStore("CollectionsStore", () => {
-  const regions = ref();
-  const specializations = ref();
-  const professions = ref();
+  const regions = ref<TCollectionItem[]>();
+  const specializations = ref<TCollectionItem[]>();
+  const professions = ref<TCollectionItem[]>();
 
   function requestRegions() {
     return collectionsApi.getRegions();
@@ -18,20 +18,23 @@ export const useCollectionsStore = defineStore("CollectionsStore", () => {
   function requestProfessions() {
     return collectionsApi.getProfessions();
   }
-  const getRegions = computed(() =>
-    regions.value.map((item: TCollectionItem) => {
-      return { label: item.title, value: item.id };
-    }),
+  const getRegions = computed(
+    () =>
+      regions.value?.map((item: TCollectionItem) => {
+        return { label: item.title, value: item.id };
+      }),
   );
-  const getSpecializations = computed(() =>
-    specializations.value.map((item: TCollectionItem) => {
-      return { label: item.title, value: item.id };
-    }),
+  const getSpecializations = computed(
+    () =>
+      specializations.value?.map((item: TCollectionItem) => {
+        return { label: item.title, value: item.id };
+      }),
   );
-  const getProfessions = computed(() =>
-    professions.value.map((item: TCollectionItem) => {
-      return { label: item.title, value: item.id };
-    }),
+  const getProfessions = computed(
+    () =>
+      professions.value?.map((item: TCollectionItem) => {
+        return { label: item.title, value: item.id };
+      }),
   );
   return {
     regions,
