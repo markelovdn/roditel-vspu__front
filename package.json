@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
+    "typecheck": "vue-tsc --noEmit",
     "build": "run-p type-check build-only",
     "preview": "vite preview",
     "test:unit": "vitest",
@@ -53,7 +54,7 @@
     "typescript": "~5.1.6",
     "vite": "^4.4.9",
     "vitest": "^0.34.2",
-    "vue-tsc": "^1.8.8"
+    "vue-tsc": "^1.8.15"
   },
   "gitHooks": {
     "pre-commit": "npx lint-staged && npm run typecheck"
