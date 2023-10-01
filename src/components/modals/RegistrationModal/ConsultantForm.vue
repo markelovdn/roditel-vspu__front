@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from "vue";
-import { type TRegistrationPayload } from "@/api/Auth/types";
-import { type TCollectionsItem } from "@/api/Collections/types";
-import { type TSelectItems } from "./types";
+import { TRegistrationPayload } from "@/api/Auth/types";
 import { useCollectionsStore } from "@/stores/collectionsStore";
+
 import {
   useValidation,
   requiredValidator,
@@ -12,13 +11,16 @@ import {
   minLengthValidator,
   repeatPasswordValidator,
 } from "@/hooks/useValidation";
+import { storeToRefs } from "pinia";
 
 const emit = defineEmits(["validation-change", "update:model-value"]);
 const props = defineProps<{
   modelValue: TRegistrationPayload;
 }>();
-let optionsSpecializations = ref<TSelectItems[]>();
-let optionsProfessions = ref<TSelectItems[]>();
+
+const collectionsStore = useCollectionsStore();
+const { getSpecializations: optionsSpecializations, getProfessions: optionsProfessions } =
+  storeToRefs(collectionsStore);
 const data = computed({
   get() {
     return props.modelValue;
@@ -40,21 +42,9 @@ const { handleBlur, $v, getErrorAttrs } = useValidation<TRegistrationPayload>(da
   role_code: { requiredValidator },
 });
 
-const getSpecializations = (specializations: TCollectionsItem[]) => {
-      optionsSpecializations.value = specializations.map((item) => {
-        return { label: item.title, value: item.id };
-      });
-};
-
-const getProfessions = (professions: TCollectionsItem[]) => {
-      optionsProfessions.value = professions.map((item) => {
-        return { label: item.title, value: item.id };
-      });
-};
-
-onMounted(async () => {
-  getSpecializations(await useCollectionsStore().specializations);
-  getProfessions(await useCollectionsStore().professions);
+onMounted(() => {
+  collectionsStore.requestSpecializations();
+  collectionsStore.requestProfessions();
 });
 </script>
 

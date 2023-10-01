@@ -9,6 +9,7 @@ export type TRegistrationPayload = {
   role_code: string;
   region_id?: number | null;
 };
+
 export type TLoginArgs = {
   email: string;
   password: string;
