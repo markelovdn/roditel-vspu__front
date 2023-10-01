@@ -2,5 +2,45 @@
   "root": true,
   "extends": ["stylelint-config-standard", "stylelint-config-html"],
   "defaultSeverity": "warning",
-  "plugins": ["stylelint-scss", "stylelint-order"]
+  "plugins": ["stylelint-scss", "stylelint-order"],
+  "processors": [
+    [
+      "@mapbox/stylelint-processor-arbitrary-tags",
+      {
+        "fileFilterRegex": "/.vue$/"
+      }
+    ]
+  ],
+  "rules": {
+    "no-duplicate-selectors": true,
+    "declaration-block-no-duplicate-properties": true,
+    "rule-empty-line-before": ["always", { "ignore": ["after-comment", "first-nested"] }],
+    "color-hex-case": "lower",
+    "order/properties-order": [
+      "content",
+      "position",
+      "top",
+      "right",
+      "bottom",
+      "left",
+      "z-index",
+      "display",
+      "justify-content",
+      "align-items",
+      "float",
+      "width",
+      "height",
+      "margin",
+      "padding",
+      "color",
+      "font",
+      "line-height",
+      "text-align",
+      "background",
+      "background-color",
+      "border",
+      "border-radius",
+      "opacity"
+    ]
+  }
 }
