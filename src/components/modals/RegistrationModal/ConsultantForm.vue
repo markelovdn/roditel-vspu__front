@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from "vue";
-import { type TCommonRequestItem, type TRegistrationPayload } from "@/api/types";
+import { type TRegistrationPayload } from "@/api/Auth/types";
+import { type TCollectionsItem } from "@/api/Collections/types";
 import { type TSelectItems } from "./types";
-import { useCommonStore } from "@/stores/commonStore";
+import { useCollectionsStore } from "@/stores/collectionsStore";
 import {
   useValidation,
   requiredValidator,
@@ -39,21 +40,21 @@ const { handleBlur, $v, getErrorAttrs } = useValidation<TRegistrationPayload>(da
   role_code: { requiredValidator },
 });
 
-const getSpecializations = (specializations: TCommonRequestItem[]) => {
+const getSpecializations = (specializations: TCollectionsItem[]) => {
       optionsSpecializations.value = specializations.map((item) => {
         return { label: item.title, value: item.id };
       });
 };
 
-const getProfessions = (professions: TCommonRequestItem[]) => {
+const getProfessions = (professions: TCollectionsItem[]) => {
       optionsProfessions.value = professions.map((item) => {
         return { label: item.title, value: item.id };
       });
 };
 
 onMounted(async () => {
-  getSpecializations(await useCommonStore().specializations);
-  getProfessions(await useCommonStore().professions);
+  getSpecializations(await useCollectionsStore().specializations);
+  getProfessions(await useCollectionsStore().professions);
 });
 </script>
 

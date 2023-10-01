@@ -1,12 +1,12 @@
 import axios from "@/common/axios";
-import type { TCommonRequestItem } from "@/api/types";
+import type { TCollectionsItem } from "@/api/Collections/types";
 
 export const regionsURL = "/api/regions";
 export const specializationsURL = "/api/specializations";
 export const professionsURL = "/api/professions";
 
-export async function commonRequest(url: string) {
-  let data: TCommonRequestItem[] = [];
+export async function getRequest(url: string) {
+  let data: TCollectionsItem[] = [];
   await axios
     .get(url, {})
     .then((response) => {

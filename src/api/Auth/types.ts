@@ -1,8 +1,3 @@
-export type TCommonRequestItem = {
-  id: number;
-  title: string;
-};
-
 export type TRegistrationPayload = {
   name: string;
   phone: string;
