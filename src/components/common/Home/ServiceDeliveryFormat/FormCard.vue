@@ -24,11 +24,11 @@ const props = defineProps<{
 <style lang="scss" scoped>
 .card-2 {
     display: flex;
-    flex-direction: column;
     width: 100%;
-    border-radius: 20px;
-    background: #F5F5F5;
     padding: 28px 62px 28px 75px;
+    background: #f5f5f5;
+    border-radius: 20px;
+    flex-direction: column;
 
     &__title {
         position: relative;

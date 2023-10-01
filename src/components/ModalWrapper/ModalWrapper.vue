@@ -70,11 +70,12 @@ const position: ComputedRef<"left" | "right" | "bottom" | "top" | "standard"> = 
     margin-bottom: 24px !important;
     display: flex;
     justify-content: center;
+
     &__text {
+      color: $Text-color;
+      line-height: 18px;
       font-weight: 500;
       font-size: 14px;
-      line-height: 18px;
-      color: $Text-color;
     }
   }
 }

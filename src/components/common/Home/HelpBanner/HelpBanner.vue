@@ -45,16 +45,15 @@ const content = [
 <style lang="scss" scoped>
 .banner-container {
   position: relative;
-  margin-top: 98px;
-  width: 100%;
-  border-radius: 30px;
-  min-height: 768px;
-  background: #f5f5f5;
-  padding: 78px 56px 78px 78px;
-  overflow: hidden;
-
   display: flex;
   justify-content: space-around;
+  width: 100%;
+  padding: 78px 56px 78px 78px;
+  background: #f5f5f5;
+  border-radius: 30px;
+  margin-top: 98px;
+  min-height: 768px;
+  overflow: hidden;
 }
 
 .title {
@@ -66,8 +65,8 @@ const content = [
 }
 
 .content {
-  width: 50%;
   display: grid;
+  width: 50%;
   row-gap: 44px;
 
   &__item {
@@ -79,15 +78,16 @@ const content = [
       color: $Text-color;
       font-size: 20px;
       line-height: 120%;
+
       /* 24px */
     }
 
     &_point {
-      margin-top: 8px;
       width: 8px;
       height: 8px;
-      border-radius: 50%;
       background-color: $yellow;
+      border-radius: 50%;
+      margin-top: 8px;
     }
   }
 }
@@ -101,8 +101,8 @@ const content = [
 
 .image {
   position: absolute;
-  left: 0px;
   bottom: -5px;
+  left: 0;
 }
 
 .btn {

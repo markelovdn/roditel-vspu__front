@@ -83,15 +83,15 @@ const isShowRegistrationModal = ref(false);
     margin: 0 auto;
   }
   .footer__col-1 {
-    width: 290px;
     display: flex;
+    width: 290px;
     flex-direction: column;
     gap: 20px;
 
     .col-1__vgspu {
-      width: 100%;
       display: flex;
       justify-content: space-between;
+      width: 100%;
     }
 
     .col-1__vgspu_img {
@@ -143,10 +143,10 @@ const isShowRegistrationModal = ref(false);
 }
 
 .footer__col-3 {
-  width: 540px;
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
+  width: 540px;
+  flex-direction: column;
 
   .col-3__link {
     cursor: default;

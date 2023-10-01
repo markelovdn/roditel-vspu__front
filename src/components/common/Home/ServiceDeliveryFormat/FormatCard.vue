@@ -23,11 +23,15 @@ const props = defineProps<{
 
 <style lang="scss" scoped>
 .card-1 {
-  overflow: hidden;
+  position: relative;
   width: 100%;
+  height: 362px;
+  background: #f5f5f5;
+  border: 1px solid $light-grey;
+  border-radius: 20px;
+  overflow: hidden;
   max-width: 300px;
   min-width: 300px;
-  height: 362px;
 
   @media screen and (width < 1280px) {
     max-width: 430px;
@@ -43,7 +47,6 @@ const props = defineProps<{
     position: absolute;
     top: 33px;
     left: 33px;
-
     color: $yellow;
     font-size: 24px;
     font-weight: 700;
@@ -51,19 +54,19 @@ const props = defineProps<{
 
   &__image-background {
     position: absolute;
-    right: 0px;
+    right: 0;
   }
 
   &__image {
     position: absolute;
-    top: 0px;
-    right: 0px;
+    top: 0;
+    right: 0;
   }
 
   &__text {
     position: absolute;
-    left: 34px;
     bottom: 36px;
+    left: 34px;
     text-align: bottom;
     margin-right: 34px;
 

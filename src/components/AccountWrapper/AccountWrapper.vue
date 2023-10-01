@@ -66,6 +66,8 @@ onMounted(() => openFirstTab());
   margin: 70px 0 52px;
 
   &__role {
+    color: #a3a3a3;
+    line-height: 34px;
     font-size: 28px;
     font-weight: 700;
     line-height: 34px;

@@ -27,12 +27,12 @@
 
 <style lang="scss" scoped>
 .container {
-  width: 100%;
-  height: 694px;
-  border-radius: 30px;
-  background: #F5F5F5;
   display: flex;
   justify-content: space-between;
+  width: 100%;
+  height: 694px;
+  background: #f5f5f5;
+  border-radius: 30px;
 
   &__content {
     position: absolute;
@@ -56,15 +56,15 @@
   }
 
   &__sub-head {
-    padding: 42px 0 0 0;
+    padding: 42px 0 0;
     color: $Text-color;
     font-size: 20px;
     opacity: 0.7;
   }
 
   &__buttons {
-    padding: 60px 0 0 0;
     display: grid;
+    padding: 60px 0 0;
     grid-template-columns: auto auto;
     gap: 16px;
   }

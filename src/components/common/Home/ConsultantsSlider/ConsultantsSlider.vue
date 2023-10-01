@@ -65,17 +65,17 @@ onMounted(() => {
     align-items: center;
 
     &_subtitle {
-      cursor: pointer;
-      color: $Text-color;
-      font-size: 20px;
-      line-height: 120%;
       position: relative;
+      color: $Text-color;
+      line-height: 120%;
+      cursor: pointer;
+      font-size: 20px;
     }
 
     &_underline {
       position: absolute;
-      left: 0px;
       bottom: -6px;
+      left: 0;
     }
   }
 
