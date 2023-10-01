@@ -1,10 +1,21 @@
+import { collectionsApi } from "@/api";
 import { defineStore } from "pinia";
-import { getRequest, regionsURL, specializationsURL, professionsURL } from "@/api/Collections/CollectionsApiService";
+import { ref } from "vue";
 
 export const useCollectionsStore = defineStore("CollectionsStore", () => {
-  const regions = getRequest(regionsURL)
-  const specializations = getRequest(specializationsURL)
-  const professions = getRequest(professionsURL)
+  const regions = ref();
+  const specializations = ref();
+  const professions = ref();
 
-  return { regions, specializations, professions }
-})
+  function getRegions() {
+    return collectionsApi.getRegions();
+  }
+  function getSpecializations() {
+    return collectionsApi.getSpecializations();
+  }
+  function getProfessions() {
+    return collectionsApi.getProfessions();
+  }
+
+  return { regions, specializations, professions, getRegions, getSpecializations, getProfessions };
+});

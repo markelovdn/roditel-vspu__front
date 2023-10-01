@@ -1,11 +1,19 @@
 import axios from "@/common/axios";
-import type { TRegistrationPayload } from "@/api/Auth/types";
+import type { TLoginArgs, TRegistrationPayload } from "@/api/Auth/types";
 
-export async function registration (data:  TRegistrationPayload) {
-  const splitName: Array<string> = data.name.split(" ");
+export class AuthApiService {
+  login({ email, password }: TLoginArgs) {
+    //TODO: указать тип response
+    return axios.post("/login", {
+      email,
+      password,
+    });
+  }
 
-  await axios
-    .post("/api/register", {
+  registration(data: TRegistrationPayload) {
+    const splitName: Array<string> = data.name.split(" ");
+
+    return axios.post("/register", {
       first_name: splitName[0],
       second_name: splitName[1],
       patronymic: splitName[2],
@@ -15,14 +23,7 @@ export async function registration (data:  TRegistrationPayload) {
       profession_id: data.professionId,
       password: data.password,
       role_code: data.role_code,
-      region_id: data.region_id
-    })
-    .then((response) => {
-      localStorage.setItem("token", response.data.token);
-
-      //TODO: Добавить перенаправление после успешной регистрации
-    })
-    .catch((errors) => {
-      console.log(errors);
+      region_id: data.region_id,
     });
-};
+  }
+}
