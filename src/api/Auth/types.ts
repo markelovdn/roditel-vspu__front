@@ -14,3 +14,27 @@ export type TLoginArgs = {
   email: string;
   password: string;
 };
+export type TUser = {
+  email: string;
+  first_name: string;
+  second_name: string;
+  patronymic: string;
+  phone: string;
+  role_id: number;
+  updated_at: string;
+  created_at: string;
+};
+
+export type TUserRole = {
+  id: number;
+  code: string;
+  title: string;
+};
+
+export type TLoginResponse = {
+  role: TUserRole;
+  token: string;
+  user: TUser;
+};
+
+export interface TRegistrationResponse extends TLoginResponse {}

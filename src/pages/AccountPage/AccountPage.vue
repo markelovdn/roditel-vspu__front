@@ -3,9 +3,13 @@ import AccountWrapper from "@/components/AccountWrapper/AccountWrapper.vue";
 import { computedEager } from "@vueuse/core";
 import { consultantTabs } from "./ConsultantTabs/types";
 import { parentTabs } from "./ParentTabs/types";
+import { useUserStore } from '../../stores/userStore';
+
+const user = useUserStore()
 
 const getUserData = () => {
   //TODO: через стор получить и тп
+  return { role: user.userRole?.code || '', fullName: user.user?.fullName || '' };
   return { role: "consultant", fullName: "Иванова Валентина Сергеевна" };
 };
 //TODO: "CONSULTANT" получать по ключу из константы или типа
