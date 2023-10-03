@@ -19,6 +19,14 @@ const routes: Array<RouteRecordRaw> = [
     name: "Ui",
     component: () => import("@/pages/UiPage/UiPage.vue"),
   },
+  {
+    path: "/cabinet",
+    name: "UserCabinet",
+    meta: {
+      background: "secondary",
+    },
+    component: () => import("@/pages/UserCabinet/UserCabinet.vue"),
+  },
 ];
 
 export default routes;

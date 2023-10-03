@@ -3,13 +3,13 @@ import TheHeader from "@/components/common/TheHeader/TheHeader.vue";
 import TheFooter from "@/components/common/TheFooter/TheFooter.vue";
 import { computed } from "vue";
 import { useRoute } from "vue-router";
+import { getCssVar } from "quasar";
 
 const route = useRoute();
-
 const pageBackground = computed(() => {
   const backgroundName = (route?.meta?.background ?? "secondary") as string;
 
-  return `background: $background-${backgroundName})`;
+  return { background: getCssVar(`background-${backgroundName}`) };
 });
 </script>
 
@@ -30,7 +30,7 @@ const pageBackground = computed(() => {
   overflow-x: hidden;
 
   &__content {
-    width: 1280px;
+    width: var(--maxContentWidth);
     margin: 0 auto;
 
     @media screen and (width < 1280px) {

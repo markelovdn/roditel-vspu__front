@@ -2,15 +2,14 @@
 import { ref, onMounted } from "vue";
 import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
 import { useModal } from "@/hooks/useModal";
+import type { Consultant } from "@/components/common/Home/ConsultantsCard/types";
 
 const props = defineProps<{
-  consultant: Consultant
-}>()
+  consultant: Consultant;
+}>();
 const emit = defineEmits(["close"]);
 
 const { closeModal } = useModal(emit);
-
-
 </script>
 
 <template>
