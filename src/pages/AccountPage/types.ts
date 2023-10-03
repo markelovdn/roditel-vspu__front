@@ -1,4 +1,5 @@
 export const accountRoleMap = {
-  PARENT: "Родитель",
+  PARENTED: "Родитель",
   CONSULTANT: "Консультант",
 };
+export const CONSULTANT_CODE = "CONSULTANT";

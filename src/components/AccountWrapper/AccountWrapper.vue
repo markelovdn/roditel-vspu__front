@@ -8,8 +8,7 @@ import IconNotificationsBell from "@/components/icons/IconNotificationsBell.vue"
 interface IAccountWrapperProps {
   tabs: Array<{ name: string; label: string; panelComponent: ComponentDefinition }>;
   title: string;
-  //TODO: разобраться с типом и названием параметра
-  accountRole: "parent" | "consultant" | string;
+  accountRole: "parented" | "consultant" | string;
 }
 
 const props = defineProps<IAccountWrapperProps>();
@@ -38,22 +37,14 @@ onMounted(() => openFirstTab());
         <IconNotificationsBell :count="12" />
       </div>
     </div>
-    <!-- TODO Разобраться с стилизацией  separator/ after-->
-    <q-splitter class="tabsPanel " v-model="splitterModel" disable>
+    <q-splitter class="tabsPanel " v-model="splitterModel" disable :separator-class="'separator'">
       <template v-slot:before>
-        <!-- TODO Разобраться со стилями активной вкладки -->
         <q-tabs v-model="tab" vertical class="text-teal" :active-bg-color="'white'" :no-caps="true"
           :indicator-color="'white'" :content-class="'menu__point'" :active-class="'menu__point_active'">
           <!-- TODO: Сделать сохранение выбранной вкладки в route страницы, через q-route-tab или отдельный метод изменения route -->
           <q-tab :content-class="'menu__point'" class="menu__point" v-for="(tab, index) in tabs" :key="index"
             :name="tab.name" :label="tab.label" />
         </q-tabs>
-      </template>
-
-      <template v-slot:separator>
-        <div style="width: 50px;">
-          fdgd
-        </div>
       </template>
 
       <template v-slot:after>
@@ -93,7 +84,9 @@ onMounted(() => openFirstTab());
 }
 
 .tabsPanel {
-  height: 410px;
+
+  height: 100%;
+  min-height: 600px;
 
   &:deep(.q-tab__label) {
     color: var(--q-blue-lighter, #315194);
@@ -123,5 +116,13 @@ onMounted(() => openFirstTab());
       ;
     }
   }
+}
+</style>
+
+<style>
+.separator {
+  /* display: none; */
+  width: 110px !important;
+  background-color: var(--gray);
 }
 </style>

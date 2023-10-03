@@ -1,7 +1,7 @@
 import { authApi } from "@/api";
 import { TLoginArgs, TRegistrationPayload } from "@/api/Auth/types";
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useUserStore } from "./userStore";
 
 export const useAuthStore = defineStore("authStore", () => {
@@ -13,23 +13,26 @@ export const useAuthStore = defineStore("authStore", () => {
     authApi.login(payload).then((resp) => {
       //TODO: Доделать перенаправление после успешного входа (делается в route guards)
       //TODO: манипуляции с токеном в отдельный composable
-      console.log(resp.data);
-
       localStorage.setItem("token", resp.data.token);
+      localStorage.setItem("user", JSON.stringify(resp.data.userData));
       token.value = resp.data.token;
-      user.setUser(resp.data.user);
-      user.setUserRole(resp.data.role);
+      user.setUser(resp.data.userData);
+
+      console.log(resp.data);
     });
   }
   function registration(payload: TRegistrationPayload) {
     authApi.registration(payload).then((resp) => {
-      //! Временно, пока эти данные приходят только из регистрации
+      localStorage.setItem("token", resp.data.token);
+      localStorage.setItem("user", JSON.stringify(resp.data.userData));
       token.value = resp.data.token;
-      user.setUser(resp.data.user);
-      user.setUserRole(resp.data.role);
-
+      user.setUser(resp.data.userData);
       console.log(resp);
     });
   }
+
+  onMounted(() => {
+    token.value = localStorage.token || null;
+  });
   return { token, login, registration };
 });

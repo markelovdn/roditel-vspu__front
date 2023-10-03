@@ -15,26 +15,24 @@ export type TLoginArgs = {
   password: string;
 };
 export type TUser = {
+  id: number;
   email: string;
+  fullName: string;
   first_name: string;
   second_name: string;
-  patronymic: string;
-  phone: string;
-  role_id: number;
-  updated_at: string;
-  created_at: string;
+  surName: string;
+  role: TUserRole;
 };
 
 export type TUserRole = {
   id: number;
-  code: string;
+  code: "parented" | "consultant" | string;
   title: string;
 };
 
 export type TLoginResponse = {
-  role: TUserRole;
   token: string;
-  user: TUser;
+  userData: TUser;
 };
 
 export interface TRegistrationResponse extends TLoginResponse {}

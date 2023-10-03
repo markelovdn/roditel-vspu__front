@@ -4,14 +4,14 @@ import CardTableWrapper from "./CardTableWrapper.vue";
 // import ListTableWrapper from "./ListTableWrapper.vue";
 
 // defineProps<{ items: Record<string, unknown>[] }>();
-defineProps<{ items: T[] }>();
+defineProps<{ items: T[], title: string }>();
 </script>
 
 <template>
   <div class="table-wrapper">
     <slot name="header">
       <div class="table-wrapper__header">
-        <h5>{title}</h5>
+        <h5>{{ title }}</h5>
         <slot name="header_right"></slot>
       </div>
     </slot>
@@ -38,7 +38,7 @@ defineProps<{ items: T[] }>();
 <style lang="scss" scoped>
 .table-wrapper {
   background-color: var(--background-table);
-  margin-left: 110px;
+
   border-radius: 10px;
   box-shadow: 0px 4px 35px 0px rgba(46, 56, 144, 0.08);
   overflow: hidden;
@@ -58,3 +58,4 @@ defineProps<{ items: T[] }>();
   padding: 20px 34px;
 }
 </style>
+@/pages/WebinarsPage/WebinarCard/types
