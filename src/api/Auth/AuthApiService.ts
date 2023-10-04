@@ -1,5 +1,5 @@
 import axios from "@/common/axios";
-import type { TLoginArgs, TLoginResponse, TRegistrationPayload, TRegistrationResponse } from "@/api/Auth/types";
+import type { TLoginArgs, TLoginResponse, TRegistrationPayload, TRegistrationResponse, TUser } from "@/api/Auth/types";
 
 export class AuthApiService {
   login({ email, password }: TLoginArgs) {
@@ -23,6 +23,14 @@ export class AuthApiService {
       password: data.password,
       role_code: data.role_code,
       region_id: data.region_id,
+    });
+  }
+
+  getUserByToken(token: string) {
+    return axios({
+      method: "post",
+      url: "/getUserByToken",
+      headers: { "Access-Control-Allow-Origin": "*", Authorization: "Bearer " + token },
     });
   }
 }
