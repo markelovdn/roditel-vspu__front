@@ -9,6 +9,9 @@ import "./assets/style/main.css";
 
 import App from "./App.vue";
 import router from "./router";
+import { routerGuard } from "./router/routerGuard";
+
+router.beforeEach(routerGuard);
 
 const app = createApp(App);
 

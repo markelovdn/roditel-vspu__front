@@ -12,20 +12,15 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/my",
     name: "My",
+    meta: {
+      isAuthPage: true,
+    },
     component: () => import("@/pages/AccountPage/AccountPage.vue"),
   },
   {
     path: "/ui",
     name: "Ui",
     component: () => import("@/pages/UiPage/UiPage.vue"),
-  },
-  {
-    path: "/cabinet",
-    name: "UserCabinet",
-    meta: {
-      background: "secondary",
-    },
-    component: () => import("@/pages/UserCabinet/UserCabinet.vue"),
   },
 ];
 
