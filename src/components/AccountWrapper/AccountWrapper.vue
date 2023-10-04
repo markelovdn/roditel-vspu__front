@@ -66,27 +66,24 @@ onMounted(() => openFirstTab());
   margin: 70px 0 52px;
 
   &__role {
-    color: #a3a3a3;
+    color: $grey-1;
     line-height: 34px;
     font-size: 28px;
     font-weight: 700;
-    line-height: 34px;
-    letter-spacing: 0em;
-    color: $grey-1;
+    letter-spacing: 0;
   }
 
   &__notifications {
     width: 48px;
     height: 48px;
-    border-radius: 10px;
     background: var(--q-background-primary);
-    box-shadow: 0px 4px 35px 0px rgba(46, 56, 144, 0.08);
+    border-radius: 10px;
+    box-shadow: 0 4px 35px 0 rgb(46 56 144 / 8%);
     cursor: pointer;
   }
 }
 
 .tabsPanel {
-
   height: 100%;
   min-height: 600px;
 
@@ -103,17 +100,17 @@ onMounted(() => openFirstTab());
   width: 300px;
 
   &__point {
+    // cursor: pointer;
+    color: var(--q-blue-lighter, #315194);
+    line-height: 120% !important;
     // margin-bottom: 8px;
     // padding: 12px 18px;
     border-radius: 7px;
-    // cursor: pointer;
-    color: var(--q-blue-lighter, #315194);
     font-size: 18px !important;
-    line-height: 120% !important;
 
     &_active {
-      background: var(--q-background-primary, #fff);
       color: var(--black, #313131);
+      background: var(--q-background-primary, #fff);
       font-weight: 700 !important;
       ;
     }

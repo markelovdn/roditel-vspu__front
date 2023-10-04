@@ -38,11 +38,6 @@ const props = defineProps<{
     margin: 0 auto;
   }
 
-  background: #f5f5f5;
-  border-radius: 20px;
-  border: 1px solid $light-grey;
-  position: relative;
-
   &__number {
     position: absolute;
     top: 33px;

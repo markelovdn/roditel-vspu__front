@@ -38,19 +38,18 @@ defineProps<{ items: T[], title: string }>();
 <style lang="scss" scoped>
 .table-wrapper {
   background-color: var(--background-table);
-
   border-radius: 10px;
-  box-shadow: 0px 4px 35px 0px rgba(46, 56, 144, 0.08);
+  box-shadow: 0 4px 35px 0 rgb(46 56 144 / 8%);
   overflow: hidden;
 
   &__header {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    padding: 15px 35px;
+    align-items: center;
     height: 80px;
+    padding: 15px 35px;
     background-color: $white;
-    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.03));
+    filter: drop-shadow(0 4px 4px rgb(0 0 0 / 3%));
   }
 }
 
