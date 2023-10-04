@@ -4,8 +4,20 @@ import { headerMenuItems } from "./types";
 import IconPhone from "@/components/icons/IconPhone.vue";
 import IconPersonal from "@/components/icons/IconPersonal.vue";
 import LoginModal from "@/components/modals/LoginModal/LoginModal.vue";
+import router from "@/router";
+import { useAuthStore } from '../../../stores/authStore';
+
+const authStore = useAuthStore()
 
 const showLoginModal = ref(false);
+
+const auth = () => {
+  if (authStore.token) {
+    router.push({ name: "My" })
+  } else {
+    showLoginModal.value = true
+  }
+}
 </script>
 
 <template>
@@ -25,10 +37,11 @@ const showLoginModal = ref(false);
             <IconPhone />
           </a>
 
-          <q-btn @click="showLoginModal = true" outline style="color: #f7b70b" class="personal-cabinet">
+          <q-btn @click="auth()" outline style="color: #f7b70b" class="personal-cabinet">
             <IconPersonal />
             <span class="personal-cabinet__label text-primary">Личный кабинет</span>
           </q-btn>
+
         </div>
       </div>
       <div class="row-2">
@@ -41,14 +54,8 @@ const showLoginModal = ref(false);
           <span class="cursor-pointer materials">Методические материалы</span>
           <div class="link-ask-expert">
             <div>Задать вопрос консультанту</div>
-            <svg
-              style="position: relative; top: -10px"
-              xmlns="http://www.w3.org/2000/svg"
-              width="100%"
-              height="3"
-              viewBox="0 0 218 3"
-              preserveAspectRatio="none"
-              fill="none">
+            <svg style="position: relative; top: -10px" xmlns="http://www.w3.org/2000/svg" width="100%" height="3"
+              viewBox="0 0 218 3" preserveAspectRatio="none" fill="none">
               <path d="M0.0830078 1.8418H218.894" stroke="#F7B70B" stroke-width="2" stroke-dasharray="5 5" />
             </svg>
           </div>
