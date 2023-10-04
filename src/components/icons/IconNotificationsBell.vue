@@ -30,18 +30,17 @@ defineProps<{
 }
 
 .count {
-  width: 16px;
-  height: 10px;
-  border-radius: 40% /50%;
-  background-color: var(--error);
-  color: var(--q-background-primary);
   position: absolute;
+  top: 0;
   right: -2px;
-  top: 0px;
   display: flex;
   justify-content: center;
   align-items: center;
-
+  width: 16px;
+  height: 10px;
+  color: var(--q-background-primary);
+  background-color: var(--error);
+  border-radius: 40% /50%;
   font-size: 8px;
   font-weight: 700;
 }

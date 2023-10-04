@@ -74,14 +74,15 @@ const isShowRegistrationModal = ref(false);
   background-color: var(--q-background-primary);
 
   .contentWrapper {
-    padding: 48px 0px;
     display: flex;
     justify-content: space-between;
-    font-size: 16px;
     width: 100%;
-    max-width: var(--maxContentWidth);
     margin: 0 auto;
+    padding: 48px 0;
+    font-size: 16px;
+    max-width: var(--maxContentWidth);
   }
+
   .footer__col-1 {
     display: flex;
     width: 290px;

@@ -57,17 +57,17 @@ defineProps<{
 
 <style scoped lang="scss">
 .webinar-card {
-  padding: 20px;
-  border-radius: 10px;
-  border: 1px solid var(--light-grey, #f1f1f1);
-  background: #fff;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.03);
   width: 100%;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid var(--light-grey, #f1f1f1);
+  border-radius: 10px;
+  box-shadow: 0 4px 4px 0 rgb(0 0 0 / 3%);
 
   &__image {
-    border-radius: 10px;
     width: 90px;
     height: 90px;
+    border-radius: 10px;
   }
 
   &__description {

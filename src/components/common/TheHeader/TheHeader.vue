@@ -62,12 +62,14 @@ const showLoginModal = ref(false);
 <style lang="scss" scoped>
 .header {
   background-color: var(--q-background-primary);
+
   .contentWrapper {
-    padding: 12px 0 0 0;
-    white-space: nowrap;
     margin: 0 auto;
+    padding: 12px 0 0;
+    white-space: nowrap;
     max-width: var(--maxContentWidth);
   }
+
   .row-1 {
     display: flex;
     justify-content: space-between;
