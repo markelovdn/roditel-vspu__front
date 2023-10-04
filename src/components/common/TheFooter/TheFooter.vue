@@ -5,11 +5,9 @@ import IconWhatsapp from "@/components/icons/IconWhatsapp.vue";
 import IconSkype from "@/components/icons/IconSkype.vue";
 import CommonLink from "@/components/common/CommonLink/CommonLink.vue";
 import { headerMenuItems } from "@/components/common/TheHeader/types";
-import RegistrationModal from "@/components/modals/RegistrationModal/RegistrationModal.vue";
-import LoginModal from "@/components/modals/LoginModal/LoginModal.vue";
 
-const isShowLoginModal = ref(false);
-const isShowRegistrationModal = ref(false);
+
+
 </script>
 
 <template>
@@ -32,13 +30,6 @@ const isShowRegistrationModal = ref(false);
           <router-link class="col-2_link btn-link" v-for="item in headerMenuItems" :to="item.to" :key="item.name">
             {{ item.name }}
           </router-link>
-
-          <LoginModal v-if="isShowLoginModal" @close="isShowLoginModal = !isShowLoginModal"></LoginModal>
-          <RegistrationModal
-            v-if="isShowRegistrationModal"
-            @close="isShowRegistrationModal = false"></RegistrationModal>
-          <span class="col-2_link btn-link" @click="isShowLoginModal = true">Login</span>
-          <span class="col-2_link btn-link" @click="isShowRegistrationModal = true">Registration</span>
         </div>
         <!-- <div class="col-2_icons">
         <router-link to="">
