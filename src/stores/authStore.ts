@@ -11,22 +11,29 @@ export const useAuthStore = defineStore("authStore", () => {
   const token = ref<null | string>(null);
 
   async function login(payload: TLoginArgs) {
-    const resp = await authApi.login(payload);
-    //TODO: Доделать перенаправление после успешного входа (делается в route guards)
-    //TODO: манипуляции с токеном в отдельный composable
-    localStorage.setItem("token", resp.data.token);
-    token.value = resp.data.token;
-    user.setUser(resp.data.userData);
-    router.push({ name: "My" });
-    return resp.statusText;
+    try {
+      const resp = await authApi.login(payload);
+      //TODO: манипуляции с токеном в отдельный composable
+      localStorage.setItem("token", resp.data.token);
+      token.value = resp.data.token;
+      user.setUser(resp.data.userData);
+      router.push({ name: "My" });
+      return resp.statusText;
+    } catch (error) {
+      console.log(error);
+    }
   }
   async function registration(payload: TRegistrationPayload) {
-    const resp = await authApi.registration(payload);
-    localStorage.setItem("token", resp.data.token);
-    token.value = resp.data.token;
-    user.setUser(resp.data.userData);
-    router.push({ name: "My" });
-    return resp.statusText;
+    try {
+      const resp = await authApi.registration(payload);
+      localStorage.setItem("token", resp.data.token);
+      token.value = resp.data.token;
+      user.setUser(resp.data.userData);
+      router.push({ name: "My" });
+      return resp.statusText;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   onMounted(() => {
