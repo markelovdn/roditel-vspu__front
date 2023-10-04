@@ -40,7 +40,7 @@ const handleValidChange = (eventPayload: any) => {
 };
 const handleRegistration = async () => {
   const resp = await authStore.registration(omit(data.value, "passwordConfirm") as TRegistrationPayload);
-  if (resp === "OK") emit('close')
+  if (resp === "OK") closeModal({ force: true })
 };
 
 
@@ -66,7 +66,7 @@ const handleRegistration = async () => {
     <div v-if="isRoleSelected" class="fit q-mb-sm footer">
       <q-btn label="Регистрация" :disable="!isValid" class="q-btn--form" color="primary"
         @click="handleRegistration"></q-btn>
-      <q-btn label="Закрыть" class="q-ml-sm q-btn--form" flat :ripple="false" color="grey-1" @click="closeModal" />
+      <q-btn label="Закрыть" class="q-ml-sm q-btn--form" flat :ripple="false" color="grey-1" @click="closeModal()" />
     </div>
   </ModalWrapper>
 </template>

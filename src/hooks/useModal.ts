@@ -16,8 +16,8 @@ export function useModal(emit: GenericEmit, data: Ref<unknown> = ref({})) {
   );
 
   const alert = useAlert();
-  const closeModal = () => {
-    if (hasChanges.value && !forceClose.value) {
+  const closeModal = (options = { force: false }) => {
+    if (hasChanges.value && !forceClose.value && !options.force) {
       alert({
         confirm: () => {
           forceClose.value = true;

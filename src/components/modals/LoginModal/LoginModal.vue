@@ -30,7 +30,7 @@ const sendData = async (data: TLoginPayload) => {
     email: data.email,
     password: data.password,
   })
-  if (resp === "OK") emit('close')
+  if (resp === "OK") closeModal({ force: true })
 };
 </script>
 
@@ -52,7 +52,7 @@ const sendData = async (data: TLoginPayload) => {
       </q-form>
       <div class="fit q-mb-sm footer">
         <q-btn label="Войти" :disable="!isValid" class="q-btn--form" color="primary" @click="sendData(data)" />
-        <q-btn label="Закрыть" class="q-ml-sm q-btn--form" flat :ripple="false" color="grey-1" @click="closeModal" />
+        <q-btn label="Закрыть" class="q-ml-sm q-btn--form" flat :ripple="false" color="grey-1" @click="closeModal()" />
       </div>
       <div class="q-pt-md">
         <q-btn label="Зарегистрироваться" class="q-ml-sm q-btn--form full-width" flat :ripple="false" color="primary"
