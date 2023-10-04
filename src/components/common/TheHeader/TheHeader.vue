@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { headerMenuItems } from "./types";
 import IconPhone from "@/components/icons/IconPhone.vue";
 import IconPersonal from "@/components/icons/IconPersonal.vue";
@@ -11,6 +11,9 @@ const authStore = useAuthStore()
 
 const showLoginModal = ref(false);
 
+const userCabinetButtontext = computed(() => {
+  return authStore.token ? "Личный кабинет" : "Войти"
+})
 const auth = () => {
   if (authStore.token) {
     router.push({ name: "My" })
@@ -39,7 +42,7 @@ const auth = () => {
 
           <q-btn @click="auth()" outline style="color: #f7b70b" class="personal-cabinet">
             <IconPersonal />
-            <span class="personal-cabinet__label text-primary">Личный кабинет</span>
+            <span class="personal-cabinet__label text-primary">{{ userCabinetButtontext }}</span>
           </q-btn>
 
         </div>
