@@ -1,8 +1,9 @@
 import { fileURLToPath, URL } from "node:url";
 
-import { defineConfig, loadEnv } from "vite";
-import vue from "@vitejs/plugin-vue";
 import { quasar, transformAssetUrls } from "@quasar/vite-plugin";
+import vue from "@vitejs/plugin-vue";
+import { defineConfig, loadEnv } from "vite";
+import eslint from "vite-plugin-eslint";
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   process.env = {
@@ -17,6 +18,7 @@ export default defineConfig(({ mode }) => {
       quasar({
         sassVariables: "src/quasar-variables.sass",
       }),
+      eslint({ cache: false }),
     ],
     resolve: {
       alias: {

@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
-import { TLoginPayload } from "./types";
+
 import { useModal } from "@/hooks/useModal";
-import { useValidation, requiredValidator, emailValidator } from "@/hooks/useValidation";
-import { useAuthStore } from "@/stores/authStore";
+import { emailValidator, requiredValidator, useValidation } from "@/hooks/useValidation";
 import router from "@/router";
+import { useAuthStore } from "@/stores/authStore";
+
+import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
 import RegistrationModal from "../RegistrationModal/RegistrationModal.vue";
+import { TLoginPayload } from "./types";
 
 const emit = defineEmits(["close"]);
 
@@ -46,25 +48,25 @@ const handleLogin = () => {
     <ModalWrapper v-if="!showRegistrationModal" header="Войти">
       <q-form class="fit q-mb-sm form" @keydown.enter="handleLogin">
         <q-input
+          v-bind="getErrorAttrs('email')"
+          v-model="data.email"
           outlined
           class="fit q-mb-sm"
           input-class="q-input--form"
           label="Почта*"
-          v-bind="getErrorAttrs('email')"
-          v-model="data.email"
           borderless
           @blur="handleBlur('email')" />
 
         <q-input
+          v-bind="getErrorAttrs('password')"
+          v-model="data.password"
           outlined
           class="fit q-mb-sm"
           label="Пароль*"
-          v-bind="getErrorAttrs('password')"
-          @blur="handleBlur('password')"
           aria-autocomplete="current-password"
-          v-model="data.password"
-          :type="isPwd ? 'password' : 'text'">
-          <template v-slot:append>
+          :type="isPwd ? 'password' : 'text'"
+          @blur="handleBlur('password')">
+          <template #append>
             <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="isPwd = !isPwd" />
           </template>
         </q-input>

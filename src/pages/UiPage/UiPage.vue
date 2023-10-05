@@ -15,7 +15,7 @@ const _$v = useVuelidate(rules, { name });
 </script>
 
 <template>
-  <q-input :error="_$v.$error" v-model="name" type="text" label="Name" />
+  <q-input v-model="name" :error="_$v.$error" type="text" label="Name" />
 </template>
 
 <style lang="scss" scoped></style>

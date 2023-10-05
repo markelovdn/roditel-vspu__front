@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import IconTelegram from "@/components/icons/IconTelegram.vue";
-import IconWhatsapp from "@/components/icons/IconWhatsapp.vue";
-import IconSkype from "@/components/icons/IconSkype.vue";
+
 import CommonLink from "@/components/common/CommonLink/CommonLink.vue";
 import { headerMenuItems } from "@/components/common/TheHeader/types";
-
-
-
+import IconSkype from "@/components/icons/IconSkype.vue";
+import IconTelegram from "@/components/icons/IconTelegram.vue";
+import IconWhatsapp from "@/components/icons/IconWhatsapp.vue";
 </script>
 
 <template>
@@ -27,7 +25,7 @@ import { headerMenuItems } from "@/components/common/TheHeader/types";
       </div>
       <div class="footer__col-2">
         <div class="col-2_links">
-          <router-link class="col-2_link btn-link" v-for="item in headerMenuItems" :to="item.to" :key="item.name">
+          <router-link v-for="item in headerMenuItems" :key="item.name" class="col-2_link btn-link" :to="item.to">
             {{ item.name }}
           </router-link>
         </div>

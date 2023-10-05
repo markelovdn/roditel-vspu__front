@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
+
 import BlockContainer from "./BlockContainer.vue";
 import FormatCard from "./FormatCard.vue";
 import FormCard from "./FormCard.vue";
@@ -25,10 +26,10 @@ const row1 = [
     :description="'Вы можете получить бесплатную консультацию от специалистов социально-психологического центра ВГСПУ следующими способами'">
     <FormatCard
       v-for="(row, index) in row1"
+      :key="row.title"
       :number="index + 1"
       :title="row.title"
-      :description="row.description"
-      :key="row.title" />
+      :description="row.description" />
   </BlockContainer>
 
   <BlockContainer

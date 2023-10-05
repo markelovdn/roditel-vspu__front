@@ -6,8 +6,13 @@ defineProps<{
 
 <template>
   <div class="icon-wrapper">
-    <q-tooltip v-if="count > 9" anchor="top right" self="center middle" class="bg-red text-body2"
-      transition-show="flip-right" transition-hide="flip-left">
+    <q-tooltip
+      v-if="count > 9"
+      anchor="top right"
+      self="center middle"
+      class="bg-red text-body2"
+      transition-show="flip-right"
+      transition-hide="flip-left">
       {{ count }}
     </q-tooltip>
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">

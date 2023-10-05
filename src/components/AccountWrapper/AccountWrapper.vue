@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import { ComponentDefinition } from "@/types";
-import { accountRoleMap } from "@/pages/AccountPage/types";
-import IconNotificationsBell from "@/components/icons/IconNotificationsBell.vue";
 
+import IconNotificationsBell from "@/components/icons/IconNotificationsBell.vue";
+import { accountRoleMap } from "@/pages/AccountPage/types";
+import { ComponentDefinition } from "@/types";
 
 interface IAccountWrapperProps {
   tabs: Array<{ name: string; label: string; panelComponent: ComponentDefinition }>;
@@ -37,17 +37,29 @@ onMounted(() => openFirstTab());
         <IconNotificationsBell :count="12" />
       </div>
     </div>
-    <q-splitter class="tabsPanel " v-model="splitterModel" disable :separator-class="'separator'">
-      <template v-slot:before>
-        <q-tabs v-model="tab" vertical class="text-teal" :active-bg-color="'white'" :no-caps="true"
-          :indicator-color="'white'" :content-class="'menu__point'" :active-class="'menu__point_active'">
+    <q-splitter v-model="splitterModel" class="tabsPanel" disable :separator-class="'separator'">
+      <template #before>
+        <q-tabs
+          v-model="tab"
+          vertical
+          class="text-teal"
+          :active-bg-color="'white'"
+          :no-caps="true"
+          :indicator-color="'white'"
+          :content-class="'menu__point'"
+          :active-class="'menu__point_active'">
           <!-- TODO: Сделать сохранение выбранной вкладки в route страницы, через q-route-tab или отдельный метод изменения route -->
-          <q-tab :content-class="'menu__point'" class="menu__point" v-for="(tab, index) in tabs" :key="index"
-            :name="tab.name" :label="tab.label" />
+          <q-tab
+            v-for="(tab, index) in tabs"
+            :key="index"
+            :content-class="'menu__point'"
+            class="menu__point"
+            :name="tab.name"
+            :label="tab.label" />
         </q-tabs>
       </template>
 
-      <template v-slot:after>
+      <template #after>
         <q-tab-panels v-model="tab" animated swipeable vertical transition-prev="jump-up" transition-next="jump-up">
           <q-tab-panel v-for="(tab, index) in tabs" :key="index" :name="tab.name">
             <component :is="tab.panelComponent"></component>
@@ -57,7 +69,6 @@ onMounted(() => openFirstTab());
     </q-splitter>
   </div>
 </template>
-
 
 <style lang="scss" scoped>
 .header {
@@ -94,8 +105,6 @@ onMounted(() => openFirstTab());
   }
 }
 
-
-
 .menu {
   width: 300px;
 
@@ -112,7 +121,6 @@ onMounted(() => openFirstTab());
       color: var(--black, #313131);
       background: var(--q-background-primary, #fff);
       font-weight: 700 !important;
-      ;
     }
   }
 }

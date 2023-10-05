@@ -1,8 +1,8 @@
 import useVuelidate, { type ValidationArgs } from "@vuelidate/core";
-
-import { computedEager } from "@vueuse/core";
-import { computed, watch, type Ref, type ComputedRef } from "vue";
 import { email, helpers, minLength, required, sameAs } from "@vuelidate/validators";
+import { computedEager } from "@vueuse/core";
+import { computed, type ComputedRef, type Ref, watch } from "vue";
+
 import type { GenericEmit } from "@/types";
 
 export type TRule<T> = ValidationArgs<T>;

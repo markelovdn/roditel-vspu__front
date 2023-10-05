@@ -1,5 +1,5 @@
-import axios from "@/common/axios";
 import type { TLoginArgs, TLoginResponse, TRegistrationPayload, TRegistrationResponse, TUser } from "@/api/Auth/types";
+import axios from "@/common/axios";
 
 export class AuthApiService {
   login({ email, password }: TLoginArgs) {

@@ -1,8 +1,8 @@
+import { defineStore } from "pinia";
+import { computed, ref } from "vue";
+
 import { collectionsApi } from "@/api";
 import { TCollectionItem } from "@/api/Collections/types";
-import { computed } from "vue";
-import { defineStore } from "pinia";
-import { ref } from "vue";
 
 export const useCollectionsStore = defineStore("collectionsStore", () => {
   const regions = ref<TCollectionItem[]>();

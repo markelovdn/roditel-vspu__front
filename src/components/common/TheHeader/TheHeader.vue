@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { headerMenuItems } from "./types";
-import IconPhone from "@/components/icons/IconPhone.vue";
+
 import IconPersonal from "@/components/icons/IconPersonal.vue";
+import IconPhone from "@/components/icons/IconPhone.vue";
 import LoginModal from "@/components/modals/LoginModal/LoginModal.vue";
 import router from "@/router";
+
 import { useAuthStore } from "../../../stores/authStore";
+import { headerMenuItems } from "./types";
 
 const authStore = useAuthStore();
 
@@ -40,7 +42,7 @@ const auth = () => {
             <IconPhone />
           </a>
 
-          <q-btn @click="auth()" outline style="color: #f7b70b" class="personal-cabinet">
+          <q-btn outline style="color: #f7b70b" class="personal-cabinet" @click="auth()">
             <IconPersonal />
             <span class="personal-cabinet__label text-primary">{{ userCabinetButtontext }}</span>
           </q-btn>
@@ -48,7 +50,7 @@ const auth = () => {
       </div>
       <div class="row-2">
         <div class="links">
-          <router-link class="links__link" v-for="(item, index) in headerMenuItems" :to="item.to" :key="index">
+          <router-link v-for="(item, index) in headerMenuItems" :key="index" class="links__link" :to="item.to">
             {{ item.name }}
           </router-link>
         </div>

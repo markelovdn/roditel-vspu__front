@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import TheHeader from "@/components/common/TheHeader/TheHeader.vue";
-import TheFooter from "@/components/common/TheFooter/TheFooter.vue";
+import { getCssVar } from "quasar";
 import { computed } from "vue";
 import { useRoute } from "vue-router";
-import { getCssVar } from "quasar";
+
+import TheFooter from "@/components/common/TheFooter/TheFooter.vue";
+import TheHeader from "@/components/common/TheHeader/TheHeader.vue";
 
 const route = useRoute();
 const pageBackground = computed(() => {

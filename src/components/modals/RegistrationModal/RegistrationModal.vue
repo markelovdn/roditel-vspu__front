@@ -1,14 +1,16 @@
 <script setup lang="ts">
+import { computedEager } from "@vueuse/core";
 import { ref } from "vue";
+
+import { type TRegistrationPayload } from "@/api/Auth/types";
+import { useModal } from "@/hooks/useModal";
+import { useAuthStore } from "@/stores/authStore";
+import { omit } from "@/utils/objectHelpers";
+
 import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
 import ConsultantForm from "./ConsultantForm.vue";
 import ParentedForm from "./ParentedForm.vue";
 import { RegistrationRoleMap } from "./types";
-import { type TRegistrationPayload } from "@/api/Auth/types";
-import { useModal } from "@/hooks/useModal";
-import { computedEager } from "@vueuse/core";
-import { useAuthStore } from "@/stores/authStore";
-import { omit } from "@/utils/objectHelpers";
 
 const emit = defineEmits(["close"]);
 
@@ -55,10 +57,10 @@ const handleRegistration = async () => {
 <template>
   <ModalWrapper
     header="Добавить данные"
-    subHeader="Введите свои данные для регистрации"
-    :closeButtonHeader="!isRoleSelected"
+    sub-header="Введите свои данные для регистрации"
+    :close-button-header="!isRoleSelected"
     @close="closeModal">
-    <template v-if="!isRoleSelected" v-slot:subHeader>
+    <template v-if="!isRoleSelected" #subHeader>
       <div class="fit q-mb-sm">
         <q-btn
           label="Я консультант"

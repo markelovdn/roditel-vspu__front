@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import TableWrapper from '@/components/TableWrapper/TableWrapper.vue';
-import WebinarCard from '@/pages/WebinarsPage/WebinarCard/WebinarCard.vue';
-import { useWebinarsStore } from '@/stores/webinarsStore';
+import TableWrapper from "@/components/TableWrapper/TableWrapper.vue";
+import WebinarCard from "@/pages/WebinarsPage/WebinarCard/WebinarCard.vue";
+import { useWebinarsStore } from "@/stores/webinarsStore";
 
-
-const webinarsStore = useWebinarsStore()
-
+const webinarsStore = useWebinarsStore();
 </script>
 
 <template>
