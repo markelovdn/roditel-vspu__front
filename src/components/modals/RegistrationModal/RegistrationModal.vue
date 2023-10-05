@@ -38,23 +38,37 @@ const isValid = ref(false);
 const handleValidChange = (eventPayload: any) => {
   isValid.value = eventPayload.isValid;
 };
-const handleRegistration = async () => {
-  const resp = await authStore.registration(omit(data.value, "passwordConfirm") as TRegistrationPayload);
-  if (resp === "OK") closeModal({ force: true })
+const onRegisterSuccess = () => {
+  closeModal({ force: true });
 };
-
-
-
+const onRegisterFail = () => {
+  return;
+  //TODO: показывать нотифай и сообщение ошибки в модалке регистрации
+};
+const handleRegistration = async () => {
+  authStore
+    .registration(omit(data.value, "passwordConfirm") as TRegistrationPayload)
+    .then(onRegisterSuccess, onRegisterFail);
+};
 </script>
 
 <template>
-  <ModalWrapper header="Добавить данные" subHeader="Введите свои данные для регистрации"
-    :closeButtonHeader="!isRoleSelected" @close="closeModal">
+  <ModalWrapper
+    header="Добавить данные"
+    subHeader="Введите свои данные для регистрации"
+    :closeButtonHeader="!isRoleSelected"
+    @close="closeModal">
     <template v-if="!isRoleSelected" v-slot:subHeader>
       <div class="fit q-mb-sm">
-        <q-btn label="Я консультант" class="q-btn--form z-max" color="primary"
+        <q-btn
+          label="Я консультант"
+          class="q-btn--form z-max"
+          color="primary"
           @click="setRole(RegistrationRoleMap.CONSULTANT)" />
-        <q-btn label="Я родитель" class="q-ml-sm q-btn--form z-max" color="primary"
+        <q-btn
+          label="Я родитель"
+          class="q-ml-sm q-btn--form z-max"
+          color="primary"
           @click="setRole(RegistrationRoleMap.PARENTED)" />
       </div>
     </template>
@@ -64,7 +78,11 @@ const handleRegistration = async () => {
     <ParentedForm v-if="isRoleSelected && !isConsultant" v-model="data" @validation-change="handleValidChange" />
 
     <div v-if="isRoleSelected" class="fit q-mb-sm footer">
-      <q-btn label="Регистрация" :disable="!isValid" class="q-btn--form" color="primary"
+      <q-btn
+        label="Регистрация"
+        :disable="!isValid"
+        class="q-btn--form"
+        color="primary"
         @click="handleRegistration"></q-btn>
       <q-btn label="Закрыть" class="q-ml-sm q-btn--form" flat :ripple="false" color="grey-1" @click="closeModal()" />
     </div>

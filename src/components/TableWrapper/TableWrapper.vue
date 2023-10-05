@@ -1,10 +1,10 @@
 <script setup lang="ts" generic="T extends TWebinarCardData">
-import { TWebinarCardData } from "@/pages/UserCabinet/WebinarCard/types";
+import { TWebinarCardData } from "@/pages/WebinarsPage/WebinarCard/types";
 import CardTableWrapper from "./CardTableWrapper.vue";
 // import ListTableWrapper from "./ListTableWrapper.vue";
 
 // defineProps<{ items: Record<string, unknown>[] }>();
-defineProps<{ items: T[], title: string }>();
+defineProps<{ items: T[]; title: string }>();
 </script>
 
 <template>

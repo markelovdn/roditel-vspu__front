@@ -1,43 +1,67 @@
-import { authApi } from "@/api";
-import { TLoginArgs, TRegistrationPayload } from "@/api/Auth/types";
 import { defineStore } from "pinia";
-import { ref, onMounted } from "vue";
-import { useUserStore } from "./userStore";
-import router from "@/router";
+import { computed, ref } from "vue";
+import { parse, stringify } from "zipson";
 
-export const useAuthStore = defineStore("authStore", () => {
-  const user = useUserStore();
+import { authApi } from "@/api";
+import { TLoginArgs, TRegistrationPayload, TUser } from "@/api/Auth/types";
 
-  const token = ref<null | string>(null);
+export const useAuthStore = defineStore(
+  "authStore",
+  () => {
+    const token = ref<null | string>(localStorage.token ?? null);
+    const user = ref<TUser>();
 
-  async function login(payload: TLoginArgs) {
-    try {
-      const resp = await authApi.login(payload);
-      //TODO: манипуляции с токеном в отдельный composable
-      localStorage.setItem("token", resp.data.token);
-      token.value = resp.data.token;
-      user.setUser(resp.data.userData);
-      router.push({ name: "My" });
-      return resp.statusText;
-    } catch (error) {
-      console.log(error);
+    function requestUserInfo() {
+      if (!token.value) return;
+      return authApi
+        .getUserInfo(token.value)
+        .then((res) => (user.value = res.data.userData))
+        .catch((err) => {
+          console.log(err);
+        });
     }
-  }
-  async function registration(payload: TRegistrationPayload) {
-    try {
-      const resp = await authApi.registration(payload);
-      localStorage.setItem("token", resp.data.token);
-      token.value = resp.data.token;
-      user.setUser(resp.data.userData);
-      router.push({ name: "My" });
-      return resp.statusText;
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
-  onMounted(() => {
-    token.value = localStorage.token || null;
-  });
-  return { token, login, registration };
-});
+    function setUser(data: TUser) {
+      user.value = data;
+    }
+
+    async function login(payload: TLoginArgs) {
+      try {
+        const resp = await authApi.login(payload);
+        //TODO: манипуляции с токеном в отдельный composable
+        localStorage.setItem("token", resp.data.token);
+        token.value = resp.data.token;
+        //TODO: инфу о пользователе получать с отдельного запроса
+        setUser(resp.data.userData);
+        return Promise.resolve(resp.data);
+      } catch (err) {
+        console.log(err);
+        return Promise.reject(err);
+      }
+    }
+    async function registration(payload: TRegistrationPayload) {
+      try {
+        const resp = await authApi.registration(payload);
+        localStorage.setItem("token", resp.data.token);
+        token.value = resp.data.token;
+        setUser(resp.data.userData);
+        return Promise.resolve(resp.data);
+      } catch (err) {
+        console.log(err);
+        return Promise.reject(err);
+      }
+    }
+    const getUserInfo = computed(() => user.value);
+    return { token, login, registration, requestUserInfo, user, getUserInfo };
+  },
+  {
+    persist: {
+      paths: ["user"],
+      storage: sessionStorage,
+      serializer: {
+        serialize: stringify,
+        deserialize: parse,
+      },
+    },
+  },
+);

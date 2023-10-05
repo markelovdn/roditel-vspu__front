@@ -32,7 +32,7 @@ export function useModal(emit: GenericEmit, data: Ref<unknown> = ref({})) {
       }, 100);
     }
   };
-
+  //TODO: добавить закрытие по клавише Escape
   // const onEscape = (e: KeyboardEvent) => {
   //     if (e.key === "Escape") hide();
   // };
