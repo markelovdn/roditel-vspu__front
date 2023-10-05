@@ -26,10 +26,10 @@ export class AuthApiService {
     });
   }
 
-  getUserByToken(token: string) {
+  getUserInfo(token: string) {
     return axios({
       method: "post",
-      url: "/getUserByToken",
+      url: "/getUserInfo",
       headers: { "Access-Control-Allow-Origin": "*", Authorization: "Bearer " + token },
     });
   }
