@@ -16,7 +16,7 @@ const content = [
       <h2>Кому оказывается бесплатная помощь?</h2>
     </div>
     <div class="content">
-      <div v-for="text in content" class="content__item" :key="text">
+      <div v-for="text in content" :key="text" class="content__item">
         <div class="content__item_point"></div>
         <div class="content__item_text">{{ text }}</div>
       </div>

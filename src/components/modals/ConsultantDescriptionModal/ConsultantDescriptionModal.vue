@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
-import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
-import { useModal } from "@/hooks/useModal";
+import { onMounted, ref } from "vue";
+
 import type { Consultant } from "@/components/common/Home/ConsultantsCard/types";
+import { useModal } from "@/hooks/useModal";
+
+import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
 
 const props = defineProps<{
   consultant: Consultant;
@@ -13,7 +15,7 @@ const { closeModal } = useModal(emit);
 </script>
 
 <template>
-  <ModalWrapper closeButtonHeader @close="closeModal">
+  <ModalWrapper close-button-header @close="closeModal">
     {{ consultant.description }}
   </ModalWrapper>
 </template>

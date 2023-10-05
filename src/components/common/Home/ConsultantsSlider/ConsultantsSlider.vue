@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
 import axios from "axios";
-import type { ConsultantsResponse } from "./types";
-import type { Consultant } from "../ConsultantsCard/types";
+import { onMounted, ref } from "vue";
+
 import ConsultantsCard from "@/components/common/Home/ConsultantsCard/ConsultantsCard.vue";
+
+import type { Consultant } from "../ConsultantsCard/types";
+import type { ConsultantsResponse } from "./types";
 
 const slide = ref(0);
 const consultants = ref<Consultant[]>([]);
@@ -33,19 +35,37 @@ onMounted(() => {
       <h2 class="">Наши консультанты</h2>
       <div class="consultants__title_subtitle">
         <span>Показать всех</span>
-        <svg class="consultants__title_underline" width="137" height="3" viewBox="0 0 137 3" fill="none"
+        <svg
+          class="consultants__title_underline"
+          width="137"
+          height="3"
+          viewBox="0 0 137 3"
+          fill="none"
           xmlns="http://www.w3.org/2000/svg">
           <path d="M0.590088 1.70508H136.58" stroke="#F7B70B" stroke-width="2" stroke-dasharray="5 5" />
         </svg>
       </div>
     </div>
     <div class="consultants__carousel">
-      <q-carousel v-model="slide" transition-prev="slide-right" transition-next="slide-left" swipeable animated infinite
-        control-color="primary" navigation :navigation-position="'bottom'" padding arrows class="carousel">
-        <q-carousel-slide :name="slideIndex"
-          v-for="(list, slideIndex) in Math.trunc(consultants.length / sliderQuantityItem)" :key="list">
+      <q-carousel
+        v-model="slide"
+        transition-prev="slide-right"
+        transition-next="slide-left"
+        swipeable
+        animated
+        infinite
+        control-color="primary"
+        navigation
+        :navigation-position="'bottom'"
+        padding
+        arrows
+        class="carousel">
+        <q-carousel-slide
+          v-for="(list, slideIndex) in Math.trunc(consultants.length / sliderQuantityItem)"
+          :key="list"
+          :name="slideIndex">
           <div v-if="consultants.length" class="flex carousel-slide">
-            <ConsultantsCard :consultant="consultants[list + index]" v-for="index in sliderQuantityItem" :key="index" />
+            <ConsultantsCard v-for="index in sliderQuantityItem" :key="index" :consultant="consultants[list + index]" />
           </div>
         </q-carousel-slide>
       </q-carousel>

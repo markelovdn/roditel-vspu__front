@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { computed, ref, onMounted } from "vue";
-import type { Consultant } from "./types";
+import { computed, onMounted, ref } from "vue";
+
 import ConsultantDescriptionModal from "@/components/modals/ConsultantDescriptionModal/ConsultantDescriptionModal.vue";
+
+import type { Consultant } from "./types";
 
 const props = defineProps<{
   consultant: Consultant;
@@ -27,7 +29,7 @@ onMounted(() => {
       <span>{{ consultant.description }}</span>
     </div>
     <div v-if="isFullShow" class="card__next"><span @click="isShowModal = true">читать далее</span></div>
-    <ConsultantDescriptionModal :consultant="consultant" v-if="isShowModal" @close="isShowModal = !isShowModal" />
+    <ConsultantDescriptionModal v-if="isShowModal" :consultant="consultant" @close="isShowModal = !isShowModal" />
 
     <q-btn color="yellow card__button">
       <div class="btn__label">Задать вопрос специалисту</div>

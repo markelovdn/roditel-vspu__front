@@ -1,5 +1,6 @@
-import type { AlertDialog } from "@/types";
 import { Dialog } from "quasar";
+
+import type { AlertDialog } from "@/types";
 
 const getDefaultOptions = () => ({
   title: "Вы уверены, что хотите продолжить?",

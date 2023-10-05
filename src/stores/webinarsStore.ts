@@ -1,6 +1,7 @@
-import { TWebinarCardData } from "@/pages/WebinarsPage/WebinarCard/types";
 import { defineStore } from "pinia";
 import { ref } from "vue";
+
+import { TWebinarCardData } from "@/pages/WebinarsPage/WebinarCard/types";
 
 export const useWebinarsStore = defineStore("webinarsStore", () => {
   // Вебинары по дефолту загружается 1 страница. Существуют методы пагинации изменяющие

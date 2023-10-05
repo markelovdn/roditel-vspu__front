@@ -1,6 +1,4 @@
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div class="container">
@@ -21,7 +19,6 @@
     </div>
 
     <q-img :src="'./public/img/home-banner.png'" :fit="'none'" :position="'100% 50%'" class="container__image" />
-
   </div>
 </template>
 
@@ -46,7 +43,6 @@
 }
 
 .content {
-
   &__head {
     width: 686px;
     color: $black;
@@ -81,7 +77,6 @@
 
   &__border {
     color: $grey-2;
-
   }
 }
 </style>

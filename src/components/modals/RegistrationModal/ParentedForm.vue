@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { computed, ref, onMounted } from "vue";
+import { storeToRefs } from "pinia";
+import { computed, onMounted, ref } from "vue";
+
 import { TRegistrationPayload } from "@/api/Auth/types";
-import { useCollectionsStore } from "@/stores/collectionsStore";
 import {
-  useValidation,
-  requiredValidator,
-  splitNameValidator,
   emailValidator,
   minLengthValidator,
   repeatPasswordValidator,
+  requiredValidator,
+  splitNameValidator,
+  useValidation,
 } from "@/hooks/useValidation";
-
-import { storeToRefs } from "pinia";
+import { useCollectionsStore } from "@/stores/collectionsStore";
 
 const emit = defineEmits(["validation-change", "update:model-value"]);
 const props = defineProps<{
@@ -49,38 +49,40 @@ onMounted(async () => {
 <template>
   <q-form class="fit q-mb-sm form">
     <q-input
+      v-bind="getErrorAttrs('name')"
+      v-model="data.name"
       outlined
       class="fit q-mb-sm"
       input-class="q-input--form"
       label="Ф.И.О.*"
       borderless
       color="primary"
-      v-bind="getErrorAttrs('name')"
-      @blur="handleBlur('name')"
-      v-model="data.name" />
+      @blur="handleBlur('name')" />
 
     <q-input
+      v-bind="getErrorAttrs('phone')"
+      v-model="data.phone"
       outlined
       class="fit q-mb-sm"
       input-class="q-input--form"
       label="Телефон*"
       mask="+7 (###) ### ####"
       borderless
-      v-bind="getErrorAttrs('phone')"
-      @blur="handleBlur('phone')"
-      v-model="data.phone" />
+      @blur="handleBlur('phone')" />
 
     <q-input
+      v-bind="getErrorAttrs('email')"
+      v-model="data.email"
       outlined
       class="fit q-mb-sm"
       input-class="q-input--form"
       label="Почта*"
       borderless
-      v-bind="getErrorAttrs('email')"
-      @blur="handleBlur('email')"
-      v-model="data.email" />
+      @blur="handleBlur('email')" />
 
     <q-select
+      v-bind="getErrorAttrs('region_id')"
+      v-model="data.region_id"
       class="fit q-mb-sm"
       input-class="q-select--form"
       label="Регион*"
@@ -89,34 +91,32 @@ onMounted(async () => {
       :option-label="(item) => item.label"
       emit-value
       map-options
-      v-bind="getErrorAttrs('region_id')"
-      @blur="handleBlur('region_id')"
-      v-model="data.region_id" />
+      @blur="handleBlur('region_id')" />
 
     <q-input
+      v-bind="getErrorAttrs('password')"
+      v-model="data.password"
       outlined
       class="fit q-mb-sm"
       label="Пароль*"
-      v-bind="getErrorAttrs('password')"
-      @blur="handleBlur('password')"
       aria-autocomplete="new-password"
-      v-model="data.password"
-      :type="isPwd ? 'password' : 'text'">
-      <template v-slot:append>
+      :type="isPwd ? 'password' : 'text'"
+      @blur="handleBlur('password')">
+      <template #append>
         <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="isPwd = !isPwd" />
       </template>
     </q-input>
 
     <q-input
+      v-model="data.passwordConfirm"
       outlined
       class="fit q-mb-sm"
       label="Подтвердите пароль*"
-      v-model="data.passwordConfirm"
       v-bind="getErrorAttrs('passwordConfirm')"
-      @blur="handleBlur('passwordConfirm')"
       aria-autocomplete="new-password"
-      :type="isPwd ? 'password' : 'text'">
-      <template v-slot:append>
+      :type="isPwd ? 'password' : 'text'"
+      @blur="handleBlur('passwordConfirm')">
+      <template #append>
         <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="isPwd = !isPwd" />
       </template>
     </q-input>

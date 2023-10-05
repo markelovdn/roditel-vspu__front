@@ -1,7 +1,8 @@
-import type { GenericEmit } from "@/types";
 import { watchOnce } from "@vueuse/core";
 import { type Ref, ref } from "vue";
+
 import useAlert from "@/hooks/useAlert";
+import type { GenericEmit } from "@/types";
 
 export function useModal(emit: GenericEmit, data: Ref<unknown> = ref({})) {
   const hasChanges = ref(false);
