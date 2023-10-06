@@ -1,4 +1,5 @@
 import axios from "@/common/axios";
+import { ConsultantsResponse } from "@/components/common/Home/ConsultantsSlider/types";
 
 export class CollectionsApiService {
   //TODO: указать типы response
@@ -10,5 +11,8 @@ export class CollectionsApiService {
   }
   getProfessions() {
     return axios.get("/professions");
+  }
+  getConsultants() {
+    return axios.get<ConsultantsResponse>("/consultants");
   }
 }

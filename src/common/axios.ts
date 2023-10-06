@@ -4,9 +4,14 @@ const checkEnv = (envValue: string): string => {
   return envValue || "/";
 };
 
-const checkToken = (token: string): string => {
-  return `Bearer ${token}` || "";
-};
+function getAuthHeader() {
+  const getToken = localStorage.getItem("token");
+  if (getToken) {
+    return { Authorization: `Bearer ${getToken}` };
+  } else {
+    return {};
+  }
+}
 
 const apiUrl = `${checkEnv(import.meta.env.VITE_BASE_URL)}`;
 
@@ -17,9 +22,7 @@ axios.interceptors.request.use(
     return {
       ...config,
       baseURL: apiUrl,
-      headers: {
-        Authorization: `${checkToken(localStorage.token)}`,
-      },
+      headers: { ...config.headers, ...getAuthHeader },
     };
   },
   async (err) => {

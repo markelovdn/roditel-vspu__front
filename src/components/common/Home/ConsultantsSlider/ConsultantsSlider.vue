@@ -1,26 +1,20 @@
 <script setup lang="ts">
-import axios from "axios";
 import { onMounted, ref } from "vue";
 
+import { collectionsApi } from "@/api";
 import ConsultantsCard from "@/components/common/Home/ConsultantsCard/ConsultantsCard.vue";
 
 import type { Consultant } from "../ConsultantsCard/types";
-import type { ConsultantsResponse } from "./types";
 
 const slide = ref(0);
 const consultants = ref<Consultant[]>([]);
 const sliderQuantityItem = 3;
 
-const getConsultants = async () => {
-  await axios
-    .get<ConsultantsResponse>("https://markelovdn.ru/api/consultants", {})
-    .then((response) => {
-      consultants.value = response.data.data;
-      consultants.value.push(...response.data.data); // аля моки пока нет пагинации
-    })
-    .catch((errors) => {
-      console.log(errors);
-    });
+const getConsultants = () => {
+  collectionsApi.getConsultants().then((response) => {
+    consultants.value = response.data.data;
+    consultants.value.push(...response.data.data); // аля моки пока нет пагинации
+  });
 };
 
 onMounted(() => {

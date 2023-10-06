@@ -1,9 +1,11 @@
+import { AxiosError } from "axios";
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import { parse, stringify } from "zipson";
 
 import { authApi } from "@/api";
 import { TLoginArgs, TRegistrationPayload, TUser } from "@/api/Auth/types";
+import axios from "@/common/axios";
 
 export const useAuthStore = defineStore(
   "authStore",
@@ -12,9 +14,8 @@ export const useAuthStore = defineStore(
     const user = ref<TUser>();
 
     function requestUserInfo() {
-      if (!token.value) return;
       return authApi
-        .getUserInfo(token.value)
+        .getUserInfo()
         .then((res) => (user.value = res.data.userData))
         .catch((err) => {
           console.log(err);
@@ -51,8 +52,32 @@ export const useAuthStore = defineStore(
         return Promise.reject(err);
       }
     }
+    function logout() {
+      try {
+        localStorage.removeItem("token");
+        user.value = undefined;
+        return Promise.resolve();
+      } catch (err) {
+        console.log(err);
+        return Promise.reject(err);
+      }
+    }
+    function initRespInterceptors() {
+      axios.interceptors.response.use(
+        (response) => response,
+        async (err) => {
+          const status = (err as AxiosError)?.response?.status;
+          const unauthorizedStatuses = [401, 403];
+          if (status && unauthorizedStatuses.includes(status)) {
+            await logout();
+          }
+
+          return Promise.reject(err);
+        },
+      );
+    }
     const getUserInfo = computed(() => user.value);
-    return { token, login, registration, requestUserInfo, user, getUserInfo };
+    return { token, login, registration, requestUserInfo, user, getUserInfo, logout, initRespInterceptors };
   },
   {
     persist: {
