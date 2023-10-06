@@ -6,6 +6,7 @@ import { parse, stringify } from "zipson";
 import { authApi } from "@/api";
 import { TLoginArgs, TRegistrationPayload, TUser } from "@/api/Auth/types";
 import axios from "@/common/axios";
+import notify from "@/utils/notify";
 
 export const useAuthStore = defineStore(
   "authStore",
@@ -69,6 +70,7 @@ export const useAuthStore = defineStore(
           const status = (err as AxiosError)?.response?.status;
           const unauthorizedStatuses = [401, 403];
           if (status && unauthorizedStatuses.includes(status)) {
+            notify({ type: "negative", message: "Необходима авторизация" });
             await logout();
           }
 

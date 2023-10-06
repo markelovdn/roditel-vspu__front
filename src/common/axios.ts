@@ -1,5 +1,7 @@
 import $axios from "axios";
 
+import notify from "@/utils/notify";
+
 const checkEnv = (envValue: string): string => {
   return envValue || "/";
 };
@@ -26,6 +28,7 @@ axios.interceptors.request.use(
     };
   },
   async (err) => {
+    notify({ type: "negative", message: "Не удалось запросить данные" });
     console.log(err);
     return Promise.reject(err);
   },

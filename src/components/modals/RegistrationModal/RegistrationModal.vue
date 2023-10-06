@@ -5,6 +5,7 @@ import { ref } from "vue";
 import { type TRegistrationPayload } from "@/api/Auth/types";
 import { useModal } from "@/hooks/useModal";
 import { useAuthStore } from "@/stores/authStore";
+import notify from "@/utils/notify";
 import { omit } from "@/utils/objectHelpers";
 
 import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
@@ -43,10 +44,7 @@ const handleValidChange = (eventPayload: any) => {
 const onRegisterSuccess = () => {
   closeModal({ force: true });
 };
-const onRegisterFail = () => {
-  return;
-  //TODO: показывать нотифай и сообщение ошибки в модалке регистрации
-};
+const onRegisterFail = () => notify({ type: "negative", message: "Не удалось зарегистрироваться" });
 const handleRegistration = async () => {
   authStore
     .registration(omit(data.value, "passwordConfirm") as TRegistrationPayload)
