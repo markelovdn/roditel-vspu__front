@@ -65,7 +65,9 @@ export const useAuthStore = defineStore(
     }
     function initRespInterceptors() {
       axios.interceptors.response.use(
-        (response) => response,
+        (response) => {
+          return Promise.resolve(response);
+        },
         async (err) => {
           const status = (err as AxiosError)?.response?.status;
           const unauthorizedStatuses = [401, 403];
