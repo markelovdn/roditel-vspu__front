@@ -11,6 +11,7 @@
   --maxContentWidth: 1280px;
   --background-table: #fcfcfc;
   --error: #dd0000;
+  --background-card: #F5F5F5;
 }
 html {
   scroll-behavior: smooth;

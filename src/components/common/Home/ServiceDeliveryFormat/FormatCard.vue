@@ -32,7 +32,7 @@ const imageUrl = computed(
   position: relative;
   width: 100%;
   height: 362px;
-  background: #f5f5f5;
+  background: var(--background-card);
   border: 1px solid $light-grey;
   border-radius: 20px;
   overflow: hidden;
@@ -70,9 +70,6 @@ const imageUrl = computed(
     left: 34px;
     text-align: bottom;
     margin-right: 34px;
-
-    &_title {
-    }
 
     &_description {
       margin-top: 10px;

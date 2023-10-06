@@ -24,7 +24,7 @@ defineProps<{
   display: flex;
   width: 100%;
   padding: 28px 62px 28px 75px;
-  background: #f5f5f5;
+  background: var(--background-card);
   border-radius: 20px;
   flex-direction: column;
 

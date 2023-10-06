@@ -30,7 +30,7 @@ import bannerUrl from "@/assets/img/home-banner.png";
   justify-content: space-between;
   width: 100%;
   height: 694px;
-  background: #f5f5f5;
+  background: var(--background-card);
   border-radius: 30px;
 
   &__content {
