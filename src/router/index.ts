@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import routes from "@/router/routes";
 import { useAuthStore } from "@/stores/authStore";
+import notify from "@/utils/notify";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -13,7 +14,7 @@ router.beforeEach(async (to, from, next) => {
   const { user } = useAuthStore();
 
   if (authRequired && !user) {
-    //TODO: выкидывать Notify, что нужно авторизоваться для доступа к странице
+    notify({ type: "negative", message: "Для доступа к этой странице необходима авторизация" });
     next({ name: "Main" });
   } else {
     next();
