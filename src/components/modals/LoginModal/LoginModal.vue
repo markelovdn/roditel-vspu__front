@@ -23,7 +23,7 @@ const isPwd = ref(true);
 const showRegistrationModal = ref(false);
 const showLoginError = ref(false);
 
-const { handleBlur, $v, getErrorAttrs, isValid } = useValidation<TLoginPayload>(data, emit, {
+const { handleBlur, getErrorAttrs, isValid } = useValidation<TLoginPayload>(data, emit, {
   email: { requiredValidator, emailValidator },
   password: { requiredValidator },
 });

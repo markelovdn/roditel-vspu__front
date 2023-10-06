@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { ref } from "vue";
-
 import BlockContainer from "./BlockContainer.vue";
 import FormatCard from "./FormatCard.vue";
 import FormCard from "./FormCard.vue";

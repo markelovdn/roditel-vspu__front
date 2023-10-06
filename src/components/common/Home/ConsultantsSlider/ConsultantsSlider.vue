@@ -17,7 +17,6 @@ const getConsultants = async () => {
     .then((response) => {
       consultants.value = response.data.data;
       consultants.value.push(...response.data.data); // аля моки пока нет пагинации
-      console.log(consultants.value);
     })
     .catch((errors) => {
       console.log(errors);

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const props = defineProps<{
+defineProps<{
   description: string;
   title: string;
   type: "form" | "format";

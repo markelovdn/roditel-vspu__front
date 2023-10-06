@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
-
 import type { Consultant } from "@/components/common/Home/ConsultantsCard/types";
 import { useModal } from "@/hooks/useModal";
 
 import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
 
-const props = defineProps<{
+defineProps<{
   consultant: Consultant;
 }>();
 const emit = defineEmits(["close"]);

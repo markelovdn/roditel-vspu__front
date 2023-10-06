@@ -50,19 +50,19 @@ onMounted(() => openFirstTab());
           :active-class="'menu__point_active'">
           <!-- TODO: Сделать сохранение выбранной вкладки в route страницы, через q-route-tab или отдельный метод изменения route -->
           <q-tab
-            v-for="(tab, index) in tabs"
+            v-for="(item, index) in tabs"
             :key="index"
             :content-class="'menu__point'"
             class="menu__point"
-            :name="tab.name"
-            :label="tab.label" />
+            :name="item.name"
+            :label="item.label" />
         </q-tabs>
       </template>
 
       <template #after>
         <q-tab-panels v-model="tab" animated swipeable vertical transition-prev="jump-up" transition-next="jump-up">
-          <q-tab-panel v-for="(tab, index) in tabs" :key="index" :name="tab.name">
-            <component :is="tab.panelComponent"></component>
+          <q-tab-panel v-for="(item, index) in tabs" :key="index" :name="item.name">
+            <component :is="item.panelComponent"></component>
           </q-tab-panel>
         </q-tab-panels>
       </template>

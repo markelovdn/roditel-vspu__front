@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computedEager } from "@vueuse/core";
+import { markRaw } from "vue";
 
 import AccountWrapper from "@/components/AccountWrapper/AccountWrapper.vue";
 import { useAuthStore } from "@/stores/authStore";
@@ -15,7 +16,7 @@ const userData = computedEager(() => {
 });
 
 const userTabs = computedEager(() =>
-  userData.value.role.toUpperCase() === CONSULTANT_CODE ? consultantTabs : parentTabs,
+  userData.value.role.toUpperCase() === CONSULTANT_CODE ? markRaw(consultantTabs) : markRaw(parentTabs),
 );
 </script>
 

@@ -8,7 +8,7 @@ const webinarsStore = useWebinarsStore();
 
 <template>
   <div>
-    <TableWrapper :items="webinarsStore.webinars" :title="'Вебинары'" @next-page="">
+    <TableWrapper :items="webinarsStore.webinars" :title="'Вебинары'">
       <template #item="item">
         <WebinarCard :item="item" />
       </template>

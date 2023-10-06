@@ -1,11 +1,6 @@
 <script setup lang="ts">
-import { ref } from "vue";
-
 import CommonLink from "@/components/common/CommonLink/CommonLink.vue";
 import { headerMenuItems } from "@/components/common/TheHeader/types";
-import IconSkype from "@/components/icons/IconSkype.vue";
-import IconTelegram from "@/components/icons/IconTelegram.vue";
-import IconWhatsapp from "@/components/icons/IconWhatsapp.vue";
 </script>
 
 <template>
