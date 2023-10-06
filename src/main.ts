@@ -9,10 +9,12 @@ import { createApp } from "vue";
 
 import App from "./App.vue";
 import router from "./router";
+import { useAuthStore } from "./stores/authStore";
 
 const app = createApp(App);
 
 app.use(createPinia().use(piniaPluginPersistedstate));
+useAuthStore().initRespInterceptors();
 app.use(router);
 app.use(Quasar, {
   plugins: {

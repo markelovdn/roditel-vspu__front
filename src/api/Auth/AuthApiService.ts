@@ -1,6 +1,5 @@
 import type { TLoginArgs, TLoginResponse, TRegistrationPayload, TRegistrationResponse } from "@/api/Auth/types";
 import axios from "@/common/axios";
-
 export class AuthApiService {
   login({ email, password }: TLoginArgs) {
     return axios.post<TLoginResponse>("/login", {
@@ -26,11 +25,9 @@ export class AuthApiService {
     });
   }
 
-  getUserInfo(token: string) {
-    return axios({
-      method: "post",
-      url: "/getUserInfo",
-      headers: { "Access-Control-Allow-Origin": "*", Authorization: "Bearer " + token },
+  getUserInfo() {
+    return axios.post("/getUserInfo", undefined, {
+      headers: { "Access-Control-Allow-Origin": "*" },
     });
   }
 }
