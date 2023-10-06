@@ -58,4 +58,3 @@ defineProps<{ items: T[]; title: string }>();
   padding: 20px 34px;
 }
 </style>
-@/pages/WebinarsPage/WebinarCard/types
