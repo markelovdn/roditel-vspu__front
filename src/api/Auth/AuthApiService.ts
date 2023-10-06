@@ -1,4 +1,4 @@
-import type { TLoginArgs, TLoginResponse, TRegistrationPayload, TRegistrationResponse, TUser } from "@/api/Auth/types";
+import type { TLoginArgs, TLoginResponse, TRegistrationPayload, TRegistrationResponse } from "@/api/Auth/types";
 import axios from "@/common/axios";
 
 export class AuthApiService {

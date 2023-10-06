@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { ref } from "vue";
-
 import ConsultantsSlider from "@/components/common/Home/ConsultantsSlider/ConsultantsSlider.vue";
 import HelpBanner from "@/components/common/Home/HelpBanner/HelpBanner.vue";
 import MainBanner from "@/components/common/Home/MainBanner/MainBanner.vue";

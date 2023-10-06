@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import ImageBackground from "./ImageBackground.vue";
 
-const props = defineProps<{
+defineProps<{
   number: number;
   title: string;
   img?: string;

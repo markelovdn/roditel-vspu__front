@@ -31,7 +31,7 @@ const data = computed({
 });
 const isPwd = ref(true);
 
-const { handleBlur, $v, getErrorAttrs } = useValidation<TRegistrationPayload>(data, emit, {
+const { handleBlur, getErrorAttrs } = useValidation<TRegistrationPayload>(data, emit, {
   name: { requiredValidator, splitNameValidator },
   phone: { requiredValidator, minLengthValidator: minLengthValidator(17) },
   email: { requiredValidator, emailValidator },
