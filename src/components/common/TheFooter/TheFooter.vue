@@ -20,7 +20,11 @@ import { headerMenuItems } from "@/components/common/TheHeader/types";
       </div>
       <div class="footer__col-2">
         <div class="col-2_links">
-          <router-link v-for="item in headerMenuItems" :key="item.name" class="col-2_link btn-link" :to="item.to">
+          <router-link
+            v-for="item in headerMenuItems"
+            :key="item.name"
+            class="col-2_link btn-link"
+            :to="{ name: item.toName, hash: item.hash }">
             {{ item.name }}
           </router-link>
         </div>

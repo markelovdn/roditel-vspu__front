@@ -12,7 +12,9 @@
   --background-table: #fcfcfc;
   --error: #dd0000;
 }
-
+html {
+  scroll-behavior: smooth;
+}
 body {
   font-family: "Ubuntu";
   font-style: normal;

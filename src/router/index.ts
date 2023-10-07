@@ -8,6 +8,16 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
 });
+router.afterEach((to) => {
+  setTimeout(() => {
+    if (to.hash) {
+      const element = document.querySelector(to.hash);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, 100);
+});
 router.beforeEach(async (to, from, next) => {
   const publicPages = ["/"];
   const authRequired = !publicPages.includes(to.path);

@@ -1,20 +1,24 @@
-type THeaderMenuItem = { name: string; to: string };
+type THeaderMenuItem = { name: string; hash: string; toName: string };
 
 export const headerMenuItems: THeaderMenuItem[] = [
   {
     name: "Консультанты",
-    to: "url",
+    toName: "Main",
+    hash: "#consultantsAnchor",
   },
   {
     name: "Вебинары",
-    to: "url",
+    toName: "Main",
+    hash: "#webinarsAnchor",
   },
   {
     name: "Формы оказания услуг",
-    to: "url",
+    toName: "Main",
+    hash: "#serviceAnchor",
   },
   {
     name: "Кому оказывается помощь",
-    to: "url",
+    toName: "Main",
+    hash: "#helpAnchor",
   },
 ];

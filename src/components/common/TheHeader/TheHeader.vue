@@ -67,7 +67,11 @@ const logout = () => {
       </div>
       <div class="row-2">
         <div class="links">
-          <router-link v-for="(item, index) in headerMenuItems" :key="index" class="links__link" :to="item.to">
+          <router-link
+            v-for="(item, index) in headerMenuItems"
+            :key="index"
+            class="links__link"
+            :to="{ name: item.toName, hash: item.hash }">
             {{ item.name }}
           </router-link>
         </div>
