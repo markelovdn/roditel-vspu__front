@@ -37,23 +37,21 @@ onMounted(() => openFirstTab());
         <IconNotificationsBell :count="12" />
       </div>
     </div>
-    <q-splitter v-model="splitterModel" class="tabsPanel" disable :separator-class="'separator'">
+    <q-splitter v-model="splitterModel" class="tabs-menu" disable :separator-class="'separator'">
       <template #before>
         <q-tabs
           v-model="tab"
           vertical
-          class="text-teal"
-          :active-bg-color="'white'"
           :no-caps="true"
-          :indicator-color="'white'"
-          :content-class="'menu__point'"
-          :active-class="'menu__point_active'">
+          indicator-color="transparent"
+          content-class="'tabs-wrapper'"
+          :active-class="'tabs-wrapper_active'">
           <!-- TODO: Сделать сохранение выбранной вкладки в route страницы, через q-route-tab или отдельный метод изменения route -->
           <q-tab
             v-for="(item, index) in tabs"
             :key="index"
-            :content-class="'menu__point'"
-            class="menu__point"
+            :content-class="'tabs-wrapper__tab'"
+            class="tabs-wrapper__tab"
             :name="item.name"
             :label="item.label" />
         </q-tabs>
@@ -94,42 +92,39 @@ onMounted(() => openFirstTab());
   }
 }
 
-.tabsPanel {
+.tabs-menu {
   height: 100%;
   min-height: 600px;
-
-  &:deep(.q-tab__label) {
-    color: var(--q-blue-lighter, #315194);
-    font-size: 18px;
-    line-height: 120%;
-  }
 }
 
-.menu {
+.tabs-wrapper {
   width: 300px;
-
-  &__point {
-    // cursor: pointer;
+  &__tab {
+    border-radius: 6px;
+  }
+  &__tab :deep(.q-tab__label) {
     color: var(--q-blue-lighter, #315194);
-    line-height: 120% !important;
-    // margin-bottom: 8px;
-    // padding: 12px 18px;
+    line-height: 120%;
     border-radius: 7px;
-    font-size: 18px !important;
-
-    &_active {
-      color: var(--black, #313131);
-      background: var(--q-background-primary, #fff);
-      font-weight: 700 !important;
-    }
+    font-size: 18px;
+  }
+  &_active {
+    background: var(--q-background-primary, #fff);
+  }
+  &_active :deep(.q-tab__label) {
+    color: var(--black, #313131);
+    background: transparent;
   }
 }
-</style>
-
-<style>
-.separator {
+:deep(.q-tab-panels) {
+  background: transparent;
+}
+:deep(.q-tab-panel) {
+  padding: 0;
+}
+:deep(.separator) {
   /* display: none; */
   width: 110px !important;
-  background-color: var(--gray);
+  background-color: transparent;
 }
 </style>
