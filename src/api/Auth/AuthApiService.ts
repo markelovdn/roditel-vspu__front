@@ -26,7 +26,7 @@ export class AuthApiService {
   }
 
   getUserInfo() {
-    return axios.get("/getUserInfo", {
+    return axios.get("/getUserByToken", {
       headers: { "Access-Control-Allow-Origin": "*" },
     });
   }

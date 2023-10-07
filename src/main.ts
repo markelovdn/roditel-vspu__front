@@ -8,13 +8,14 @@ import { Dialog, Notify, Quasar } from "quasar";
 import { createApp } from "vue";
 
 import App from "./App.vue";
+import useAppInit from "./hooks/useAppInit";
 import router from "./router";
-import { useAuthStore } from "./stores/authStore";
 
 const app = createApp(App);
 
 app.use(createPinia().use(piniaPluginPersistedstate));
-useAuthStore().initRespInterceptors();
+useAppInit();
+
 app.use(router);
 app.use(Quasar, {
   plugins: {

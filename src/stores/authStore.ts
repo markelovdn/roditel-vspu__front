@@ -17,7 +17,7 @@ export const useAuthStore = defineStore(
     function requestUserInfo() {
       return authApi
         .getUserInfo()
-        .then((res) => (user.value = res.data.userData))
+        .then((res) => setUser(res.data.userData))
         .catch((err) => {
           console.log(err);
         });
@@ -81,7 +81,8 @@ export const useAuthStore = defineStore(
       );
     }
     const getUserInfo = computed(() => user.value);
-    return { token, login, registration, requestUserInfo, user, getUserInfo, logout, initRespInterceptors };
+    const isLoggedIn = computed(() => user.value && token.value);
+    return { token, login, registration, requestUserInfo, user, getUserInfo, logout, initRespInterceptors, isLoggedIn };
   },
   {
     persist: {

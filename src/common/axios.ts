@@ -24,7 +24,7 @@ axios.interceptors.request.use(
     return {
       ...config,
       baseURL: apiUrl,
-      headers: { ...config.headers, ...getAuthHeader },
+      headers: { ...config.headers, ...getAuthHeader() },
     };
   },
   async (err) => {
