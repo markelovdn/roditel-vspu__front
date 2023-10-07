@@ -72,7 +72,7 @@ onMounted(() => openFirstTab());
 .header {
   display: flex;
   align-items: baseline;
-  margin: 70px 0 52px;
+  margin-bottom: 52px;
 
   &__role {
     color: $grey-1;

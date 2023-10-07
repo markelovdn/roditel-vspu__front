@@ -33,6 +33,7 @@ const pageBackground = computed(() => {
   &__content {
     width: var(--maxContentWidth);
     margin: 0 auto;
+    padding: 70px 0;
 
     @media screen and (width < 1280px) {
       width: 100%;
