@@ -23,6 +23,9 @@ const auth = () => {
     showLoginModal.value = true;
   }
 };
+const logout = () => {
+  authStore.logout().then(() => router.push({ name: "Main" }));
+};
 </script>
 
 <template>
@@ -45,6 +48,19 @@ const auth = () => {
           <q-btn outline style="color: #f7b70b" class="personal-cabinet" @click="auth()">
             <IconPersonal />
             <span class="personal-cabinet__label text-primary">{{ userCabinetButtontext }}</span>
+          </q-btn>
+          <q-btn
+            v-if="authStore.isLoggedIn"
+            size="xs"
+            outline
+            color="primary"
+            class="q-ml-xs q-pa-xs"
+            @click="logout()">
+            <svg xmlns="http://www.w3.org/2000/svg" class="logout-btn" width="24" height="24" viewBox="0 0 24 24">
+              <path
+                fill="var(--q-blue-lighter)"
+                d="M16,17V14H9V10H16V7L21,12L16,17M14,2A2,2 0 0,1 16,4V6H14V4H5V20H14V18H16V20A2,2 0 0,1 14,22H5A2,2 0 0,1 3,20V4A2,2 0 0,1 5,2H14Z" />
+            </svg>
           </q-btn>
         </div>
       </div>
@@ -144,7 +160,6 @@ const auth = () => {
         justify-content: space-between;
         width: 200px;
         padding: 12px 16px;
-        border: solid 1px #f7b70b;
         border-radius: 10px;
         cursor: pointer;
 
