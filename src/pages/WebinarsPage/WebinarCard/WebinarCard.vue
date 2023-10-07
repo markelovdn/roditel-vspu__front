@@ -85,7 +85,7 @@ defineProps<{
     line-height: 16px;
 
     &_value {
-      color: var(--q-Blue-lighter, #315194);
+      color: var(--q-blue-lighter, #315194);
     }
   }
 
