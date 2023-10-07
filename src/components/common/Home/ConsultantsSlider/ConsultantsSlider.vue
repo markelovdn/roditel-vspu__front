@@ -23,7 +23,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="wrapper">
+  <div id="consultantsAnchor" class="wrapper">
     <div class="consultants__title">
       <h2 class="">Наши консультанты</h2>
       <div class="consultants__title_subtitle">

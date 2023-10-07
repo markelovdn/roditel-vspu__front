@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div>WebinarsPreview</div>
+  <div id="webinarsAnchor">WebinarsPreview</div>
 </template>
 
 <style lang="scss" scoped></style>

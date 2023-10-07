@@ -9,7 +9,7 @@ const content = [
 </script>
 
 <template>
-  <div class="banner-container">
+  <div id="helpAnchor" class="banner-container">
     <div class="title">
       <h2>Кому оказывается бесплатная помощь?</h2>
     </div>
