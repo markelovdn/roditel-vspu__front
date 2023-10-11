@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="T extends TWebinarCardData">
-import { TWebinarCardData } from "@/pages/WebinarsPage/WebinarCard/types";
+import { TWebinarCardData } from "@/components/common/Home/WebinarCard/types";
 
 import CardTableWrapper from "./CardTableWrapper.vue";
 // import ListTableWrapper from "./ListTableWrapper.vue";
@@ -58,3 +58,4 @@ defineProps<{ items: T[]; title: string }>();
   padding: 20px 34px;
 }
 </style>
+@/components/common/Home/WebinarCard/types

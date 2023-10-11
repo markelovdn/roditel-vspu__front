@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="T extends TWebinarCardData">
-import { TWebinarCardData } from "@/pages/WebinarsPage/WebinarCard/types";
+import { TWebinarCardData } from "@/components/common/Home/WebinarCard/types";
 
 // const props = defineProps<{
 //   items: Record<string, unknown>[];
@@ -18,3 +18,4 @@ defineProps<{ items: T[] }>();
 </template>
 
 <style scoped lang="scss"></style>
+@/components/common/Home/WebinarCard/types
