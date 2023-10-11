@@ -5,9 +5,9 @@ import { collectionsApi } from "@/api";
 import { TCollectionItem } from "@/api/Collections/types";
 
 export const useCollectionsStore = defineStore("collectionsStore", () => {
-  const regions = ref<TCollectionItem[]>();
-  const specializations = ref<TCollectionItem[]>();
-  const professions = ref<TCollectionItem[]>();
+  const regions = ref<TCollectionItem[]>([]);
+  const specializations = ref<TCollectionItem[]>([]);
+  const professions = ref<TCollectionItem[]>([]);
 
   function requestRegions() {
     collectionsApi.getRegions().then((resp) => (regions.value = resp.data.data));
@@ -19,17 +19,20 @@ export const useCollectionsStore = defineStore("collectionsStore", () => {
     collectionsApi.getProfessions().then((resp) => (professions.value = resp.data.data));
   }
   const getRegions = computed(() => {
-    return regions.value?.map((item: TCollectionItem) => {
+    return regions.value.map((item: TCollectionItem) => {
       return { label: item.title, value: item.id };
     });
   });
   const getSpecializations = computed(() => {
-    return specializations.value?.map((item: TCollectionItem) => {
+    return specializations.value.map((item: TCollectionItem) => {
       return { label: item.title, value: item.id };
     });
   });
+  const getSpecializationsWithAll = computed(() => {
+    return [{ label: "Все", value: 0 }, ...getSpecializations.value];
+  });
   const getProfessions = computed(() => {
-    return professions.value?.map((item: TCollectionItem) => {
+    return professions.value.map((item: TCollectionItem) => {
       return { label: item.title, value: item.id };
     });
   });
@@ -42,6 +45,7 @@ export const useCollectionsStore = defineStore("collectionsStore", () => {
     requestProfessions,
     getRegions,
     getSpecializations,
+    getSpecializationsWithAll,
     getProfessions,
   };
 });

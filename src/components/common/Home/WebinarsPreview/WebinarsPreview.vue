@@ -44,7 +44,8 @@ const webinarCard = {
 
   &__header {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
+    padding-bottom: 48px;
   }
 }
 </style>
