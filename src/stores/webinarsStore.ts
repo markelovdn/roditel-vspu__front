@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-import { TWebinarCardData } from "@/pages/WebinarsPage/WebinarCard/types";
+import { TWebinarCardData } from "@/components/common/Home/WebinarCard/types";
 
 export const useWebinarsStore = defineStore("webinarsStore", () => {
   // Вебинары по дефолту загружается 1 страница. Существуют методы пагинации изменяющие
@@ -12,8 +12,8 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
       title:
         "Развитие креативного и критического мышления как показателя функциональной грамотности у обучающихся основной школы",
       category: "Основная школа",
-      lecturer: "Ястребова Гульнара Ахмедовна",
-      cost: "Бесплатно",
+      lector: "Ястребова Гульнара Ахмедовна",
+      cost: 0,
       date: "19.11.21 c 14:00 до 15:00 (Мск)",
     },
     {
@@ -21,8 +21,8 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
       title:
         "Развитие креативного и критического мышления как показателя функциональной грамотности у обучающихся основной школы",
       category: "Основная школа",
-      lecturer: "Ястребова Гульнара Ахмедовна",
-      cost: "Бесплатно",
+      lector: "Ястребова Гульнара Ахмедовна",
+      cost: 500,
       date: "19.11.21 c 14:00 до 15:00 (Мск)",
     },
     {
@@ -30,8 +30,8 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
       title:
         "Развитие креативного и критического мышления как показателя функциональной грамотности у обучающихся основной школы",
       category: "Основная школа",
-      lecturer: "Ястребова Гульнара Ахмедовна",
-      cost: "Бесплатно",
+      lector: "Ястребова Гульнара Ахмедовна",
+      cost: 100500,
       date: "19.11.21 c 14:00 до 15:00 (Мск)",
     },
     {
@@ -39,8 +39,8 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
       title:
         "Развитие креативного и критического мышления как показателя функциональной грамотности у обучающихся основной школы",
       category: "Основная школа",
-      lecturer: "Ястребова Гульнара Ахмедовна",
-      cost: "Бесплатно",
+      lector: "Ястребова Гульнара Ахмедовна",
+      cost: 0,
       date: "19.11.21 c 14:00 до 15:00 (Мск)",
     },
     {
@@ -48,8 +48,8 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
       title:
         "Развитие креативного и критического мышления как показателя функциональной грамотности у обучающихся основной школы",
       category: "Основная школа",
-      lecturer: "Ястребова Гульнара Ахмедовна",
-      cost: "Бесплатно",
+      lector: "Ястребова Гульнара Ахмедовна",
+      cost: 0,
       date: "19.11.21 c 14:00 до 15:00 (Мск)",
     },
   ];
