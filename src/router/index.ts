@@ -15,6 +15,8 @@ router.afterEach((to) => {
       if (element) {
         element.scrollIntoView({ behavior: "smooth" });
       }
+    } else {
+      document.querySelector("scroll")?.scrollTo({ top: 0, behavior: "smooth" });
     }
   }, 100);
 });
