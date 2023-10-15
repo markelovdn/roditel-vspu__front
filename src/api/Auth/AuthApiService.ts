@@ -1,4 +1,10 @@
-import type { TLoginArgs, TLoginResponse, TRegistrationPayload, TRegistrationResponse } from "@/api/Auth/types";
+import type {
+  TForgotPasswordArgs,
+  TLoginArgs,
+  TLoginResponse,
+  TRegistrationPayload,
+  TRegistrationResponse,
+} from "@/api/Auth/types";
 import axios from "@/common/axios";
 export class AuthApiService {
   login({ email, password }: TLoginArgs) {
@@ -28,6 +34,12 @@ export class AuthApiService {
   getUserInfo() {
     return axios.get("/getUserByToken", {
       headers: { "Access-Control-Allow-Origin": "*" },
+    });
+  }
+
+  forgotPassword({ email }: TForgotPasswordArgs) {
+    return axios.post<TForgotPasswordArgs>("/forgotPassword", {
+      email: email,
     });
   }
 }

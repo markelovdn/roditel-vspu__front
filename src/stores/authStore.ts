@@ -4,7 +4,7 @@ import { computed, ref } from "vue";
 import { parse, stringify } from "zipson";
 
 import { authApi } from "@/api";
-import { TLoginArgs, TRegistrationPayload, TUser } from "@/api/Auth/types";
+import { TForgotPasswordArgs, TLoginArgs, TRegistrationPayload, TUser } from "@/api/Auth/types";
 import axios from "@/common/axios";
 import notify from "@/utils/notify";
 
@@ -63,6 +63,15 @@ export const useAuthStore = defineStore(
         return Promise.reject(err);
       }
     }
+    async function forgotPassword(payload: TForgotPasswordArgs) {
+      try {
+        await authApi.forgotPassword(payload);
+        return Promise.resolve();
+      } catch (err) {
+        console.log(err);
+        return Promise.reject(err);
+      }
+    }
     function initRespInterceptors() {
       axios.interceptors.response.use(
         (response) => {
@@ -82,7 +91,18 @@ export const useAuthStore = defineStore(
     }
     const getUserInfo = computed(() => user.value);
     const isLoggedIn = computed(() => user.value && token.value);
-    return { token, login, registration, requestUserInfo, user, getUserInfo, logout, initRespInterceptors, isLoggedIn };
+    return {
+      forgotPassword,
+      token,
+      login,
+      registration,
+      requestUserInfo,
+      user,
+      getUserInfo,
+      logout,
+      initRespInterceptors,
+      isLoggedIn,
+    };
   },
   {
     persist: {

@@ -1,0 +1,60 @@
+<script setup lang="ts">
+import { ref } from "vue";
+
+import { useModal } from "@/hooks/useModal";
+import { emailValidator, requiredValidator, useValidation } from "@/hooks/useValidation";
+import { useAuthStore } from "@/stores/authStore";
+
+import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
+import { TForgotPasswordPayload } from "./types";
+
+const emit = defineEmits(["close"]);
+
+const data = ref<TForgotPasswordPayload>({
+  email: "",
+});
+
+const { closeModal } = useModal(emit, data);
+const authStore = useAuthStore();
+
+const { handleBlur, getErrorAttrs, isValid } = useValidation<TForgotPasswordPayload>(data, emit, {
+  email: { requiredValidator, emailValidator },
+});
+
+const handleForgotPassword = () => {
+  authStore.forgotPassword({ email: data.value.email }).then();
+};
+</script>
+
+<template>
+  <div>
+    <ModalWrapper header="Сброс пароля">
+      <q-form class="fit q-mb-sm form" @keydown.enter="handleForgotPassword">
+        <q-input
+          v-bind="getErrorAttrs('email')"
+          v-model="data.email"
+          outlined
+          class="fit q-mb-sm"
+          input-class="q-input--form"
+          label="Почта*"
+          borderless
+          @blur="handleBlur('email')" />
+      </q-form>
+      <div class="fit q-mb-sm footer">
+        <q-btn
+          label="Отправить"
+          :disable="!isValid"
+          class="q-btn--form"
+          color="primary"
+          @click="handleForgotPassword" />
+        <q-btn label="Закрыть" class="q-ml-sm q-btn--form" flat :ripple="false" color="grey-1" @click="closeModal()" />
+      </div>
+    </ModalWrapper>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+.footer {
+  margin-top: 32px;
+}
+</style>

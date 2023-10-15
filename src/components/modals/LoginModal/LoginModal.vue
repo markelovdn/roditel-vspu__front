@@ -7,6 +7,7 @@ import router from "@/router";
 import { useAuthStore } from "@/stores/authStore";
 
 import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
+import ForgotPassword from "../ForgotPasswordModal/ForgotPassword.vue";
 import RegistrationModal from "../RegistrationModal/RegistrationModal.vue";
 import { TLoginPayload } from "./types";
 
@@ -21,6 +22,7 @@ const { closeModal } = useModal(emit, data);
 const authStore = useAuthStore();
 const isPwd = ref(true);
 const showRegistrationModal = ref(false);
+const showForgotPasswordModal = ref(false);
 const showLoginError = ref(false);
 
 const { handleBlur, getErrorAttrs, isValid } = useValidation<TLoginPayload>(data, emit, {
@@ -44,8 +46,9 @@ const handleLogin = () => {
 
 <template>
   <div>
+    <ForgotPassword v-if="showForgotPasswordModal" @close="showForgotPasswordModal = false"></ForgotPassword>
     <RegistrationModal v-if="showRegistrationModal" @close="showRegistrationModal = false"></RegistrationModal>
-    <ModalWrapper v-if="!showRegistrationModal" header="Войти">
+    <ModalWrapper v-if="!showRegistrationModal && !showForgotPasswordModal" header="Войти">
       <q-form class="fit q-mb-sm form" @keydown.enter="handleLogin">
         <q-input
           v-bind="getErrorAttrs('email')"
@@ -83,6 +86,15 @@ const handleLogin = () => {
           :ripple="false"
           color="primary"
           @click="showRegistrationModal = true" />
+      </div>
+      <div class="q-pt-md">
+        <q-btn
+          label="Восстановить пароль"
+          class="q-ml-sm q-btn--form full-width"
+          flat
+          :ripple="false"
+          color="primary"
+          @click="showForgotPasswordModal = true" />
       </div>
     </ModalWrapper>
   </div>
