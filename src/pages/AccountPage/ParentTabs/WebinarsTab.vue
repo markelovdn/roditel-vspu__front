@@ -11,9 +11,9 @@ const setPage = (page: number) => webinarsStore.requestWebinars({ page });
 
 <template>
   <div>
-    <TableWrapper :items="webinarsStore.webinars" :title="'Вебинары'">
-      <template #item="item">
-        <WebinarCard :webinar-item="item" />
+    <TableWrapper :items="webinarsStore.webinars" :cards-list="true" :title="'Вебинары'">
+      <template #item="{ item }">
+        <WebinarCard :item="item" />
       </template>
     </TableWrapper>
 

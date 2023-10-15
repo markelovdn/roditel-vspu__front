@@ -2,10 +2,10 @@ import { defineAsyncComponent } from "vue";
 
 export const consultantTabs = [
   {
-    name: "journals",
+    name: "reports",
     label: "Журналы",
     //TODO: можно в defineAsyncComponent определить компонент loader и error
-    panelComponent: defineAsyncComponent(() => import("./JournalsTab.vue")),
+    panelComponent: defineAsyncComponent(() => import("./ReportsTab.vue")),
   },
   {
     name: "applications",
