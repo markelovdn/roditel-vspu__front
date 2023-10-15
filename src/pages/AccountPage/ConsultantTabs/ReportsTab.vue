@@ -16,6 +16,18 @@ const reportsList = [
     status: "NOT_UPLOADED",
     saveUrl: "/as1da",
   },
+  {
+    name: "Файл ФайлФайлФайлФайлФайлФайлФайлФайлФайлФайлФайлФайлФайлФайлФайлФайлФайл1.xls",
+    createdAt: "01.09.2015",
+    status: "NOT_UPLOADED",
+    saveUrl: "/as1da",
+  },
+  {
+    name: "Файл ФайлФайлФайлФайлФайлФайлФайлФайлФайлФайлФайлФайлФайлФайлФайлФайлФайл1.xls",
+    createdAt: "01.09.2015",
+    status: "NOT_UPLOADED",
+    saveUrl: "/as1da",
+  },
 ].map((el, index) => {
   return { ...el, index: index + 1 };
 });

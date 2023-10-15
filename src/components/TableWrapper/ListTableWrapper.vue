@@ -18,7 +18,8 @@ defineProps<{ items: T[]; columns: QTableColumn[] }>();
 <style scoped lang="scss">
 .listTableWrapper {
   background: transparent;
-
+  border-radius: 8px;
+  border: 1px solid #f1f1f1;
   :deep(.q-table) {
     border-collapse: collapse;
   }
@@ -29,14 +30,12 @@ defineProps<{ items: T[]; columns: QTableColumn[] }>();
   :deep(.q-table thead tr th) {
     border-color: transparent;
   }
-  // :deep(.q-table tbody tr):nth-child(2n) {
-  //   td {
-  //     background: #f9f9fb;
-  //   }
-  // }
+  :deep(.q-table tbody tr):nth-child(2n) {
+    td {
+      background: #f9f9fb;
+    }
+  }
   :deep(.q-table tbody) {
-    box-shadow: inset 0px 0px 0px 1px #f1f1f1;
-    border-radius: 8px;
     font-size: 14px;
     font-weight: 500;
     color: #525252;
