@@ -1,35 +1,20 @@
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
 import { QTableColumn } from "quasar";
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 
 import TableWrapper from "@/components/TableWrapper/TableWrapper.vue";
 import { useConsultantStore } from "@/stores/consultantStore";
 
 const dateFilter = ref();
 const consultantStore = useConsultantStore();
-// const { reportsList } = storeToRefs(consultantStore);
-const reportsList = [
-  { name: "Файл 1.xls", createdAt: "01.02.2015", status: "UPLOADED", saveUrl: "/asda" },
-  {
-    name: "Файл ФайлФайлФайлФайлФайлФайлФайлФайлФайлФайлФайлФайлФайлФайлФайлФайлФайл1.xls",
-    createdAt: "01.09.2015",
-    status: "NOT_UPLOADED",
-    saveUrl: "/as1da",
-  },
-  {
-    name: "Файл ФайлФайлФайлФайлФайлФайлФайлФайлФайлФайлФайлФайлФайлФайлФайлФайлФайл1.xls",
-    createdAt: "01.09.2015",
-    status: "NOT_UPLOADED",
-    saveUrl: "/as1da",
-  },
-  {
-    name: "Файл ФайлФайлФайлФайлФайлФайлФайлФайлФайлФайлФайлФайлФайлФайлФайлФайлФайл1.xls",
-    createdAt: "01.09.2015",
-    status: "NOT_UPLOADED",
-    saveUrl: "/as1da",
-  },
-].map((el, index) => {
-  return { ...el, index: index + 1 };
+const { reportsModel } = storeToRefs(consultantStore);
+const reportsListRows = computed(() => {
+  return (
+    reportsModel.value?.data.map((el, index) => {
+      return { ...el, index: index + 1 };
+    }) ?? []
+  );
 });
 const reportListHeaders = [
   {
@@ -52,23 +37,26 @@ const reportListHeaders = [
   {
     name: "status",
     label: "Статус",
+    //TODO: форматирование статуса
     field: "status",
     align: "center",
   },
   {
     name: "saveUrl",
     label: "Скачать",
+    //TODO: кнопка скачать
     field: "saveUrl",
     align: "center",
   },
 ] as QTableColumn[];
 onMounted(() => {
+  //TODO: пагинация
   consultantStore.getReports({ page: "1" });
 });
 </script>
 
 <template>
-  <TableWrapper :items="reportsList" :columns="reportListHeaders" :title="'Журналы'">
+  <TableWrapper :items="reportsListRows" :headers="reportListHeaders" :title="'Журналы'">
     <template #header_right>
       <q-btn>Загрузить файл</q-btn>
     </template>
@@ -88,6 +76,13 @@ onMounted(() => {
           </template>
         </q-input>
       </div>
+    </template>
+    <template #item="{ item, cellClass }">
+      <div :class="cellClass">{{ item.index }}</div>
+      <div :class="cellClass">{{ item.fileName }}</div>
+      <div :class="cellClass">{{ item.createdAt }}</div>
+      <div :class="cellClass">{{ item.uploadStatus }}</div>
+      <div :class="cellClass">{{ item.fileUrl }}</div>
     </template>
   </TableWrapper>
 </template>

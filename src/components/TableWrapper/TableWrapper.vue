@@ -4,7 +4,7 @@ import { QTableColumn } from "quasar";
 import CardTableWrapper from "./CardTableWrapper.vue";
 import ListTableWrapper from "./ListTableWrapper.vue";
 
-defineProps<{ items: T[]; title: string; cardsList?: boolean; columns: QTableColumn[] }>();
+defineProps<{ items: T[]; title: string; cardsList?: boolean; headers?: QTableColumn[] }>();
 </script>
 
 <template>
@@ -22,7 +22,11 @@ defineProps<{ items: T[]; title: string; cardsList?: boolean; columns: QTableCol
           <slot name="item" v-bind="{ item, index }"></slot>
         </template>
       </CardTableWrapper>
-      <ListTableWrapper v-else :items="items" :columns="columns"></ListTableWrapper>
+      <ListTableWrapper v-else :items="items" :headers="headers">
+        <template #item="{ item, index, cellClass }">
+          <slot name="item" v-bind="{ item, index, cellClass }"></slot>
+        </template>
+      </ListTableWrapper>
     </div>
     <div v-else class="table-wrapper__noData">Данных нет</div>
     <slot name="pagination"></slot>

@@ -1,49 +1,57 @@
 <script setup lang="ts" generic="T extends Record<string, unknown>">
 import { QTableColumn } from "quasar";
+import { computed, StyleValue } from "vue";
 
-defineProps<{ items: T[]; columns: QTableColumn[] }>();
+const props = defineProps<{ items: T[]; headers?: QTableColumn[] }>();
+const gridTemplateColumnsStyle = computed(() => {
+  let columnsWidths = "";
+  for (let i = 0; i < (props.headers?.length ?? 0); i++) {
+    const width = props.headers ? props.headers[i].width ?? "1fr" : "1fr";
+    columnsWidths += ` ${width}`;
+  }
+  if (!columnsWidths) return;
+  return { "grid-template-columns": columnsWidths } as StyleValue;
+});
 </script>
 
 <template>
-  <q-table
-    class="listTableWrapper"
-    wrap-cells
-    hide-bottom
-    flat
-    :rows="items"
-    :columns="columns"
-    row-key="index"></q-table>
+  <div class="listTableWrapper">
+    <div v-if="headers && headers.length" class="header table-row" :style="gridTemplateColumnsStyle">
+      <div v-for="(item, index) in headers" :key="index" class="table-cell">{{ item.label }}</div>
+    </div>
+    <div class="content">
+      <div v-for="(item, index) in items" :key="index" class="table-row" :style="gridTemplateColumnsStyle">
+        <slot name="item" v-bind="{ item, index }" :cell-class="'table-cell'"></slot>
+      </div>
+    </div>
+  </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss">
 .listTableWrapper {
-  background: transparent;
-  border-radius: 8px;
-  border: 1px solid #f1f1f1;
-  :deep(.q-table) {
-    border-collapse: collapse;
+  // display: grid;
+  // grid-template-rows: 1fr;
+  font-weight: 500;
+  .header {
+    color: #a3a3a3;
+    font-size: 12px;
   }
-  :deep(.q-table tbody td) {
+  .table-row {
+    display: grid;
+  }
+
+  .table-cell {
+    padding: 16px 8px;
     word-break: break-word;
   }
-  :deep(.q-table tbody tr td),
-  :deep(.q-table thead tr th) {
-    border-color: transparent;
-  }
-  :deep(.q-table tbody tr):nth-child(2n) {
-    td {
-      background: #f9f9fb;
-    }
-  }
-  :deep(.q-table tbody) {
-    font-size: 14px;
-    font-weight: 500;
+  .content {
     color: #525252;
-  }
-  :deep(.q-table thead) {
-    font-size: 12px;
-    font-weight: 500;
-    color: #a3a3a3;
+    font-size: 14px;
+    .table-row {
+      &:hover {
+        background: rgba(0, 0, 0, 0.03);
+      }
+    }
   }
 }
 </style>
