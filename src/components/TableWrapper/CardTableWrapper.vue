@@ -1,18 +1,11 @@
-<script setup lang="ts" generic="T extends TWebinarCardData">
-import { TWebinarCardData } from "@/components/common/Home/WebinarCard/types";
-
-// const props = defineProps<{
-//   items: Record<string, unknown>[];
-// }>();
-
+<script setup lang="ts" generic="T extends Record<string, unknown>">
 defineProps<{ items: T[] }>();
 </script>
 
 <template>
   <div class="cardTableWrapper">
-    <div v-if="!items.length">Loading...</div>
     <div v-for="(item, index) in items" :key="index">
-      <slot name="item" v-bind="item"></slot>
+      <slot name="item" v-bind="{ item, index }"></slot>
     </div>
   </div>
 </template>
