@@ -101,6 +101,8 @@ onMounted(() => openFirstTab());
   width: 300px;
   &__tab {
     border-radius: 6px;
+    justify-content: start;
+    padding-left: 18px;
   }
   &__tab :deep(.q-tab__label) {
     color: var(--q-blue-lighter, #315194);
