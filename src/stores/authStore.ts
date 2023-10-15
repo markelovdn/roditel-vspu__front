@@ -118,6 +118,7 @@ export const useAuthStore = defineStore(
       );
     }
     const getUserInfo = computed(() => user.value);
+    const getUserId = computed(() => user.value?.id);
     const isLoggedIn = computed(() => user.value && token.value);
     return {
       forgotPassword,
@@ -131,6 +132,7 @@ export const useAuthStore = defineStore(
       initRespInterceptors,
       isLoggedIn,
       resetPassword,
+      getUserId,
     };
   },
   {
