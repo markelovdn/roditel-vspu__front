@@ -14,6 +14,11 @@ export type TLoginArgs = {
   email: string;
   password: string;
 };
+
+export type TForgotPasswordArgs = {
+  email: string;
+};
+
 export type TUser = {
   id: number;
   email: string;
