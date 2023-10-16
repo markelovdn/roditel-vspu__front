@@ -19,11 +19,9 @@ router.afterEach((to) => {
   }, 100);
 });
 router.beforeEach(async (to, from, next) => {
-  const publicPages = ["/"];
-  const authRequired = !publicPages.includes(to.path);
   const { user } = useAuthStore();
 
-  if (authRequired && !user) {
+  if (to.meta.requireAuth === undefined && !user) {
     notify({ type: "negative", message: "Для доступа к этой странице необходима авторизация" });
     next({ name: "Main" });
   } else {

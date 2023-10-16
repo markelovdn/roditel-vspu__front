@@ -4,6 +4,7 @@ import type {
   TLoginResponse,
   TRegistrationPayload,
   TRegistrationResponse,
+  TResetPasswordArgs,
 } from "@/api/Auth/types";
 import axios from "@/common/axios";
 export class AuthApiService {
@@ -11,6 +12,12 @@ export class AuthApiService {
     return axios.post<TLoginResponse>("/login", {
       email,
       password,
+    });
+  }
+
+  logout() {
+    return axios.post("/logout", {
+      headers: { "Access-Control-Allow-Origin": "*" },
     });
   }
 
@@ -40,6 +47,13 @@ export class AuthApiService {
   forgotPassword({ email }: TForgotPasswordArgs) {
     return axios.post<TForgotPasswordArgs>("/forgotPassword", {
       email: email,
+    });
+  }
+
+  resetPassword({ password, token }: TResetPasswordArgs) {
+    return axios.post<TResetPasswordArgs>("/resetPassword", {
+      password: password,
+      token: token,
     });
   }
 }

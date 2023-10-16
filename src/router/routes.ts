@@ -7,20 +7,26 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/pages/MainPage/MainPage.vue"),
     meta: {
       background: "primary",
+      requireAuth: false,
     },
   },
   {
     path: "/my",
     name: "My",
-    meta: {
-      isAuthPage: true,
-    },
     component: () => import("@/pages/AccountPage/AccountPage.vue"),
   },
   {
     path: "/ui",
     name: "Ui",
     component: () => import("@/pages/UiPage/UiPage.vue"),
+  },
+  {
+    path: "/resetPassword/:token",
+    name: "resetPassword",
+    meta: {
+      requireAuth: false,
+    },
+    component: () => import("@/pages/ResetPasswordPage/ResetPasswordPage.vue"),
   },
 ];
 

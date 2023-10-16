@@ -4,7 +4,7 @@ import { computed, ref } from "vue";
 import { parse, stringify } from "zipson";
 
 import { authApi } from "@/api";
-import { TForgotPasswordArgs, TLoginArgs, TRegistrationPayload, TUser } from "@/api/Auth/types";
+import { TForgotPasswordArgs, TLoginArgs, TRegistrationPayload, TResetPasswordArgs, TUser } from "@/api/Auth/types";
 import axios from "@/common/axios";
 import notify from "@/utils/notify";
 
@@ -53,8 +53,11 @@ export const useAuthStore = defineStore(
         return Promise.reject(err);
       }
     }
-    function logout() {
+    async function logout() {
       try {
+        if (localStorage.getItem("token")) {
+          await authApi.logout();
+        }
         localStorage.removeItem("token");
         user.value = undefined;
         return Promise.resolve();
@@ -66,9 +69,34 @@ export const useAuthStore = defineStore(
     async function forgotPassword(payload: TForgotPasswordArgs) {
       try {
         await authApi.forgotPassword(payload);
+        notify({
+          type: "positive",
+          message: "Ссылка для восстановления пароля отправлена на указанный email",
+        });
         return Promise.resolve();
       } catch (err) {
         console.log(err);
+        notify({
+          type: "negative",
+          message: "Данный email не зарегистрирован, или ссылка для восстановления пароля уже отправлена",
+        });
+        return Promise.reject(err);
+      }
+    }
+    async function resetPassword(payload: TResetPasswordArgs) {
+      try {
+        await authApi.resetPassword(payload);
+        notify({
+          type: "positive",
+          message: "Пароль успешно изменен, войдите в личный кабинет",
+        });
+        return Promise.resolve();
+      } catch (err) {
+        console.log(err);
+        notify({
+          type: "negative",
+          message: "Время действия токена истекло",
+        });
         return Promise.reject(err);
       }
     }
@@ -102,6 +130,7 @@ export const useAuthStore = defineStore(
       logout,
       initRespInterceptors,
       isLoggedIn,
+      resetPassword,
     };
   },
   {
