@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
+import { useRouter } from "vue-router";
 
 import { repeatPasswordValidator, requiredValidator, useValidation } from "@/hooks/useValidation";
-// eslint-disable-next-line import/no-cycle
-import router from "@/router";
 import { useAuthStore } from "@/stores/authStore";
 
 import { TResetPasswordPayload } from "./types";
 
 const emit = defineEmits(["close"]);
-
+const router = useRouter();
 const data = ref<TResetPasswordPayload>({
   password: "",
   passwordConfirm: "",
