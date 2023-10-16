@@ -12,6 +12,7 @@ const pageBackground = computed(() => {
 
   return { background: getCssVar(`background-${backgroundName}`) };
 });
+const showHeaderOnRoute = computed(() => route.name !== "ResetPassword");
 </script>
 
 <template>
@@ -22,7 +23,7 @@ const pageBackground = computed(() => {
         <router-view />
       </q-page>
     </q-page-container>
-    <TheFooter />
+    <TheFooter v-show="showHeaderOnRoute" />
   </q-layout>
 </template>
 
