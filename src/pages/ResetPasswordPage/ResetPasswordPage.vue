@@ -80,10 +80,6 @@ const handleResetPassword = () => {
 </template>
 
 <style lang="scss" scoped>
-.main-container {
-  /* padding: 0 75px; */
-}
-
 .password-reset__wrapper {
   width: 300px;
 

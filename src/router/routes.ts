@@ -22,7 +22,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/resetPassword/:token",
-    name: "resetPassword",
+    name: "ResetPassword",
     meta: {
       requireAuth: false,
     },

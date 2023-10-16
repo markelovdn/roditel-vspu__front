@@ -21,7 +21,7 @@ router.afterEach((to) => {
 router.beforeEach(async (to, from, next) => {
   const { user } = useAuthStore();
 
-  if (to.meta.requireAuth === undefined && !user) {
+  if ((to.meta.requireAuth === undefined || to.meta.requireAuth === true) && !user) {
     notify({ type: "negative", message: "Для доступа к этой странице необходима авторизация" });
     next({ name: "Main" });
   } else {
