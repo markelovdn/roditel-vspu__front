@@ -3,6 +3,7 @@ import { ref } from "vue";
 
 import { useModal } from "@/hooks/useModal";
 import { emailValidator, requiredValidator, useValidation } from "@/hooks/useValidation";
+import router from "@/router";
 import { useAuthStore } from "@/stores/authStore";
 
 import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
@@ -17,12 +18,17 @@ const data = ref<TForgotPasswordPayload>({
 const { closeModal } = useModal(emit, data);
 const authStore = useAuthStore();
 
+const onForgotSuccess = () => {
+  closeModal({ force: true });
+  router.push({ name: "/" });
+};
+
 const { handleBlur, getErrorAttrs, isValid } = useValidation<TForgotPasswordPayload>(data, emit, {
   email: { requiredValidator, emailValidator },
 });
 
 const handleForgotPassword = () => {
-  authStore.forgotPassword({ email: data.value.email }).then();
+  authStore.forgotPassword({ email: data.value.email }).then(onForgotSuccess);
 };
 </script>
 

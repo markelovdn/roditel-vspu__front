@@ -15,10 +15,6 @@ export type TLoginArgs = {
   password: string;
 };
 
-export type TForgotPasswordArgs = {
-  email: string;
-};
-
 export type TUser = {
   id: number;
   email: string;
@@ -41,3 +37,12 @@ export type TLoginResponse = {
 };
 
 export interface TRegistrationResponse extends TLoginResponse {}
+
+export type TForgotPasswordArgs = {
+  email: string;
+};
+
+export type TResetPasswordArgs = {
+  password: string;
+  token: string | undefined;
+};
