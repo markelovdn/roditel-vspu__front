@@ -28,7 +28,7 @@ const { handleBlur, getErrorAttrs, isValid } = useValidation<TResetPasswordPaylo
 const handleResetPassword = () => {
   authStore
     .resetPassword({ password: data.value.password, token: data.value.token })
-    .then(() => router.push({ name: "/" }));
+    .then(() => router.push({ name: "Main" }));
 };
 </script>
 
