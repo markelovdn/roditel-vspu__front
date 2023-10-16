@@ -50,10 +50,10 @@ export class AuthApiService {
     });
   }
 
-  resetPassword({ password, token }: TResetPasswordArgs) {
+  resetPassword({ password, resetToken }: TResetPasswordArgs) {
     return axios.post<TResetPasswordArgs>("/resetPassword", {
       password: password,
-      token: token,
+      resetToken: resetToken,
     });
   }
 }

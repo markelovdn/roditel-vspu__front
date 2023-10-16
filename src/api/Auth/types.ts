@@ -44,5 +44,5 @@ export type TForgotPasswordArgs = {
 
 export type TResetPasswordArgs = {
   password: string;
-  token: string | undefined;
+  resetToken: string | undefined;
 };
