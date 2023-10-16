@@ -13,7 +13,7 @@ const emit = defineEmits(["close"]);
 const data = ref<TResetPasswordPayload>({
   password: "",
   passwordConfirm: "",
-  token: location.pathname.split("=").pop(),
+  resetToken: location.pathname.split("=").pop(),
 });
 
 const authStore = useAuthStore();
@@ -22,12 +22,12 @@ const isPwd = ref(true);
 const { handleBlur, getErrorAttrs, isValid } = useValidation<TResetPasswordPayload>(data, emit, {
   password: { requiredValidator },
   passwordConfirm: { repeatPasswordValidator: repeatPasswordValidator(computed(() => data.value.password)) },
-  token: { requiredValidator },
+  resetToken: { requiredValidator },
 });
 
 const handleResetPassword = () => {
   authStore
-    .resetPassword({ password: data.value.password, token: data.value.token })
+    .resetPassword({ password: data.value.password, resetToken: data.value.resetToken })
     .then(() => router.push({ name: "Main" }));
 };
 </script>
