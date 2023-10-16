@@ -46,7 +46,7 @@ const handleLogin = () => {
 
 <template>
   <div>
-    <ForgotPassword v-if="showForgotPasswordModal" @close="showForgotPasswordModal = false"></ForgotPassword>
+    <ForgotPassword v-if="showForgotPasswordModal" @close="closeModal"></ForgotPassword>
     <RegistrationModal v-if="showRegistrationModal" @close="showRegistrationModal = false"></RegistrationModal>
     <ModalWrapper v-if="!showRegistrationModal && !showForgotPasswordModal" header="Войти">
       <q-form class="fit q-mb-sm form" @keydown.enter="handleLogin">
