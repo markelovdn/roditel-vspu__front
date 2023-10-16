@@ -20,7 +20,7 @@ const authStore = useAuthStore();
 
 const onForgotSuccess = () => {
   closeModal({ force: true });
-  router.push({ name: "/" });
+  router.push({ name: "Main" });
 };
 
 const { handleBlur, getErrorAttrs, isValid } = useValidation<TForgotPasswordPayload>(data, emit, {
