@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 
 import { useModal } from "@/hooks/useModal";
 import { emailValidator, requiredValidator, useValidation } from "@/hooks/useValidation";
-import router from "@/router";
 import { useAuthStore } from "@/stores/authStore";
 
 import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
@@ -12,6 +12,7 @@ import RegistrationModal from "../RegistrationModal/RegistrationModal.vue";
 import { TLoginPayload } from "./types";
 
 const emit = defineEmits(["close"]);
+const router = useRouter();
 
 const data = ref<TLoginPayload>({
   email: "",
