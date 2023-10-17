@@ -13,7 +13,7 @@ const route = useRoute();
 const data = ref<TResetPasswordPayload>({
   password: "",
   passwordConfirm: "",
-  resetToken: route.params.resetToken,
+  resetToken: route.params.resetToken as unknown as string,
 });
 
 const authStore = useAuthStore();
