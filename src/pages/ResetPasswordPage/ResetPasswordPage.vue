@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 import { repeatPasswordValidator, requiredValidator, useValidation } from "@/hooks/useValidation";
 import { useAuthStore } from "@/stores/authStore";
@@ -9,10 +9,11 @@ import { TResetPasswordPayload } from "./types";
 
 const emit = defineEmits(["close"]);
 const router = useRouter();
+const route = useRoute();
 const data = ref<TResetPasswordPayload>({
   password: "",
   passwordConfirm: "",
-  resetToken: useRouter().currentRoute.value.params.resetToken,
+  resetToken: route.params.resetToken,
 });
 
 const authStore = useAuthStore();
