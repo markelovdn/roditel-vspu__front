@@ -12,7 +12,7 @@ const router = useRouter();
 const data = ref<TResetPasswordPayload>({
   password: "",
   passwordConfirm: "",
-  resetToken: location.pathname.split("=").pop(),
+  resetToken: useRouter().currentRoute.value.params.resetToken,
 });
 
 const authStore = useAuthStore();

@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
+import { useRouter } from "vue-router";
 
 import IconPersonal from "@/components/icons/IconPersonal.vue";
 import IconPhone from "@/components/icons/IconPhone.vue";
 import LoginModal from "@/components/modals/LoginModal/LoginModal.vue";
-import router from "@/router";
 
 import { useAuthStore } from "../../../stores/authStore";
 import { headerMenuItems } from "./types";
 
 const authStore = useAuthStore();
+const router = useRouter();
 
 const showLoginModal = ref(false);
 

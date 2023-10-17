@@ -21,7 +21,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/pages/UiPage/UiPage.vue"),
   },
   {
-    path: "/resetPassword/:token",
+    path: "/resetPassword/:resetToken",
     name: "ResetPassword",
     meta: {
       requireAuth: false,

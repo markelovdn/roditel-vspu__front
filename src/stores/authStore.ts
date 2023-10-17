@@ -95,7 +95,7 @@ export const useAuthStore = defineStore(
         console.log(err);
         notify({
           type: "negative",
-          message: "Время действия токена истекло",
+          message: "Время действия ссылки для восстановления пароля истекло",
         });
         return Promise.reject(err);
       }

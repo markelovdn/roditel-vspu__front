@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 
 import { useModal } from "@/hooks/useModal";
 import { emailValidator, requiredValidator, useValidation } from "@/hooks/useValidation";
-import router from "@/router";
 import { useAuthStore } from "@/stores/authStore";
 
 import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
 import { TForgotPasswordPayload } from "./types";
 
 const emit = defineEmits(["close"]);
+const router = useRouter();
 
 const data = ref<TForgotPasswordPayload>({
   email: "",
@@ -33,30 +34,23 @@ const handleForgotPassword = () => {
 </script>
 
 <template>
-  <div>
-    <ModalWrapper header="Сброс пароля">
-      <q-form class="fit q-mb-sm form" @keydown.enter="handleForgotPassword">
-        <q-input
-          v-bind="getErrorAttrs('email')"
-          v-model="data.email"
-          outlined
-          class="fit q-mb-sm"
-          input-class="q-input--form"
-          label="Почта*"
-          borderless
-          @blur="handleBlur('email')" />
-      </q-form>
-      <div class="fit q-mb-sm footer">
-        <q-btn
-          label="Отправить"
-          :disable="!isValid"
-          class="q-btn--form"
-          color="primary"
-          @click="handleForgotPassword" />
-        <q-btn label="Закрыть" class="q-ml-sm q-btn--form" flat :ripple="false" color="grey-1" @click="closeModal()" />
-      </div>
-    </ModalWrapper>
-  </div>
+  <ModalWrapper header="Сброс пароля">
+    <q-form class="fit q-mb-sm form" @keydown.enter="handleForgotPassword">
+      <q-input
+        v-bind="getErrorAttrs('email')"
+        v-model="data.email"
+        outlined
+        class="fit q-mb-sm"
+        input-class="q-input--form"
+        label="Почта*"
+        borderless
+        @blur="handleBlur('email')" />
+    </q-form>
+    <div class="fit q-mb-sm footer">
+      <q-btn label="Отправить" :disable="!isValid" class="q-btn--form" color="primary" @click="handleForgotPassword" />
+      <q-btn label="Закрыть" class="q-ml-sm q-btn--form" flat :ripple="false" color="grey-1" @click="closeModal()" />
+    </div>
+  </ModalWrapper>
 </template>
 
 <style lang="scss" scoped>
