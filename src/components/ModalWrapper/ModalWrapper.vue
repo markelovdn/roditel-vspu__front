@@ -4,20 +4,11 @@ import { computed, type ComputedRef } from "vue";
 
 const emit = defineEmits(["close"]);
 
-defineProps({
-  header: {
-    type: String,
-    required: false,
-  },
-  subHeader: {
-    type: String,
-    required: false,
-  },
-  closeButtonHeader: {
-    type: Boolean,
-    required: false,
-  },
-});
+defineProps<{
+  header?: string;
+  subHeader?: string;
+  closeButtonHeader?: boolean;
+}>();
 
 const position: ComputedRef<"left" | "right" | "bottom" | "top" | "standard"> = computed(() => {
   //   if ($q.screen.lt.md) {
