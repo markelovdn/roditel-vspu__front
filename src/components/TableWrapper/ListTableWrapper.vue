@@ -20,7 +20,7 @@ const gridTemplateColumnsStyle = computed(() => {
       <div v-for="(item, index) in headers" :key="index" class="table-cell">{{ item.label }}</div>
     </div>
     <div class="content">
-      <div v-for="(item, index) in items" :key="index" class="table-row" :style="gridTemplateColumnsStyle">
+      <div v-for="(item, index) in items" :key="index" class="table-row content__row" :style="gridTemplateColumnsStyle">
         <slot name="item" v-bind="{ item, index }" :cell-class="'table-cell'"></slot>
       </div>
     </div>
@@ -32,6 +32,7 @@ const gridTemplateColumnsStyle = computed(() => {
   // display: grid;
   // grid-template-rows: 1fr;
   font-weight: 500;
+  line-height: 16px;
   .header {
     color: #a3a3a3;
     font-size: 12px;
@@ -41,16 +42,21 @@ const gridTemplateColumnsStyle = computed(() => {
   }
 
   .table-cell {
-    padding: 16px 8px;
+    padding: 16px 14px;
     word-break: break-word;
   }
   .content {
     color: #525252;
     font-size: 14px;
+    border: 1px solid #f1f1f1;
+    border-radius: 8px;
     .table-row {
       &:hover {
         background: rgba(0, 0, 0, 0.03);
       }
+    }
+    &__row:nth-child(2n) {
+      background: #f9f9fb;
     }
   }
 }

@@ -51,7 +51,7 @@ defineProps<{ items: T[]; title: string; cardsList?: boolean; headers?: QTableCo
   }
   &__noData {
     text-align: center;
-    padding: 20px;
+    padding: 40px 20px;
     font-size: 18px;
     opacity: 0.4;
   }
