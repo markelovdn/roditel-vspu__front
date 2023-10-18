@@ -1,60 +1,30 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
+import { webinarsApi } from "@/api";
+import { toTWebinarCardData } from "@/api/Webinars/mappers";
+import { TWebinarsLectors, TWebinarsRequestOption } from "@/api/Webinars/types";
 import { TWebinarCardData } from "@/components/common/Home/WebinarCard/types";
 
 export const useWebinarsStore = defineStore("webinarsStore", () => {
   // Вебинары по дефолту загружается 1 страница. Существуют методы пагинации изменяющие
   // https://markelovdn.ru/api/documentation#/WEBINARS/getWebinarsList
-  const mocks: TWebinarCardData[] = [
-    {
-      imageUrl: "https://pm1.aminoapps.com/7593/75e7a6f06e1c74177c45394d882a9b6606bf339cr1-600-800v2_hq.jpg",
-      title:
-        "Развитие креативного и критического мышления как показателя функциональной грамотности у обучающихся основной школы",
-      category: "Основная школа",
-      lector: "Ястребова Гульнара Ахмедовна",
-      cost: 0,
-      date: "19.11.21 c 14:00 до 15:00 (Мск)",
-    },
-    {
-      imageUrl: "https://pm1.aminoapps.com/7593/75e7a6f06e1c74177c45394d882a9b6606bf339cr1-600-800v2_hq.jpg",
-      title:
-        "Развитие креативного и критического мышления как показателя функциональной грамотности у обучающихся основной школы",
-      category: "Основная школа",
-      lector: "Ястребова Гульнара Ахмедовна",
-      cost: 500,
-      date: "19.11.21 c 14:00 до 15:00 (Мск)",
-    },
-    {
-      imageUrl: "https://pm1.aminoapps.com/7593/75e7a6f06e1c74177c45394d882a9b6606bf339cr1-600-800v2_hq.jpg",
-      title:
-        "Развитие креативного и критического мышления как показателя функциональной грамотности у обучающихся основной школы",
-      category: "Основная школа",
-      lector: "Ястребова Гульнара Ахмедовна",
-      cost: 100500,
-      date: "19.11.21 c 14:00 до 15:00 (Мск)",
-    },
-    {
-      imageUrl: "https://pm1.aminoapps.com/7593/75e7a6f06e1c74177c45394d882a9b6606bf339cr1-600-800v2_hq.jpg",
-      title:
-        "Развитие креативного и критического мышления как показателя функциональной грамотности у обучающихся основной школы",
-      category: "Основная школа",
-      lector: "Ястребова Гульнара Ахмедовна",
-      cost: 0,
-      date: "19.11.21 c 14:00 до 15:00 (Мск)",
-    },
-    {
-      imageUrl: "https://pm1.aminoapps.com/7593/75e7a6f06e1c74177c45394d882a9b6606bf339cr1-600-800v2_hq.jpg",
-      title:
-        "Развитие креативного и критического мышления как показателя функциональной грамотности у обучающихся основной школы",
-      category: "Основная школа",
-      lector: "Ястребова Гульнара Ахмедовна",
-      cost: 0,
-      date: "19.11.21 c 14:00 до 15:00 (Мск)",
-    },
-  ];
 
-  const webinars = ref<TWebinarCardData[]>(mocks);
+  const webinars = ref<TWebinarCardData[]>();
+  const lectors = ref<TWebinarsLectors>([]);
+  const page = ref({
+    current: 1,
+    max: 1,
+  });
 
-  return { webinars };
+  function requestLectors() {
+    webinarsApi.getLectors().then((resp) => (lectors.value = resp.data));
+  }
+  function requestWebinars(options: TWebinarsRequestOption) {
+    webinarsApi.getWebinars(options).then((resp) => {
+      page.value.max = resp.data.links.last.split("?page=")[1];
+      webinars.value = toTWebinarCardData(resp.data);
+    });
+  }
+  return { webinars, page, requestLectors, requestWebinars };
 });
