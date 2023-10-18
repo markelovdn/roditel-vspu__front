@@ -17,14 +17,19 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
     max: 1,
   });
 
+  function clearFilters() {
+    page.value.current = 1;
+    page.value.max = 1;
+  }
   function requestLectors() {
     webinarsApi.getLectors().then((resp) => (lectors.value = resp.data));
   }
   function requestWebinars(options: TWebinarsRequestOption) {
     webinarsApi.getWebinars(options).then((resp) => {
-      page.value.max = resp.data.links.last.split("?page=")[1];
+      page.value.max = resp.data.meta.last_page;
+      page.value.current = resp.data.meta.current_page;
       webinars.value = toTWebinarCardData(resp.data);
     });
   }
-  return { webinars, page, requestLectors, requestWebinars };
+  return { webinars, page, requestLectors, requestWebinars, clearFilters };
 });
