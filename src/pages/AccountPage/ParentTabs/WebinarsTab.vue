@@ -4,6 +4,12 @@ import TableWrapper from "@/components/TableWrapper/TableWrapper.vue";
 import { useWebinarsStore } from "@/stores/webinarsStore";
 
 const webinarsStore = useWebinarsStore();
+
+webinarsStore.requestWebinars({});
+
+const setPage = (page: number) => {
+  webinarsStore.requestWebinars({ page });
+};
 </script>
 
 <template>
@@ -13,6 +19,18 @@ const webinarsStore = useWebinarsStore();
         <WebinarCard :webinar-item="item" />
       </template>
     </TableWrapper>
+
+    <div class="q-pa-lg">
+      <div class="q-gutter-md">
+        <q-pagination
+          v-model="webinarsStore.page.current"
+          :max="webinarsStore.page.max"
+          :max-pages="6"
+          direction-links
+          gutter="20px"
+          @update:model-value="setPage" />
+      </div>
+    </div>
   </div>
 </template>
 
