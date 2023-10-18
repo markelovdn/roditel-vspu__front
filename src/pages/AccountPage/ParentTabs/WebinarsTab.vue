@@ -4,12 +4,9 @@ import TableWrapper from "@/components/TableWrapper/TableWrapper.vue";
 import { useWebinarsStore } from "@/stores/webinarsStore";
 
 const webinarsStore = useWebinarsStore();
-
+webinarsStore.clearFilters();
 webinarsStore.requestWebinars({});
-
-const setPage = (page: number) => {
-  webinarsStore.requestWebinars({ page });
-};
+const setPage = (page: number) => webinarsStore.requestWebinars({ page });
 </script>
 
 <template>
