@@ -16,7 +16,7 @@ const router = useRouter();
 const showLoginModal = ref(false);
 
 const userCabinetButtontext = computed(() => {
-  return authStore.getUserInfo ? "Личный кабинет" : "Войти";
+  return authStore.getUserInfo ? "" : "Войти";
 });
 const auth = () => {
   if (authStore.getUserInfo) {
@@ -79,7 +79,7 @@ const logout = () => {
             {{ item.name }}
           </router-link>
         </div>
-        <div class="flex no-wrap">
+        <div class="fit row wrap justify-center items-start content-start">
           <span class="cursor-pointer materials">Методические материалы</span>
           <div class="link-ask-expert">
             <div>Задать вопрос консультанту</div>
@@ -118,6 +118,11 @@ const logout = () => {
     align-items: center;
     gap: 18px;
 
+    @media (max-width: 600px) {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
     .logo {
       display: flex;
       justify-content: center;
@@ -135,6 +140,10 @@ const logout = () => {
         line-height: 139%;
         text-transform: uppercase;
         cursor: default;
+
+        @media (max-width: 600px) {
+          font-size: 12px;
+        }
       }
     }
 
@@ -149,6 +158,12 @@ const logout = () => {
 
         .contacts__phone-number_optional {
           color: $grey-2;
+        }
+
+        @media (max-width: 600px) {
+          font-size: 12px;
+          flex-wrap: wrap;
+          justify-content: center;
         }
       }
 
@@ -167,7 +182,7 @@ const logout = () => {
       .personal-cabinet {
         display: flex;
         justify-content: space-between;
-        width: 200px;
+        // width: 200px;
         padding: 12px 16px;
         border-radius: 10px;
         cursor: pointer;
@@ -186,9 +201,18 @@ const logout = () => {
     justify-content: space-between;
     font-size: 16px;
 
+    @media (max-width: 600px) {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
     .links {
       display: flex;
       gap: 32px;
+
+      @media (max-width: 600px) {
+        visibility: hidden;
+      }
 
       .links__link {
         color: $grey-2;
@@ -214,6 +238,10 @@ const logout = () => {
       margin: 0 0 0 32px;
       color: $Text-color;
       cursor: pointer;
+
+      @media (max-width: 600px) {
+        margin: 0;
+      }
 
       &:hover {
         color: $Blue-lighter;
