@@ -11,7 +11,7 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
   // Вебинары по дефолту загружается 1 страница. Существуют методы пагинации изменяющие
   // https://markelovdn.ru/api/documentation#/WEBINARS/getWebinarsList
   const webinarCategories = ref<TCollectionItem[]>([]);
-  const webinars = ref<TWebinarCardData[]>();
+  const webinars = ref<TWebinarCardData[]>([]);
   const lectors = ref<TWebinarsLectors>([]);
   const page = ref({
     current: 1,
