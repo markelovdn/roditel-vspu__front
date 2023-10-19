@@ -1,7 +1,8 @@
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 import { webinarsApi } from "@/api";
+import { TCollectionItem } from "@/api/Collections/types";
 import { toTWebinarCardData } from "@/api/Webinars/mappers";
 import { TWebinarsLectors, TWebinarsRequestOption } from "@/api/Webinars/types";
 import { TWebinarCardData } from "@/components/common/Home/WebinarCard/types";
@@ -9,7 +10,7 @@ import { TWebinarCardData } from "@/components/common/Home/WebinarCard/types";
 export const useWebinarsStore = defineStore("webinarsStore", () => {
   // Вебинары по дефолту загружается 1 страница. Существуют методы пагинации изменяющие
   // https://markelovdn.ru/api/documentation#/WEBINARS/getWebinarsList
-
+  const webinarCategories = ref<TCollectionItem[]>([]);
   const webinars = ref<TWebinarCardData[]>();
   const lectors = ref<TWebinarsLectors>([]);
   const page = ref({
@@ -24,6 +25,9 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
   function requestLectors() {
     webinarsApi.getLectors().then((resp) => (lectors.value = resp.data));
   }
+  function requestWebinarCategories() {
+    webinarsApi.getCategories().then((resp) => (webinarCategories.value = resp.data.data));
+  }
   function requestWebinars(options: TWebinarsRequestOption) {
     webinarsApi.getWebinars(options).then((resp) => {
       page.value.max = resp.data.meta.last_page;
@@ -31,5 +35,22 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
       webinars.value = toTWebinarCardData(resp.data);
     });
   }
-  return { webinars, page, requestLectors, requestWebinars, clearFilters };
+  const getWebinarCategories = computed(() => {
+    return webinarCategories.value.map((item: TCollectionItem) => {
+      return { label: item.title, value: item.id };
+    });
+  });
+  const getWebinarCategoriesWithAll = computed(() => {
+    return [{ label: "Все", value: 0 }, ...getWebinarCategories.value];
+  });
+  return {
+    webinars,
+    page,
+    requestLectors,
+    requestWebinars,
+    clearFilters,
+    requestWebinarCategories,
+    getWebinarCategories,
+    getWebinarCategoriesWithAll,
+  };
 });

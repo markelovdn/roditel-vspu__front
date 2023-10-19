@@ -18,6 +18,7 @@ export const useCollectionsStore = defineStore("collectionsStore", () => {
   function requestProfessions() {
     collectionsApi.getProfessions().then((resp) => (professions.value = resp.data.data));
   }
+
   const getRegions = computed(() => {
     return regions.value.map((item: TCollectionItem) => {
       return { label: item.title, value: item.id };

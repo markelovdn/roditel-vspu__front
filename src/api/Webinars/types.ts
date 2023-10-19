@@ -2,7 +2,7 @@ export type TWebinarsLectors = string[];
 export type TWebinarsRequestOption = {
   lector?: string;
   page?: number;
-  category?: 1; // id категории
+  category?: number; // id категории
   actual?: "yes" | "no";
   dateBetween?: string; //Вебинары в указанный промежуток дат "04.10.2023,07.10.2023";
   searchField?: string;
@@ -30,4 +30,8 @@ export type TWebinarData = {
   }[];
   links: any;
   meta: any;
+};
+
+export type WebinarCategoriesResponse = {
+  data: { id: string; title: string }[];
 };
