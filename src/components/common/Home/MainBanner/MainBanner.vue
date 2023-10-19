@@ -1,4 +1,6 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import bannerUrl from "@/assets/img/home-banner.png";
+</script>
 
 <template>
   <div class="container">
@@ -18,7 +20,7 @@
       </div>
     </div>
 
-    <q-img :src="'./public/img/home-banner.png'" :fit="'none'" :position="'100% 50%'" class="container__image" />
+    <q-img :src="bannerUrl" :fit="'none'" :position="'100% 50%'" class="container__image" />
   </div>
 </template>
 

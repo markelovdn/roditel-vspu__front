@@ -1,19 +1,25 @@
 <script setup lang="ts">
+import { computed } from "vue";
+
 import ImageBackground from "./ImageBackground.vue";
 
-defineProps<{
+const props = defineProps<{
   number: number;
   title: string;
   img?: string;
   description?: string;
 }>();
+
+const imageUrl = computed(
+  () => new URL(`/src/assets/img/ServiceDeliveryFormat/${props.number}.png`, import.meta.url).href,
+);
 </script>
 
 <template>
   <div class="card-1">
     <span class="card-1__number">{{ number }}.</span>
     <ImageBackground />
-    <img class="card-1__image" :src="img || `./public/img/ServiceDeliveryFormat/${number}.png`" alt="" />
+    <img class="card-1__image" :src="img || imageUrl" alt="" />
     <div class="card-1__text">
       <h5 class="card-1__text_title">{{ title }}</h5>
       <div v-if="description" class="card-1__text_description">{{ description }}</div>

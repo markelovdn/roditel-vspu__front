@@ -2,6 +2,7 @@
 import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
 
+import logoUrl from "@/assets/img/icons/logo.png";
 import IconPersonal from "@/components/icons/IconPersonal.vue";
 import IconPhone from "@/components/icons/IconPhone.vue";
 import LoginModal from "@/components/modals/LoginModal/LoginModal.vue";
@@ -34,7 +35,9 @@ const logout = () => {
     <div class="contentWrapper">
       <div class="row-1">
         <div class="logo">
-          <router-link :to="'/'"><q-img class="logo__img" :src="'./public/img/icons/logo.png'"></q-img></router-link>
+          <router-link :to="'/'">
+            <q-img class="logo__img" :src="logoUrl"></q-img>
+          </router-link>
           <span class="logo__text">Социально-психологический центр ВГСПУ</span>
         </div>
         <div class="contacts">
