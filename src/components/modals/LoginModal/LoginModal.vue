@@ -75,23 +75,30 @@ const handleLogin = () => {
           </template>
         </q-input>
       </q-form>
-      <div class="fit q-mb-sm footer">
+      <div class="row no-wrap q-mt-lg">
         <q-btn label="Войти" :disable="!isValid" class="q-btn--form" color="primary" @click="handleLogin" />
-        <q-btn label="Закрыть" class="q-ml-sm q-btn--form" flat :ripple="false" color="grey-1" @click="closeModal()" />
+        <q-btn
+          label="Закрыть"
+          :align="'right'"
+          class="q-ml-sm q-btn--form"
+          flat
+          :ripple="false"
+          color="grey-1"
+          @click="closeModal()" />
       </div>
-      <div class="q-pt-md">
+      <div class="q-mt-lg q-mb-xs">
         <q-btn
           label="Зарегистрироваться"
-          class="q-ml-sm q-btn--form full-width"
+          class="q-btn--form full-width"
           flat
           :ripple="false"
           color="primary"
           @click="showRegistrationModal = true" />
       </div>
-      <div class="q-pt-md">
+      <div class="q-mt-xs">
         <q-btn
           label="Восстановить пароль"
-          class="q-ml-sm q-btn--form full-width"
+          class="q-btn--form full-width"
           flat
           :ripple="false"
           color="primary"
@@ -101,8 +108,4 @@ const handleLogin = () => {
   </div>
 </template>
 
-<style lang="scss" scoped>
-.footer {
-  margin-top: 32px;
-}
-</style>
+<style lang="scss" scoped></style>

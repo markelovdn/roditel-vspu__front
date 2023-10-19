@@ -59,7 +59,7 @@ const handleRegistration = async () => {
     :close-button-header="!isRoleSelected"
     @close="closeModal">
     <template v-if="!isRoleSelected" #subHeader>
-      <div class="fit q-mb-sm">
+      <div class="row no-wrap q-mt-lg">
         <q-btn
           label="Я консультант"
           class="q-btn--form z-max"
@@ -77,20 +77,23 @@ const handleRegistration = async () => {
 
     <ParentedForm v-if="isRoleSelected && !isConsultant" v-model="data" @validation-change="handleValidChange" />
 
-    <div v-if="isRoleSelected" class="fit q-mb-sm footer">
+    <div v-if="isRoleSelected" class="row no-wrap q-mt-lg">
       <q-btn
         label="Регистрация"
         :disable="!isValid"
         class="q-btn--form"
         color="primary"
         @click="handleRegistration"></q-btn>
-      <q-btn label="Закрыть" class="q-ml-sm q-btn--form" flat :ripple="false" color="grey-1" @click="closeModal()" />
+      <q-btn
+        label="Закрыть"
+        :align="'right'"
+        class="q-ml-sm q-btn--form"
+        flat
+        :ripple="false"
+        color="grey-1"
+        @click="closeModal()" />
     </div>
   </ModalWrapper>
 </template>
 
-<style lang="scss" scoped>
-.footer {
-  margin-top: 32px;
-}
-</style>
+<style lang="scss" scoped></style>
