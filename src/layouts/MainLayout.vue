@@ -41,7 +41,8 @@ const showHeaderOnRoute = computed(() => route.name !== "ResetPassword");
     }
 
     @media screen and (width < 721px) {
-      width: 730px;
+      // width: 730px;
+      width: 100%;
       overflow-x: auto;
     }
   }

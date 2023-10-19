@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computedEager } from "@vueuse/core";
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 
 import { type TRegistrationPayload } from "@/api/Auth/types";
 import { useModal } from "@/hooks/useModal";
@@ -14,6 +15,7 @@ import ParentedForm from "./ParentedForm.vue";
 import { RegistrationRoleMap } from "./types";
 
 const emit = defineEmits(["close"]);
+const router = useRouter();
 
 const data = ref<TRegistrationPayload>({
   name: "",
@@ -42,6 +44,7 @@ const handleValidChange = (eventPayload: any) => {
   isValid.value = eventPayload.isValid;
 };
 const onRegisterSuccess = () => {
+  router.push({ name: "My" });
   closeModal({ force: true });
 };
 const onRegisterFail = () => notify({ type: "negative", message: "Не удалось зарегистрироваться" });

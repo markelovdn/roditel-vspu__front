@@ -5,7 +5,9 @@ import { useRouter } from "vue-router";
 import logoUrl from "@/assets/img/icons/logo.png";
 import IconPersonal from "@/components/icons/IconPersonal.vue";
 import IconPhone from "@/components/icons/IconPhone.vue";
+import ForgotPassword from "@/components/modals/ForgotPasswordModal/ForgotPassword.vue";
 import LoginModal from "@/components/modals/LoginModal/LoginModal.vue";
+import RegistrationModal from "@/components/modals/RegistrationModal/RegistrationModal.vue";
 
 import { useAuthStore } from "../../../stores/authStore";
 import { headerMenuItems } from "./types";
@@ -14,9 +16,11 @@ const authStore = useAuthStore();
 const router = useRouter();
 
 const showLoginModal = ref(false);
+const showRegistrationModal = ref(false);
+const showForgotPasswordModal = ref(false);
 
 const userCabinetButtontext = computed(() => {
-  return authStore.getUserInfo ? "" : "Войти";
+  return authStore.getUserInfo ? "Личный кабинет" : "Войти";
 });
 const auth = () => {
   if (authStore.getUserInfo) {
@@ -79,7 +83,7 @@ const logout = () => {
             {{ item.name }}
           </router-link>
         </div>
-        <div class="fit row wrap justify-center items-start content-start">
+        <div class="row wrap justify-end">
           <span class="cursor-pointer materials">Методические материалы</span>
           <div class="link-ask-expert">
             <div>Задать вопрос консультанту</div>
@@ -96,7 +100,13 @@ const logout = () => {
           </div>
         </div>
       </div>
-      <LoginModal v-if="showLoginModal" @close="showLoginModal = false"></LoginModal>
+      <LoginModal
+        v-if="showLoginModal"
+        @close="showLoginModal = false"
+        @show-registration-modal="showRegistrationModal = true"
+        @show-forgot-password-modal="showForgotPasswordModal = true"></LoginModal>
+      <ForgotPassword v-if="showForgotPasswordModal" @close="showForgotPasswordModal = false"></ForgotPassword>
+      <RegistrationModal v-if="showRegistrationModal" @close="showRegistrationModal = false"></RegistrationModal>
     </div>
   </q-header>
 </template>
@@ -118,9 +128,10 @@ const logout = () => {
     align-items: center;
     gap: 18px;
 
-    @media (max-width: 600px) {
+    @media (max-width: 1024px) {
       flex-wrap: wrap;
       justify-content: center;
+      gap: 0;
     }
 
     .logo {
@@ -141,8 +152,9 @@ const logout = () => {
         text-transform: uppercase;
         cursor: default;
 
-        @media (max-width: 600px) {
+        @media (max-width: 601px) {
           font-size: 12px;
+          gap: 0;
         }
       }
     }
@@ -151,6 +163,12 @@ const logout = () => {
       display: flex;
       align-items: center;
 
+      @media (max-width: 601px) {
+        font-size: 12px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
       .contacts__phone-number {
         font-size: 20px;
         margin: 0 38px 0 0;
@@ -158,12 +176,6 @@ const logout = () => {
 
         .contacts__phone-number_optional {
           color: $grey-2;
-        }
-
-        @media (max-width: 600px) {
-          font-size: 12px;
-          flex-wrap: wrap;
-          justify-content: center;
         }
       }
 
@@ -182,7 +194,7 @@ const logout = () => {
       .personal-cabinet {
         display: flex;
         justify-content: space-between;
-        // width: 200px;
+        width: 200px;
         padding: 12px 16px;
         border-radius: 10px;
         cursor: pointer;
@@ -201,7 +213,7 @@ const logout = () => {
     justify-content: space-between;
     font-size: 16px;
 
-    @media (max-width: 600px) {
+    @media (max-width: 1024px) {
       flex-wrap: wrap;
       justify-content: center;
     }
@@ -210,8 +222,11 @@ const logout = () => {
       display: flex;
       gap: 32px;
 
-      @media (max-width: 600px) {
+      @media (max-width: 1024px) {
         visibility: hidden;
+        gap: 0;
+        flex-wrap: wrap;
+        justify-content: center;
       }
 
       .links__link {
@@ -239,7 +254,7 @@ const logout = () => {
       color: $Text-color;
       cursor: pointer;
 
-      @media (max-width: 600px) {
+      @media (max-width: 470px) {
         margin: 0;
       }
 

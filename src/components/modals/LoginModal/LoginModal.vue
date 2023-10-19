@@ -7,11 +7,9 @@ import { emailValidator, requiredValidator, useValidation } from "@/hooks/useVal
 import { useAuthStore } from "@/stores/authStore";
 
 import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
-import ForgotPassword from "../ForgotPasswordModal/ForgotPassword.vue";
-import RegistrationModal from "../RegistrationModal/RegistrationModal.vue";
 import { TLoginPayload } from "./types";
 
-const emit = defineEmits(["close"]);
+const emit = defineEmits(["close", "showRegistrationModal", "showForgotPasswordModal"]);
 const router = useRouter();
 
 const data = ref<TLoginPayload>({
@@ -22,8 +20,6 @@ const data = ref<TLoginPayload>({
 const { closeModal } = useModal(emit, data);
 const authStore = useAuthStore();
 const isPwd = ref(true);
-const showRegistrationModal = ref(false);
-const showForgotPasswordModal = ref(false);
 const showLoginError = ref(false);
 
 const { handleBlur, getErrorAttrs, isValid } = useValidation<TLoginPayload>(data, emit, {
@@ -47,9 +43,7 @@ const handleLogin = () => {
 
 <template>
   <div>
-    <ForgotPassword v-if="showForgotPasswordModal" @close="closeModal"></ForgotPassword>
-    <RegistrationModal v-if="showRegistrationModal" @close="showRegistrationModal = false"></RegistrationModal>
-    <ModalWrapper v-if="!showRegistrationModal && !showForgotPasswordModal" header="Войти">
+    <ModalWrapper header="Войти">
       <q-form class="fit q-mb-sm form" @keydown.enter="handleLogin">
         <q-input
           v-bind="getErrorAttrs('email')"
@@ -93,7 +87,7 @@ const handleLogin = () => {
           flat
           :ripple="false"
           color="primary"
-          @click="showRegistrationModal = true" />
+          @click="closeModal(), emit('showRegistrationModal')" />
       </div>
       <div class="q-mt-xs">
         <q-btn
@@ -102,7 +96,7 @@ const handleLogin = () => {
           flat
           :ripple="false"
           color="primary"
-          @click="showForgotPasswordModal = true" />
+          @click="closeModal(), emit('showForgotPasswordModal')" />
       </div>
     </ModalWrapper>
   </div>
