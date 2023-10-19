@@ -62,6 +62,9 @@ import { headerMenuItems } from "@/components/common/TheHeader/types";
 .footer {
   background-color: var(--q-background-primary);
 
+  @media (max-width: 601px) {
+    visibility: hidden;
+  }
   .contentWrapper {
     display: flex;
     justify-content: space-between;
