@@ -83,7 +83,7 @@ const logout = () => {
             {{ item.name }}
           </router-link>
         </div>
-        <div class="fit row wrap justify-center items-start content-start">
+        <div class="row wrap justify-end">
           <span class="cursor-pointer materials">Методические материалы</span>
           <div class="link-ask-expert">
             <div>Задать вопрос консультанту</div>
