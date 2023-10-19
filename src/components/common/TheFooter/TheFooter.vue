@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import logoUrl from "@/assets/img/icons/VGSPU.png";
 import CommonLink from "@/components/common/CommonLink/CommonLink.vue";
 import { headerMenuItems } from "@/components/common/TheHeader/types";
 </script>
@@ -8,7 +9,7 @@ import { headerMenuItems } from "@/components/common/TheHeader/types";
     <div class="contentWrapper">
       <div class="footer__col-1">
         <div class="col-1__vgspu">
-          <q-img :src="'./public/img/icons/VGSPU.png'" class="col-1__vgspu_img" />
+          <q-img :src="logoUrl" class="col-1__vgspu_img" />
           <div class="col-1__vgspu_title">
             <span>Социально-психологический центр ВГСПУ</span>
           </div>
