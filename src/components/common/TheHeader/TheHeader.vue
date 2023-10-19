@@ -128,9 +128,10 @@ const logout = () => {
     align-items: center;
     gap: 18px;
 
-    @media (max-width: 601px) {
+    @media (max-width: 1024px) {
       flex-wrap: wrap;
       justify-content: center;
+      gap: 0;
     }
 
     .logo {
@@ -153,6 +154,7 @@ const logout = () => {
 
         @media (max-width: 601px) {
           font-size: 12px;
+          gap: 0;
         }
       }
     }
@@ -161,6 +163,12 @@ const logout = () => {
       display: flex;
       align-items: center;
 
+      @media (max-width: 601px) {
+        font-size: 12px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
       .contacts__phone-number {
         font-size: 20px;
         margin: 0 38px 0 0;
@@ -168,12 +176,6 @@ const logout = () => {
 
         .contacts__phone-number_optional {
           color: $grey-2;
-        }
-
-        @media (max-width: 601px) {
-          font-size: 12px;
-          flex-wrap: wrap;
-          justify-content: center;
         }
       }
 
@@ -197,10 +199,6 @@ const logout = () => {
         border-radius: 10px;
         cursor: pointer;
 
-        @media (max-width: 601px) {
-          width: 100%;
-        }
-
         .personal-cabinet__label {
           font-size: 16px;
           display: flex;
@@ -215,7 +213,7 @@ const logout = () => {
     justify-content: space-between;
     font-size: 16px;
 
-    @media (max-width: 601px) {
+    @media (max-width: 1024px) {
       flex-wrap: wrap;
       justify-content: center;
     }
@@ -224,8 +222,11 @@ const logout = () => {
       display: flex;
       gap: 32px;
 
-      @media (max-width: 601px) {
+      @media (max-width: 1024px) {
         visibility: hidden;
+        gap: 0;
+        flex-wrap: wrap;
+        justify-content: center;
       }
 
       .links__link {
@@ -253,7 +254,7 @@ const logout = () => {
       color: $Text-color;
       cursor: pointer;
 
-      @media (max-width: 601px) {
+      @media (max-width: 470px) {
         margin: 0;
       }
 
