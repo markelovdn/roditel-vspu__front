@@ -6,7 +6,7 @@ const props = defineProps<{ items: T[]; headers?: QTableColumn[] }>();
 const gridTemplateColumnsStyle = computed(() => {
   let columnsWidths = "";
   for (let i = 0; i < (props.headers?.length ?? 0); i++) {
-    const width = props.headers ? props.headers[i].width ?? "1fr" : "1fr";
+    const width = props.headers?.[i].width ?? "500px";
     columnsWidths += ` ${width}`;
   }
   if (!columnsWidths) return;
@@ -31,6 +31,8 @@ const gridTemplateColumnsStyle = computed(() => {
 .listTableWrapper {
   // display: grid;
   // grid-template-rows: 1fr;
+  width: 100%;
+  overflow-x: auto;
   font-weight: 500;
   line-height: 16px;
   .header {
