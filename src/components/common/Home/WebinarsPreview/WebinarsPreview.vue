@@ -1,31 +1,37 @@
 <script setup lang="ts">
+import { TWebinarsRequestOption } from "@/api/Webinars/types";
 import WebinarCard from "@/components/common/Home/WebinarCard/WebinarCard.vue";
+import { useWebinarsStore } from "@/stores/webinarsStore";
 
 import WebinarsFilter from "./WebinarsFilter.vue";
 
-const webinarCard = {
-  imageUrl:
-    "https://s3-alpha-sig.figma.com/img/7b8c/bd0d/5333c3d8f4b6ce7e014cb747856f0731?Expires=1697414400&Signature=BENIyfgpfp21ceWUibT1HazHEH5BM6Kx8IDDeBaEBlyDBl-Vqbz25Qj8MbFsGmZaxFCCts77WN-U6H-bz4LJS1gjJ9h55JY5IM3bYkzrLJlHddwovhqhkHpq0L1vwUkDu1CFxu2Y46WDqYplLNKmgtiuCAvqsd75e95NGYPXdi6z3WsvuAGEaiYaPxvEriRGJP2aC-DHdLUGglMKXzEk~QFSsD-ym2pBrHNyqHKtgzYcwAj5WAclQgt~-mldeE~BsNbG2xND~-I~4IVlld3pUHe5T9L5vENz-bRpcXEYIiK4Qf6MddZ3XJg9m-yyvZ~ZNtz7IMpWYTkXTF0pTgIcmw__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4",
-  title:
-    "Развитие креативного и критического мышления как показателя функциональной грамотности у обучающихся основной школы",
-  category: "Основная школа",
-  date: "19.11.21 c 14:00 до 15:00 (Мск)",
-  lector: "Ястребова Гульнара Ахмедовна",
-  cost: 300,
-};
+const webinarsStore = useWebinarsStore();
+webinarsStore.clearFilters();
+webinarsStore.requestWebinars({});
+const setPage = (page: number) => webinarsStore.requestWebinars({ page });
+const setFilters = (filters: TWebinarsRequestOption) => webinarsStore.requestWebinars(filters);
 </script>
 
 <template>
   <div class="webinars-container">
     <div class="webinars-container__header">
       <h2>Вебинары</h2>
-      <WebinarsFilter />
+      <WebinarsFilter @set-filters="setFilters" />
     </div>
     <div class="webinars-container__cards">
-      <WebinarCard :webinar-item="webinarCard" :type="'grid'" />
-      <WebinarCard :webinar-item="webinarCard" :type="'grid'" />
-      <WebinarCard :webinar-item="webinarCard" :type="'grid'" />
-      <WebinarCard :webinar-item="webinarCard" :type="'grid'" />
+      <WebinarCard v-for="(item, index) in webinarsStore.webinars" :key="index" :webinar-item="item" :type="'grid'" />
+    </div>
+    <div class="q-pa-lg">
+      <div class="q-gutter-md">
+        <q-pagination
+          v-model="webinarsStore.page.current"
+          :max="webinarsStore.page.max"
+          :max-pages="6"
+          direction-links
+          gutter="8px"
+          active-color="yellow"
+          @update:model-value="setPage" />
+      </div>
     </div>
   </div>
 </template>

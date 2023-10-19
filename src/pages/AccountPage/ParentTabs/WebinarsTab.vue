@@ -24,7 +24,8 @@ const setPage = (page: number) => webinarsStore.requestWebinars({ page });
           :max="webinarsStore.page.max"
           :max-pages="6"
           direction-links
-          gutter="20px"
+          gutter="8px"
+          active-color="yellow"
           @update:model-value="setPage" />
       </div>
     </div>

@@ -1,36 +1,75 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 
-import { useCollectionsStore } from "@/stores/collectionsStore";
+import { TWebinarsRequestOption } from "@/api/Webinars/types";
+import { useWebinarsStore } from "@/stores/webinarsStore";
 
-const collectionsStore = useCollectionsStore();
-const { getSpecializationsWithAll: optionsSpecializations } = storeToRefs(collectionsStore);
+const emit = defineEmits<{
+  (e: "setFilters", filters: TWebinarsRequestOption): void;
+}>();
+
+const webinarsStore = useWebinarsStore();
+const { getWebinarCategoriesWithAll: optionsCategories } = storeToRefs(webinarsStore);
 const specializationId = ref(0);
 
+const filters = ref<TWebinarsRequestOption>({});
+const date = ref();
+const dateToString = computed(() => (date.value ? `c ${date.value.from} по ${date.value.to}` : "Выберите дату"));
+const dateClear = () => {
+  date.value = null;
+  setData();
+};
+const setSpecialization = (value: string) => {
+  filters.value.category = Number(value);
+  filters.value.page = 1;
+  emit("setFilters", filters.value);
+};
+const setData = (value?: any) => {
+  value ? (filters.value.dateBetween = `${value.from}, ${value.to}`) : delete filters.value["dateBetween"];
+  filters.value.page = 1;
+  emit("setFilters", filters.value);
+};
 onMounted(() => {
-  collectionsStore.requestSpecializations();
+  webinarsStore.requestWebinarCategories();
 });
 </script>
 
 <template>
   <div class="filter">
+    <div style="max-width: 300px" class="q-pr-md">
+      <q-input v-model="dateToString" filled>
+        <template #append>
+          <q-icon name="event" class="cursor-pointer">
+            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+              <q-date v-model="date" range @update:model-value="setData">
+                <div class="row items-center justify-end">
+                  <q-btn v-close-popup label="Close" color="primary" flat />
+                  <q-btn v-close-popup label="Сбросить" color="primary" flat @click="dateClear()" />
+                </div>
+              </q-date>
+            </q-popup-proxy>
+          </q-icon>
+        </template>
+      </q-input>
+    </div>
     <q-select
       v-model="specializationId"
       input-class="q-select--form"
       label="Специализация*"
       outlined
       class="fit q-mb-sm"
-      :options="optionsSpecializations"
+      :options="optionsCategories"
       :option-label="(item) => item.label"
       emit-value
-      map-options />
+      map-options
+      @update:model-value="setSpecialization" />
   </div>
 </template>
 
 <style lang="scss" scoped>
 .filter {
-  width: 500px;
-  background-color: aliceblue;
+  display: flex;
+  // width: 500px;
 }
 </style>
