@@ -49,21 +49,21 @@ export const useAuthStore = defineStore(
         setUser(resp.data.userData);
         return Promise.resolve(resp.data);
       } catch (err) {
-        console.log(err.response.data.errors);
-        //TODO: сделать проверку err на тип
-        if (err.response.data.errors["email"]) {
-          notify({
-            type: "negative",
-            message: "Пользоватеь с таким email уже зарегистрирован",
-          });
-        }
+        console.log(err);
+        //TODO: сделать проверку err
+        // if (err.response.data.errors["email"]) {
+        //   notify({
+        //     type: "negative",
+        //     message: "Пользоватеь с таким email уже зарегистрирован",
+        //   });
+        // }
 
-        if (err.response.data.errors["phone"]) {
-          notify({
-            type: "negative",
-            message: "Пользоватеь с таким номером телефона уже зарегистрирован",
-          });
-        }
+        // if (err.response.data.errors["phone"]) {
+        //   notify({
+        //     type: "negative",
+        //     message: "Пользоватеь с таким номером телефона уже зарегистрирован",
+        //   });
+        // }
         return Promise.reject(err);
       }
     }
