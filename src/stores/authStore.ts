@@ -49,7 +49,21 @@ export const useAuthStore = defineStore(
         setUser(resp.data.userData);
         return Promise.resolve(resp.data);
       } catch (err) {
-        console.log(err);
+        console.log(err.response.data.errors);
+        //TODO: сделать проверку err на тип
+        if (err.response.data.errors["email"]) {
+          notify({
+            type: "negative",
+            message: "Пользоватеь с таким email уже зарегистрирован",
+          });
+        }
+
+        if (err.response.data.errors["phone"]) {
+          notify({
+            type: "negative",
+            message: "Пользоватеь с таким номером телефона уже зарегистрирован",
+          });
+        }
         return Promise.reject(err);
       }
     }
@@ -109,7 +123,7 @@ export const useAuthStore = defineStore(
           const status = (err as AxiosError)?.response?.status;
           const unauthorizedStatuses = [401, 403];
           if (status && unauthorizedStatuses.includes(status)) {
-            notify({ type: "negative", message: "Необходима авторизация" });
+            notify({ type: "negative", message: "Не верные данные авторизации" });
             await logout();
           }
 
