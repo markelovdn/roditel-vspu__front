@@ -1,15 +1,20 @@
 <script setup lang="ts">
+import { ref } from "vue";
+
 import { TWebinarsRequestOption } from "@/api/Webinars/types";
 import WebinarCard from "@/components/common/Home/WebinarCard/WebinarCard.vue";
 import { useWebinarsStore } from "@/stores/webinarsStore";
+import { useRequestPayload } from "@/utils/composable/useRequestPayload";
 
 import WebinarsFilter from "./WebinarsFilter.vue";
-
+const queryParams = ref<TWebinarsRequestOption>({});
 const webinarsStore = useWebinarsStore();
 webinarsStore.clearFilters();
 webinarsStore.requestWebinars({});
-const setPage = (page: number) => webinarsStore.requestWebinars({ page });
-const setFilters = (filters: TWebinarsRequestOption) => webinarsStore.requestWebinars(filters);
+const setPage = (page: number) => (queryParams.value.page = page);
+const setFilters = (filters: TWebinarsRequestOption) => Object.assign(queryParams.value, filters);
+
+useRequestPayload(queryParams, webinarsStore.requestWebinars, { clearableParams: [""], watchParams: ["date"] });
 </script>
 
 <template>
