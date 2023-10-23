@@ -1,27 +1,26 @@
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
-import { computed, onMounted, ref } from "vue";
+import { computed, ref } from "vue";
 
-import { TRegistrationPayload } from "@/api/Auth/types";
-import {
-  emailValidator,
-  minLengthValidator,
-  repeatPasswordValidator,
-  requiredValidator,
-  splitNameValidator,
-  useValidation,
-} from "@/hooks/useValidation";
-import { useCollectionsStore } from "@/stores/collectionsStore";
+import { TQuestionnairePayload } from "@/api/Questionnaires/types";
+import { requiredValidator, useValidation } from "@/hooks/useValidation";
 
 const emit = defineEmits(["validation-change", "update:model-value"]);
 const props = defineProps<{
-  modelValue: TRegistrationPayload;
+  modelValue: TQuestionnairePayload;
 }>();
 
-const collectionsStore = useCollectionsStore();
-const { getRegions: optionsRegions } = storeToRefs(collectionsStore);
+const date = ref();
+const dateToString = computed(() => date.value);
+const dateClear = () => {
+  date.value = null;
+  // setData();
+};
 
-const isPwd = ref(true);
+// const setData = (value?: any) => {
+//   value ? (filters.value.dateBetween = `${value.from}, ${value.to}`) : delete filters.value["dateBetween"];
+//   filters.value.page = 1;
+//   emit("setFilters", filters.value);
+// };
 
 const data = computed({
   get() {
@@ -31,95 +30,50 @@ const data = computed({
     emit("update:model-value", e);
   },
 });
-const { handleBlur, getErrorAttrs } = useValidation<TRegistrationPayload>(data, emit, {
-  name: { requiredValidator, splitNameValidator },
-  phone: { requiredValidator, minLengthValidator: minLengthValidator(17) },
-  email: { requiredValidator, emailValidator },
-  passwordConfirm: { repeatPasswordValidator: repeatPasswordValidator(computed(() => data.value.password)) },
-  password: { requiredValidator },
-  region_id: { requiredValidator },
-  role_code: { requiredValidator },
-});
-
-onMounted(async () => {
-  collectionsStore.requestRegions();
+const { handleBlur, getErrorAttrs } = useValidation<TQuestionnairePayload>(data, emit, {
+  title: { requiredValidator },
+  description: "",
+  answerBefore: { requiredValidator },
 });
 </script>
 
 <template>
   <q-form class="fit q-mb-sm form">
     <q-input
-      v-bind="getErrorAttrs('name')"
-      v-model="data.name"
+      v-bind="getErrorAttrs('title')"
+      v-model="data.title"
       outlined
       class="fit q-mb-sm"
       input-class="q-input--form"
-      label="Ф.И.О.*"
+      label="Название*"
       borderless
       color="primary"
-      @blur="handleBlur('name')" />
+      @blur="handleBlur('title')" />
 
     <q-input
-      v-bind="getErrorAttrs('phone')"
-      v-model="data.phone"
+      v-bind="getErrorAttrs('description')"
+      v-model="data.title"
       outlined
       class="fit q-mb-sm"
       input-class="q-input--form"
-      label="Телефон*"
-      mask="+7 (###) ### ####"
+      label="Описание"
       borderless
-      @blur="handleBlur('phone')" />
+      color="primary"
+      @blur="handleBlur('description')" />
 
-    <q-input
-      v-bind="getErrorAttrs('email')"
-      v-model="data.email"
-      outlined
-      class="fit q-mb-sm"
-      input-class="q-input--form"
-      label="Почта*"
-      borderless
-      @blur="handleBlur('email')" />
-
-    <q-select
-      v-bind="getErrorAttrs('region_id')"
-      v-model="data.region_id"
-      class="fit q-mb-sm"
-      input-class="q-select--form"
-      label="Регион*"
-      outlined
-      :options="optionsRegions"
-      :option-label="(item) => item.label"
-      emit-value
-      map-options
-      @blur="handleBlur('region_id')" />
-
-    <q-input
-      v-bind="getErrorAttrs('password')"
-      v-model="data.password"
-      outlined
-      class="fit q-mb-sm"
-      label="Пароль*"
-      aria-autocomplete="new-password"
-      :type="isPwd ? 'password' : 'text'"
-      @blur="handleBlur('password')">
+    <q-input v-model="dateToString" filled>
       <template #append>
-        <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="isPwd = !isPwd" />
-      </template>
-    </q-input>
-
-    <q-input
-      v-model="data.passwordConfirm"
-      outlined
-      class="fit q-mb-sm"
-      label="Подтвердите пароль*"
-      v-bind="getErrorAttrs('passwordConfirm')"
-      aria-autocomplete="new-password"
-      :type="isPwd ? 'password' : 'text'"
-      @blur="handleBlur('passwordConfirm')">
-      <template #append>
-        <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="isPwd = !isPwd" />
+        <q-icon name="event" class="cursor-pointer">
+          <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+            <q-date v-model="date">
+              <div class="row items-center justify-end">
+                <q-btn v-close-popup label="Close" color="primary" flat />
+                <q-btn v-close-popup label="Сбросить" color="primary" flat @click="dateClear()" />
+              </div>
+            </q-date>
+          </q-popup-proxy>
+        </q-icon>
       </template>
     </q-input>
   </q-form>
 </template>
-@/stores/commonStore@/stores/collectionsStore
