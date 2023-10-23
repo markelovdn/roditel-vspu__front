@@ -3,8 +3,8 @@ import { ref } from "vue";
 
 import { TWebinarsRequestOption } from "@/api/Webinars/types";
 import WebinarCard from "@/components/common/Home/WebinarCard/WebinarCard.vue";
+import { useRequestPayload } from "@/hooks/useRequestPayload";
 import { useWebinarsStore } from "@/stores/webinarsStore";
-import { useRequestPayload } from "@/utils/composable/useRequestPayload";
 
 import WebinarsFilter from "./WebinarsFilter.vue";
 const queryParams = ref<TWebinarsRequestOption>({});
@@ -14,7 +14,11 @@ webinarsStore.requestWebinars({});
 const setPage = (page: number) => (queryParams.value.page = page);
 const setFilters = (filters: TWebinarsRequestOption) => Object.assign(queryParams.value, filters);
 
-useRequestPayload(queryParams, webinarsStore.requestWebinars, { clearableParams: [""], watchParams: ["date"] });
+useRequestPayload(queryParams, webinarsStore.requestWebinars, {
+  clearableParams: ["page"],
+  // watchParams: ["page"],
+});
+// useRequestPayload(queryParams, webinarsStore.requestWebinars);
 </script>
 
 <template>
@@ -60,3 +64,4 @@ useRequestPayload(queryParams, webinarsStore.requestWebinars, { clearableParams:
   }
 }
 </style>
+@/hooks/useRequestPayload

@@ -22,12 +22,14 @@ const dateClear = () => {
 };
 const setSpecialization = (value: string) => {
   filters.value.category = Number(value);
-  filters.value.page = 1;
   emit("setFilters", filters.value);
 };
 const setData = (value?: any) => {
-  value ? (filters.value.dateBetween = `${value.from}, ${value.to}`) : delete filters.value["dateBetween"];
-  filters.value.page = 1;
+  if (value) {
+    filters.value.dateBetween = `${value.from}, ${value.to}`;
+  } else {
+    delete filters.value["dateBetween"];
+  }
   emit("setFilters", filters.value);
 };
 onMounted(() => {
