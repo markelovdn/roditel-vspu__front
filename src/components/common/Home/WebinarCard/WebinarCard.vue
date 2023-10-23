@@ -4,16 +4,16 @@ import { computed } from "vue";
 import { TWebinarCardData } from "./types";
 
 interface IWebinarsCard {
-  webinarItem: TWebinarCardData;
+  item: TWebinarCardData;
   type?: "grid";
 }
 
 const props = defineProps<IWebinarsCard>();
 const labels = computed(() => [
-  { category: "Категория", value: props.webinarItem.category },
-  { category: "Дата и время", value: props.webinarItem.date },
-  { category: "Лектор", value: props.webinarItem.lector },
-  { category: "Стоимость", value: props.webinarItem.cost ? props.webinarItem.cost + " р" : "бесплатно" },
+  { category: "Категория", value: props.item.category },
+  { category: "Дата и время", value: props.item.date },
+  { category: "Лектор", value: props.item.lector },
+  { category: "Стоимость", value: props.item.cost ? props.item.cost + " р" : "бесплатно" },
 ]);
 labels;
 </script>
@@ -22,27 +22,27 @@ labels;
   <div class="webinar-card q-mb-md">
     <div class="flex no-wrap">
       <div class="webinar-card__image">
-        <q-img :src="webinarItem.imageUrl" :fit="'cover'" :position="'100% 50%'" class="webinar-card__image" />
+        <q-img :src="item.imageUrl" :fit="'cover'" :position="'100% 50%'" class="webinar-card__image" />
       </div>
       <div class="webinar-card__description q-ml-md">
-        <div class="webinar-card__title">{{ webinarItem.title }}</div>
+        <div class="webinar-card__title">{{ item.title }}</div>
 
         <div class="hr"></div>
 
         <div v-if="type === 'grid'">
-          <div v-for="(item, index) in labels" :key="index" class="info">
-            <div class="info__description">{{ item.category }}:</div>
-            <div class="info__value">{{ item.value }}</div>
+          <div v-for="(label, index) in labels" :key="index" class="info">
+            <div class="info__description">{{ label.category }}:</div>
+            <div class="info__value">{{ label.value }}</div>
           </div>
           <q-btn color="primary q-mt-lg">Принять участие</q-btn>
         </div>
 
         <div v-else class="flex justify-between">
           <div>
-            <div v-for="(item, index) in labels" :key="index">
+            <div v-for="(label, index) in labels" :key="index">
               <div v-if="index !== labels.length - 1" class="info">
-                <div class="info__description">{{ item.category }}:</div>
-                <div class="info__value">{{ item.value }}</div>
+                <div class="info__description">{{ label.category }}:</div>
+                <div class="info__value">{{ label.value }}</div>
               </div>
             </div>
           </div>
