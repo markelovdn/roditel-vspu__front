@@ -1,17 +1,22 @@
+import cloneDeep from "lodash.clonedeep";
 import { Ref, watch } from "vue";
 
+import { TWebinarsRequestOption } from "@/api/Webinars/types";
 // by convention, composable function names start with "use"
 export function useRequestPayload(
-  payload: Ref<any>,
+  payload: Ref<TWebinarsRequestOption>,
   callback: any,
-  options: { watchParams?: string[]; clearableParams?: string[] } = {},
+  options: {
+    watchParams?: Array<keyof TWebinarsRequestOption>;
+    clearableParams?: Array<keyof TWebinarsRequestOption>;
+  } = {},
 ) {
   watch(
-    () => payload,
+    () => cloneDeep(payload),
     (newPayload, oldPayload) => {
       const modifiedPayload = newPayload.value;
 
-      if (options.clearableParams) {
+      if (newPayload.value.page === oldPayload.value.page && options.clearableParams) {
         options.clearableParams.forEach((key) => delete modifiedPayload[key]); // удаляем все clearableParams из payload
       }
 
