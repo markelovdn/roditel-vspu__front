@@ -61,4 +61,3 @@ defineProps<{ items: T[]; title: string; cardsList?: boolean; headers?: QTableCo
   padding: 20px 34px;
 }
 </style>
-@/components/common/Home/WebinarCard/types

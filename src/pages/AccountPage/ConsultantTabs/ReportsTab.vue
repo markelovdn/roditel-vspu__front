@@ -21,6 +21,31 @@ const reportsListRows = computed(() => {
 const reportsModelMock = ref({
   data: [
     {
+      fileName:
+        "Ye jxtym lkbyjt yfpdfybt 'njq inerb/ ye;yj ghjdthbnm xnj ,s cnhjrf kb,j gthtyjcbkfcm? kb,j pfnbhfkfcm'",
+      createdAt: "15.12.2000",
+      uploadStatus: "success",
+      fileUrl: "adasdasd/asdasd/asd/as/dasdasdasd",
+    },
+    {
+      fileName: "asdaasdsadasdasdasdasdd",
+      createdAt: "11.13.2234",
+      uploadStatus: "fail",
+      fileUrl: "adasdasd/asdasd/asd/as/dasdasdasd",
+    },
+    {
+      fileName: "rfrjt-nj yfpdfybt lkz ntcnf 'njq ,jhjlf'",
+      createdAt: "15.12.2000",
+      uploadStatus: "success",
+      fileUrl: "adasdasd/asdasd/asd/as/dasdasdasd",
+    },
+    {
+      fileName: "asdaasdsadasdasdasdasdd",
+      createdAt: "11.13.2234",
+      uploadStatus: "fail",
+      fileUrl: "adasdasd/asdasd/asd/as/dasdasdasd",
+    },
+    {
       fileName: "asdad",
       createdAt: "15.12.2000",
       uploadStatus: "success",
@@ -39,18 +64,21 @@ const reportListHeaders = [
     name: "index",
     label: "#",
     field: "index",
+    width: "58px",
   },
   {
     name: "name",
     label: "Название файла",
     field: "name",
     align: "left",
+    width: "auto",
   },
   {
     name: "createdAt",
     label: "Дата загрузки",
     field: "createdAt",
     align: "center",
+    width: "100px",
   },
   {
     name: "status",
@@ -58,6 +86,7 @@ const reportListHeaders = [
     //TODO: форматирование статуса
     field: "status",
     align: "center",
+    width: "120px",
   },
   {
     name: "saveUrl",
@@ -65,11 +94,15 @@ const reportListHeaders = [
     //TODO: кнопка скачать
     field: "saveUrl",
     align: "center",
+    width: "100px",
   },
 ] as QTableColumn[];
 
-const handleFileDownload = (fileUrl: string) => {
-  console.log(fileUrl);
+const handleFileDownload = (fileUrl: string, fileName: string) => {
+  const anchorElement = document.createElement("a");
+  anchorElement.href = fileUrl;
+  anchorElement.download = fileName;
+  anchorElement.click();
   notify({ message: "TODO: скачивание файла" });
 };
 onMounted(() => {
@@ -106,7 +139,7 @@ onMounted(() => {
       <div :class="cellClass">{{ item.createdAt }}</div>
       <div :class="cellClass">{{ item.uploadStatus }}</div>
       <div :class="cellClass">
-        <q-btn flat @click="handleFileDownload(item.fileUrl)">
+        <q-btn flat @click="handleFileDownload(item.fileUrl, item.fileName)">
           <svg
             fill="currentColor"
             stroke-width="0"
