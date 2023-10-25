@@ -22,7 +22,12 @@ labels;
   <div class="webinar-card q-mb-md">
     <div class="flex no-wrap">
       <div class="webinar-card__image">
-        <q-img :src="item.imageUrl" :fit="'cover'" :position="'100% 50%'" class="webinar-card__image" />
+        <q-img
+          v-if="item.imageUrl"
+          :src="item.imageUrl"
+          :fit="'cover'"
+          :position="'100% 50%'"
+          class="webinar-card__image" />
       </div>
       <div class="webinar-card__description q-ml-md">
         <div class="webinar-card__title">{{ item.title }}</div>
