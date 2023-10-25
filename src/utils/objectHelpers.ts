@@ -42,10 +42,3 @@ export function omit(
   }
   return res;
 }
-
-export function buildUrl(
-  url: string,
-  params: string | string[][] | Record<string, string> | URLSearchParams | undefined,
-) {
-  return url + new URLSearchParams(params).toString();
-}
