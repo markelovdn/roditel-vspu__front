@@ -1,6 +1,6 @@
-export type questionType = "text | single | many";
+export type questionType = "text" | "single" | "many";
 
-export type TQuestionnaire = {
+export type TQuestionnairePayload = {
   title: string;
   description: string;
   answerBefore?: string;
@@ -8,7 +8,7 @@ export type TQuestionnaire = {
     id?: number | null;
     text: string;
     description?: string;
-    type: questionType;
+    type: string;
     options: { id?: number | null; text: string }[];
   }[];
 };
@@ -17,7 +17,7 @@ export type TQuestion = {
   id?: number | null;
   text: string;
   description?: string;
-  type: questionType;
+  type: string;
   options: TOptions[];
 };
 
