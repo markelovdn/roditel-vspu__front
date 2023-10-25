@@ -19,7 +19,7 @@ const setFilters = (filters: TWebinarsRequestOption) => webinarsStore.requestWeb
       <WebinarsFilter @set-filters="setFilters" />
     </div>
     <div class="webinars-container__cards">
-      <WebinarCard v-for="(item, index) in webinarsStore.webinars" :key="index" :webinar-item="item" :type="'grid'" />
+      <WebinarCard v-for="(item, index) in webinarsStore.webinars" :key="index" :item="item" :type="'grid'" />
     </div>
     <div class="q-pa-lg">
       <div class="q-gutter-md">
