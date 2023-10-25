@@ -10,8 +10,8 @@ const options = ref<TOptions>({
   text: "",
 });
 
-const addOption = () => {
-  options.value = [id: 1, text: '234'];
+const addOption = (text: string) => {
+  options.value = { text: text };
 };
 </script>
 
@@ -45,11 +45,12 @@ const addOption = () => {
         input-class="q-input--form"
         label="Текст ответа*"
         borderless
-        color="primary" />
+        color="primary"
+        @change="addOption(options.text)" />
       <q-btn label="-" class="q-btn--form" color="negative"></q-btn>
     </div>
   </q-form>
   <div class="row no-wrap q-mt-lg">
-    <q-btn label="Добавить ответ" class="q-btn--form" color="primary" @click="addOption()"></q-btn>
+    <q-btn label="Добавить ответ" class="q-btn--form" color="primary"></q-btn>
   </div>
 </template>

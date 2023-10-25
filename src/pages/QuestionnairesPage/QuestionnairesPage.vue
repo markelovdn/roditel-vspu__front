@@ -45,6 +45,11 @@ const questionTypeSelect = [
   { value: "single", label: "Одиночный ответ" },
   { value: "many", label: "Множественный выбор" },
 ];
+
+const addQuestion = () => {
+  questions.value = questions();
+  console.log(questions);
+};
 </script>
 
 <template>
@@ -73,7 +78,7 @@ const questionTypeSelect = [
     <h5>Вопросы</h5>
     {{ data.questions }}
     <div class="row no-wrap q-mt-lg">
-      <q-btn label="Добавить вопрос" class="q-btn--form" color="primary"></q-btn>
+      <q-btn label="Добавить вопрос" class="q-btn--form" color="primary" @click="addQuestion"></q-btn>
       <q-btn label="Сохранить анкету" disable class="q-btn--form" color="primary"></q-btn>
     </div>
 
