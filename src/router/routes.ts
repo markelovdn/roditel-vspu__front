@@ -28,6 +28,14 @@ const routes: Array<RouteRecordRaw> = [
     },
     component: () => import("@/pages/ResetPasswordPage/ResetPasswordPage.vue"),
   },
+  {
+    path: "/questionnaires",
+    name: "Questionnaires",
+    meta: {
+      requireAuth: true,
+    },
+    component: () => import("@/pages/QuestionnairesPage/QuestionnairesPage.vue"),
+  },
 ];
 
 export default routes;

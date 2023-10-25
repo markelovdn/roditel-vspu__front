@@ -1,4 +1,4 @@
-import { type questionType } from "@/components/modals/QuestionnairesModal/types";
+import { type questionType } from "@/pages/QuestionnairesPage/types";
 
 export type TQuestionnairePayload = {
   title: string;
