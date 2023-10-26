@@ -1,44 +1,56 @@
 import cloneDeep from "lodash.clonedeep";
-import { Ref, watch } from "vue";
+import { isRef, onMounted, reactive, Ref, ref, toRefs, unref, watch } from "vue";
 
 import { TWebinarsRequestOption } from "@/api/Webinars/types";
-// by convention, composable function names start with "use"
-export function useRequestPayload(
-  payload: Ref<TWebinarsRequestOption>,
-  callback: any,
+
+import { useParamBuilder } from "./useParamBuilder ";
+
+export const useRequestPayload = (
+  data: TWebinarsRequestOption | Ref<TWebinarsRequestOption>,
+  callback: (payload: Ref<string> | string | URLSearchParams) => any,
   options: {
     watchParams?: Array<keyof TWebinarsRequestOption>;
-    clearableParams?: Array<keyof TWebinarsRequestOption>;
-  } = {},
-) {
-  watch(
-    () => cloneDeep(payload),
-    (newPayload, oldPayload) => {
-      const modifiedPayload = newPayload.value;
+    clearableParams?: TWebinarsRequestOption;
+  } = { clearableParams: { page: 1 } },
+) => {
+  options;
+  const queryParams = ref<TWebinarsRequestOption>({});
+  const result = ref();
+  const state = reactive({
+    isLoading: false,
+    error: null as any,
+  });
 
-      if (newPayload.value.page === oldPayload.value.page && options.clearableParams) {
-        options.clearableParams.forEach((key) => delete modifiedPayload[key]); // удаляем все clearableParams из payload
-      }
-
-      if (!options.watchParams) {
-        callback(modifiedPayload); // делаем запрос, если нету доп параметров, а payload изменился
-      } else {
-        if (isEqual(newPayload, oldPayload, options.watchParams)) {
-          callback(modifiedPayload); //Отправляем если изменились параметры из watchParams
-        }
-      }
-    },
-    { deep: true },
-  );
-
-  return {};
-}
-
-const isEqual = (newValue: any, oldValue: any, comparisonsKeys: string[]) => {
-  for (const key of Object.keys(newValue)) {
-    if (oldValue[key] !== newValue[key] && comparisonsKeys.includes(key)) {
-      return false;
+  const reload = async () => {
+    state.isLoading = true;
+    try {
+      result.value = callback(useParamBuilder(data));
+    } catch (e) {
+      state.error = e;
+    } finally {
+      state.isLoading = false;
     }
+  };
+
+  if (isRef(data)) {
+    watch(
+      () => cloneDeep(data),
+      (newValue, oldValue) => {
+        newValue;
+        oldValue;
+        reload();
+        // тут будет код сброса параметров
+      },
+      { immediate: true, deep: true },
+    );
   }
-  return true;
+  onMounted(() => {
+    queryParams.value = cloneDeep(unref(data));
+  });
+
+  return {
+    ...toRefs(state),
+    result,
+    reload,
+  };
 };

@@ -1,6 +1,7 @@
+import { Ref } from "vue";
+
 import axios from "@/common/axios";
-import { StringRecord } from "@/utils/baseTypes";
-import { buildUrl } from "@/utils/objectHelpers";
+import { useUrlParams } from "@/hooks/useParamBuilder ";
 
 import { TWebinarData, TWebinarsLectors, WebinarCategoriesResponse } from "./types";
 
@@ -9,8 +10,8 @@ export class WebinarsApiService {
     return axios.get<TWebinarsLectors>("/webinarLectors");
   }
 
-  getWebinars<T extends StringRecord>(options?: T) {
-    return axios.get<TWebinarData>(buildUrl("/webinars", options));
+  getWebinars(options?: Readonly<Ref<URLSearchParams>>) {
+    return axios.get<TWebinarData>(useUrlParams("/webinars", options));
   }
   getCategories() {
     return axios.get<WebinarCategoriesResponse>("/webinarCategories");
