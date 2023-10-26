@@ -3,19 +3,19 @@ import { ref } from "vue";
 
 import { TQuestionnairePayload } from "./types";
 
-const DATA = ref<TQuestionnairePayload>({
+const SurveyData = ref<TQuestionnairePayload>({
   title: "",
   description: "",
   questions: [
-    {
-      text: "",
-      description: "",
-      type: "",
-      options: [{ text: "" }],
-    },
+    // {
+    //   text: "",
+    //   description: "",
+    //   type: "",
+    //   options: [{ text: "" }],
+    // },
   ],
 });
-
+const defaultOption = { text: "" };
 const questionTypeSelect = [
   { value: "text", label: "Свой ответ" },
   { value: "single", label: "Одиночный ответ" },
@@ -23,113 +23,91 @@ const questionTypeSelect = [
 ];
 
 const addQuestions = () => {
-  DATA.value.questions.push({
+  SurveyData.value.questions.push({
     text: "",
     description: "",
     type: "",
-    options: [{ text: "" }],
+    options: [],
   });
 };
 
-const delQuestion = (idxq: number) => {
-  DATA.value.questions.splice(idxq, 1);
+const delQuestion = (index: number) => {
+  SurveyData.value.questions.splice(index, 1);
 };
 
-const addOptions = (qidx: number) => {
-  DATA.value.questions[qidx].options.push({ text: "" });
+const addOptions = (index: number) => {
+  SurveyData.value.questions[index].options.push(defaultOption);
 };
 
-const delOption = (idxq: number, idxO: number) => {
-  console.log(idxq, idxO);
-  DATA.value.questions[idxq].options.splice(idxO, 1);
+const delOption = (questionIndex: number, optionIndex: number) => {
+  SurveyData.value.questions[questionIndex].options.splice(optionIndex, 1);
 };
 </script>
 
 <template>
   <div class="main-container">
-    <h4>Анкета</h4>
-    <div class="row no-wrap q-mt-lg">
+    <h4>Создать анкету</h4>
+    <div class="row justify-center no-wrap q-mt-lg">
       <q-btn label="Сохранить анкету" class="q-btn--form" color="primary"></q-btn>
     </div>
     <q-form class="fit q-mb-sm form">
-      <q-input
-        v-model="DATA.title"
-        outlined
-        class="fit q-mb-sm"
-        input-class="q-input--form"
-        label="Название анкеты*"
-        borderless
-        color="primary" />
-
-      <q-input
-        v-model="DATA.description"
-        type="textarea"
-        outlined
-        class="fit q-mb-sm"
-        input-class="q-input--form"
-        label="Описание анкеты"
-        borderless
-        color="primary" />
+      <q-input v-model="SurveyData.title" class="fit q-mb-sm" label="Название анкеты*" />
+      <q-input v-model="SurveyData.description" type="textarea" class="fit q-mb-sm" label="Описание анкеты" />
     </q-form>
-    <h5>Вопросы</h5>
-    <div class="fit row wrap justify-start items-start content-start">
-      <div v-for="(item, idxq) in DATA.questions" :key="idxq">
-        <span>Вопрос {{ idxq + 1 }}</span>
-        <p>
-          <q-btn label="x" color="negative" @click="delQuestion(idxq)"></q-btn>
-        </p>
+    <!-- Вопросы -->
+    <div class="row justify-center flex-center q-mt-lg">
+      <h5>Вопросы</h5>
+      <q-btn dense class="q-btn--form q-ml-sm" color="primary" @click="addQuestions">Добавить вопрос</q-btn>
+    </div>
+    <div class="questions-wrapper">
+      <div v-for="(question, questionIndex) in SurveyData.questions" :key="questionIndex" class="question">
+        <div class="flex">
+          <span>Вопрос {{ questionIndex + 1 }}</span>
+          <q-btn size="xs" class="btn-delete" dense color="negative" @click="delQuestion(questionIndex)">
+            Удалить вопрос
+          </q-btn>
+        </div>
         <q-select
-          v-model="item.type"
-          input-class="q-select--form"
+          v-model="question.type"
           label="Тип вопроса*"
           :options="questionTypeSelect"
-          :option-label="(item) => item.label"
-          outlined
-          class="fit q-mb-sm"
           map-options
+          class="q-mb-sm"
           emit-value />
 
-        <q-input
-          v-model="item.text"
-          outlined
-          class="fit q-mb-sm"
-          input-class="q-input--form"
-          label="Текст вопроса*"
-          borderless
-          color="primary" />
+        <q-input v-model="question.text" class="q-mb-sm" label="Текст вопроса*" />
+        <q-input v-model="question.description" autogrow class="q-mb-sm" label="Пояснения" />
 
-        <q-input
-          v-model="item.description"
-          type="textarea"
-          outlined
-          class="fit q-mb-sm"
-          input-class="q-input--form"
-          label="Поясненния"
-          borderless
-          color="primary" />
-        <div v-for="(itemO, idx) in DATA.questions[idxq].options" :key="idx">
-          <span>Ответ {{ idx + 1 }}</span>
-          <p>
-            <q-btn label="x" color="negative" @click="delOption(idxq, idx)">{{ idx }}</q-btn>
-          </p>
-          <q-input
-            v-model="itemO.text"
-            outlined
-            class="fit q-mb-sm"
-            input-class="q-input--form"
-            label="Тектс ответа*"
-            borderless
-            color="primary" />
+        <!-- Ответы -->
+        <div v-for="(option, optionIndex) in SurveyData.questions[questionIndex].options" :key="optionIndex">
+          <div class="flex">
+            <span>Ответ {{ optionIndex + 1 }}</span>
+            <q-btn class="btn-delete" dense size="xs" color="negative" @click="delOption(questionIndex, optionIndex)">
+              Удалить ответ
+            </q-btn>
+          </div>
+
+          <q-input v-model="option.text" class="q-mb-sm" label="Тектс ответа*" />
         </div>
         <div class="row no-wrap q-mt-lg">
-          <q-btn label="Добавить ответ" class="q-btn--form" color="primary" @click="addOptions(idxq)"></q-btn>
+          <q-btn label="Добавить ответ" class="q-btn--form" color="primary" @click="addOptions(questionIndex)"></q-btn>
         </div>
       </div>
-    </div>
-    <div class="row no-wrap q-mt-lg">
-      <q-btn label="Добавить вопрос" class="q-btn--form" color="primary" @click="addQuestions"></q-btn>
     </div>
   </div>
 </template>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.btn-delete {
+  height: unset;
+}
+.questions-wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  .question {
+    display: flex;
+    flex-direction: column;
+  }
+}
+</style>
