@@ -5,13 +5,12 @@ export type TQuestionnairePayload = {
   description: string;
   answerBefore?: string;
   questions: {
-    id?: number | null;
-    text: string;
-    description?: string;
-    type: questionType;
-    options: {
-      id?: number | null;
-      text: string;
-    }[];
-  }[];
+    [
+      id?: number | null,
+      text: string,
+      description?: string,
+      type: questionType,
+      options: { [id?: number | null, text: string] },
+    ];
+  };
 };

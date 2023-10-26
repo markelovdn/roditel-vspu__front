@@ -5,23 +5,14 @@ export type TQuestionnairePayload = {
   description: string;
   answerBefore?: string;
   questions: {
-    id?: number | null;
-    text: string;
-    description?: string;
-    type: string;
-    options: { id?: number | null; text: string }[];
-  }[];
-};
-
-export type TQuestion = {
-  id?: number | null;
-  text: string;
-  description?: string;
-  type: string;
-  options: TOptions[];
-};
-
-export type TOptions = {
-  id?: number | null;
-  text: string;
+    [
+      id: number,
+      text: string,
+      description?: string,
+      type: string,
+      options: {
+        [id: number, text: string];
+      },
+    ];
+  };
 };
