@@ -9,6 +9,6 @@ export type TQuestionnairePayload = {
     text: string;
     description?: string;
     type: string;
-    options: Array<{ id?: number | null; text: string }>;
+    options: Array<{ id?: number | null; text?: string; textFree?: string }>;
   }>;
 };
