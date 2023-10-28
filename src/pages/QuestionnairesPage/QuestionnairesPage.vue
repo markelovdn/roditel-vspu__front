@@ -1,53 +1,51 @@
 <script setup lang="ts">
 import { provide, ref } from "vue";
 
-import QuestionForm from "./QuestionForm.vue";
-import { TQuestionnairePayload } from "./types";
+import { SurveyInjectionKey } from "@/injectionKeys";
 
-const defaultOption = { text: "" };
-const freeOption = { textFree: "" };
-const SurveyData = ref<TQuestionnairePayload>({
+import QuestionForm from "./QuestionForm.vue";
+import { TDefaultOption, TDefaultQuestion, TQuestionnairePayload } from "./types";
+
+const defaultOption = { text: "" } as TDefaultOption;
+const defaultQuestion = { text: "", description: "", type: "", options: [] } as TDefaultQuestion;
+// const freeOption = { textFree: "" };
+const surveyData = ref<TQuestionnairePayload>({
   title: "",
   description: "",
   questions: [],
 });
 
 const addQuestions = () => {
-  SurveyData.value.questions.push({
-    text: "",
-    description: "",
-    type: "",
-    options: [],
-  });
+  surveyData.value.questions.push({ ...defaultQuestion });
 };
 
 const delQuestion = (index: number) => {
-  SurveyData.value.questions.splice(index, 1);
+  surveyData.value.questions.splice(index, 1);
 };
 
 const addOptions = (index: number) => {
-  SurveyData.value.questions[index].options.push({ ...defaultOption });
+  surveyData.value.questions[index].options.push({ ...defaultOption });
 };
 
 const delOption = (questionIndex: number, optionIndex: number) => {
-  SurveyData.value.questions[questionIndex].options.splice(optionIndex, 1);
+  surveyData.value.questions[questionIndex].options.splice(optionIndex, 1);
 };
 
-const addFreeOption = (index: number) => {
-  const isTextFree = SurveyData.value.questions[index].options.find((option) => option.textFree === "");
+// const addFreeOption = (index: number) => {
+//   const isTextFree = surveyData.value.questions[index].options.find((option) => option.textFree === "");
 
-  if (isTextFree === undefined) {
-    SurveyData.value.questions[index].options.push({ ...freeOption });
-    console.log(SurveyData);
-  } else {
-    // delOption(index, optionIndex);
-    // SurveyData.questions[index].options.forEach((option) => delete option.textFree);
-    // console.log("удалил");
-    // console.log(SurveyData);
-  }
-};
+//   if (isTextFree === undefined) {
+//     surveyData.value.questions[index].options.push({ ...freeOption });
+//     console.log(surveyData);
+//   } else {
+//     // delOption(index, optionIndex);
+//     // surveyData.questions[index].options.forEach((option) => delete option.textFree);
+//     // console.log("удалил");
+//     // console.log(surveyData);
+//   }
+// };
 
-provide("SurveyData", { SurveyData, delQuestion, addOptions, delOption, addFreeOption });
+provide(SurveyInjectionKey, { surveyData, delQuestion, addOptions, delOption });
 </script>
 
 <template>
@@ -57,20 +55,20 @@ provide("SurveyData", { SurveyData, delQuestion, addOptions, delOption, addFreeO
       <q-btn label="Сохранить анкету" class="q-btn--form" color="primary"></q-btn>
     </div>
     <q-form class="fit q-mb-sm form">
-      <q-input v-model="SurveyData.title" class="fit q-mb-sm" label="Название анкеты*" />
-      <q-input v-model="SurveyData.description" type="textarea" class="fit q-mb-sm" label="Описание анкеты" />
+      <q-input v-model="surveyData.title" class="fit q-mb-sm" label="Название анкеты*" />
+      <q-input v-model="surveyData.description" type="textarea" class="fit q-mb-sm" label="Описание анкеты" />
     </q-form>
     <!-- Вопросы -->
     <div class="row justify-center flex-center q-mt-lg">
       <h5>Вопросы</h5>
-      {{ SurveyData }}
+      {{ surveyData }}
       <q-btn dense class="q-btn--form q-ml-sm" color="primary" @click="addQuestions">Добавить вопрос</q-btn>
     </div>
     <div class="questions-wrapper">
       <QuestionForm
-        v-for="(question, questionIndex) in SurveyData.questions"
+        v-for="(question, questionIndex) in surveyData.questions"
         :key="questionIndex"
-        :question="question"
+        v-model:question="surveyData.questions[questionIndex]"
         class="question" />
     </div>
   </div>

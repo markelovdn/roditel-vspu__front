@@ -1,7 +1,11 @@
 <script setup lang="ts">
-import { defineProps, inject } from "vue";
+import { defineProps, inject, ref } from "vue";
 
-import OptionForm from "./QuestionForm.vue";
+import { SurveyInjectionKey, TSurveyProviderData } from "@/injectionKeys";
+
+import { TDefaultQuestion } from "./types";
+
+// import OptionForm from "./QuestionForm.vue";
 
 const questionTypeSelect = [
   { value: "text", label: "Свой ответ" },
@@ -9,12 +13,21 @@ const questionTypeSelect = [
   { value: "many", label: "Множественный выбор" },
 ];
 
-const { SurveyData, delQuestion } = inject("SurveyData");
+const { delQuestion } = inject(SurveyInjectionKey, {} as TSurveyProviderData);
 
 const props = defineProps<{
   questionIndex: number;
-  question: [];
+  question: TDefaultQuestion;
 }>();
+// Второй вариант как можно менять значение, используя инжектор
+// const questionModel = ref(surveyData.value.questions[props.questionIndex]);
+
+//обновление данных через пропсы и vmodel
+const emit = defineEmits(["update:question"]);
+const questionModel = ref(props.question);
+const updateQuestion = () => {
+  emit("update:question", questionModel.value);
+};
 </script>
 
 <template>
@@ -26,18 +39,24 @@ const props = defineProps<{
       </q-btn>
     </div>
     <q-select
-      v-model="SurveyData.question.type"
+      v-model="questionModel.type"
       label="Тип вопроса*"
-      :options="questionTypeSelect"
       map-options
+      emit-value
       class="q-mb-sm"
-      emit-value />
+      :options="questionTypeSelect"
+      @update:model-value="updateQuestion()" />
 
-    <q-input v-model="SurveyData.question.text" class="q-mb-sm" label="Текст вопроса*" />
-    <q-input v-model="SurveyData.question.description" autogrow class="q-mb-sm" label="Пояснения" />
+    <q-input v-model="questionModel.text" class="q-mb-sm" label="Текст вопроса*" @update:model-value="updateQuestion" />
+    <q-input
+      v-model="questionModel.description"
+      autogrow
+      class="q-mb-sm"
+      label="Пояснения"
+      @update:model-value="updateQuestion" />
 
     <!-- Ответы -->
-    <OptionForm :question-index="questionIndex" />
+    <!-- <OptionForm :question-index="questionIndex" /> -->
   </div>
 </template>
 
