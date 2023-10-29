@@ -1,19 +1,12 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-import { TQuestionnairePayload } from "./types";
+import { TDefaultQuestion, TQuestionnairePayload } from "./types";
 
 const SurveyData = ref<TQuestionnairePayload>({
   title: "",
   description: "",
-  questions: [
-    // {
-    //   text: "",
-    //   description: "",
-    //   type: "",
-    //   options: [{ text: "" }],
-    // },
-  ],
+  questions: [],
 });
 const defaultOption = { text: "" };
 const questionTypeSelect = [
@@ -35,12 +28,16 @@ const delQuestion = (index: number) => {
   SurveyData.value.questions.splice(index, 1);
 };
 
-const addOptions = (index: number) => {
-  SurveyData.value.questions[index].options.push(defaultOption);
+const addOptions = (questionIndex: number) => {
+  SurveyData.value.questions[questionIndex].options.push({ ...defaultOption });
 };
 
 const delOption = (questionIndex: number, optionIndex: number) => {
   SurveyData.value.questions[questionIndex].options.splice(optionIndex, 1);
+};
+
+const cheangeTypeQuestion = (question: TDefaultQuestion) => {
+  console.log(question);
 };
 </script>
 
@@ -57,6 +54,7 @@ const delOption = (questionIndex: number, optionIndex: number) => {
     <!-- Вопросы -->
     <div class="row justify-center flex-center q-mt-lg">
       <h5>Вопросы</h5>
+      {{ SurveyData }}
       <q-btn dense class="q-btn--form q-ml-sm" color="primary" @click="addQuestions">Добавить вопрос</q-btn>
     </div>
     <div class="questions-wrapper">
@@ -73,7 +71,8 @@ const delOption = (questionIndex: number, optionIndex: number) => {
           :options="questionTypeSelect"
           map-options
           class="q-mb-sm"
-          emit-value />
+          emit-value
+          @update:model-value="cheangeTypeQuestion(question)" />
 
         <q-input v-model="question.text" class="q-mb-sm" label="Текст вопроса*" />
         <q-input v-model="question.description" autogrow class="q-mb-sm" label="Пояснения" />
@@ -111,3 +110,5 @@ const delOption = (questionIndex: number, optionIndex: number) => {
   }
 }
 </style>
+
+//TODO: можно сделать разделение компонентов в будущем попытка разделения сохранена в ветке devQuestionnaire
