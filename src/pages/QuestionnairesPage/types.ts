@@ -1,4 +1,4 @@
-export type questionType = "text" | "single" | "many";
+export type TQuestionType = "text" | "single" | "many";
 
 export type TQuestionnairePayload = {
   title: string;
@@ -12,3 +12,6 @@ export type TQuestionnairePayload = {
     options: Array<{ id?: number | null; text: string }>;
   }>;
 };
+
+export type TDefaultQuestion = { text: string; description: string; type: TQuestionType; options: TDefaultOption[] };
+export type TDefaultOption = { text: string };
