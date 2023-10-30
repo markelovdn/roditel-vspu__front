@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
+import { useQuestionnairesStore } from "@/stores/questionnairesStore";
 import notify from "@/utils/notify";
 
 import { TQuestionnairePayload, TQuestionType } from "./types";
@@ -17,6 +18,11 @@ const questionTypeSelect = [
   { value: "text", label: "Текст" },
 ];
 const isManyFrom = ref(false);
+const questionnairesStore = useQuestionnairesStore();
+
+const handleNewQuestionnaires = () => {
+  questionnairesStore.requestNewQuestionnaire(1, SurveyData.value);
+};
 
 const addQuestions = () => {
   SurveyData.value.questions.push({
@@ -66,8 +72,9 @@ const changeTypeQuestion = (questionIndex: number, type: TQuestionType) => {
 <template>
   <div class="main-container">
     <h4>Создать анкету</h4>
+    {{ SurveyData }}
     <div class="row justify-center no-wrap q-mt-lg">
-      <q-btn label="Сохранить анкету" class="q-btn--form" color="primary"></q-btn>
+      <q-btn label="Сохранить анкету" class="q-btn--form" color="primary" @click="handleNewQuestionnaires"></q-btn>
     </div>
     <q-form class="fit q-mb-sm form">
       <q-input v-model="SurveyData.title" class="fit q-mb-sm" label="Название анкеты*" />
@@ -81,7 +88,6 @@ const changeTypeQuestion = (questionIndex: number, type: TQuestionType) => {
     </div>
     <div class="questions-wrapper">
       <div v-for="(question, questionIndex) in SurveyData.questions" :key="questionIndex" class="question">
-        {{ SurveyData.questions[questionIndex] }}
         <q-select
           v-model="question.type"
           label="Тип вопроса*"
