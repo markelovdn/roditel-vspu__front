@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
+import notify from "@/utils/notify";
+
 import { TQuestionnairePayload, TQuestionType } from "./types";
 
 const SurveyData = ref<TQuestionnairePayload>({
@@ -41,17 +43,22 @@ const addOptions = (questionIndex: number, optionIndex: number) => {
 };
 
 const delOption = (questionIndex: number, optionIndex: number) => {
-  SurveyData.value.questions[questionIndex].options.splice(optionIndex, 1);
+  if (SurveyData.value.questions[questionIndex].options.length > 2) {
+    SurveyData.value.questions[questionIndex].options.splice(optionIndex, 1);
+  } else {
+    notify({
+      type: "negative",
+      message: "Вопрос должен содержать не менее двух вариантов ответа",
+    });
+  }
 };
 
 const changeTypeQuestion = (questionIndex: number, type: TQuestionType) => {
   if (type === "text") {
-    SurveyData.value.questions[questionIndex].options = [];
     SurveyData.value.questions[questionIndex].other.show = true;
+    SurveyData.value.questions[questionIndex].options = [{ text: "Вариант 1" }, { text: "" }];
   } else {
     SurveyData.value.questions[questionIndex].other.show = false;
-    // TODO: не смог придумать как сохранять ответы при смене типа вопроса с одного ответа на множественный выбор
-    SurveyData.value.questions[questionIndex].options = [{ text: "Вариант 1" }, { text: "" }];
   }
 };
 </script>
@@ -74,12 +81,7 @@ const changeTypeQuestion = (questionIndex: number, type: TQuestionType) => {
     </div>
     <div class="questions-wrapper">
       <div v-for="(question, questionIndex) in SurveyData.questions" :key="questionIndex" class="question">
-        <div class="flex">
-          <span>Вопрос {{ questionIndex + 1 }}</span>
-          <q-btn size="xs" class="btn-delete" dense color="negative" @click="delQuestion(questionIndex)">
-            Удалить вопрос
-          </q-btn>
-        </div>
+        {{ SurveyData.questions[questionIndex] }}
         <q-select
           v-model="question.type"
           label="Тип вопроса*"
@@ -93,25 +95,29 @@ const changeTypeQuestion = (questionIndex: number, type: TQuestionType) => {
 
         <!-- Ответы -->
         <div v-for="(option, optionIndex) in SurveyData.questions[questionIndex].options" :key="optionIndex">
-          <div class="option">
+          <div v-if="SurveyData.questions[questionIndex].type !== 'text'" class="option">
             <q-checkbox v-if="question.type === 'many'" v-model="isManyFrom" disable />
             <q-radio v-if="question.type === 'single'" v-model="question.text" val="line" disable />
             <q-input
               v-model="option.text"
-              class="q-mb-sm"
+              class="option__input"
               label="Текст ответа*"
               @click="addOptions(questionIndex, optionIndex)" />
-            <q-btn class="btn-delete" dense size="xs" color="negative" @click="delOption(questionIndex, optionIndex)">
-              Удалить
-            </q-btn>
+            <q-icon
+              :name="'close'"
+              style="font-size: large; cursor: pointer"
+              @click="delOption(questionIndex, optionIndex)" />
           </div>
         </div>
         <q-input v-if="question.other.show" v-model="question.other.text" disable class="q-mb-sm" label="Другое" />
         <div v-if="question.type !== 'text'">
           <q-checkbox
             v-model="question.other.show"
-            label="Добавить вариант 'Другое'"
+            label="Добавить вариант Другое"
             @click="SurveyData.questions[questionIndex].other.show" />
+        </div>
+        <div class="question-delete">
+          <q-icon class="btn-delete" :name="'delete'" label="asd" @click="delQuestion(questionIndex)" />
         </div>
       </div>
     </div>
@@ -130,10 +136,22 @@ const changeTypeQuestion = (questionIndex: number, type: TQuestionType) => {
     display: flex;
     flex-direction: column;
   }
+  .question-delete {
+    display: flex;
+    justify-content: end;
+    font-size: large;
+    cursor: pointer;
+    color: $negative;
+  }
   .option {
     display: flex;
     flex-direction: row;
+    justify-content: left;
+    align-items: center;
     flex-wrap: nowrap;
+    &__input {
+      flex-grow: 2;
+    }
   }
 }
 </style>
