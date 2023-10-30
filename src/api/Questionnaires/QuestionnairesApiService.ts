@@ -14,7 +14,7 @@ export class QuestionnairesApiService {
 
   //TODO: указать типы response
   addQuestionnaire(consultantId: number | string, questionnaire: TQuestionnairePayload) {
-    return axios.post<TQuestionnairePayload>(`/consultant/${consultantId}/questionnaires?XDEBUG_SESSION=VSCODE`, {
+    return axios.post<TQuestionnairePayload>(`/consultant/${consultantId}/questionnaires`, {
       title: questionnaire.title,
       description: questionnaire.description,
       //TODO: поправить метод для даты
