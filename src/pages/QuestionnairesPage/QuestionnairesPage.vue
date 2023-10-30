@@ -72,7 +72,6 @@ const changeTypeQuestion = (questionIndex: number, type: TQuestionType) => {
 <template>
   <div class="main-container">
     <h4>Создать анкету</h4>
-    {{ SurveyData }}
     <div class="row justify-center no-wrap q-mt-lg">
       <q-btn label="Сохранить анкету" class="q-btn--form" color="primary" @click="handleNewQuestionnaires"></q-btn>
     </div>
