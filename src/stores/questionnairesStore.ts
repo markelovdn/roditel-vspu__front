@@ -7,7 +7,7 @@ import { TQuestionnairePayload } from "@/pages/QuestionnairesPage/types";
 
 import { useAuthStore } from "./authStore";
 
-const questionnaires = ref<TQuestionnairePayload[]>([]);
+const questionnaires = ref<TQuestionnairePayload>();
 
 export const useQuestionnairesStore = defineStore("questionnaresStore", () => {
   const authStore = useAuthStore();
