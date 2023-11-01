@@ -1,5 +1,5 @@
 import useVuelidate, { type ValidationArgs } from "@vuelidate/core";
-import { email, helpers, minLength, required, sameAs } from "@vuelidate/validators";
+import { email, helpers, maxLength, minLength, required, sameAs } from "@vuelidate/validators";
 import { computedEager } from "@vueuse/core";
 import { computed, type ComputedRef, type Ref, watch } from "vue";
 
@@ -9,7 +9,10 @@ export type TRule<T> = ValidationArgs<T>;
 
 export const requiredValidator = helpers.withMessage("Обязательное поле", required);
 export const emailValidator = helpers.withMessage("Не верный формат email адреса", email);
-export const minLengthValidator = (length: number) => helpers.withMessage(`Не верная длина номера`, minLength(length));
+export const minLengthValidator = (length: number) =>
+  helpers.withMessage(`Количество символов должно быть не менее ${length}`, minLength(length));
+export const maxLengthValidator = (length: number) =>
+  helpers.withMessage(`Длина строки не должна превышать ${length} символов`, maxLength(length));
 export const repeatPasswordValidator = (password: Ref<string> | ComputedRef<string>) =>
   helpers.withMessage("Пароли не совпадают", sameAs(password));
 export const splitNameValidator = helpers.withMessage(

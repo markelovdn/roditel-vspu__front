@@ -1,10 +1,16 @@
 <script setup lang="ts">
+import { helpers } from "@vuelidate/validators";
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 
+import { maxLengthValidator, requiredValidator, useValidation } from "@/hooks/useValidation";
 import { useQuestionnairesStore } from "@/stores/questionnairesStore";
 import notify from "@/utils/notify";
 
 import { TQuestionnairePayload, TQuestionType } from "./types";
+
+const emit = defineEmits(["validation-change", "update:model-value"]);
+const router = useRouter();
 
 const SurveyData = ref<TQuestionnairePayload>({
   title: "",
@@ -17,11 +23,22 @@ const questionTypeSelect = [
   { value: "many", label: "Несколько из списка" },
   { value: "text", label: "Текст" },
 ];
-const isManyFrom = ref(false);
+const isManyType = ref(false);
 const questionnairesStore = useQuestionnairesStore();
+const { handleBlur, getErrorAttrs, isValid } = useValidation<TQuestionnairePayload>(SurveyData, emit, {
+  title: { requiredValidator, maxLengthValidator: maxLengthValidator(255) },
+  description: { maxLengthValidator: maxLengthValidator(255) },
+  questions: {
+    $each: helpers.forEach({
+      text: { requiredValidator },
+    }),
+  },
+});
 
 const handleNewQuestionnaires = () => {
+  //TODO: сделать передачу id, хотел попробовать забрать из стора, не получилось, по хорошему нужно создать метод для получения id консультанта, хоть и не важно какое значение будет передаваться главное что бы число. На бэке всеравно идет поиск по авторизованному пользователю, а не по тому что в адресной строке прилетает.
   questionnairesStore.requestNewQuestionnaire(1, SurveyData.value);
+  router.push({ name: "My" });
 };
 
 const addQuestions = () => {
@@ -59,6 +76,10 @@ const delOption = (questionIndex: number, optionIndex: number) => {
   }
 };
 
+const delOther = (questionIndex: number) => {
+  SurveyData.value.questions[questionIndex].other.show = false;
+};
+
 const changeTypeQuestion = (questionIndex: number, type: TQuestionType) => {
   if (type === "text") {
     SurveyData.value.questions[questionIndex].other.show = true;
@@ -67,16 +88,27 @@ const changeTypeQuestion = (questionIndex: number, type: TQuestionType) => {
     SurveyData.value.questions[questionIndex].other.show = false;
   }
 };
+//TODO: можно сделать разделение компонентов в будущем попытка разделения сохранена в ветке devQuestionnaire
 </script>
 
 <template>
   <div class="main-container">
     <h4>Создать анкету</h4>
     <div class="row justify-center no-wrap q-mt-lg">
-      <q-btn label="Сохранить анкету" class="q-btn--form" color="primary" @click="handleNewQuestionnaires"></q-btn>
+      <q-btn
+        label="Сохранить анкету"
+        class="q-btn--form"
+        color="primary"
+        :disable="!isValid"
+        @click="handleNewQuestionnaires"></q-btn>
     </div>
     <q-form class="fit q-mb-sm form">
-      <q-input v-model="SurveyData.title" class="fit q-mb-sm" label="Название анкеты*" />
+      <q-input
+        v-bind="getErrorAttrs('title')"
+        v-model="SurveyData.title"
+        class="fit q-mb-sm"
+        label="Название анкеты*"
+        @blur="handleBlur('title')" />
       <q-input v-model="SurveyData.description" type="textarea" class="fit q-mb-sm" label="Описание анкеты" />
     </q-form>
 
@@ -95,34 +127,53 @@ const changeTypeQuestion = (questionIndex: number, type: TQuestionType) => {
           class="q-mb-sm"
           emit-value
           @update:model-value="(value) => changeTypeQuestion(questionIndex, value)" />
-        <q-input v-model="question.text" class="q-mb-sm" label="Текст вопроса*" />
+        <q-input
+          v-bind="getErrorAttrs('text')"
+          v-model="question.text"
+          class="q-mb-sm"
+          label="Текст вопроса*"
+          @blur="handleBlur('text')" />
         <q-input v-model="question.description" autogrow class="q-mb-sm" label="Пояснения" />
 
         <!-- Ответы -->
         <div v-for="(option, optionIndex) in SurveyData.questions[questionIndex].options" :key="optionIndex">
           <div v-if="SurveyData.questions[questionIndex].type !== 'text'" class="option">
-            <q-checkbox v-if="question.type === 'many'" v-model="isManyFrom" disable />
-            <q-radio v-if="question.type === 'single'" v-model="question.text" val="line" disable />
+            <q-checkbox v-show="question.type === 'many'" v-model="isManyType" disable />
+            <q-radio v-show="question.type === 'single'" v-model="question.text" val="line" disable />
             <q-input
               v-model="option.text"
               class="option__input"
               label="Текст ответа*"
               @click="addOptions(questionIndex, optionIndex)" />
             <q-icon
+              v-show="option.text !== ''"
               :name="'close'"
               style="font-size: large; cursor: pointer"
               @click="delOption(questionIndex, optionIndex)" />
           </div>
         </div>
-        <q-input v-if="question.other.show" v-model="question.other.text" disable class="q-mb-sm" label="Другое" />
-        <div v-if="question.type !== 'text'">
+        <div v-show="question.type !== 'text'" class="option">
           <q-checkbox
+            v-show="!question.other.show"
             v-model="question.other.show"
             label="Добавить вариант Другое"
             @click="SurveyData.questions[questionIndex].other.show" />
         </div>
+        <div class="option">
+          <q-input
+            v-show="question.other.show"
+            v-model="question.other.text"
+            disable
+            class="option__input"
+            label="Другое" />
+          <q-icon
+            v-show="question.other.show && question.type !== 'text'"
+            :name="'close'"
+            style="font-size: large; cursor: pointer"
+            @click="delOther(questionIndex)" />
+        </div>
         <div class="question-delete">
-          <q-icon class="btn-delete" :name="'delete'" label="asd" @click="delQuestion(questionIndex)" />
+          <q-icon class="btn-delete" :name="'delete'" label="" @click="delQuestion(questionIndex)" />
         </div>
       </div>
     </div>
@@ -142,9 +193,10 @@ const changeTypeQuestion = (questionIndex: number, type: TQuestionType) => {
     flex-direction: column;
   }
   .question-delete {
+    margin-top: 20px;
     display: flex;
-    justify-content: end;
-    font-size: large;
+    justify-content: start;
+    font-size: xx-large;
     cursor: pointer;
     color: $negative;
   }
@@ -160,5 +212,3 @@ const changeTypeQuestion = (questionIndex: number, type: TQuestionType) => {
   }
 }
 </style>
-
-//TODO: можно сделать разделение компонентов в будущем попытка разделения сохранена в ветке devQuestionnaire
