@@ -37,6 +37,11 @@ const { handleBlur, getErrorAttrs, isValid } = useValidation<TQuestionnairePaylo
 
 const handleNewQuestionnaires = () => {
   //TODO: сделать передачу id, хотел попробовать забрать из стора, не получилось, по хорошему нужно создать метод для получения id консультанта, хоть и не важно какое значение будет передаваться главное что бы число. На бэке всеравно идет поиск по авторизованному пользователю, а не по тому что в адресной строке прилетает.
+
+  SurveyData.value.questions.forEach(
+    (question) => (question.options = question.options.filter((option) => option.text !== "")),
+  );
+
   questionnairesStore.requestNewQuestionnaire(1, SurveyData.value);
   router.push({ name: "My" });
 };
@@ -88,6 +93,7 @@ const changeTypeQuestion = (questionIndex: number, type: TQuestionType) => {
     SurveyData.value.questions[questionIndex].other.show = false;
   }
 };
+
 //TODO: можно сделать разделение компонентов в будущем попытка разделения сохранена в ветке devQuestionnaire
 </script>
 
