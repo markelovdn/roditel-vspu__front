@@ -1,15 +1,17 @@
 import axios from "@/common/axios";
-import { TQuestionnairePayload } from "@/pages/QuestionnairesPage/types";
 
-import { TGetConsultantQuestionnairesFilter } from "./types";
+import { TGetConsultantQuestionnairesFilter, TQuestionnairePayload, TQuestionnairesData } from "./types";
 
 export class QuestionnairesApiService {
   //TODO: указать типы response
   getQuestionnaires(consultantId: number | string, filters: TGetConsultantQuestionnairesFilter) {
-    const query = new URLSearchParams({ ...filters, page: filters.page.toString() } || {});
+    let query = {};
+    if (filters.page !== undefined) {
+      query = new URLSearchParams({ ...filters, page: filters.page.toString() } || {});
+    }
     //TODO: написать функцию принимающуу url и параметры query, на выходе целая строка собранная
     // учесть то, что URLSearchParams хочет на вход параметры в виде строки, нужен для этого конвертер
-    return axios.get<TQuestionnairePayload>(`/consultant/${consultantId}/questionnaires${query ? "?" + query : ""}`);
+    return axios.get<TQuestionnairesData>(`/consultant/${consultantId}/questionnaires${query ? "?" + query : ""}`);
   }
 
   //TODO: указать типы response
