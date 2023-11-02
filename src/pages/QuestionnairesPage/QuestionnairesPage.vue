@@ -1,29 +1,31 @@
 <script setup lang="ts">
 import { helpers } from "@vuelidate/validators";
 import { ref } from "vue";
-import { useRouter } from "vue-router";
 
-import { TQuestionnairePayload, TQuestionType } from "@/api/Questionnaires/types";
+import { TQuestionnairePayload } from "@/api/Questionnaires/types";
+import { useQuestionnaire } from "@/hooks/useQuestionnaire";
 import { maxLengthValidator, requiredValidator, useValidation } from "@/hooks/useValidation";
-import { useQuestionnairesStore } from "@/stores/questionnairesStore";
-import notify from "@/utils/notify";
+
+const {
+  handleNewQuestionnaires,
+  addQuestions,
+  delQuestion,
+  addOptions,
+  delOption,
+  delOther,
+  changeTypeQuestion,
+  SurveyData,
+} = useQuestionnaire();
 
 const emit = defineEmits(["validation-change", "update:model-value"]);
-const router = useRouter();
 
-const SurveyData = ref<TQuestionnairePayload>({
-  title: "",
-  description: "",
-  questions: [],
-});
-const defaultOption = { text: "" };
 const questionTypeSelect = [
   { value: "single", label: "Один из списка" },
   { value: "many", label: "Несколько из списка" },
   { value: "text", label: "Текст" },
 ];
 const isManyType = ref(false);
-const questionnairesStore = useQuestionnairesStore();
+
 const { handleBlur, getErrorAttrs, isValid } = useValidation<TQuestionnairePayload>(SurveyData, emit, {
   title: { requiredValidator, maxLengthValidator: maxLengthValidator(255) },
   description: { maxLengthValidator: maxLengthValidator(255) },
@@ -33,65 +35,6 @@ const { handleBlur, getErrorAttrs, isValid } = useValidation<TQuestionnairePaylo
     }),
   },
 });
-
-const handleNewQuestionnaires = () => {
-  //TODO: сделать передачу id, хотел попробовать забрать из стора, не получилось, по хорошему нужно создать метод для получения id консультанта, хоть и не важно какое значение будет передаваться главное что бы число. На бэке всеравно идет поиск по авторизованному пользователю, а не по тому что в адресной строке прилетает.
-
-  SurveyData.value.questions.forEach(
-    (question) => (question.options = question.options.filter((option) => option.text !== "")),
-  );
-
-  questionnairesStore.requestNewQuestionnaire(1, SurveyData.value);
-  router.push({ name: "My" });
-};
-
-const addQuestions = () => {
-  SurveyData.value.questions.push({
-    text: "",
-    description: "",
-    type: "single",
-    options: [{ text: "Вариант 1" }, { text: "" }],
-    other: {
-      show: false,
-      text: "",
-    },
-  });
-};
-
-const delQuestion = (index: number) => {
-  SurveyData.value.questions.splice(index, 1);
-};
-
-const addOptions = (questionIndex: number, optionIndex: number) => {
-  if (SurveyData.value.questions[questionIndex].options[optionIndex].text === "") {
-    SurveyData.value.questions[questionIndex].options.push({ ...defaultOption });
-    SurveyData.value.questions[questionIndex].options[optionIndex].text = `Вариант ${optionIndex + 1}`;
-  }
-};
-
-const delOption = (questionIndex: number, optionIndex: number) => {
-  if (SurveyData.value.questions[questionIndex].options.length > 2) {
-    SurveyData.value.questions[questionIndex].options.splice(optionIndex, 1);
-  } else {
-    notify({
-      type: "negative",
-      message: "Вопрос должен содержать не менее двух вариантов ответа",
-    });
-  }
-};
-
-const delOther = (questionIndex: number) => {
-  SurveyData.value.questions[questionIndex].other.show = false;
-};
-
-const changeTypeQuestion = (questionIndex: number, type: TQuestionType) => {
-  if (type === "text") {
-    SurveyData.value.questions[questionIndex].other.show = true;
-    SurveyData.value.questions[questionIndex].options = [{ text: "Вариант 1" }, { text: "" }];
-  } else {
-    SurveyData.value.questions[questionIndex].other.show = false;
-  }
-};
 
 //TODO: можно сделать разделение компонентов в будущем попытка разделения сохранена в ветке devQuestionnaire
 </script>

@@ -29,6 +29,11 @@ const questionnairesListHeaders = [
     field: "index",
   },
   {
+    name: "index",
+    label: "#",
+    field: "index",
+  },
+  {
     name: "name",
     label: "Название файла",
     field: "name",
@@ -92,6 +97,9 @@ onMounted(async () => {
         </div>
       </template>
       <template #item="{ item, cellClass }">
+        <div :class="cellClass">
+          <router-link :to="'/questionnaires'">Edit</router-link>
+        </div>
         <div :class="cellClass">{{ item.title }}</div>
         <div :class="cellClass">{{ item.title }}</div>
         <div :class="cellClass">{{ item.title }}</div>
