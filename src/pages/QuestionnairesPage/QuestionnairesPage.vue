@@ -3,11 +3,10 @@ import { helpers } from "@vuelidate/validators";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 
+import { TQuestionnairePayload, TQuestionType } from "@/api/Questionnaires/types";
 import { maxLengthValidator, requiredValidator, useValidation } from "@/hooks/useValidation";
 import { useQuestionnairesStore } from "@/stores/questionnairesStore";
 import notify from "@/utils/notify";
-
-import { TQuestionnairePayload, TQuestionType } from "./types";
 
 const emit = defineEmits(["validation-change", "update:model-value"]);
 const router = useRouter();

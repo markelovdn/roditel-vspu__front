@@ -2,12 +2,13 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 
 import { questionnairesApi } from "@/api";
-import { TGetConsultantQuestionnairesFilter } from "@/api/Questionnaires/types";
-import { TQuestionnairePayload } from "@/pages/QuestionnairesPage/types";
+import { toTQuestionnairesData } from "@/api/Questionnaires/mappers";
+import { TGetConsultantQuestionnairesFilter, TQuestionnairePayload } from "@/api/Questionnaires/types";
 
 import { useAuthStore } from "./authStore";
-
-const questionnaires = ref<TQuestionnairePayload>();
+const questionnaires = ref<TQuestionnairePayload[]>([]);
+// const authStore = useAuthStore();
+// const questionnaires = ref<TQuestionnaireData>({});
 
 export const useQuestionnairesStore = defineStore("questionnaresStore", () => {
   const authStore = useAuthStore();
@@ -21,7 +22,9 @@ export const useQuestionnairesStore = defineStore("questionnaresStore", () => {
 
   function getQuestionnaires(filters: TGetConsultantQuestionnairesFilter) {
     if (consultantId === undefined) return;
-    questionnairesApi.getQuestionnaires(consultantId, filters).then((resp) => (questionnaires.value = resp.data));
+    questionnairesApi.getQuestionnaires(consultantId, filters).then((resp) => {
+      questionnaires.value = toTQuestionnairesData(resp.data);
+    });
   }
 
   return {
