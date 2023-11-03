@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ValidationArgs } from "@vuelidate/core";
 import { helpers } from "@vuelidate/validators";
 import { storeToRefs } from "pinia";
 import { onMounted, ref } from "vue";
@@ -35,7 +36,7 @@ const { handleBlur, getErrorAttrs, isValid } = useValidation<TQuestionnairePaylo
     $each: helpers.forEach({
       text: { requiredValidator },
     }),
-  },
+  } as ValidationArgs,
 });
 
 const { questionnaire } = storeToRefs(questionnairesStore);
@@ -92,7 +93,7 @@ onMounted(async () => {
           emit-value
           @update:model-value="(value) => changeTypeQuestion(questionIndex, value)" />
         <q-input
-          v-bind="getErrorAttrs('text')"
+          v-bind="getErrorAttrs('questions', 'text', questionIndex)"
           v-model="question.text"
           class="q-mb-sm"
           label="Текст вопроса*"
@@ -116,7 +117,7 @@ onMounted(async () => {
               @click="delOption(questionIndex, optionIndex)" />
           </div>
         </div>
-        <!-- <div v-show="question.type !== 'text'" class="option">
+        <div v-show="question.type !== 'text'" class="option">
           <q-checkbox
             v-model="question.other.show"
             label="Добавить вариант Другое"
@@ -124,7 +125,7 @@ onMounted(async () => {
         </div>
         <div v-if="question.other.show" class="option">
           <q-input v-model="question.other.text" disable class="option__input" label="Другое" />
-        </div> -->
+        </div>
         <div class="question-delete">
           <q-icon class="btn-delete" :name="'delete'" label="" @click="delQuestion(questionIndex)" />
         </div>
