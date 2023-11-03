@@ -30,10 +30,16 @@ export function useValidation<T extends {}>(data: Ref<T>, emit: GenericEmit, rul
   };
 
   const isValid = computedEager(() => $v.value.$silentErrors.length <= 0 && $v.value.$errors.length <= 0);
-  const getErrorAttrs = (key: string) => {
+  const getErrorAttrs = (collectionKey: string, eachKey?: string, index?: number) => {
+    if (eachKey && index !== undefined) {
+      return {
+        error: $v.value[collectionKey]?.$each.$response.$errors[index]?.[eachKey]?.length > 0,
+        "error-message": $v.value[collectionKey]?.$each.$response.$errors[index]?.[eachKey]?.[0]?.$message,
+      };
+    }
     return {
-      error: $v.value[key]?.$error,
-      "error-message": $v.value[key]?.$errors[0]?.$message,
+      error: $v.value[collectionKey]?.$error,
+      "error-message": $v.value[collectionKey]?.$errors[0]?.$message,
     };
   };
   watch(
