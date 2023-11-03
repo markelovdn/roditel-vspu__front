@@ -8,12 +8,11 @@ import { useQuestionnaire } from "@/hooks/useQuestionnaire";
 import { maxLengthValidator, requiredValidator, useValidation } from "@/hooks/useValidation";
 
 const {
-  handleNewQuestionnaires,
+  submitQuestionnaires,
   addQuestions,
   delQuestion,
   addOptions,
   delOption,
-  delOther,
   changeTypeQuestion,
   SurveyData,
   router,
@@ -65,7 +64,7 @@ onMounted(async () => {
         class="q-btn--form"
         color="primary"
         :disable="!isValid"
-        @click="handleNewQuestionnaires"></q-btn>
+        @click="submitQuestionnaires"></q-btn>
     </div>
     <q-form class="fit q-mb-sm form">
       <q-input
@@ -117,26 +116,15 @@ onMounted(async () => {
               @click="delOption(questionIndex, optionIndex)" />
           </div>
         </div>
-        <div v-show="question.type !== 'text'" class="option">
+        <!-- <div v-show="question.type !== 'text'" class="option">
           <q-checkbox
-            v-show="!question.other.show"
             v-model="question.other.show"
             label="Добавить вариант Другое"
             @click="SurveyData.questions[questionIndex].other.show" />
         </div>
-        <div class="option">
-          <q-input
-            v-show="question.other.show"
-            v-model="question.other.text"
-            disable
-            class="option__input"
-            label="Другое" />
-          <q-icon
-            v-show="question.other.show && question.type !== 'text'"
-            :name="'close'"
-            style="font-size: large; cursor: pointer"
-            @click="delOther(questionIndex)" />
-        </div>
+        <div v-if="question.other.show" class="option">
+          <q-input v-model="question.other.text" disable class="option__input" label="Другое" />
+        </div> -->
         <div class="question-delete">
           <q-icon class="btn-delete" :name="'delete'" label="" @click="delQuestion(questionIndex)" />
         </div>

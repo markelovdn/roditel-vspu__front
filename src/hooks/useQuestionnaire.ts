@@ -20,7 +20,7 @@ export function useQuestionnaire() {
 
   const questionnairesStore = useQuestionnairesStore();
 
-  const handleNewQuestionnaires = () => {
+  const submitQuestionnaires = () => {
     SurveyData.value.questions.forEach(
       (question) => (question.options = question.options.filter((option) => option.text !== "")),
     );
@@ -78,7 +78,7 @@ export function useQuestionnaire() {
   };
 
   return {
-    handleNewQuestionnaires,
+    submitQuestionnaires,
     addQuestions,
     delQuestion,
     addOptions,
