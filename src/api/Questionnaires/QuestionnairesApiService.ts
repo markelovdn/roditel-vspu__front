@@ -27,7 +27,7 @@ export class QuestionnairesApiService {
 
   //TODO: указать типы response
   showQuestionnaire(questionaireId: number | string) {
-    return axios.get<TQuestionnairePayload>(`/questionnaires/${questionaireId}`);
+    return axios.get<TQuestionnairesData>(`/questionnaires/${questionaireId}`);
   }
 
   //TODO: указать типы response

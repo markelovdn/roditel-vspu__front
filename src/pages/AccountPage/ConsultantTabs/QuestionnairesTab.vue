@@ -69,15 +69,14 @@ onMounted(async () => {
 
 <template>
   <div>
-    <router-link :to="'/questionnaires'">
-      <q-btn outline style="color: #f7b70b" class="personal-cabinet">
-        <IconPersonal />
-        <span class="personal-cabinet__label text-primary">Создать анкету</span>
-      </q-btn>
-    </router-link>
     <TableWrapper :items="questionnairesListRows" :headers="questionnairesListHeaders" :title="'Анкеты'">
       <template #header_right>
-        <q-btn>Загрузить файл</q-btn>
+        <router-link :to="'/questionnaires'">
+          <q-btn outline style="color: #f7b70b" class="personal-cabinet">
+            <IconPersonal />
+            <span class="personal-cabinet__label text-primary">Создать анкету</span>
+          </q-btn>
+        </router-link>
       </template>
       <template #filters>
         <div class="q-pa-md" style="max-width: 300px">
@@ -98,7 +97,7 @@ onMounted(async () => {
       </template>
       <template #item="{ item, cellClass }">
         <div :class="cellClass">
-          <router-link :to="'/questionnaires'">Edit</router-link>
+          <router-link :to="`/questionnaire/${item.id}`">Edit</router-link>
         </div>
         <div :class="cellClass">{{ item.title }}</div>
         <div :class="cellClass">{{ item.title }}</div>
