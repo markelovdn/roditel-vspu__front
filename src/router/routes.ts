@@ -36,6 +36,14 @@ const routes: Array<RouteRecordRaw> = [
     },
     component: () => import("@/pages/QuestionnairesPage/QuestionnairesPage.vue"),
   },
+  {
+    path: "/questionnaire/:id",
+    name: "EditQuestionnaire",
+    meta: {
+      requireAuth: false,
+    },
+    component: () => import("@/pages/QuestionnairesPage/QuestionnairesPage.vue"),
+  },
 ];
 
 export default routes;

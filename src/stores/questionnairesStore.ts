@@ -7,8 +7,14 @@ import { TGetConsultantQuestionnairesFilter, TQuestionnairePayload } from "@/api
 
 import { useAuthStore } from "./authStore";
 const questionnaires = ref<TQuestionnairePayload[]>([]);
-// const authStore = useAuthStore();
-// const questionnaires = ref<TQuestionnaireData>({});
+const questionnaire = ref<TQuestionnairePayload>({
+  id: null,
+  title: "",
+  description: "",
+  answerBefore: "",
+  updatedAt: "",
+  questions: [],
+});
 
 export const useQuestionnairesStore = defineStore("questionnaresStore", () => {
   const authStore = useAuthStore();
@@ -27,9 +33,18 @@ export const useQuestionnairesStore = defineStore("questionnaresStore", () => {
     });
   }
 
+  async function editQuestionnaire(questionnaireId: number) {
+    await questionnairesApi.showQuestionnaire(questionnaireId).then((resp) => {
+      console.log(resp.data.data[0]);
+      questionnaire.value = resp.data.data[0];
+    });
+  }
+
   return {
     questionnaires,
+    questionnaire,
     getQuestionnaires,
     requestNewQuestionnaire,
+    editQuestionnaire,
   };
 });

@@ -6,7 +6,7 @@ const props = defineProps<{ items: T[]; headers?: QTableColumn[] }>();
 const gridTemplateColumnsStyle = computed(() => {
   let columnsWidths = "";
   for (let i = 0; i < (props.headers?.length ?? 0); i++) {
-    const width = props.headers?.[i].width ?? "500px";
+    const width = props.headers?.[i].width ?? "150px";
     columnsWidths += ` ${width}`;
   }
   if (!columnsWidths) return;

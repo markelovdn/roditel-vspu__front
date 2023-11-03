@@ -9,8 +9,11 @@ export function useQuestionnaire() {
   const router = useRouter();
 
   const SurveyData = ref<TQuestionnairePayload>({
+    id: null,
     title: "",
     description: "",
+    answerBefore: "",
+    updatedAt: "",
     questions: [],
   });
   const defaultOption = { text: "" };
@@ -83,5 +86,7 @@ export function useQuestionnaire() {
     delOther,
     changeTypeQuestion,
     SurveyData,
+    router,
+    questionnairesStore,
   };
 }

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { helpers } from "@vuelidate/validators";
-import { ref } from "vue";
+import { storeToRefs } from "pinia";
+import { onMounted, ref } from "vue";
 
 import { TQuestionnairePayload } from "@/api/Questionnaires/types";
 import { useQuestionnaire } from "@/hooks/useQuestionnaire";
@@ -15,6 +16,8 @@ const {
   delOther,
   changeTypeQuestion,
   SurveyData,
+  router,
+  questionnairesStore,
 } = useQuestionnaire();
 
 const emit = defineEmits(["validation-change", "update:model-value"]);
@@ -36,12 +39,26 @@ const { handleBlur, getErrorAttrs, isValid } = useValidation<TQuestionnairePaylo
   },
 });
 
+const { questionnaire } = storeToRefs(questionnairesStore);
+
+onMounted(async () => {
+  console.log(SurveyData.value);
+  if (router.currentRoute.value.params.id) {
+    await questionnairesStore.editQuestionnaire(Number(router.currentRoute.value.params.id));
+    console.log(questionnaire.value);
+    SurveyData.value = questionnaire.value;
+  }
+});
+
 //TODO: можно сделать разделение компонентов в будущем попытка разделения сохранена в ветке devQuestionnaire
 </script>
 
 <template>
   <div class="main-container">
     <h4>Создать анкету</h4>
+    <!-- {{ questionnaireModel.questionnaire }} -->
+    <p>SurveyData - {{ SurveyData }}</p>
+    <p>questionnaire - {{ questionnaire }}</p>
     <div class="row justify-center no-wrap q-mt-lg">
       <q-btn
         label="Сохранить анкету"
