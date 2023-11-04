@@ -1,5 +1,5 @@
 import cloneDeep from "lodash.clonedeep";
-import { isRef, onMounted, reactive, Ref, ref, toRefs, unref, watch } from "vue";
+import { onMounted, reactive, Ref, ref, toRefs, unref, watch } from "vue";
 
 import { TWebinarsRequestOption } from "@/api/Webinars/types";
 
@@ -32,18 +32,18 @@ export const useRequestPayload = (
     }
   };
 
-  if (isRef(data)) {
-    watch(
-      () => cloneDeep(data),
-      (newValue, oldValue) => {
-        newValue;
-        oldValue;
-        reload();
-        // тут будет код сброса параметров
-      },
-      { immediate: true, deep: true },
-    );
-  }
+  watch(
+    () => cloneDeep(data),
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    (newValue, oldValue) => {
+      // newValue;
+      // oldValue;
+      reload();
+      // тут будет код сброса параметров
+    },
+    { immediate: true, deep: true },
+  );
+
   onMounted(() => {
     queryParams.value = cloneDeep(unref(data));
   });
