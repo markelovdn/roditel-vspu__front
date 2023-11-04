@@ -87,14 +87,7 @@ const handleRegistration = async () => {
         class="q-btn--form"
         color="primary"
         @click="handleRegistration"></q-btn>
-      <q-btn
-        label="Закрыть"
-        :align="'right'"
-        class="q-ml-sm q-btn--form"
-        flat
-        :ripple="false"
-        color="grey-1"
-        @click="closeModal()" />
+      <q-btn label="Закрыть" class="q-ml-sm q-btn--form" flat :ripple="false" color="grey-1" @click="closeModal()" />
     </div>
   </ModalWrapper>
 </template>

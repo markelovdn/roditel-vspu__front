@@ -48,14 +48,7 @@ const handleForgotPassword = () => {
     </q-form>
     <div class="row no-wrap q-mt-lg q-mb-mb">
       <q-btn label="Отправить" :disable="!isValid" class="q-btn--form" color="primary" @click="handleForgotPassword" />
-      <q-btn
-        label="Закрыть"
-        :align="'right'"
-        class="q-btn--form"
-        flat
-        :ripple="false"
-        color="grey-1"
-        @click="closeModal()" />
+      <q-btn label="Закрыть" class="q-btn--form" flat :ripple="false" color="grey-1" @click="closeModal()" />
     </div>
   </ModalWrapper>
 </template>
