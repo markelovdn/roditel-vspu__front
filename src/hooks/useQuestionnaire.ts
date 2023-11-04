@@ -24,8 +24,12 @@ export function useQuestionnaire() {
     SurveyData.value.questions.forEach(
       (question) => (question.options = question.options.filter((option) => option.text !== "")),
     );
+    if (!router.currentRoute.value.params.id) {
+      questionnairesStore.addQuestionnaire(1, SurveyData.value);
+    } else {
+      questionnairesStore.updateQuestionnaire(Number(router.currentRoute.value.params.id), SurveyData.value);
+    }
 
-    questionnairesStore.requestNewQuestionnaire(1, SurveyData.value);
     router.push({ name: "My" });
   };
 

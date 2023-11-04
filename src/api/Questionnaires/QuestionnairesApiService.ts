@@ -31,7 +31,18 @@ export class QuestionnairesApiService {
   }
 
   //TODO: указать типы response
-  updateQuestionnaire(questionaireId: number | string) {
-    return axios.post<TQuestionnairePayload>(`/questionnaires/${questionaireId}`);
+  updateQuestionnaire(questionaireId: number | string, questionnaire: TQuestionnairePayload) {
+    return axios.put<TQuestionnairePayload>(`/questionnaires/${questionaireId}`, {
+      id: questionnaire.id,
+      title: questionnaire.title,
+      description: questionnaire.description,
+      //TODO: поправить метод для даты
+      answerBefore: "10.08.2000",
+      questions: questionnaire.questions,
+    });
+  }
+
+  deleteQuestionnaire(questionaireId: number | string) {
+    return axios.delete(`/questionnaires/${questionaireId}`);
   }
 }

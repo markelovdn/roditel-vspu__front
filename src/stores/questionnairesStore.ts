@@ -4,6 +4,7 @@ import { ref } from "vue";
 import { questionnairesApi } from "@/api";
 import { toTQuestionnairesData } from "@/api/Questionnaires/mappers";
 import { TGetConsultantQuestionnairesFilter, TQuestionnairePayload } from "@/api/Questionnaires/types";
+import notify from "@/utils/notify";
 
 import { useAuthStore } from "./authStore";
 const questionnaires = ref<TQuestionnairePayload[]>([]);
@@ -20,12 +21,6 @@ export const useQuestionnairesStore = defineStore("questionnaresStore", () => {
   const authStore = useAuthStore();
   const consultantId = authStore.getUserId;
 
-  function requestNewQuestionnaire(consultantId: number, questionnaire: TQuestionnairePayload) {
-    questionnairesApi.addQuestionnaire(consultantId, questionnaire).then((resp) => {
-      console.log(resp);
-    });
-  }
-
   function getQuestionnaires(filters: TGetConsultantQuestionnairesFilter) {
     if (consultantId === undefined) return;
     questionnairesApi.getQuestionnaires(consultantId, filters).then((resp) => {
@@ -33,10 +28,30 @@ export const useQuestionnairesStore = defineStore("questionnaresStore", () => {
     });
   }
 
-  async function editQuestionnaire(questionnaireId: number) {
+  function addQuestionnaire(consultantId: number, questionnaire: TQuestionnairePayload) {
+    questionnairesApi.addQuestionnaire(consultantId, questionnaire).then((resp) => {
+      console.log(resp);
+      notify({ type: "positive", message: "Новая анкета успешно добавлена" });
+    });
+  }
+
+  async function showQuestionnaire(questionnaireId: number) {
     await questionnairesApi.showQuestionnaire(questionnaireId).then((resp) => {
-      console.log(resp.data.data[0]);
       questionnaire.value = resp.data.data[0];
+    });
+  }
+
+  async function updateQuestionnaire(questionnaireId: number, questionnaire: TQuestionnairePayload) {
+    await questionnairesApi.updateQuestionnaire(questionnaireId, questionnaire).then((resp) => {
+      console.log(resp);
+      notify({ type: "positive", message: "Анкета успешно обновлена" });
+    });
+  }
+
+  async function deleteQuestionnaire(questionnaireId: number) {
+    await questionnairesApi.deleteQuestionnaire(questionnaireId).then((resp) => {
+      console.log(resp);
+      notify({ type: "positive", message: "Анкета успешно удалена" });
     });
   }
 
@@ -44,7 +59,9 @@ export const useQuestionnairesStore = defineStore("questionnaresStore", () => {
     questionnaires,
     questionnaire,
     getQuestionnaires,
-    requestNewQuestionnaire,
-    editQuestionnaire,
+    addQuestionnaire,
+    showQuestionnaire,
+    updateQuestionnaire,
+    deleteQuestionnaire,
   };
 });
