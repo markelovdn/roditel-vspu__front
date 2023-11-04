@@ -1,15 +1,17 @@
 import axios from "@/common/axios";
-import { TQuestionnairePayload } from "@/pages/QuestionnairesPage/types";
 
-import { TGetConsultantQuestionnairesFilter } from "./types";
+import { TGetConsultantQuestionnairesFilter, TQuestionnairePayload, TQuestionnairesData } from "./types";
 
 export class QuestionnairesApiService {
   //TODO: указать типы response
   getQuestionnaires(consultantId: number | string, filters: TGetConsultantQuestionnairesFilter) {
-    const query = new URLSearchParams({ ...filters, page: filters.page.toString() } || {});
+    let query = {};
+    if (filters.page !== undefined) {
+      query = new URLSearchParams({ ...filters, page: filters.page.toString() } || {});
+    }
     //TODO: написать функцию принимающуу url и параметры query, на выходе целая строка собранная
     // учесть то, что URLSearchParams хочет на вход параметры в виде строки, нужен для этого конвертер
-    return axios.get<TQuestionnairePayload>(`/consultant/${consultantId}/questionnaires${query ? "?" + query : ""}`);
+    return axios.get<TQuestionnairesData>(`/consultant/${consultantId}/questionnaires${query ? "?" + query : ""}`);
   }
 
   //TODO: указать типы response
@@ -25,11 +27,22 @@ export class QuestionnairesApiService {
 
   //TODO: указать типы response
   showQuestionnaire(questionaireId: number | string) {
-    return axios.get<TQuestionnairePayload>(`/questionnaires/${questionaireId}`);
+    return axios.get<TQuestionnairesData>(`/questionnaires/${questionaireId}`);
   }
 
   //TODO: указать типы response
-  updateQuestionnaire(questionaireId: number | string) {
-    return axios.post<TQuestionnairePayload>(`/questionnaires/${questionaireId}`);
+  updateQuestionnaire(questionaireId: number | string, questionnaire: TQuestionnairePayload) {
+    return axios.put<TQuestionnairePayload>(`/questionnaires/${questionaireId}`, {
+      id: questionnaire.id,
+      title: questionnaire.title,
+      description: questionnaire.description,
+      //TODO: поправить метод для даты
+      answerBefore: "10.08.2000",
+      questions: questionnaire.questions,
+    });
+  }
+
+  deleteQuestionnaire(questionaireId: number | string) {
+    return axios.delete(`/questionnaires/${questionaireId}`);
   }
 }

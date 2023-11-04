@@ -1,30 +1,34 @@
 <script setup lang="ts">
+import { ValidationArgs } from "@vuelidate/core";
 import { helpers } from "@vuelidate/validators";
-import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { storeToRefs } from "pinia";
+import { onMounted, ref } from "vue";
 
+import { TQuestionnairePayload } from "@/api/Questionnaires/types";
+import { useQuestionnaire } from "@/hooks/useQuestionnaire";
 import { maxLengthValidator, requiredValidator, useValidation } from "@/hooks/useValidation";
-import { useQuestionnairesStore } from "@/stores/questionnairesStore";
-import notify from "@/utils/notify";
 
-import { TQuestionnairePayload, TQuestionType } from "./types";
+const {
+  submitQuestionnaires,
+  addQuestions,
+  delQuestion,
+  addOptions,
+  delOption,
+  changeTypeQuestion,
+  SurveyData,
+  router,
+  questionnairesStore,
+} = useQuestionnaire();
 
 const emit = defineEmits(["validation-change", "update:model-value"]);
-const router = useRouter();
 
-const SurveyData = ref<TQuestionnairePayload>({
-  title: "",
-  description: "",
-  questions: [],
-});
-const defaultOption = { text: "" };
 const questionTypeSelect = [
   { value: "single", label: "Один из списка" },
   { value: "many", label: "Несколько из списка" },
   { value: "text", label: "Текст" },
 ];
 const isManyType = ref(false);
-const questionnairesStore = useQuestionnairesStore();
+
 const { handleBlur, getErrorAttrs, isValid } = useValidation<TQuestionnairePayload>(SurveyData, emit, {
   title: { requiredValidator, maxLengthValidator: maxLengthValidator(255) },
   description: { maxLengthValidator: maxLengthValidator(255) },
@@ -32,67 +36,25 @@ const { handleBlur, getErrorAttrs, isValid } = useValidation<TQuestionnairePaylo
     $each: helpers.forEach({
       text: { requiredValidator },
     }),
-  },
+  } as ValidationArgs,
 });
 
-const handleNewQuestionnaires = () => {
-  //TODO: сделать передачу id, хотел попробовать забрать из стора, не получилось, по хорошему нужно создать метод для получения id консультанта, хоть и не важно какое значение будет передаваться главное что бы число. На бэке всеравно идет поиск по авторизованному пользователю, а не по тому что в адресной строке прилетает.
+const { questionnaire } = storeToRefs(questionnairesStore);
 
-  SurveyData.value.questions.forEach(
-    (question) => (question.options = question.options.filter((option) => option.text !== "")),
-  );
+onMounted(async () => {
+  if (router.currentRoute.value.params.id) {
+    await questionnairesStore.showQuestionnaire(Number(router.currentRoute.value.params.id));
+    console.log(questionnaire.value.questions);
+    SurveyData.value = questionnaire.value;
 
-  questionnairesStore.requestNewQuestionnaire(1, SurveyData.value);
-  router.push({ name: "My" });
-};
-
-const addQuestions = () => {
-  SurveyData.value.questions.push({
-    text: "",
-    description: "",
-    type: "single",
-    options: [{ text: "Вариант 1" }, { text: "" }],
-    other: {
-      show: false,
-      text: "",
-    },
-  });
-};
-
-const delQuestion = (index: number) => {
-  SurveyData.value.questions.splice(index, 1);
-};
-
-const addOptions = (questionIndex: number, optionIndex: number) => {
-  if (SurveyData.value.questions[questionIndex].options[optionIndex].text === "") {
-    SurveyData.value.questions[questionIndex].options.push({ ...defaultOption });
-    SurveyData.value.questions[questionIndex].options[optionIndex].text = `Вариант ${optionIndex + 1}`;
-  }
-};
-
-const delOption = (questionIndex: number, optionIndex: number) => {
-  if (SurveyData.value.questions[questionIndex].options.length > 2) {
-    SurveyData.value.questions[questionIndex].options.splice(optionIndex, 1);
-  } else {
-    notify({
-      type: "negative",
-      message: "Вопрос должен содержать не менее двух вариантов ответа",
+    SurveyData.value.questions.forEach((question) => {
+      question.options.push({ text: "" });
+      if (question.other === null) {
+        question.other = { show: false, text: "" };
+      }
     });
   }
-};
-
-const delOther = (questionIndex: number) => {
-  SurveyData.value.questions[questionIndex].other.show = false;
-};
-
-const changeTypeQuestion = (questionIndex: number, type: TQuestionType) => {
-  if (type === "text") {
-    SurveyData.value.questions[questionIndex].other.show = true;
-    SurveyData.value.questions[questionIndex].options = [{ text: "Вариант 1" }, { text: "" }];
-  } else {
-    SurveyData.value.questions[questionIndex].other.show = false;
-  }
-};
+});
 
 //TODO: можно сделать разделение компонентов в будущем попытка разделения сохранена в ветке devQuestionnaire
 </script>
@@ -106,7 +68,7 @@ const changeTypeQuestion = (questionIndex: number, type: TQuestionType) => {
         class="q-btn--form"
         color="primary"
         :disable="!isValid"
-        @click="handleNewQuestionnaires"></q-btn>
+        @click="submitQuestionnaires"></q-btn>
     </div>
     <q-form class="fit q-mb-sm form">
       <q-input
@@ -132,9 +94,13 @@ const changeTypeQuestion = (questionIndex: number, type: TQuestionType) => {
           map-options
           class="q-mb-sm"
           emit-value
-          @update:model-value="(value) => changeTypeQuestion(questionIndex, value)" />
+          @update:model-value="(value) => changeTypeQuestion(questionIndex, value)">
+          <template #selected>
+            {{ question.type }}
+          </template>
+        </q-select>
         <q-input
-          v-bind="getErrorAttrs('text')"
+          v-bind="getErrorAttrs('questions', 'text', questionIndex)"
           v-model="question.text"
           class="q-mb-sm"
           label="Текст вопроса*"
@@ -160,23 +126,12 @@ const changeTypeQuestion = (questionIndex: number, type: TQuestionType) => {
         </div>
         <div v-show="question.type !== 'text'" class="option">
           <q-checkbox
-            v-show="!question.other.show"
             v-model="question.other.show"
             label="Добавить вариант Другое"
             @click="SurveyData.questions[questionIndex].other.show" />
         </div>
-        <div class="option">
-          <q-input
-            v-show="question.other.show"
-            v-model="question.other.text"
-            disable
-            class="option__input"
-            label="Другое" />
-          <q-icon
-            v-show="question.other.show && question.type !== 'text'"
-            :name="'close'"
-            style="font-size: large; cursor: pointer"
-            @click="delOther(questionIndex)" />
+        <div v-if="question.other.show" class="option">
+          <q-input v-model="question.other.text" disable class="option__input" label="Другое" />
         </div>
         <div class="question-delete">
           <q-icon class="btn-delete" :name="'delete'" label="" @click="delQuestion(questionIndex)" />

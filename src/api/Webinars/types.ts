@@ -34,4 +34,6 @@ export type TWebinarData = {
 
 export type WebinarCategoriesResponse = {
   data: { id: string; title: string }[];
+  links: any;
+  meta: any;
 };
