@@ -78,7 +78,7 @@ onMounted(async () => {
         class="fit q-mb-sm"
         label="Название анкеты*"
         @blur="handleBlur('title')" />
-      <q-input v-model="SurveyData.description" type="textarea" class="fit q-mb-sm" label="Описание анкеты" />
+      <q-input v-model="SurveyData.description" autogrow class="fit q-mb-sm" label="Описание анкеты" />
     </q-form>
 
     <!-- Вопросы -->
