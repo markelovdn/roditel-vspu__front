@@ -38,7 +38,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/questionnaire/:id",
-    name: "EditQuestionnaire",
+    name: "ShowQuestionnaire",
     meta: {
       requireAuth: false,
     },

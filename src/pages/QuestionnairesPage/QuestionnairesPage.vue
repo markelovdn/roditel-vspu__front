@@ -42,11 +42,17 @@ const { handleBlur, getErrorAttrs, isValid } = useValidation<TQuestionnairePaylo
 const { questionnaire } = storeToRefs(questionnairesStore);
 
 onMounted(async () => {
-  console.log(SurveyData.value);
   if (router.currentRoute.value.params.id) {
-    await questionnairesStore.editQuestionnaire(Number(router.currentRoute.value.params.id));
-    console.log(questionnaire.value);
+    await questionnairesStore.showQuestionnaire(Number(router.currentRoute.value.params.id));
+    console.log(questionnaire.value.questions);
     SurveyData.value = questionnaire.value;
+
+    SurveyData.value.questions.forEach((question) => {
+      question.options.push({ text: "" });
+      if (question.other === null) {
+        question.other = { show: false, text: "" };
+      }
+    });
   }
 });
 
@@ -56,9 +62,6 @@ onMounted(async () => {
 <template>
   <div class="main-container">
     <h4>Создать анкету</h4>
-    <!-- {{ questionnaireModel.questionnaire }} -->
-    <p>SurveyData - {{ SurveyData }}</p>
-    <p>questionnaire - {{ questionnaire }}</p>
     <div class="row justify-center no-wrap q-mt-lg">
       <q-btn
         label="Сохранить анкету"
@@ -91,7 +94,11 @@ onMounted(async () => {
           map-options
           class="q-mb-sm"
           emit-value
-          @update:model-value="(value) => changeTypeQuestion(questionIndex, value)" />
+          @update:model-value="(value) => changeTypeQuestion(questionIndex, value)">
+          <template #selected>
+            {{ question.type }}
+          </template>
+        </q-select>
         <q-input
           v-bind="getErrorAttrs('questions', 'text', questionIndex)"
           v-model="question.text"

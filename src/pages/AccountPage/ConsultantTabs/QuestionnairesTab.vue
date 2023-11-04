@@ -17,12 +17,23 @@ const questionnairesListRows = computed(() => {
   );
 });
 
+const deleteQuestionnaire = (questionnaireId: number) => {
+  questionnairesStore.deleteQuestionnaire(Number(questionnaireId));
+  const updatedQuestionnairesList = questionnairesStore.questionnaires.filter((item) => item.id !== questionnaireId);
+  questionnairesStore.questionnaires = updatedQuestionnairesList;
+};
+
 const handleFileDownload = (fileUrl: string) => {
   console.log(fileUrl);
   notify({ message: "TODO: скачивание файла" });
 };
 
 const questionnairesListHeaders = [
+  {
+    name: "index",
+    label: "#",
+    field: "index",
+  },
   {
     name: "index",
     label: "#",
@@ -98,6 +109,9 @@ onMounted(async () => {
       <template #item="{ item, cellClass }">
         <div :class="cellClass">
           <router-link :to="`/questionnaire/${item.id}`">Edit</router-link>
+        </div>
+        <div :class="cellClass">
+          <q-btn label="Удалить анкету" color="negative" @click="deleteQuestionnaire(item.id)"></q-btn>
         </div>
         <div :class="cellClass">{{ item.title }}</div>
         <div :class="cellClass">{{ item.title }}</div>
