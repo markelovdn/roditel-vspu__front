@@ -71,14 +71,7 @@ const handleLogin = () => {
       </q-form>
       <div class="row no-wrap q-mt-lg">
         <q-btn label="Войти" :disable="!isValid" class="q-btn--form" color="primary" @click="handleLogin" />
-        <q-btn
-          label="Закрыть"
-          :align="'right'"
-          class="q-ml-sm q-btn--form"
-          flat
-          :ripple="false"
-          color="grey-1"
-          @click="closeModal()" />
+        <q-btn label="Закрыть" class="q-ml-sm q-btn--form" flat :ripple="false" color="grey-1" @click="closeModal()" />
       </div>
       <div class="q-mt-lg q-mb-xs">
         <q-btn
