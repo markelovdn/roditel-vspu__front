@@ -94,11 +94,7 @@ onMounted(async () => {
           map-options
           class="q-mb-sm"
           emit-value
-          @update:model-value="(value) => changeTypeQuestion(questionIndex, value)">
-          <template #selected>
-            {{ question.type }}
-          </template>
-        </q-select>
+          @update:model-value="(value) => changeTypeQuestion(questionIndex, value)" />
         <q-input
           v-bind="getErrorAttrs('questions', 'text', questionIndex)"
           v-model="question.text"
