@@ -2,12 +2,24 @@
 import { QTableColumn } from "quasar";
 import { computed, onMounted, ref } from "vue";
 
+import { TGetConsultantQuestionnairesFilter } from "@/api/Questionnaires/types";
 import TableWrapper from "@/components/TableWrapper/TableWrapper.vue";
+import { useRequestPayload } from "@/hooks/useRequestPayload";
 import { useQuestionnairesStore } from "@/stores/questionnairesStore";
 import notify from "@/utils/notify";
 
 const dateFilter = ref();
 const questionnairesStore = useQuestionnairesStore();
+const queryParams = ref<TGetConsultantQuestionnairesFilter>({});
+questionnairesStore.clearFilters();
+questionnairesStore.getQuestionnaires({});
+const setPage = (page: number) => (queryParams.value.page = page);
+// const setFilters = (filters: TGetConsultantQuestionnairesFilter) => Object.assign(queryParams.value, filters);
+
+useRequestPayload(queryParams, questionnairesStore.getQuestionnaires, {
+  clearableParams: ["page"],
+  // watchParams: ["page"],
+});
 
 const questionnairesListRows = computed(() => {
   return (
@@ -136,6 +148,18 @@ onMounted(async () => {
         </div>
       </template>
     </TableWrapper>
+    <div class="q-pa-lg">
+      <div class="q-gutter-md">
+        <q-pagination
+          v-model="questionnairesStore.page.current"
+          :max="questionnairesStore.page.max"
+          :max-pages="6"
+          direction-links
+          gutter="8px"
+          active-color="yellow"
+          @update:model-value="setPage" />
+      </div>
+    </div>
   </div>
 </template>
 
