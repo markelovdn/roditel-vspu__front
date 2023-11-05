@@ -9,7 +9,7 @@ import { useQuestionnairesStore } from "@/stores/questionnairesStore";
 
 const dateFilter = ref();
 const questionnairesStore = useQuestionnairesStore();
-const queryParams = ref<TGetConsultantQuestionnairesFilter>({});
+const queryParams = ref<TGetConsultantQuestionnairesFilter>({ page: 1 });
 const setPage = (page: number) => (queryParams.value.page = page);
 
 useRequestPayload(queryParams, questionnairesStore.getQuestionnaires, {
@@ -31,31 +31,28 @@ const questionnairesListHeaders = [
     name: "index",
     label: "#",
     field: "index",
+    align: "left",
   },
   {
     name: "title",
     label: "Название файла",
     field: "title",
-    align: "left",
   },
   {
     name: "updatedAt",
     label: "Дата загрузки",
     field: "updatedAt",
-    align: "center",
   },
   {
     name: "description",
     label: "Описание",
     //TODO: форматирование статуса
     field: "description",
-    align: "center",
   },
   {
     name: "actions",
     label: "",
     field: "actions",
-    align: "center",
   },
 ] as QTableColumn[];
 </script>
@@ -89,10 +86,10 @@ const questionnairesListHeaders = [
       </template>
       <template #item="{ item, index, cellClass }">
         <div :class="cellClass">{{ index + 1 }}</div>
-        <div :class="cellClass">{{ item.title }}</div>
-        <div :class="cellClass">{{ item.updatedAt }}</div>
-        <div :class="cellClass">{{ item.description }}</div>
-        <div :class="cellClass" class="flex gap-1">
+        <div :class="cellClass" class="justify-center">{{ item.title }}</div>
+        <div :class="cellClass" class="justify-center">{{ item.updatedAt }}</div>
+        <div :class="cellClass" class="justify-center">{{ item.description }}</div>
+        <div :class="cellClass" class="flex gap-1 justify-end">
           <div>
             <q-btn v-if="item.id" dense icon="edit" size="xs" color="primary" :to="`/questionnaire/${item.id}`"></q-btn>
           </div>

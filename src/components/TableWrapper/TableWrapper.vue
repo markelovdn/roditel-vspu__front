@@ -4,7 +4,7 @@ import { QTableColumn } from "quasar";
 import CardTableWrapper from "./CardTableWrapper.vue";
 import ListTableWrapper from "./ListTableWrapper.vue";
 
-defineProps<{ items: T[]; title: string; cardsList?: boolean; headers?: QTableColumn[] }>();
+defineProps<{ items: T[]; title: string; cardsList?: boolean; headers?: Array<QTableColumn & { width: number }> }>();
 </script>
 
 <template>

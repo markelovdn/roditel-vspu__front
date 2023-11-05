@@ -2,11 +2,11 @@
 import { QTableColumn } from "quasar";
 import { computed, StyleValue } from "vue";
 
-const props = defineProps<{ items: T[]; headers?: QTableColumn[] }>();
+const props = defineProps<{ items: T[]; headers?: Array<QTableColumn & { width: number }> }>();
 const gridTemplateColumnsStyle = computed(() => {
   let columnsWidths = "";
   for (let i = 0; i < (props.headers?.length ?? 0); i++) {
-    const width = props.headers?.[i].width ?? "150px";
+    const width = props.headers?.[i].width ?? "1fr";
     columnsWidths += ` ${width}`;
   }
   if (!columnsWidths) return;
@@ -17,7 +17,13 @@ const gridTemplateColumnsStyle = computed(() => {
 <template>
   <div class="listTableWrapper">
     <div v-if="headers && headers.length" class="header table-row" :style="gridTemplateColumnsStyle">
-      <div v-for="(item, index) in headers" :key="index" class="table-cell">{{ item.label }}</div>
+      <div
+        v-for="(header, index) in headers"
+        :key="index"
+        class="table-cell"
+        :style="{ 'justify-content': header.align ?? 'center' }">
+        {{ header.label }}
+      </div>
     </div>
     <div class="content">
       <div v-for="(item, index) in items" :key="index" class="table-row content__row" :style="gridTemplateColumnsStyle">
@@ -46,6 +52,7 @@ const gridTemplateColumnsStyle = computed(() => {
   .table-cell {
     padding: 16px 14px;
     word-break: break-word;
+    display: flex;
   }
   .content {
     color: #525252;
@@ -53,6 +60,7 @@ const gridTemplateColumnsStyle = computed(() => {
     border: 1px solid #f1f1f1;
     border-radius: 8px;
     .table-row {
+      height: max-content;
       &:hover {
         background: rgba(0, 0, 0, 0.03);
       }
