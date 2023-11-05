@@ -1,6 +1,6 @@
 import axios from "@/common/axios";
 
-import { TGetConsultantReportsFilter } from "./types";
+import { TGetConsultantReportsFilter, TGetConsultantReportsResponseData } from "./types";
 
 export class ConsultantApiService {
   //TODO: указать типы response
@@ -8,6 +8,8 @@ export class ConsultantApiService {
     const query = new URLSearchParams({ ...filters, page: filters.page.toString() } || {});
     //TODO: написать функцию принимающуу url и параметры query, на выходе целая строка собранная
     // учесть то, что URLSearchParams хочет на вход параметры в виде строки, нужен для этого конвертер
-    return axios.get(`/consultant/${consultantId}/reports${query ? "?" + query : ""}`);
+    return axios.get<TGetConsultantReportsResponseData>(
+      `/consultant/${consultantId}/reports${query ? "?" + query : ""}`,
+    );
   }
 }
