@@ -2,7 +2,6 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 
 import { questionnairesApi } from "@/api";
-import { toTQuestionnairesData } from "@/api/Questionnaires/mappers";
 import { TGetConsultantQuestionnairesFilter, TQuestionnairePayload } from "@/api/Questionnaires/types";
 import notify from "@/utils/notify";
 
@@ -35,7 +34,7 @@ export const useQuestionnairesStore = defineStore("questionnaresStore", () => {
     questionnairesApi.getQuestionnaires(consultantId, filters).then((resp) => {
       page.value.max = resp.data.meta.last_page;
       page.value.current = resp.data.meta.current_page;
-      questionnaires.value = toTQuestionnairesData(resp.data);
+      questionnaires.value = resp.data.data;
     });
   }
 
