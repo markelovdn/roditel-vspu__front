@@ -4,11 +4,13 @@ import { computed, ref } from "vue";
 
 import { TGetConsultantQuestionnairesFilter } from "@/api/Questionnaires/types";
 import TableWrapper from "@/components/TableWrapper/TableWrapper.vue";
+import useAlert from "@/hooks/useAlert";
 import { useRequestPayload } from "@/hooks/useRequestPayload";
 import { useQuestionnairesStore } from "@/stores/questionnairesStore";
 
 const dateFilter = ref();
 const questionnairesStore = useQuestionnairesStore();
+const alert = useAlert();
 const queryParams = ref<TGetConsultantQuestionnairesFilter>({ page: 1 });
 const setPage = (page: number) => (queryParams.value.page = page);
 
@@ -21,9 +23,16 @@ const questionnairesListRows = computed(() => {
 });
 
 const deleteQuestionnaire = (questionnaireId: number) => {
-  questionnairesStore.deleteQuestionnaire(Number(questionnaireId));
-  const updatedQuestionnairesList = questionnairesStore.questionnaires.filter((item) => item.id !== questionnaireId);
-  questionnairesStore.questionnaires = updatedQuestionnairesList;
+  alert({
+    confirm: () => {
+      questionnairesStore.deleteQuestionnaire(Number(questionnaireId));
+      const updatedQuestionnairesList = questionnairesStore.questionnaires.filter(
+        (item) => item.id !== questionnaireId,
+      );
+      questionnairesStore.questionnaires = updatedQuestionnairesList;
+    },
+    cancel: () => void 0,
+  });
 };
 
 const questionnairesListHeaders = [
