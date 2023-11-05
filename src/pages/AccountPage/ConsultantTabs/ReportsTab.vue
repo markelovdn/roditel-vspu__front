@@ -14,47 +14,47 @@ const { reportsModel } = storeToRefs(consultantStore);
 const reportsListRows = computed(() => {
   return reportsModelMock.value?.data.map((el) => el);
 });
-const reportsModelMock = ref({
-  data: [
-    {
-      fileName:
-        "Ye jxtym lkbyjt yfpdfybt 'njq inerb/ ye;yj ghjdthbnm xnj ,s cnhjrf kb,j gthtyjcbkfcm? kb,j pfnbhfkfcm'",
-      createdAt: "15.12.2000",
-      uploadStatus: "success",
-      fileUrl: "adasdasd/asdasd/asd/as/dasdasdasd",
-    },
-    {
-      fileName: "asdaasdsadasdasdasdasdd",
-      createdAt: "11.13.2234",
-      uploadStatus: "fail",
-      fileUrl: "adasdasd/asdasd/asd/as/dasdasdasd",
-    },
-    {
-      fileName: "rfrjt-nj yfpdfybt lkz ntcnf 'njq ,jhjlf'",
-      createdAt: "15.12.2000",
-      uploadStatus: "success",
-      fileUrl: "adasdasd/asdasd/asd/as/dasdasdasd",
-    },
-    {
-      fileName: "asdaasdsadasdasdasdasdd",
-      createdAt: "11.13.2234",
-      uploadStatus: "fail",
-      fileUrl: "adasdasd/asdasd/asd/as/dasdasdasd",
-    },
-    {
-      fileName: "asdad",
-      createdAt: "15.12.2000",
-      uploadStatus: "success",
-      fileUrl: "adasdasd/asdasd/asd/as/dasdasdasd",
-    },
-    {
-      fileName: "asdaasdsadasdasdasdasdd",
-      createdAt: "11.13.2234",
-      uploadStatus: "fail",
-      fileUrl: "adasdasd/asdasd/asd/as/dasdasdasd",
-    },
-  ],
-});
+// const reportsModelMock = ref({
+//   data: [
+//     {
+//       fileName:
+//         "Ye jxtym lkbyjt yfpdfybt 'njq inerb/ ye;yj ghjdthbnm xnj ,s cnhjrf kb,j gthtyjcbkfcm? kb,j pfnbhfkfcm'",
+//       createdAt: "15.12.2000",
+//       uploadStatus: "success",
+//       fileUrl: "adasdasd/asdasd/asd/as/dasdasdasd",
+//     },
+//     {
+//       fileName: "asdaasdsadasdasdasdasdd",
+//       createdAt: "11.13.2234",
+//       uploadStatus: "fail",
+//       fileUrl: "adasdasd/asdasd/asd/as/dasdasdasd",
+//     },
+//     {
+//       fileName: "rfrjt-nj yfpdfybt lkz ntcnf 'njq ,jhjlf'",
+//       createdAt: "15.12.2000",
+//       uploadStatus: "success",
+//       fileUrl: "adasdasd/asdasd/asd/as/dasdasdasd",
+//     },
+//     {
+//       fileName: "asdaasdsadasdasdasdasdd",
+//       createdAt: "11.13.2234",
+//       uploadStatus: "fail",
+//       fileUrl: "adasdasd/asdasd/asd/as/dasdasdasd",
+//     },
+//     {
+//       fileName: "asdad",
+//       createdAt: "15.12.2000",
+//       uploadStatus: "success",
+//       fileUrl: "adasdasd/asdasd/asd/as/dasdasdasd",
+//     },
+//     {
+//       fileName: "asdaasdsadasdasdasdasdd",
+//       createdAt: "11.13.2234",
+//       uploadStatus: "fail",
+//       fileUrl: "adasdasd/asdasd/asd/as/dasdasdasd",
+//     },
+//   ],
+// });
 const reportListHeaders = [
   {
     name: "index",
@@ -103,7 +103,7 @@ const handleFileDownload = (fileUrl: string, fileName: string) => {
 };
 onMounted(() => {
   //TODO: пагинация
-  consultantStore.getReports({ page: "1" });
+  consultantStore.requestReports({ page: "1" });
 });
 </script>
 
