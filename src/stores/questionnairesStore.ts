@@ -36,13 +36,11 @@ export const useQuestionnairesStore = defineStore("questionnaresStore", () => {
       page.value.max = resp.data.meta.last_page;
       page.value.current = resp.data.meta.current_page;
       questionnaires.value = toTQuestionnairesData(resp.data);
-      console.log(questionnaires.value);
     });
   }
 
   function addQuestionnaire(consultantId: number, questionnaire: TQuestionnairePayload) {
-    questionnairesApi.addQuestionnaire(consultantId, questionnaire).then((resp) => {
-      console.log(resp);
+    questionnairesApi.addQuestionnaire(consultantId, questionnaire).then(() => {
       notify({ type: "positive", message: "Новая анкета успешно добавлена" });
     });
   }

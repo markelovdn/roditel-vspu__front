@@ -1,7 +1,7 @@
 import { Ref, toValue, unref } from "vue";
 
 type ParamType = string | number | boolean;
-type ParamsType = Record<string, ParamType>;
+export type ParamsType = Record<string, ParamType>;
 
 export const useParamBuilder = (params: ParamsType | Ref<ParamsType>) => {
   const search = new URLSearchParams();
