@@ -13,7 +13,15 @@ const consultantStore = useConsultantStore();
 const isShowReportModal = ref(false);
 const { reportsModel } = storeToRefs(consultantStore);
 const reportsListRows = computed(() => {
-  return reportsModel.value?.data.map((el) => el) || [];
+  return (
+    reportsModel.value?.data.map((el) => {
+      if (el.uploadStatus === "fail") {
+        return { ...el, error: true, uploadStatus: "Не загружен" };
+      } else {
+        return { ...el, uploadStatus: "Загружено" };
+      }
+    }) || []
+  );
 });
 const paginationPage = ref(1);
 const inputDate = ref();
@@ -111,11 +119,13 @@ onMounted(() => {
       </div>
     </template>
     <template #item="{ item, index, cellClass }">
-      <div :class="cellClass">{{ index + 1 }}</div>
-      <div :class="cellClass">{{ item.fileName }}</div>
-      <div :class="cellClass">{{ item.createdAt }}</div>
-      <div :class="cellClass">{{ item.uploadStatus }}</div>
-      <div :class="cellClass">
+      <div :class="cellClass" class="justify-center items-center">{{ index + 1 }}</div>
+      <div :class="cellClass" class="items-center">{{ item.fileName }}</div>
+      <div :class="cellClass" class="justify-center items-center">{{ item.createdAt }}</div>
+      <div :class="[cellClass, { error: item.error }]" class="justify-center items-center">
+        {{ item.uploadStatus }}
+      </div>
+      <div :class="cellClass" class="justify-center items-center">
         <q-btn flat @click="handleFileDownload(item.fileUrl, item.fileName)">
           <svg
             fill="currentColor"
@@ -152,4 +162,9 @@ onMounted(() => {
   <ReportModal v-if="isShowReportModal" @close="isShowReportModal = false"></ReportModal>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.error {
+  color: var(--error, #d00);
+  white-space: nowrap;
+}
+</style>

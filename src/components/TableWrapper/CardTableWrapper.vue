@@ -11,4 +11,3 @@ defineProps<{ items: T[] }>();
 </template>
 
 <style scoped lang="scss"></style>
-@/components/common/Home/WebinarCard/types
