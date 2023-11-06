@@ -2,7 +2,7 @@
 import { storeToRefs } from "pinia";
 // import { QTableColumn } from "quasar";
 import { emit } from "process";
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 
 import {
   emailValidator,
@@ -21,6 +21,7 @@ type TPersonalData = {
   email?: string;
   phone?: string;
   specializationId?: number | null;
+  professionId?: number | null;
 };
 
 // const dateFilter = ref();
@@ -29,26 +30,43 @@ type TPersonalData = {
 const authStore = useAuthStore();
 const consultantStore = useConsultantStore();
 
+const collectionsStore = useCollectionsStore();
+const { getSpecializations: optionsSpecializations, getProfessions: optionsProfessions } =
+  storeToRefs(collectionsStore);
+
+const specializationId = computed(() => {
+  const title = consultantStore.consultantInfo?.specialization.title;
+
+  const specialization = optionsSpecializations.value.find((option) => option.label === title);
+  return specialization ? Number(specialization.value) : null;
+});
+
+const professionId = computed(() => {
+  const title = consultantStore.consultantInfo?.specialization.title;
+
+  const profession = optionsSpecializations.value.find((option) => option.label === title);
+  return profession ? Number(profession.value) : null;
+});
+
 const data = ref<TPersonalData>({
   name: authStore.user?.fullName,
   phone: authStore.user?.phone,
   email: authStore.user?.email,
-  specializationId: null,
+  specializationId: specializationId.value,
+  professionId: professionId.value,
 });
-
-const collectionsStore = useCollectionsStore();
-const { getSpecializations: optionsSpecializations } = storeToRefs(collectionsStore);
 
 const { handleBlur, getErrorAttrs } = useValidation<TPersonalData>(data, emit, {
   name: { requiredValidator, splitNameValidator },
   phone: { requiredValidator, minLengthValidator: minLengthValidator(17) },
   email: { requiredValidator, emailValidator },
   specializationId: { requiredValidator },
+  professionId: { requiredValidator },
 });
 
-// const handleLogin = () => {};
-
 onMounted(() => {
+  collectionsStore.requestSpecializations();
+  collectionsStore.requestProfessions();
   consultantStore.getConsultantInfo();
 });
 </script>
@@ -106,18 +124,18 @@ onMounted(() => {
           map-options
           @blur="handleBlur('specializationId')" />
 
-        <!-- <q-select
-            v-bind="getErrorAttrs('professionId')"
-            v-model="data.professionId"
-            class="fit q-mb-sm"
-            input-class="q-select--form"
-            label="Кем Вы являетесь*"
-            outlined
-            :options="optionsProfessions"
-            :option-label="(item) => item.label"
-            emit-value
-            map-options
-            @blur="handleBlur('professionId')" /> -->
+        <q-select
+          v-bind="getErrorAttrs('professionId')"
+          v-model="data.professionId"
+          class="fit q-mb-sm"
+          input-class="q-select--form"
+          label="Подразделение*"
+          outlined
+          :options="optionsProfessions"
+          :option-label="(item) => item.label"
+          emit-value
+          map-options
+          @blur="handleBlur('professionId')" />
       </q-form>
     </div>
   </div>

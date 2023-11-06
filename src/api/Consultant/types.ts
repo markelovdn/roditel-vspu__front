@@ -37,3 +37,16 @@ export type TConsultantMeta = {
   currentPage: number;
   totalPages: number;
 };
+
+export interface TGetConsultantInfo {
+  id: number;
+  userId: number;
+  photo: string;
+  description: string | null;
+  specialization: {
+    title: string;
+  };
+  profession: {
+    title: string;
+  };
+}

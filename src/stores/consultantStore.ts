@@ -3,13 +3,13 @@ import { ref } from "vue";
 
 import { consultantApi } from "@/api";
 import { toConsultantReportsData } from "@/api/Consultant/mappers";
-import { TGetConsultantReportsData, TGetConsultantReportsFilter } from "@/api/Consultant/types";
+import { TGetConsultantInfo, TGetConsultantReportsData, TGetConsultantReportsFilter } from "@/api/Consultant/types";
 
 import { useAuthStore } from "./authStore";
 
 export const useConsultantStore = defineStore("consultantStore", () => {
   const reportsModel = ref<TGetConsultantReportsData>();
-  const consultantInfo = ref<Record<string, unknown>>();
+  const consultantInfo = ref<TGetConsultantInfo>();
   const authStore = useAuthStore();
   const consultantId = authStore.getUserId;
 
@@ -35,7 +35,6 @@ export const useConsultantStore = defineStore("consultantStore", () => {
   }
 
   function getConsultantInfo() {
-    console.log("lolka");
     if (consultantId === undefined) return;
     consultantApi.getConsultantInfo(consultantId).then((resp) => (consultantInfo.value = resp.data.data[0]));
   }
