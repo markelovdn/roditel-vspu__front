@@ -22,6 +22,7 @@ export type TUser = {
   first_name: string;
   second_name: string;
   surName: string;
+  phone: string;
   role: TUserRole;
 };
 

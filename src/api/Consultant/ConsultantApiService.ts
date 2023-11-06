@@ -12,4 +12,8 @@ export class ConsultantApiService {
   createReport(consultantId: number | string, payload: FormData) {
     return axios.post<any>(`/consultant/${consultantId}/reports`, payload);
   }
+
+  getConsultantInfo(consultantId: number) {
+    return axios.get(`/consultants/${consultantId}`);
+  }
 }
