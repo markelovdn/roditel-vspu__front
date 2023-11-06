@@ -38,17 +38,6 @@ watch(tab, (newTab) => {
   }
 });
 
-watch(
-  () => route.query.tabId,
-  (newTabId) => {
-    if (newTabId) {
-      tab.value = newTabId;
-    } else if (props.tabs.length) {
-      tab.value = props.tabs[0].name;
-    }
-  },
-);
-
 onMounted(() => openFirstTab());
 </script>
 
