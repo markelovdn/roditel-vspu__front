@@ -22,17 +22,18 @@ const questionnairesListRows = computed(() => {
   return questionnairesStore.questionnaires.map((el) => el);
 });
 
-const deleteQuestionnaire = (questionnaireId: number) => {
+const handleDelete = (questionnaireId: number) => {
   alert({
     confirm: () => {
-      questionnairesStore.deleteQuestionnaire(Number(questionnaireId));
-      const updatedQuestionnairesList = questionnairesStore.questionnaires.filter(
-        (item) => item.id !== questionnaireId,
-      );
-      questionnairesStore.questionnaires = updatedQuestionnairesList;
+      deleteQuestionnaire(questionnaireId);
     },
     cancel: () => void 0,
   });
+};
+const deleteQuestionnaire = (questionnaireId: number) => {
+  questionnairesStore.deleteQuestionnaire(Number(questionnaireId));
+  const updatedQuestionnairesList = questionnairesStore.questionnaires.filter((item) => item.id !== questionnaireId);
+  questionnairesStore.questionnaires = updatedQuestionnairesList;
 };
 
 const questionnairesListHeaders = [
@@ -103,13 +104,7 @@ const questionnairesListHeaders = [
             <q-btn v-if="item.id" dense icon="edit" size="xs" color="primary" :to="`/questionnaire/${item.id}`"></q-btn>
           </div>
           <div>
-            <q-btn
-              v-if="item.id"
-              dense
-              size="xs"
-              icon="delete"
-              color="negative"
-              @click="deleteQuestionnaire(item.id)"></q-btn>
+            <q-btn v-if="item.id" dense size="xs" icon="delete" color="negative" @click="handleDelete(item.id)"></q-btn>
           </div>
         </div>
       </template>
