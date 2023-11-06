@@ -2,7 +2,7 @@
 import { storeToRefs } from "pinia";
 // import { QTableColumn } from "quasar";
 import { emit } from "process";
-import { computed, onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 
 import {
   emailValidator,
@@ -24,9 +24,6 @@ type TPersonalData = {
   professionId?: number | null;
 };
 
-// const dateFilter = ref();
-// const consultantStore = useConsultantStore();
-
 const authStore = useAuthStore();
 const consultantStore = useConsultantStore();
 
@@ -34,26 +31,12 @@ const collectionsStore = useCollectionsStore();
 const { getSpecializations: optionsSpecializations, getProfessions: optionsProfessions } =
   storeToRefs(collectionsStore);
 
-const specializationId = computed(() => {
-  const title = consultantStore.consultantInfo?.specialization.title;
-
-  const specialization = optionsSpecializations.value.find((option) => option.label === title);
-  return specialization ? Number(specialization.value) : null;
-});
-
-const professionId = computed(() => {
-  const title = consultantStore.consultantInfo?.specialization.title;
-
-  const profession = optionsSpecializations.value.find((option) => option.label === title);
-  return profession ? Number(profession.value) : null;
-});
-
 const data = ref<TPersonalData>({
   name: authStore.user?.fullName,
   phone: authStore.user?.phone,
   email: authStore.user?.email,
-  specializationId: specializationId.value,
-  professionId: professionId.value,
+  specializationId: null,
+  professionId: null,
 });
 
 const { handleBlur, getErrorAttrs } = useValidation<TPersonalData>(data, emit, {
@@ -63,6 +46,16 @@ const { handleBlur, getErrorAttrs } = useValidation<TPersonalData>(data, emit, {
   specializationId: { requiredValidator },
   professionId: { requiredValidator },
 });
+
+watch(
+  () => consultantStore.consultantInfo,
+  (newConsultantInfo) => {
+    if (newConsultantInfo) {
+      data.value.specializationId = newConsultantInfo.specialization?.id;
+      data.value.professionId = newConsultantInfo.profession?.id;
+    }
+  },
+);
 
 onMounted(() => {
   collectionsStore.requestSpecializations();
