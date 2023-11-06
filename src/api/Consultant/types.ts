@@ -44,9 +44,11 @@ export interface TGetConsultantInfo {
   photo: string;
   description: string | null;
   specialization: {
+    id: number;
     title: string;
   };
   profession: {
+    id: number;
     title: string;
   };
 }
