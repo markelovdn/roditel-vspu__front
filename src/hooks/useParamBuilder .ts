@@ -14,6 +14,9 @@ export const useParamBuilder = (params: ParamsType | Ref<ParamsType>) => {
   return search;
 };
 
-export const useUrlParams = (base: string, params?: Readonly<Ref<URLSearchParams>> | Ref<string> | string) => {
+export const useUrlParams = (
+  base: string,
+  params?: Readonly<Ref<URLSearchParams>> | URLSearchParams | Ref<string> | string,
+) => {
   return `${base}?${typeof params == "string" ? params : unref(params as Readonly<Ref<URLSearchParams>>)?.toString()}`;
 };
