@@ -22,12 +22,15 @@ const tab = ref();
 
 const openFirstTab = () => {
   const routeTabId = route.query.tabId;
-  if (routeTabId && props.tabs.some((tab) => tab.name === routeTabId)) {
+  const tabExists = routeTabId && props.tabs.some((tab) => tab.name === routeTabId);
+
+  if (tabExists) {
     tab.value = routeTabId;
-  } else if (props.tabs.length) {
+  } else if (props.tabs.length > 0) {
     tab.value = props.tabs[0].name;
   }
 };
+
 const getUserRoleDefinition = (role: string) => {
   return accountRoleMap[role.toUpperCase() as keyof typeof accountRoleMap] ?? "";
 };
