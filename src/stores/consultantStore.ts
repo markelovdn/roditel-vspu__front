@@ -9,6 +9,7 @@ import { useAuthStore } from "./authStore";
 
 export const useConsultantStore = defineStore("consultantStore", () => {
   const reportsModel = ref<TGetConsultantReportsData>();
+  const consultantInfo = ref<Record<string, unknown>>();
   const authStore = useAuthStore();
   const consultantId = authStore.getUserId;
 
@@ -33,5 +34,10 @@ export const useConsultantStore = defineStore("consultantStore", () => {
     }
   }
 
-  return { requestReports, reportsModel, getReports, createReport };
+  function getConsultantInfo() {
+    console.log("lolka");
+    if (consultantId === undefined) return;
+    consultantApi.getConsultantInfo(consultantId).then((resp) => (consultantInfo.value = resp.data.data[0]));
+  }
+  return { requestReports, reportsModel, getReports, createReport, consultantInfo, getConsultantInfo };
 });
