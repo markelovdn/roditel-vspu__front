@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
 import IconNotificationsBell from "@/components/icons/IconNotificationsBell.vue";
 import { accountRoleMap } from "@/pages/AccountPage/types";
@@ -13,17 +14,41 @@ interface IAccountWrapperProps {
 
 const props = defineProps<IAccountWrapperProps>();
 
+const router = useRouter();
+const route = useRoute();
+
 const splitterModel = ref(20);
 const tab = ref();
 
 const openFirstTab = () => {
-  if (props.tabs.length) {
+  const routeTabId = route.query.tabId;
+  if (routeTabId && props.tabs.some((tab) => tab.name === routeTabId)) {
+    tab.value = routeTabId;
+  } else if (props.tabs.length) {
     tab.value = props.tabs[0].name;
   }
 };
 const getUserRoleDefinition = (role: string) => {
   return accountRoleMap[role.toUpperCase() as keyof typeof accountRoleMap] ?? "";
 };
+
+watch(tab, (newTab) => {
+  if (newTab) {
+    router.push({ query: { ...route.query, tabId: newTab } });
+  }
+});
+
+watch(
+  () => route.query.tabId,
+  (newTabId) => {
+    if (newTabId) {
+      tab.value = newTabId;
+    } else if (props.tabs.length) {
+      tab.value = props.tabs[0].name;
+    }
+  },
+);
+
 onMounted(() => openFirstTab());
 </script>
 
