@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { QTableColumn } from "quasar";
 import { computed, onMounted, ref } from "vue";
 
 import { TGetConsultantReportsFilter } from "@/api/Consultant/types";
 import ReportModal from "@/components/modals/ReportModal/ReportModal.vue";
-import TableWrapper from "@/components/TableWrapper/TableWrapper.vue";
+import TableWrapper, { TTableWrapperHeaders } from "@/components/TableWrapper/TableWrapper.vue";
 import { useRequestPayload } from "@/hooks/useRequestPayload";
 import { useConsultantStore } from "@/stores/consultantStore";
 import notify from "@/utils/notify";
@@ -14,7 +13,7 @@ const consultantStore = useConsultantStore();
 const isShowReportModal = ref(false);
 const { reportsModel } = storeToRefs(consultantStore);
 const reportsListRows = computed(() => {
-  return reportsModelMock.value?.data.map((el) => el);
+  return reportsModel.value?.data.map((el) => el) || [];
 });
 const paginationPage = ref(1);
 const inputDate = ref();
@@ -56,7 +55,7 @@ const reportListHeaders = [
     align: "center",
     width: "100px",
   },
-] as QTableColumn[];
+] as unknown as TTableWrapperHeaders;
 
 const queryParams = ref<TGetConsultantReportsFilter>({ page: 1 });
 const dateToString = computed(() =>
@@ -78,12 +77,13 @@ const handleFileDownload = (fileUrl: string, fileName: string) => {
   const anchorElement = document.createElement("a");
   anchorElement.href = fileUrl;
   anchorElement.download = fileName;
+  anchorElement.target = "_blank";
   anchorElement.click();
   notify({ message: "TODO: скачивание файла" });
 };
 
 onMounted(() => {
-  useRequestPayload(queryParams, consultantStore.requestReports, { clearableParams: { page: 1 } });
+  useRequestPayload(queryParams, consultantStore.requestReports, { clearableParams: ["page"] });
 });
 </script>
 

@@ -3,8 +3,8 @@ import { QTableColumn } from "quasar";
 
 import CardTableWrapper from "./CardTableWrapper.vue";
 import ListTableWrapper from "./ListTableWrapper.vue";
-
-defineProps<{ items: T[]; title: string; cardsList?: boolean; headers?: Array<QTableColumn & { width: number }> }>();
+export type TTableWrapperHeaders = Array<QTableColumn & { width: number }>;
+defineProps<{ items: T[]; title: string; cardsList?: boolean; headers?: TTableWrapperHeaders }>();
 </script>
 
 <template>
