@@ -22,6 +22,16 @@ export const useConsultantStore = defineStore("consultantStore", () => {
     if (consultantId === undefined) return;
     consultantApi.getReports(consultantId, filters).then((resp) => toConsultantReportsData(resp.data));
   }
+  async function createReport(payload: FormData) {
+    if (consultantId === undefined) return;
+    try {
+      const resp = consultantApi.createReport(consultantId, payload).then((resp) => resp.status);
+      return Promise.resolve(resp);
+    } catch (err) {
+      console.log(err);
+      return Promise.reject(err);
+    }
+  }
 
-  return { requestReports, reportsModel, getReports };
+  return { requestReports, reportsModel, getReports, createReport };
 });

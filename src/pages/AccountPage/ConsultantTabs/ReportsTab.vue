@@ -3,12 +3,14 @@ import { storeToRefs } from "pinia";
 import { QTableColumn } from "quasar";
 import { computed, onMounted, ref } from "vue";
 
+import ReportModal from "@/components/modals/ReportModal/ReportModal.vue";
 import TableWrapper from "@/components/TableWrapper/TableWrapper.vue";
 import { useConsultantStore } from "@/stores/consultantStore";
 import notify from "@/utils/notify";
 
 const dateFilter = ref();
 const consultantStore = useConsultantStore();
+const isShowReportModal = ref(false);
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const { reportsModel } = storeToRefs(consultantStore);
 const reportsListRows = computed(() => {
@@ -110,7 +112,7 @@ onMounted(() => {
 <template>
   <TableWrapper :items="reportsListRows" :headers="reportListHeaders" :title="'Журналы'">
     <template #header_right>
-      <q-btn>Загрузить файл</q-btn>
+      <q-btn @click="isShowReportModal = true">Загрузить файл</q-btn>
     </template>
     <template #filters>
       <div class="q-pa-md" style="max-width: 300px">
@@ -153,6 +155,7 @@ onMounted(() => {
       </div>
     </template>
   </TableWrapper>
+  <ReportModal v-if="isShowReportModal" @close="isShowReportModal = false"></ReportModal>
 </template>
 
 <style lang="scss" scoped></style>
