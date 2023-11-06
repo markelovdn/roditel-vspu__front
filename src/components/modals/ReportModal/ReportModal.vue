@@ -30,7 +30,7 @@ const handleUpload = () => {
 
 <template>
   <div>
-    <ModalWrapper header="Добавить данные" sub-header="Подгрузите файлы excel в 1с">
+    <ModalWrapper header="Добавить данные" sub-header="Выберите Excel файлы для загрузки">
       <div class="q-pa-md" style="max-width: 300px">
         <div class="q-gutter-md">
           <q-file v-model="files" accept=".xlsx" outlined :filter="checkFileType" label="Файл" />
