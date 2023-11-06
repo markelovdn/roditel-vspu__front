@@ -15,7 +15,7 @@ const setPage = (page: number) => (queryParams.value.page = page);
 const setFilters = (filters: TWebinarsRequestOption) => Object.assign(queryParams.value, filters);
 
 useRequestPayload(queryParams, webinarsStore.requestWebinars, {
-  clearableParams: ["page"],
+  clearableParams: { page: 1 },
   // watchParams: ["page"],
 });
 </script>

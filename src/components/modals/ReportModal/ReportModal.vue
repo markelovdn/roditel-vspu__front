@@ -12,7 +12,7 @@ const { closeModal } = useModal(emit, files);
 const showUploadError = ref(false);
 
 const onUploadSuccess = async () => {
-  consultantStore.requestReports({ page: "1" });
+  consultantStore.requestReports({ page: 1 });
   closeModal({ force: true });
 };
 
