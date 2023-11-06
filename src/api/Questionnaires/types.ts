@@ -29,4 +29,6 @@ export type TOtherOption = { id?: number | null; show: boolean; text: string };
 
 export type TQuestionnairesData = {
   data: Array<TQuestionnairePayload>;
+  links: any;
+  meta: any;
 };

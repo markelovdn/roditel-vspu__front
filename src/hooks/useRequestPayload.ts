@@ -1,30 +1,34 @@
 import cloneDeep from "lodash.clonedeep";
-import { onMounted, reactive, Ref, ref, toRefs, unref, watch } from "vue";
+import { onMounted, reactive, Ref, ref, toRefs, toValue, watch } from "vue";
 
-import { TWebinarsRequestOption } from "@/api/Webinars/types";
+import { ParamsType, useParamBuilder } from "./useParamBuilder ";
 
-import { useParamBuilder } from "./useParamBuilder ";
-
-export const useRequestPayload = (
-  data: TWebinarsRequestOption | Ref<TWebinarsRequestOption>,
-  callback: (payload: Ref<string> | string | URLSearchParams) => any,
+export const useRequestPayload = <T extends Record<string, unknown>>(
+  // Фильтры, query params
+  data: Ref<T>,
+  callback: (...args: any) => any,
   options: {
-    watchParams?: Array<keyof TWebinarsRequestOption>;
-    clearableParams?: TWebinarsRequestOption;
-  } = { clearableParams: { page: 1 } },
+    watchParams?: Array<keyof T>;
+    clearableParams?: Array<keyof T>;
+  },
 ) => {
   options;
-  const queryParams = ref<TWebinarsRequestOption>({});
+  const initialParams = ref<T>();
   const result = ref();
   const state = reactive({
     isLoading: false,
     error: null as any,
   });
 
+  const triggerCallback = () => {
+    //TODO: сомневаюсь, что колбэк всегда будет возвращать что-то
+    return callback(useParamBuilder(data.value as ParamsType));
+  };
+
   const reload = async () => {
     state.isLoading = true;
     try {
-      result.value = callback(useParamBuilder(data));
+      result.value = triggerCallback();
     } catch (e) {
       state.error = e;
     } finally {
@@ -45,7 +49,8 @@ export const useRequestPayload = (
   );
 
   onMounted(() => {
-    queryParams.value = cloneDeep(unref(data));
+    triggerCallback();
+    initialParams.value = cloneDeep(toValue(data));
   });
 
   return {

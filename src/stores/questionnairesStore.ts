@@ -2,35 +2,44 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 
 import { questionnairesApi } from "@/api";
-import { toTQuestionnairesData } from "@/api/Questionnaires/mappers";
 import { TGetConsultantQuestionnairesFilter, TQuestionnairePayload } from "@/api/Questionnaires/types";
 import notify from "@/utils/notify";
 
 import { useAuthStore } from "./authStore";
-const questionnaires = ref<TQuestionnairePayload[]>([]);
-const questionnaire = ref<TQuestionnairePayload>({
-  id: null,
-  title: "",
-  description: "",
-  answerBefore: "",
-  updatedAt: "",
-  questions: [],
-});
 
 export const useQuestionnairesStore = defineStore("questionnaresStore", () => {
   const authStore = useAuthStore();
   const consultantId = authStore.getUserId;
+  const questionnaires = ref<TQuestionnairePayload[]>([]);
+  const questionnaire = ref<TQuestionnairePayload>({
+    id: null,
+    title: "",
+    description: "",
+    answerBefore: "",
+    updatedAt: "",
+    questions: [],
+  });
+  const page = ref({
+    current: 1,
+    max: 1,
+  });
+
+  function clearFilters() {
+    page.value.current = 1;
+    page.value.max = 1;
+  }
 
   function getQuestionnaires(filters: TGetConsultantQuestionnairesFilter) {
     if (consultantId === undefined) return;
     questionnairesApi.getQuestionnaires(consultantId, filters).then((resp) => {
-      questionnaires.value = toTQuestionnairesData(resp.data);
+      page.value.max = resp.data.meta.last_page;
+      page.value.current = resp.data.meta.current_page;
+      questionnaires.value = resp.data.data;
     });
   }
 
   function addQuestionnaire(consultantId: number, questionnaire: TQuestionnairePayload) {
-    questionnairesApi.addQuestionnaire(consultantId, questionnaire).then((resp) => {
-      console.log(resp);
+    questionnairesApi.addQuestionnaire(consultantId, questionnaire).then(() => {
       notify({ type: "positive", message: "Новая анкета успешно добавлена" });
     });
   }
@@ -58,10 +67,12 @@ export const useQuestionnairesStore = defineStore("questionnaresStore", () => {
   return {
     questionnaires,
     questionnaire,
+    page,
     getQuestionnaires,
     addQuestionnaire,
     showQuestionnaire,
     updateQuestionnaire,
     deleteQuestionnaire,
+    clearFilters,
   };
 });

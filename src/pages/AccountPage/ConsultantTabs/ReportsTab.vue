@@ -12,11 +12,7 @@ const consultantStore = useConsultantStore();
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const { reportsModel } = storeToRefs(consultantStore);
 const reportsListRows = computed(() => {
-  return (
-    reportsModelMock.value?.data.map((el, index) => {
-      return { ...el, index: index + 1 };
-    }) ?? []
-  );
+  return reportsModelMock.value?.data.map((el) => el);
 });
 const reportsModelMock = ref({
   data: [
@@ -133,8 +129,8 @@ onMounted(() => {
         </q-input>
       </div>
     </template>
-    <template #item="{ item, cellClass }">
-      <div :class="cellClass">{{ item.index }}</div>
+    <template #item="{ item, index, cellClass }">
+      <div :class="cellClass">{{ index + 1 }}</div>
       <div :class="cellClass">{{ item.fileName }}</div>
       <div :class="cellClass">{{ item.createdAt }}</div>
       <div :class="cellClass">{{ item.uploadStatus }}</div>

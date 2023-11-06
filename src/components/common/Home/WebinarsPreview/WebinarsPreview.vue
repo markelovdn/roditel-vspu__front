@@ -18,7 +18,6 @@ useRequestPayload(queryParams, webinarsStore.requestWebinars, {
   clearableParams: ["page"],
   // watchParams: ["page"],
 });
-// useRequestPayload(queryParams, webinarsStore.requestWebinars);
 </script>
 
 <template>
