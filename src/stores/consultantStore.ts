@@ -20,7 +20,7 @@ export const useConsultantStore = defineStore("consultantStore", () => {
   }
   function getReports(filters: TGetConsultantReportsFilter) {
     if (consultantId === undefined) return;
-    consultantApi.getReports(consultantId, filters).then((resp) => toConsultantReportsData(resp.data));
+    return consultantApi.getReports(consultantId, filters).then((resp) => toConsultantReportsData(resp.data));
   }
   async function createReport(payload: FormData) {
     if (consultantId === undefined) return;

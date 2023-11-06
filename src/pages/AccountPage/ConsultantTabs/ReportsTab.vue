@@ -3,60 +3,22 @@ import { storeToRefs } from "pinia";
 import { QTableColumn } from "quasar";
 import { computed, onMounted, ref } from "vue";
 
+import { TGetConsultantReportsFilter } from "@/api/Consultant/types";
 import ReportModal from "@/components/modals/ReportModal/ReportModal.vue";
 import TableWrapper from "@/components/TableWrapper/TableWrapper.vue";
+import { useRequestPayload } from "@/hooks/useRequestPayload";
 import { useConsultantStore } from "@/stores/consultantStore";
 import notify from "@/utils/notify";
 
-const dateFilter = ref();
 const consultantStore = useConsultantStore();
 const isShowReportModal = ref(false);
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const { reportsModel } = storeToRefs(consultantStore);
 const reportsListRows = computed(() => {
   return reportsModelMock.value?.data.map((el) => el);
 });
-// const reportsModelMock = ref({
-//   data: [
-//     {
-//       fileName:
-//         "Ye jxtym lkbyjt yfpdfybt 'njq inerb/ ye;yj ghjdthbnm xnj ,s cnhjrf kb,j gthtyjcbkfcm? kb,j pfnbhfkfcm'",
-//       createdAt: "15.12.2000",
-//       uploadStatus: "success",
-//       fileUrl: "adasdasd/asdasd/asd/as/dasdasdasd",
-//     },
-//     {
-//       fileName: "asdaasdsadasdasdasdasdd",
-//       createdAt: "11.13.2234",
-//       uploadStatus: "fail",
-//       fileUrl: "adasdasd/asdasd/asd/as/dasdasdasd",
-//     },
-//     {
-//       fileName: "rfrjt-nj yfpdfybt lkz ntcnf 'njq ,jhjlf'",
-//       createdAt: "15.12.2000",
-//       uploadStatus: "success",
-//       fileUrl: "adasdasd/asdasd/asd/as/dasdasdasd",
-//     },
-//     {
-//       fileName: "asdaasdsadasdasdasdasdd",
-//       createdAt: "11.13.2234",
-//       uploadStatus: "fail",
-//       fileUrl: "adasdasd/asdasd/asd/as/dasdasdasd",
-//     },
-//     {
-//       fileName: "asdad",
-//       createdAt: "15.12.2000",
-//       uploadStatus: "success",
-//       fileUrl: "adasdasd/asdasd/asd/as/dasdasdasd",
-//     },
-//     {
-//       fileName: "asdaasdsadasdasdasdasdd",
-//       createdAt: "11.13.2234",
-//       uploadStatus: "fail",
-//       fileUrl: "adasdasd/asdasd/asd/as/dasdasdasd",
-//     },
-//   ],
-// });
+const paginationPage = ref(1);
+const inputDate = ref();
+
 const reportListHeaders = [
   {
     name: "index",
@@ -96,6 +58,22 @@ const reportListHeaders = [
   },
 ] as QTableColumn[];
 
+const queryParams = ref<TGetConsultantReportsFilter>({ page: 1 });
+const dateToString = computed(() =>
+  inputDate.value ? `c ${inputDate.value.from} по ${inputDate.value.to}` : "Выберите дату",
+);
+const dateClear = () => {
+  inputDate.value = null;
+  setData();
+};
+const setData = (value?: any) => {
+  if (value) {
+    queryParams.value.dateBetween = `${value.from}, ${value.to}`;
+  } else {
+    delete queryParams.value["dateBetween"];
+  }
+};
+const setPage = (page: number) => (queryParams.value.page = page);
 const handleFileDownload = (fileUrl: string, fileName: string) => {
   const anchorElement = document.createElement("a");
   anchorElement.href = fileUrl;
@@ -103,9 +81,9 @@ const handleFileDownload = (fileUrl: string, fileName: string) => {
   anchorElement.click();
   notify({ message: "TODO: скачивание файла" });
 };
+
 onMounted(() => {
-  //TODO: пагинация
-  consultantStore.requestReports({ page: "1" });
+  useRequestPayload(queryParams, consultantStore.requestReports, { clearableParams: { page: 1 } });
 });
 </script>
 
@@ -116,13 +94,14 @@ onMounted(() => {
     </template>
     <template #filters>
       <div class="q-pa-md" style="max-width: 300px">
-        <q-input v-model="dateFilter" dense filled>
+        <q-input v-model="dateToString" dense filled>
           <template #append>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                <q-date v-model="dateFilter" range>
+                <q-date v-model="inputDate" range @update:model-value="setData">
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup label="Close" color="primary" flat />
+                    <q-btn v-close-popup label="Сбросить" color="primary" flat @click="dateClear()" />
                   </div>
                 </q-date>
               </q-popup-proxy>
@@ -154,7 +133,22 @@ onMounted(() => {
         </q-btn>
       </div>
     </template>
+    <template #pagination>
+      <div class="q-pa-lg">
+        <div class="q-gutter-md">
+          <q-pagination
+            v-model="paginationPage"
+            :max="consultantStore.reportsModel?.meta.totalPages || 1"
+            :max-pages="6"
+            direction-links
+            gutter="8px"
+            active-color="yellow"
+            @update:model-value="setPage" />
+        </div>
+      </div>
+    </template>
   </TableWrapper>
+
   <ReportModal v-if="isShowReportModal" @close="isShowReportModal = false"></ReportModal>
 </template>
 

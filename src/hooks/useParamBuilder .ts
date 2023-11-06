@@ -4,6 +4,7 @@ type ParamType = string | number | boolean;
 export type ParamsType = Record<string, ParamType>;
 
 export const useParamBuilder = (params: ParamsType | Ref<ParamsType>) => {
+  if (params instanceof URLSearchParams) return params;
   const search = new URLSearchParams();
   const obj = toValue(params);
   const entries = Object.entries(obj)

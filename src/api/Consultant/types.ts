@@ -1,5 +1,5 @@
 export type TGetConsultantReportsFilter = {
-  page: string | number;
+  page: number;
   dateBetween?: string;
 };
 export type TGetConsultantReportsData = {
