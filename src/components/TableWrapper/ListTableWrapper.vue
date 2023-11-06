@@ -21,7 +21,7 @@ const gridTemplateColumnsStyle = computed(() => {
         v-for="(header, index) in headers"
         :key="index"
         class="table-cell"
-        :style="{ 'justify-content': header.align ?? 'center' }">
+        :style="{ 'justify-content': header.align ?? 'center', 'white-space': 'nowrap' }">
         {{ header.label }}
       </div>
     </div>

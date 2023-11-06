@@ -19,6 +19,7 @@ export type TConsultantReport = {
   uploadStatus: string;
   createdAt: string;
   updatedAt: string;
+  error?: boolean;
 };
 
 export type TConsultantResponseMeta = {
