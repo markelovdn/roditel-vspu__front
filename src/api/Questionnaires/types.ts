@@ -11,6 +11,10 @@ export type TQuestionnairePayload = {
   title: string;
   description?: string;
   answerBefore?: string;
+  fileUrl?: string;
+  fileName?: string;
+  status?: string;
+  parented?: string;
   updatedAt?: string;
   questions: Array<TDefaultQuestion>;
 };
