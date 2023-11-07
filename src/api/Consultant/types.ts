@@ -16,10 +16,9 @@ export type TConsultantReport = {
   id: number;
   fileUrl: string;
   fileName: string;
-  uploadStatus: string;
+  uploadStatus: "fail" | "success";
   createdAt: string;
   updatedAt: string;
-  error?: boolean;
 };
 
 export type TConsultantResponseMeta = {

@@ -9,19 +9,16 @@ import { useRequestPayload } from "@/hooks/useRequestPayload";
 import { useConsultantStore } from "@/stores/consultantStore";
 import notify from "@/utils/notify";
 
+const statusTranslate = {
+  fail: "Не загружен",
+  success: "Загружено",
+};
+
 const consultantStore = useConsultantStore();
 const isShowReportModal = ref(false);
 const { reportsModel } = storeToRefs(consultantStore);
 const reportsListRows = computed(() => {
-  return (
-    reportsModel.value?.data.map((el) => {
-      if (el.uploadStatus === "fail") {
-        return { ...el, error: true, uploadStatus: "Не загружен" };
-      } else {
-        return { ...el, uploadStatus: "Загружено" };
-      }
-    }) || []
-  );
+  return reportsModel.value?.data.map((el) => el) || [];
 });
 const paginationPage = ref(1);
 const inputDate = ref();
@@ -122,8 +119,8 @@ onMounted(() => {
       <div :class="cellClass" class="justify-center items-center">{{ index + 1 }}</div>
       <div :class="cellClass" class="items-center">{{ item.fileName }}</div>
       <div :class="cellClass" class="justify-center items-center">{{ item.createdAt }}</div>
-      <div :class="[cellClass, { error: item.error }]" class="justify-center items-center">
-        {{ item.uploadStatus }}
+      <div :class="[cellClass, { error: item.uploadStatus === 'fail' }]" class="justify-center items-center">
+        {{ statusTranslate[item.uploadStatus] || item.uploadStatus }}
       </div>
       <div :class="cellClass" class="justify-center items-center">
         <q-btn flat @click="handleFileDownload(item.fileUrl, item.fileName)">
