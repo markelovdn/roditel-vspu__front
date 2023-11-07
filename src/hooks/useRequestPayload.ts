@@ -36,7 +36,7 @@ export const useRequestPayload = <T extends Record<string, unknown>>(
     }
   };
 
-  watch(
+  const stopWatching = watch(
     () => cloneDeep(data),
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     (newValue, oldValue) => {
@@ -57,5 +57,6 @@ export const useRequestPayload = <T extends Record<string, unknown>>(
     ...toRefs(state),
     result,
     reload,
+    stopWatching,
   };
 };
