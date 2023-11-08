@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { QTableColumn } from "quasar";
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 
 import { TGetConsultantQuestionnairesFilter } from "@/api/Questionnaires/types";
 import TableWrapper from "@/components/TableWrapper/TableWrapper.vue";
@@ -8,24 +8,42 @@ import useAlert from "@/hooks/useAlert";
 import { useRequestPayload } from "@/hooks/useRequestPayload";
 import { useQuestionnairesStore } from "@/stores/questionnairesStore";
 
-const dateFilter = ref();
 const questionnairesStore = useQuestionnairesStore();
+const dateFilter = ref();
 const alert = useAlert();
 const queryParams = ref<TGetConsultantQuestionnairesFilter>({ page: 1 });
 const setPage = (page: number) => (queryParams.value.page = page);
 
-useRequestPayload(queryParams, questionnairesStore.getQuestionnaires, {
-  clearableParams: ["page"],
-});
-
 const questionnairesListRows = computed(() => {
   return questionnairesStore.questionnaires.map((el) => el);
+});
+
+const setData = (value?: any) => {
+  if (value) {
+    queryParams.value.dateBetween = `${value.from}, ${value.to}`;
+  } else {
+    delete queryParams.value["dateBetween"];
+  }
+};
+
+const dateClear = () => {
+  dateFilter.value = null;
+  setData();
+};
+
+const dateToString = computed(() =>
+  dateFilter.value ? `c ${dateFilter.value.from} по ${dateFilter.value.to}` : "Выберите дату",
+);
+
+useRequestPayload(queryParams, questionnairesStore.getQuestionnaires, {
+  clearableParams: ["page"],
 });
 
 const handleFileDownload = (fileUrl: string, fileName: string) => {
   const anchorElement = document.createElement("a");
   anchorElement.href = fileUrl;
   anchorElement.download = fileName;
+  anchorElement.target = "_blank";
   anchorElement.click();
 };
 
@@ -94,6 +112,10 @@ const questionnairesListHeaders = [
     width: "40px",
   },
 ] as QTableColumn[];
+
+onMounted(() => {
+  useRequestPayload(queryParams, questionnairesStore.getQuestionnaires, { clearableParams: ["page"] });
+});
 </script>
 
 <template>
@@ -108,13 +130,14 @@ const questionnairesListHeaders = [
       </template>
       <template #filters>
         <div class="q-pa-md" style="max-width: 300px">
-          <q-input v-model="dateFilter" dense filled>
+          <q-input v-model="dateToString" dense filled>
             <template #append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                  <q-date v-model="dateFilter" range>
+                  <q-date v-model="dateFilter" range @update:model-value="setData">
                     <div class="row items-center justify-end">
-                      <q-btn v-close-popup label="Close" color="primary" flat />
+                      <q-btn v-close-popup label="Закрыть" color="primary" flat />
+                      <q-btn v-close-popup label="Сбросить" color="primary" flat @click="dateClear()" />
                     </div>
                   </q-date>
                 </q-popup-proxy>
@@ -128,8 +151,8 @@ const questionnairesListHeaders = [
         <div :class="cellClass" class="justify-center">{{ item.title }}</div>
         <div :class="cellClass" class="justify-center">{{ item.updatedAt }}</div>
         <div :class="cellClass" class="justify-center">
-          <span v-if="item.status === undefined">Ожидает ответа</span>
-          <span>Ответ от {{ item.status }}</span>
+          <span v-if="!item.status">Ожидает ответа</span>
+          <span v-else>Ответ от {{ item.status }}</span>
         </div>
         <div :class="cellClass" class="justify-center">
           <span v-if="!item.parented">Не назначено</span>
