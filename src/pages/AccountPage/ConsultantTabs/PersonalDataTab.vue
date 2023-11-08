@@ -22,8 +22,8 @@ type TPersonalData = {
   phone?: string;
   specializationId?: number | null;
   professionId?: number | null;
-  text: string;
-  file: File | FileList | null;
+  description: string;
+  image: File | FileList | null;
 };
 
 const authStore = useAuthStore();
@@ -39,8 +39,8 @@ const data = ref<TPersonalData>({
   email: authStore.user?.email,
   specializationId: null,
   professionId: null,
-  text: "",
-  file: null,
+  description: "",
+  image: null,
 });
 
 const { handleBlur, getErrorAttrs, isValid } = useValidation<TPersonalData>(data, emit, {
@@ -49,8 +49,8 @@ const { handleBlur, getErrorAttrs, isValid } = useValidation<TPersonalData>(data
   email: { requiredValidator, emailValidator },
   specializationId: { requiredValidator },
   professionId: { requiredValidator },
-  file: { requiredValidator },
-  text: { requiredValidator, minLengthValidator: minLengthValidator(15) },
+  image: { requiredValidator },
+  description: { requiredValidator, minLengthValidator: minLengthValidator(15) },
 });
 
 const resetData = () => {
@@ -59,6 +59,8 @@ const resetData = () => {
   data.value.email = authStore.user?.email;
   data.value.specializationId = consultantStore.consultantInfo?.specialization?.id;
   data.value.professionId = consultantStore.consultantInfo?.profession?.id;
+  data.value.image = null;
+  data.value.description = "";
 };
 const handleForm = () => {
   consultantStore.setNewConsultantInfo();
@@ -159,15 +161,24 @@ onMounted(() => {
           map-options
           @blur="handleBlur('professionId')" />
 
-        <q-file v-model="data.file" accept="image/*" outlined :filter="checkFileType" label="Выберите изображение" />
+        <q-file
+          v-bind="getErrorAttrs('image')"
+          v-model="data.image"
+          accept="image/*"
+          outlined
+          :filter="checkFileType"
+          label="Выберите изображение"
+          @blur="handleBlur('image')" />
 
         <q-input
-          v-model="data.text"
+          v-bind="getErrorAttrs('description')"
+          v-model="data.description"
           type="textarea"
           class="fit q-mb-sm"
           input-class="q-select--form"
           label="Описание*"
-          outlined />
+          outlined
+          @blur="handleBlur('description')" />
       </q-form>
       <div class="personal-form__block">
         <q-btn
