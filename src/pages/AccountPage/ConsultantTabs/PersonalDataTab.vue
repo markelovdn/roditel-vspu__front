@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-// import { QTableColumn } from "quasar";
 import { emit } from "process";
 import { onMounted, ref, watch } from "vue";
 
@@ -11,20 +10,13 @@ import {
   splitNameValidator,
   useValidation,
 } from "@/hooks/useValidation";
+// Todo Разобратся что за ошибка
+// eslint-disable-next-line import/no-cycle
 import { useAuthStore } from "@/stores/authStore";
 import { useCollectionsStore } from "@/stores/collectionsStore";
 import { useConsultantStore } from "@/stores/consultantStore";
-// import notify from "@/utils/notify";
 
-type TPersonalData = {
-  name?: string;
-  email?: string;
-  phone?: string;
-  specializationId?: number | null;
-  professionId?: number | null;
-  description: string;
-  image: File | FileList | null;
-};
+import { TPersonalDataPayload } from "./types";
 
 const authStore = useAuthStore();
 const consultantStore = useConsultantStore();
@@ -33,7 +25,7 @@ const collectionsStore = useCollectionsStore();
 const { getSpecializations: optionsSpecializations, getProfessions: optionsProfessions } =
   storeToRefs(collectionsStore);
 
-const data = ref<TPersonalData>({
+const data = ref<TPersonalDataPayload>({
   name: authStore.user?.fullName,
   phone: authStore.user?.phone,
   email: authStore.user?.email,
@@ -43,7 +35,7 @@ const data = ref<TPersonalData>({
   image: null,
 });
 
-const { handleBlur, getErrorAttrs, isValid } = useValidation<TPersonalData>(data, emit, {
+const { handleBlur, getErrorAttrs, isValid } = useValidation<TPersonalDataPayload>(data, emit, {
   name: { requiredValidator, splitNameValidator },
   phone: { requiredValidator, minLengthValidator: minLengthValidator(17) },
   email: { requiredValidator, emailValidator },
@@ -62,8 +54,9 @@ const resetData = () => {
   data.value.image = null;
   data.value.description = "";
 };
+
 const handleForm = () => {
-  consultantStore.setNewConsultantInfo();
+  consultantStore.setNewConsultantInfo(data.value);
 };
 
 const checkFileType = (files: readonly File[] | FileList | null | undefined) => {

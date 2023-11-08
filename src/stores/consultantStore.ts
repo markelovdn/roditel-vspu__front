@@ -4,6 +4,7 @@ import { ref } from "vue";
 import { consultantApi } from "@/api";
 import { toConsultantReportsData } from "@/api/Consultant/mappers";
 import { TGetConsultantInfo, TGetConsultantReportsData, TGetConsultantReportsFilter } from "@/api/Consultant/types";
+import { TPersonalDataPayload } from "@/pages/AccountPage/ConsultantTabs/types";
 
 import { useAuthStore } from "./authStore";
 
@@ -26,11 +27,9 @@ export const useConsultantStore = defineStore("consultantStore", () => {
   async function createReport(payload: FormData) {
     if (consultantId === undefined) return;
     try {
-      const resp = consultantApi.createReport(consultantId, payload).then((resp) => resp.status);
-      return Promise.resolve(resp);
+      return consultantApi.createReport(consultantId, payload).then((resp) => resp.status);
     } catch (err) {
       console.log(err);
-      return Promise.reject(err);
     }
   }
 
@@ -38,8 +37,15 @@ export const useConsultantStore = defineStore("consultantStore", () => {
     if (consultantId === undefined) return;
     consultantApi.getConsultantInfo(consultantId).then((resp) => (consultantInfo.value = resp.data.data[0]));
   }
-  function setNewConsultantInfo() {
+
+  function setNewConsultantInfo(payload: TPersonalDataPayload) {
     if (consultantId === undefined) return;
+    try {
+      const resp = consultantApi.setConsultantInfo(consultantId, payload).then((resp) => resp.status);
+      return Promise.resolve(resp);
+    } catch (err) {
+      return Promise.reject(err);
+    }
   }
 
   return {
