@@ -38,5 +38,16 @@ export const useConsultantStore = defineStore("consultantStore", () => {
     if (consultantId === undefined) return;
     consultantApi.getConsultantInfo(consultantId).then((resp) => (consultantInfo.value = resp.data.data[0]));
   }
-  return { requestReports, reportsModel, getReports, createReport, consultantInfo, getConsultantInfo };
+  function setNewConsultantInfo() {
+    if (consultantId === undefined) return;
+  }
+  return {
+    requestReports,
+    reportsModel,
+    getReports,
+    createReport,
+    consultantInfo,
+    getConsultantInfo,
+    setNewConsultantInfo,
+  };
 });
