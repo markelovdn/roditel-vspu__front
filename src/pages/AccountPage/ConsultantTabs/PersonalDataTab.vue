@@ -22,6 +22,8 @@ type TPersonalData = {
   phone?: string;
   specializationId?: number | null;
   professionId?: number | null;
+  text: string;
+  file: File | FileList | null;
 };
 
 const authStore = useAuthStore();
@@ -37,6 +39,8 @@ const data = ref<TPersonalData>({
   email: authStore.user?.email,
   specializationId: null,
   professionId: null,
+  text: "",
+  file: null,
 });
 
 const { handleBlur, getErrorAttrs, isValid } = useValidation<TPersonalData>(data, emit, {
@@ -45,6 +49,8 @@ const { handleBlur, getErrorAttrs, isValid } = useValidation<TPersonalData>(data
   email: { requiredValidator, emailValidator },
   specializationId: { requiredValidator },
   professionId: { requiredValidator },
+  file: { requiredValidator },
+  text: { requiredValidator, minLengthValidator: minLengthValidator(15) },
 });
 
 const resetData = () => {
@@ -56,6 +62,18 @@ const resetData = () => {
 };
 const handleForm = () => {
   consultantStore.setNewConsultantInfo();
+};
+
+const checkFileType = (files: readonly File[] | FileList | null | undefined) => {
+  if (!files) {
+    return [];
+  }
+
+  const fileList = "length" in files ? Array.from(files) : files;
+  const allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/jpg"];
+
+  const filteredFiles = fileList.filter((file: File) => allowedTypes.includes(file.type));
+  return filteredFiles;
 };
 
 watch(
@@ -140,6 +158,16 @@ onMounted(() => {
           emit-value
           map-options
           @blur="handleBlur('professionId')" />
+
+        <q-file v-model="data.file" accept="image/*" outlined :filter="checkFileType" label="Выберите изображение" />
+
+        <q-input
+          v-model="data.text"
+          type="textarea"
+          class="fit q-mb-sm"
+          input-class="q-select--form"
+          label="Описание*"
+          outlined />
       </q-form>
       <div class="personal-form__block">
         <q-btn
