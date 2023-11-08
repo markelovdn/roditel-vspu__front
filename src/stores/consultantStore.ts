@@ -41,12 +41,13 @@ export const useConsultantStore = defineStore("consultantStore", () => {
   function setNewConsultantInfo() {
     if (consultantId === undefined) return;
   }
+
   return {
     requestReports,
     reportsModel,
+    consultantInfo,
     getReports,
     createReport,
-    consultantInfo,
     getConsultantInfo,
     setNewConsultantInfo,
   };
