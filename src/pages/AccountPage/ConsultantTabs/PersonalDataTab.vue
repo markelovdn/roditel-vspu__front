@@ -39,13 +39,24 @@ const data = ref<TPersonalData>({
   professionId: null,
 });
 
-const { handleBlur, getErrorAttrs } = useValidation<TPersonalData>(data, emit, {
+const { handleBlur, getErrorAttrs, isValid } = useValidation<TPersonalData>(data, emit, {
   name: { requiredValidator, splitNameValidator },
   phone: { requiredValidator, minLengthValidator: minLengthValidator(17) },
   email: { requiredValidator, emailValidator },
   specializationId: { requiredValidator },
   professionId: { requiredValidator },
 });
+
+const resetData = () => {
+  data.value.name = authStore.user?.fullName;
+  data.value.phone = authStore.user?.phone;
+  data.value.email = authStore.user?.email;
+  data.value.specializationId = consultantStore.consultantInfo?.specialization?.id;
+  data.value.professionId = consultantStore.consultantInfo?.profession?.id;
+};
+const handleForm = () => {
+  consultantStore.setNewConsultantInfo();
+};
 
 watch(
   () => consultantStore.consultantInfo,
@@ -130,16 +141,28 @@ onMounted(() => {
           map-options
           @blur="handleBlur('professionId')" />
       </q-form>
+      <div class="personal-form__block">
+        <q-btn
+          label="Сохранить изменения"
+          :disable="!isValid"
+          class="q-btn--form"
+          color="primary"
+          @click="handleForm()" />
+        <q-btn
+          label="Отменить"
+          class="q-ml-sm q-btn--form"
+          :disable="isValid"
+          flat
+          :ripple="false"
+          color="grey-1"
+          @click="resetData()" />
+      </div>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .personal-form {
-  background-color: var(--background-table);
-  border-radius: 10px;
-  box-shadow: 0 4px 35px 0 rgb(46 56 144 / 8%);
-
   &__header {
     display: flex;
     justify-content: space-between;
@@ -149,12 +172,6 @@ onMounted(() => {
     background-color: $white;
     border-radius: 10px 10px 0 0;
     filter: drop-shadow(0 4px 4px rgb(0 0 0 / 3%));
-  }
-  &__noData {
-    text-align: center;
-    padding: 40px 20px;
-    font-size: 18px;
-    opacity: 0.4;
   }
 
   &__box {
@@ -166,6 +183,11 @@ onMounted(() => {
     background-color: $white;
     border-radius: 0px 0px 10px 10px;
     filter: drop-shadow(0 4px 4px rgb(0 0 0 / 3%));
+  }
+
+  &__block {
+    margin-top: 27px;
+    display: flex;
   }
 }
 </style>
