@@ -1,7 +1,17 @@
-export type TWebinarsLectors = string[];
+export type TWebinarsLector = {
+  id: number;
+  lectorName: string;
+  lectorDescription: string;
+  lectorDepartment: string;
+  lectorPhoto: string;
+};
+export type TWebinarsLectors = TWebinarsLector[];
+export type TRequestWebinarsLectors = {
+  data: TWebinarsLectors;
+};
 export type TWebinarsRequestOption = {
   page: number;
-  lector?: string;
+  lector?: number; // lector id
   category?: number; // id категории
   actual?: "yes" | "no";
   dateBetween?: string; //Вебинары в указанный промежуток дат "04.10.2023,07.10.2023";
@@ -20,13 +30,7 @@ export type TWebinarData = {
     timeStart: string; // "03.58";
     timeEnd: string; //"05.36";
     questions: { id: number; questionText: string }[];
-    lectors: {
-      id: number;
-      lectorName: string;
-      lectorDescription: string;
-      lectorDepartment: string;
-      lectorPhoto: string;
-    }[];
+    lectors: TWebinarsLectors;
   }[];
   links: any;
   meta: any;

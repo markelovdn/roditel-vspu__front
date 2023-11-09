@@ -12,10 +12,15 @@ const props = defineProps<IWebinarsCard>();
 const labels = computed(() => [
   { category: "Категория", value: props.item.category },
   { category: "Дата и время", value: props.item.date },
-  { category: "Лектор", value: props.item.lector },
+  {
+    category: props.item.lectors?.length > 1 ? "Лекторы" : "Лектор",
+    value: props.item.lectors.reduce(
+      (acm, item, i, arr) => acm + item.lectorName + (i === arr.length - 1 ? "" : ", "),
+      "",
+    ),
+  },
   { category: "Стоимость", value: props.item.cost ? props.item.cost + " р" : "бесплатно" },
 ]);
-labels;
 </script>
 
 <template>

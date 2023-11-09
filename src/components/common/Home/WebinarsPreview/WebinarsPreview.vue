@@ -7,15 +7,15 @@ import { useRequestPayload } from "@/hooks/useRequestPayload";
 import { useWebinarsStore } from "@/stores/webinarsStore";
 
 import WebinarsFilter from "./WebinarsFilter.vue";
-const queryParams = ref<TWebinarsRequestOption>({});
+
+const queryParams = ref<TWebinarsRequestOption>({ page: 1 });
 const webinarsStore = useWebinarsStore();
-webinarsStore.clearFilters();
-webinarsStore.requestWebinars({});
+
 const setPage = (page: number) => (queryParams.value.page = page);
 const setFilters = (filters: TWebinarsRequestOption) => Object.assign(queryParams.value, filters);
 
 useRequestPayload(queryParams, webinarsStore.requestWebinars, {
-  clearableParams: { page: 1 },
+  // clearableParams: { page: 1 },
   // watchParams: ["page"],
 });
 </script>
