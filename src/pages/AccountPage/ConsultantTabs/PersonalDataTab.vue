@@ -57,6 +57,7 @@ const resetData = () => {
 
 const handleForm = () => {
   consultantStore.setNewConsultantInfo(data.value);
+  consultantStore.setNewConsultantPhoto(data.value);
 };
 
 const checkFileType = (files: readonly File[] | FileList | null | undefined) => {
@@ -162,6 +163,8 @@ onMounted(() => {
           :filter="checkFileType"
           label="Выберите изображение"
           @blur="handleBlur('image')" />
+
+        {{ consultantStore.consultantInfo }}
 
         <q-input
           v-bind="getErrorAttrs('description')"

@@ -22,15 +22,21 @@ export class ConsultantApiService {
     const splitName: Array<string> = (data.name as string).split(" ");
 
     return axios.put<any>(`/users/${consultantId}`, {
-      first_name: splitName[0],
-      second_name: splitName[1],
+      firstName: splitName[0],
+      secondName: splitName[1],
       patronymic: splitName[2],
       phone: data.phone,
       email: data.email,
-      specialization_id: data.specializationId,
-      profession_id: data.professionId,
+      specializationId: data.specializationId,
+      professionId: data.professionId,
       description: data.description,
-      photo: data.image,
     });
+  }
+
+  setConsultantPhoto(data: TPersonalDataPayload) {
+    const formData = new FormData();
+    formData.append("photo", data.image as File);
+
+    return axios.post<any>(`/uploadPhotoConsultant`, formData);
   }
 }

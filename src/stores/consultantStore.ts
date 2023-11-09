@@ -48,6 +48,16 @@ export const useConsultantStore = defineStore("consultantStore", () => {
     }
   }
 
+  function setNewConsultantPhoto(payload: TPersonalDataPayload) {
+    if (consultantId === undefined) return;
+    try {
+      const resp = consultantApi.setConsultantPhoto(payload).then((resp) => resp.status);
+      return Promise.resolve(resp);
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  }
+
   return {
     requestReports,
     reportsModel,
@@ -56,5 +66,6 @@ export const useConsultantStore = defineStore("consultantStore", () => {
     createReport,
     getConsultantInfo,
     setNewConsultantInfo,
+    setNewConsultantPhoto,
   };
 });
