@@ -5,6 +5,7 @@ import { consultantApi } from "@/api";
 import { toConsultantReportsData } from "@/api/Consultant/mappers";
 import { TGetConsultantInfo, TGetConsultantReportsData, TGetConsultantReportsFilter } from "@/api/Consultant/types";
 import { TPersonalDataPayload } from "@/pages/AccountPage/ConsultantTabs/types";
+import notify from "@/utils/notify";
 
 import { useAuthStore } from "./authStore";
 
@@ -40,22 +41,18 @@ export const useConsultantStore = defineStore("consultantStore", () => {
 
   function setNewConsultantInfo(payload: TPersonalDataPayload) {
     if (consultantId === undefined) return;
-    try {
-      const resp = consultantApi.setConsultantInfo(consultantId, payload).then((resp) => resp.status);
-      return Promise.resolve(resp);
-    } catch (err) {
-      return Promise.reject(err);
-    }
+    return consultantApi
+      .setConsultantInfo(consultantId, payload)
+      .then(() => notify({ type: "positive", message: "Данные успешно сохранены" }))
+      .catch(() => notify({ type: "negative", message: "Не удалось сохранить данные" }));
   }
 
   function setNewConsultantPhoto(payload: TPersonalDataPayload) {
     if (consultantId === undefined) return;
-    try {
-      const resp = consultantApi.setConsultantPhoto(payload).then((resp) => resp.status);
-      return Promise.resolve(resp);
-    } catch (err) {
-      return Promise.reject(err);
-    }
+    return consultantApi
+      .setConsultantPhoto(payload)
+      .then(() => notify({ type: "positive", message: "Фотография успешно сохранено" }))
+      .catch(() => notify({ type: "negative", message: "Не удалось сохранить фотографию" }));
   }
 
   return {

@@ -7,7 +7,7 @@ export type TPersonalDataPayload = {
   specializationId?: number | null;
   professionId?: number | null;
   description: string;
-  image: File | FileList | null;
+  image?: File | FileList | null;
 };
 
 export const consultantTabs = [

@@ -15,7 +15,6 @@ import {
 import { useAuthStore } from "@/stores/authStore";
 import { useCollectionsStore } from "@/stores/collectionsStore";
 import { useConsultantStore } from "@/stores/consultantStore";
-import notify from "@/utils/notify";
 
 import { TPersonalDataPayload } from "./types";
 
@@ -42,7 +41,6 @@ const { handleBlur, getErrorAttrs, isValid } = useValidation<TPersonalDataPayloa
   email: { requiredValidator, emailValidator },
   specializationId: { requiredValidator },
   professionId: { requiredValidator },
-  image: { requiredValidator },
   description: { requiredValidator, minLengthValidator: minLengthValidator(15) },
 });
 
@@ -56,25 +54,14 @@ const resetData = () => {
   data.value.description = "";
 };
 
-const onSuccesChangeInfo = () => {
-  notify({ type: "positive", message: "Данные успешно сохранены" });
-};
-
-const onFailChangeInfo = () => {
-  notify({ type: "negative", message: "Не удалось сохранить данные" });
-};
-
-const onSuccesPhotoUpload = () => {
-  notify({ type: "positive", message: "Фотография успешно сохранено" });
-};
-
-const onFailPhotoUpload = () => {
-  notify({ type: "negative", message: "Не удалось сохранить фотографию" });
-};
-
 const handleForm = () => {
-  consultantStore.setNewConsultantInfo(data.value)?.then(onSuccesChangeInfo, onFailChangeInfo);
-  consultantStore.setNewConsultantPhoto(data.value)?.then(onSuccesPhotoUpload, onFailPhotoUpload);
+  Promise.allSettled([
+    consultantStore.setNewConsultantInfo(data.value),
+    consultantStore.setNewConsultantPhoto(data.value),
+  ]).then(() => {
+    authStore.requestUserInfo();
+    consultantStore.getConsultantInfo();
+  });
 };
 
 const checkFileType = (files: readonly File[] | FileList | null | undefined) => {
@@ -179,8 +166,7 @@ onMounted(() => {
           accept="image/*"
           outlined
           :filter="checkFileType"
-          label="Выберите изображение"
-          @blur="handleBlur('image')" />
+          label="Выберите изображение" />
 
         <q-input
           v-bind="getErrorAttrs('description')"
@@ -194,8 +180,9 @@ onMounted(() => {
 
         <q-img
           :src="consultantStore.consultantInfo?.photo"
+          style="height: 145px; max-width: 150px"
           spinner-color="white"
-          style="height: 140px; max-width: 150px" />
+          class="personal-form__img" />
       </q-form>
       <div class="personal-form__block">
         <q-btn
@@ -244,6 +231,10 @@ onMounted(() => {
   &__block {
     margin-top: 27px;
     display: flex;
+  }
+
+  &__img {
+    border-radius: 50%;
   }
 }
 </style>
