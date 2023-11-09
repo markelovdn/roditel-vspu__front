@@ -15,6 +15,7 @@ import {
 import { useAuthStore } from "@/stores/authStore";
 import { useCollectionsStore } from "@/stores/collectionsStore";
 import { useConsultantStore } from "@/stores/consultantStore";
+import notify from "@/utils/notify";
 
 import { TPersonalDataPayload } from "./types";
 
@@ -55,9 +56,25 @@ const resetData = () => {
   data.value.description = "";
 };
 
+const onSuccesChangeInfo = () => {
+  notify({ type: "positive", message: "Данные успешно сохранены" });
+};
+
+const onFailChangeInfo = () => {
+  notify({ type: "negative", message: "Не удалось сохранить данные" });
+};
+
+const onSuccesPhotoUpload = () => {
+  notify({ type: "positive", message: "Фотография успешно сохранено" });
+};
+
+const onFailPhotoUpload = () => {
+  notify({ type: "negative", message: "Не удалось сохранить фотографию" });
+};
+
 const handleForm = () => {
-  consultantStore.setNewConsultantInfo(data.value);
-  consultantStore.setNewConsultantPhoto(data.value);
+  consultantStore.setNewConsultantInfo(data.value)?.then(onSuccesChangeInfo, onFailChangeInfo);
+  consultantStore.setNewConsultantPhoto(data.value)?.then(onSuccesPhotoUpload, onFailPhotoUpload);
 };
 
 const checkFileType = (files: readonly File[] | FileList | null | undefined) => {
@@ -78,6 +95,7 @@ watch(
     if (newConsultantInfo) {
       data.value.specializationId = newConsultantInfo.specialization?.id;
       data.value.professionId = newConsultantInfo.profession?.id;
+      data.value.description = newConsultantInfo.description ?? "";
     }
   },
 );
@@ -164,8 +182,6 @@ onMounted(() => {
           label="Выберите изображение"
           @blur="handleBlur('image')" />
 
-        {{ consultantStore.consultantInfo }}
-
         <q-input
           v-bind="getErrorAttrs('description')"
           v-model="data.description"
@@ -175,6 +191,11 @@ onMounted(() => {
           label="Описание*"
           outlined
           @blur="handleBlur('description')" />
+
+        <q-img
+          :src="consultantStore.consultantInfo?.photo"
+          spinner-color="white"
+          style="height: 140px; max-width: 150px" />
       </q-form>
       <div class="personal-form__block">
         <q-btn
