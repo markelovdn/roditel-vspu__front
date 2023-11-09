@@ -1,7 +1,7 @@
 export type TGetConsultantQuestionnairesFilter = {
   page?: string | number;
   dateBetween?: string;
-  questionStatus?: string;
+  status?: string;
 };
 
 export type TQuestionType = "text" | "single" | "many";

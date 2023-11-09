@@ -13,6 +13,12 @@ const dateFilter = ref();
 const alert = useAlert();
 const queryParams = ref<TGetConsultantQuestionnairesFilter>({ page: 1 });
 const setPage = (page: number) => (queryParams.value.page = page);
+const filterStatusSelect = [
+  { value: "", label: "Все" },
+  { value: "answered", label: "Отвеченые" },
+  { value: "notAnswered", label: "Ожидат ответа" },
+];
+const statusFilter = ref<string>("");
 
 const questionnairesListRows = computed(() => {
   return questionnairesStore.questionnaires.map((el) => el);
@@ -23,6 +29,14 @@ const setData = (value?: any) => {
     queryParams.value.dateBetween = `${value.from}, ${value.to}`;
   } else {
     delete queryParams.value["dateBetween"];
+  }
+};
+
+const setStatus = (value?: any) => {
+  if (value != "") {
+    queryParams.value.status = value;
+  } else {
+    delete queryParams.value["status"];
   }
 };
 
@@ -129,7 +143,7 @@ onMounted(() => {
         </router-link>
       </template>
       <template #filters>
-        <div class="q-pa-md" style="max-width: 300px">
+        <div class="q-pa-md row no-wrap" style="max-width: 300px">
           <q-input v-model="dateToString" dense filled>
             <template #append>
               <q-icon name="event" class="cursor-pointer">
@@ -144,6 +158,16 @@ onMounted(() => {
               </q-icon>
             </template>
           </q-input>
+          <q-select
+            v-model="statusFilter"
+            input-class="q-select--form"
+            label="Статус*"
+            outlined
+            :options="filterStatusSelect"
+            :option-label="(item) => item.label"
+            emit-value
+            map-options
+            @update:model-value="(value) => setStatus(value)" />
         </div>
       </template>
       <template #item="{ item, index, cellClass }">
@@ -202,4 +226,24 @@ onMounted(() => {
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.filters {
+  border: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: 20px;
+
+  &__date {
+    align-self: center;
+    margin-top: 10px;
+  }
+
+  &__status {
+    width: 50px;
+  }
+}
+</style>
