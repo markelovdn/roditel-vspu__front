@@ -19,7 +19,7 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
   });
 
   function requestLectors() {
-    webinarsApi.getLectors().then((resp) => (lectors.value = resp.data));
+    webinarsApi.getLectors().then((resp) => (lectors.value = resp.data.data));
   }
   function requestWebinarCategories() {
     webinarsApi.getCategories().then((resp) => (webinarCategories.value = resp.data.data));
@@ -40,8 +40,8 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
     return [{ label: "Все", value: 0 }, ...getWebinarCategories.value];
   });
   const getWebinarLectors = computed(() => {
-    return lectors.value.map((item: string) => {
-      return { label: item, value: item };
+    return lectors.value.map((item) => {
+      return { label: item.lectorName, value: item.id };
     });
   });
   const getWebinarLectorsWithAll = computed(() => {

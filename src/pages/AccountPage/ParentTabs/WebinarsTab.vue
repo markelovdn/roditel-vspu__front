@@ -17,7 +17,9 @@ const paginationPage = ref(1);
 const inputDate = ref();
 const search = ref();
 const specializationId = ref(0);
-const queryParams = ref<TWebinarsRequestOption>({ page: 1 });
+const lectorId = ref(0);
+const actual = ref("yes");
+const queryParams = ref<TWebinarsRequestOption>({ page: 1, actual: "yes" });
 const dateToString = computed(() =>
   inputDate.value ? `c ${inputDate.value.from} по ${inputDate.value.to}` : "Выберите дату",
 );
@@ -33,8 +35,8 @@ const setData = (value?: any) => {
   }
 };
 const setSpecialization = (value: string) => (queryParams.value.category = Number(value));
-const setLectors = (value: string) => (queryParams.value.lector = value);
-
+const setLectors = (value: string) => (queryParams.value.lector = Number(value));
+const setActual = (value: "yes" | "no") => (queryParams.value.actual = value);
 watch(search, () => (queryParams.value.searchField = search.value));
 
 onMounted(() => {
@@ -49,8 +51,17 @@ onMounted(() => {
     <TableWrapper :items="webinarsStore.webinars" :cards-list="true" :title="'Вебинары'">
       <template #header_right>
         <div>
-          <q-btn color="primary">Актуальные</q-btn>
-          <q-btn>Прошедшие</q-btn>
+          <q-btn-toggle
+            v-model="actual"
+            spread
+            no-caps
+            toggle-color="primary"
+            text-color="primary"
+            :options="[
+              { label: 'Актуальные', value: 'yes' },
+              { label: 'Прошедшие', value: 'no' },
+            ]"
+            @update:model-value="setActual" />
         </div>
       </template>
       <template #filters>
@@ -93,7 +104,7 @@ onMounted(() => {
           </div>
           <div class="q-pa-md" style="width: 250px">
             <q-select
-              v-model="specializationId"
+              v-model="lectorId"
               input-class="q-select--form"
               label="Специализация*"
               outlined

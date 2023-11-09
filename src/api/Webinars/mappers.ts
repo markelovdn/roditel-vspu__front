@@ -8,7 +8,7 @@ export const toTWebinarCardData = (webinarData: TWebinarData): TWebinarCardData[
       imageUrl: item.logo,
       title: item.title,
       category: item.webinarCategory.title,
-      lector: item.lectors.reduce((acm, item, index) => (acm += index ? ", " + item.lectorName : item.lectorName), ""),
+      lectors: item.lectors,
       cost: item.cost,
       date: item.date + ` с ${item.timeStart} до ${item.timeEnd}`,
     };

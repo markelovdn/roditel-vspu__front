@@ -13,7 +13,7 @@ const webinarsStore = useWebinarsStore();
 const { getWebinarCategoriesWithAll: optionsCategories } = storeToRefs(webinarsStore);
 const specializationId = ref(0);
 
-const filters = ref<TWebinarsRequestOption>({});
+const filters = ref<TWebinarsRequestOption>({ page: 1 });
 const date = ref();
 const dateToString = computed(() => (date.value ? `c ${date.value.from} по ${date.value.to}` : "Выберите дату"));
 const dateClear = () => {
