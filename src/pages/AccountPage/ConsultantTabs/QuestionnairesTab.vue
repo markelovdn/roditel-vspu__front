@@ -1,15 +1,18 @@
 <script setup lang="ts">
 import { QTableColumn } from "quasar";
-import { computed, onMounted, ref } from "vue";
+import { computed, ref } from "vue";
 
 import { TGetConsultantQuestionnairesFilter } from "@/api/Questionnaires/types";
 import TableWrapper from "@/components/TableWrapper/TableWrapper.vue";
 import useAlert from "@/hooks/useAlert";
 import { useRequestPayload } from "@/hooks/useRequestPayload";
 import { useQuestionnairesStore } from "@/stores/questionnairesStore";
+import handleFileDownload from "@/utils/handlers";
+
+import { type TDateFilter } from "./types";
 
 const questionnairesStore = useQuestionnairesStore();
-const dateFilter = ref();
+const dateFilter = ref<TDateFilter | null>();
 const alert = useAlert();
 const queryParams = ref<TGetConsultantQuestionnairesFilter>({ page: 1 });
 const setPage = (page: number) => (queryParams.value.page = page);
@@ -18,13 +21,16 @@ const filterStatusSelect = [
   { value: "answered", label: "Отвеченые" },
   { value: "notAnswered", label: "Ожидат ответа" },
 ];
-const statusFilter = ref<string>("");
+const statusFilter = ref("");
 
 const questionnairesListRows = computed(() => {
-  return questionnairesStore.questionnaires.map((el) => el);
+  return questionnairesStore.questionnaires;
 });
 
-const setData = (value?: any) => {
+useRequestPayload(queryParams, questionnairesStore.getQuestionnaires, {
+  clearableParams: ["page"],
+});
+const setDataFilter = (value?: any) => {
   if (value) {
     queryParams.value.dateBetween = `${value.from}, ${value.to}`;
   } else {
@@ -32,7 +38,7 @@ const setData = (value?: any) => {
   }
 };
 
-const setStatus = (value?: any) => {
+const setStatusFilter = (value?: any) => {
   if (value != "") {
     queryParams.value.status = value;
   } else {
@@ -42,24 +48,12 @@ const setStatus = (value?: any) => {
 
 const dateClear = () => {
   dateFilter.value = null;
-  setData();
+  setDataFilter();
 };
 
 const dateToString = computed(() =>
   dateFilter.value ? `c ${dateFilter.value.from} по ${dateFilter.value.to}` : "Выберите дату",
 );
-
-useRequestPayload(queryParams, questionnairesStore.getQuestionnaires, {
-  clearableParams: ["page"],
-});
-
-const handleFileDownload = (fileUrl: string, fileName: string) => {
-  const anchorElement = document.createElement("a");
-  anchorElement.href = fileUrl;
-  anchorElement.download = fileName;
-  anchorElement.target = "_blank";
-  anchorElement.click();
-};
 
 const handleDelete = (questionnaireId: number) => {
   alert({
@@ -126,10 +120,6 @@ const questionnairesListHeaders = [
     width: "40px",
   },
 ] as QTableColumn[];
-
-onMounted(() => {
-  useRequestPayload(queryParams, questionnairesStore.getQuestionnaires, { clearableParams: ["page"] });
-});
 </script>
 
 <template>
@@ -148,7 +138,7 @@ onMounted(() => {
             <template #append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                  <q-date v-model="dateFilter" range @update:model-value="setData">
+                  <q-date v-model="dateFilter" range @update:model-value="setDataFilter">
                     <div class="row items-center justify-end">
                       <q-btn v-close-popup label="Закрыть" color="primary" flat />
                       <q-btn v-close-popup label="Сбросить" color="primary" flat @click="dateClear()" />
@@ -167,7 +157,7 @@ onMounted(() => {
             :option-label="(item) => item.label"
             emit-value
             map-options
-            @update:model-value="(value) => setStatus(value)" />
+            @update:model-value="(value) => setStatusFilter(value)" />
         </div>
       </template>
       <template #item="{ item, index, cellClass }">
