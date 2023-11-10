@@ -1,7 +1,7 @@
 export type TGetConsultantQuestionnairesFilter = {
   page?: string | number;
   dateBetween?: string;
-  questionStatus?: string;
+  status?: string;
 };
 
 export type TQuestionType = "text" | "single" | "many";
@@ -11,6 +11,10 @@ export type TQuestionnairePayload = {
   title: string;
   description?: string;
   answerBefore?: string;
+  fileUrl?: string;
+  fileName?: string;
+  status?: string;
+  parented?: string;
   updatedAt?: string;
   questions: Array<TDefaultQuestion>;
 };

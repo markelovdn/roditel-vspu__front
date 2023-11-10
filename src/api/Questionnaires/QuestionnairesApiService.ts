@@ -1,13 +1,13 @@
-import { Ref } from "vue";
-
 import axios from "@/common/axios";
-import { useUrlParams } from "@/hooks/useParamBuilder ";
+import { useParamBuilder, useUrlParams } from "@/hooks/useParamBuilder ";
 
-import { TQuestionnairePayload, TQuestionnairesData } from "./types";
+import { TGetConsultantQuestionnairesFilter, TQuestionnairePayload, TQuestionnairesData } from "./types";
 
 export class QuestionnairesApiService {
-  getQuestionnaires(consultantId: number | string, filters?: Readonly<Ref<URLSearchParams>>) {
-    return axios.get<TQuestionnairesData>(useUrlParams(`/consultant/${consultantId}/questionnaires`, filters));
+  getQuestionnaires(consultantId: number | string, filters: TGetConsultantQuestionnairesFilter) {
+    return axios.get<TQuestionnairesData>(
+      useUrlParams(`/consultant/${consultantId}/questionnaires`, useParamBuilder(filters)),
+    );
   }
 
   addQuestionnaire(consultantId: number | string, questionnaire: TQuestionnairePayload) {

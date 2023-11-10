@@ -23,3 +23,8 @@ export const consultantTabs = [
     panelComponent: defineAsyncComponent(() => import("./PersonalDataTab.vue")),
   },
 ];
+
+export type TDateFilter = {
+  from: string;
+  to: string;
+};
