@@ -5,7 +5,7 @@ import { markRaw } from "vue";
 import AccountWrapper from "@/components/AccountWrapper/AccountWrapper.vue";
 import { useAuthStore } from "@/stores/authStore";
 
-import { consultantTabs } from "./ConsultantTabs/types";
+import { consultantTabs } from "./ConsultantTabs/consultantTabs";
 import { parentTabs } from "./ParentTabs/types";
 import { CONSULTANT_CODE } from "./types";
 
