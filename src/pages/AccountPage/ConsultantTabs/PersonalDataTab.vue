@@ -105,7 +105,7 @@ onMounted(() => {
             v-bind="getErrorAttrs('name')"
             v-model="data.name"
             outlined
-            class="q-mb-sm"
+            class="personal-data__item"
             input-class="q-input--form"
             label="Ф.И.О.*"
             borderless
@@ -116,7 +116,7 @@ onMounted(() => {
             v-bind="getErrorAttrs('phone')"
             v-model="data.phone"
             outlined
-            class="q-mb-sm"
+            class="personal-data__item"
             input-class="q-input--form"
             label="Телефон*"
             mask="+7 (###) ### ####"
@@ -129,7 +129,7 @@ onMounted(() => {
             v-bind="getErrorAttrs('email')"
             v-model="data.email"
             outlined
-            class="q-mb-sm"
+            class="personal-data__item"
             input-class="q-input--form"
             label="Почта*"
             borderless
@@ -141,7 +141,7 @@ onMounted(() => {
             input-class="q-select--form"
             label="Специализация*"
             outlined
-            class="q-mb-sm"
+            class="personal-data__item"
             :options="optionsSpecializations"
             :option-label="(item) => item.label"
             emit-value
@@ -153,7 +153,7 @@ onMounted(() => {
           <q-select
             v-bind="getErrorAttrs('professionId')"
             v-model="data.professionId"
-            class="q-mb-sm"
+            class="personal-data__item"
             input-class="q-select--form"
             label="Подразделение*"
             outlined
@@ -166,7 +166,7 @@ onMounted(() => {
           <q-file
             v-bind="getErrorAttrs('image')"
             v-model="data.image"
-            class="q-mb-sm"
+            class="personal-data__item"
             accept="image/*"
             outlined
             :filter="checkFileType"
@@ -178,13 +178,13 @@ onMounted(() => {
             v-bind="getErrorAttrs('description')"
             v-model="data.description"
             type="textarea"
-            class="q-mb-sm"
+            class="personal-data__item"
             input-class="q-select--form"
             label="Описание*"
             outlined
             @blur="handleBlur('description')" />
 
-          <div class="q-mb-sm">
+          <div class="personal-data__item">
             <q-img :src="consultantStore.consultantInfo?.photo" class="personal-data__img" spinner-color="white" />
           </div>
         </div>
@@ -225,15 +225,14 @@ onMounted(() => {
   &__box {
     display: flex;
     gap: 20px;
-    padding: 15px 35px;
-
-    & > * {
-      flex-basis: 100%;
-    }
-
+    padding: 10px 35px;
     background-color: $white;
     border-radius: 0px 0px 10px 10px;
     filter: drop-shadow(0 4px 4px rgb(0 0 0 / 3%));
+  }
+
+  &__item {
+    flex-basis: 100%;
   }
 
   &__block {
