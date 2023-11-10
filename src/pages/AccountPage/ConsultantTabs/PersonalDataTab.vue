@@ -10,8 +10,6 @@ import {
   splitNameValidator,
   useValidation,
 } from "@/hooks/useValidation";
-// Todo Разобратся что за ошибка
-// eslint-disable-next-line import/no-cycle
 import { useAuthStore } from "@/stores/authStore";
 import { useCollectionsStore } from "@/stores/collectionsStore";
 import { useConsultantStore } from "@/stores/consultantStore";

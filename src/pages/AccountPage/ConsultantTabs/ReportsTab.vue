@@ -6,8 +6,6 @@ import { TGetConsultantReportsFilter } from "@/api/Consultant/types";
 import ReportModal from "@/components/modals/ReportModal/ReportModal.vue";
 import TableWrapper, { TTableWrapperHeaders } from "@/components/TableWrapper/TableWrapper.vue";
 import { useRequestPayload } from "@/hooks/useRequestPayload";
-// Todo Разобратся что за ошибка
-// eslint-disable-next-line import/no-cycle
 import { useConsultantStore } from "@/stores/consultantStore";
 import notify from "@/utils/notify";
 
