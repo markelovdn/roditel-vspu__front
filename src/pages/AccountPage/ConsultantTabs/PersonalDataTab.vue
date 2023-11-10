@@ -93,96 +93,103 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="personal-form">
-    <div class="personal-form__wrapper">
-      <div class="personal-form__header">
+  <div class="personal-data">
+    <div class="personal-data__wrapper">
+      <div class="personal-data__header">
         <h5>Редактирование персональных данных</h5>
       </div>
 
-      <q-form class="personal-form__box">
-        <q-input
-          v-bind="getErrorAttrs('name')"
-          v-model="data.name"
-          outlined
-          class="fit q-mb-sm"
-          input-class="q-input--form"
-          label="Ф.И.О.*"
-          borderless
-          color="primary"
-          @blur="handleBlur('name')" />
+      <q-form class="personal-data__form">
+        <div class="personal-data__box">
+          <q-input
+            v-bind="getErrorAttrs('name')"
+            v-model="data.name"
+            outlined
+            class="q-mb-sm"
+            input-class="q-input--form"
+            label="Ф.И.О.*"
+            borderless
+            color="primary"
+            @blur="handleBlur('name')" />
 
-        <q-input
-          v-bind="getErrorAttrs('phone')"
-          v-model="data.phone"
-          outlined
-          class="fit q-mb-sm"
-          input-class="q-input--form"
-          label="Телефон*"
-          mask="+7 (###) ### ####"
-          borderless
-          @blur="handleBlur('phone')" />
+          <q-input
+            v-bind="getErrorAttrs('phone')"
+            v-model="data.phone"
+            outlined
+            class="q-mb-sm"
+            input-class="q-input--form"
+            label="Телефон*"
+            mask="+7 (###) ### ####"
+            borderless
+            @blur="handleBlur('phone')" />
+        </div>
 
-        <q-input
-          v-bind="getErrorAttrs('email')"
-          v-model="data.email"
-          outlined
-          class="fit q-mb-sm"
-          input-class="q-input--form"
-          label="Почта*"
-          borderless
-          @blur="handleBlur('email')" />
+        <div class="personal-data__box">
+          <q-input
+            v-bind="getErrorAttrs('email')"
+            v-model="data.email"
+            outlined
+            class="q-mb-sm"
+            input-class="q-input--form"
+            label="Почта*"
+            borderless
+            @blur="handleBlur('email')" />
 
-        <q-select
-          v-bind="getErrorAttrs('specializationId')"
-          v-model="data.specializationId"
-          input-class="q-select--form"
-          label="Специализация*"
-          outlined
-          class="fit q-mb-sm"
-          :options="optionsSpecializations"
-          :option-label="(item) => item.label"
-          emit-value
-          map-options
-          @blur="handleBlur('specializationId')" />
+          <q-select
+            v-bind="getErrorAttrs('specializationId')"
+            v-model="data.specializationId"
+            input-class="q-select--form"
+            label="Специализация*"
+            outlined
+            class="q-mb-sm"
+            :options="optionsSpecializations"
+            :option-label="(item) => item.label"
+            emit-value
+            map-options
+            @blur="handleBlur('specializationId')" />
+        </div>
 
-        <q-select
-          v-bind="getErrorAttrs('professionId')"
-          v-model="data.professionId"
-          class="fit q-mb-sm"
-          input-class="q-select--form"
-          label="Подразделение*"
-          outlined
-          :options="optionsProfessions"
-          :option-label="(item) => item.label"
-          emit-value
-          map-options
-          @blur="handleBlur('professionId')" />
+        <div class="personal-data__box">
+          <q-select
+            v-bind="getErrorAttrs('professionId')"
+            v-model="data.professionId"
+            class="q-mb-sm"
+            input-class="q-select--form"
+            label="Подразделение*"
+            outlined
+            :options="optionsProfessions"
+            :option-label="(item) => item.label"
+            emit-value
+            map-options
+            @blur="handleBlur('professionId')" />
 
-        <q-file
-          v-bind="getErrorAttrs('image')"
-          v-model="data.image"
-          accept="image/*"
-          outlined
-          :filter="checkFileType"
-          label="Выберите изображение" />
+          <q-file
+            v-bind="getErrorAttrs('image')"
+            v-model="data.image"
+            class="q-mb-sm"
+            accept="image/*"
+            outlined
+            :filter="checkFileType"
+            label="Выберите изображение" />
+        </div>
 
-        <q-input
-          v-bind="getErrorAttrs('description')"
-          v-model="data.description"
-          type="textarea"
-          class="fit q-mb-sm"
-          input-class="q-select--form"
-          label="Описание*"
-          outlined
-          @blur="handleBlur('description')" />
+        <div class="personal-data__box">
+          <q-input
+            v-bind="getErrorAttrs('description')"
+            v-model="data.description"
+            type="textarea"
+            class="q-mb-sm"
+            input-class="q-select--form"
+            label="Описание*"
+            outlined
+            @blur="handleBlur('description')" />
 
-        <q-img
-          :src="consultantStore.consultantInfo?.photo"
-          style="height: 145px; max-width: 150px"
-          spinner-color="white"
-          class="personal-form__img" />
+          <div class="q-mb-sm">
+            <q-img :src="consultantStore.consultantInfo?.photo" class="personal-data__img" spinner-color="white" />
+          </div>
+        </div>
       </q-form>
-      <div class="personal-form__block">
+      <div class="personal-data__block">
         <q-btn
           label="Сохранить изменения"
           :disable="!isValid"
@@ -203,7 +210,7 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
-.personal-form {
+.personal-data {
   &__header {
     display: flex;
     justify-content: space-between;
@@ -216,10 +223,13 @@ onMounted(() => {
   }
 
   &__box {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
     gap: 20px;
     padding: 15px 35px;
+
+    & > * {
+      flex-basis: 100%;
+    }
 
     background-color: $white;
     border-radius: 0px 0px 10px 10px;
@@ -232,6 +242,8 @@ onMounted(() => {
   }
 
   &__img {
+    height: 145px;
+    max-width: 150px;
     border-radius: 50%;
   }
 }
