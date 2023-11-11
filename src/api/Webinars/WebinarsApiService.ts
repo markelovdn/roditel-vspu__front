@@ -14,4 +14,13 @@ export class WebinarsApiService {
   getCategories() {
     return axios.get<WebinarCategoriesResponse>("/webinarCategories");
   }
+  getWebinarQuestions(id: number) {
+    return axios.get<WebinarCategoriesResponse>(`/webinar/${id}/webinarQuestions`);
+  }
+  registrationPartisipant(webinarId: number, userId: number) {
+    return axios.post(`/webinar/${webinarId}/webinarPartisipants`, {
+      webinarId,
+      userId,
+    });
+  }
 }
