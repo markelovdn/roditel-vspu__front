@@ -37,12 +37,15 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
           message: "Вы успешно зарегистрированы на вебинар",
         });
       })
-      .catch(() => {
-        notify({
-          type: "negative",
-          message: "Произошла ошибка!",
-          // message: "Вы уже зарегистрированы на вебинар",
-        });
+      .catch((err) => {
+        console.log(err.response.status);
+        if (err.response.status !== 401) {
+          notify({
+            type: "negative",
+            message: "Произошла ошибка!",
+            // message: "Вы уже зарегистрированы на вебинар",
+          });
+        }
       });
   }
   function requestWebinars(options: TWebinarsRequestOption) {
