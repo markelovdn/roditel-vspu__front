@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, ref } from "vue";
+
+import ShortProgram from "@/components/modals/WebinarModal/ShortProgram.vue";
 
 import { TWebinarCardData } from "./types";
 
@@ -21,6 +23,7 @@ const labels = computed(() => [
   },
   { category: "Стоимость", value: props.item.cost ? props.item.cost + " р" : "бесплатно" },
 ]);
+const isShowWebinarModal = ref(false);
 </script>
 
 <template>
@@ -44,7 +47,7 @@ const labels = computed(() => [
             <div class="info__description">{{ label.category }}:</div>
             <div class="info__value">{{ label.value }}</div>
           </div>
-          <q-btn color="primary q-mt-lg">Принять участие</q-btn>
+          <q-btn color="primary q-mt-lg" @click="isShowWebinarModal = true">Принять участие</q-btn>
         </div>
 
         <div v-else class="flex justify-between">
@@ -64,7 +67,7 @@ const labels = computed(() => [
                 <div class="info__value">{{ labels[labels.length - 1].value }}</div>
               </div>
             </div>
-            <div class="info__link">
+            <div class="info__link" @click="isShowWebinarModal = true">
               Принять участие
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -89,6 +92,7 @@ const labels = computed(() => [
         </div>
       </div>
     </div>
+    <ShortProgram v-if="isShowWebinarModal" :webinar="item" @close="isShowWebinarModal = false"></ShortProgram>
   </div>
 </template>
 
@@ -110,6 +114,9 @@ const labels = computed(() => [
     color: var(--text-color, #525252);
     font-size: 16px;
     line-height: 120%; /* 19.2px */
+  }
+  &__description {
+    width: 100%;
   }
 }
 .hr {
@@ -139,6 +146,7 @@ const labels = computed(() => [
     color: var(--yellow, #f7b70b);
     font-size: 14px;
     line-height: 16px; /* 114.286% */
+    cursor: pointer;
   }
 }
 </style>

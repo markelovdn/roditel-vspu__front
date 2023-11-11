@@ -6,6 +6,7 @@ import { TCollectionItem } from "@/api/Collections/types";
 import { toTWebinarCardData } from "@/api/Webinars/mappers";
 import { TWebinarsLectors, TWebinarsRequestOption } from "@/api/Webinars/types";
 import { TWebinarCardData } from "@/components/common/Home/WebinarCard/types";
+import notify from "@/utils/notify";
 
 export const useWebinarsStore = defineStore("webinarsStore", () => {
   // Вебинары по дефолту загружается 1 страница. Существуют методы пагинации изменяющие
@@ -17,12 +18,32 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
     current: 1,
     max: 1,
   });
-
+  async function getWebinarQuestions(id: number): Promise<{ id: string; title: string }[]> {
+    const resp = await webinarsApi.getWebinarQuestions(id);
+    return resp.data.data;
+  }
   function requestLectors() {
     webinarsApi.getLectors().then((resp) => (lectors.value = resp.data.data));
   }
   function requestWebinarCategories() {
     webinarsApi.getCategories().then((resp) => (webinarCategories.value = resp.data.data));
+  }
+  function registrationPartisipant(webinarId: number, userId: number) {
+    webinarsApi
+      .registrationPartisipant(webinarId, userId)
+      .then(() => {
+        notify({
+          type: "positive",
+          message: "Вы успешно зарегистрированы на вебинар",
+        });
+      })
+      .catch(() => {
+        notify({
+          type: "negative",
+          message: "Произошла ошибка!",
+          // message: "Вы уже зарегистрированы на вебинар",
+        });
+      });
   }
   function requestWebinars(options: TWebinarsRequestOption) {
     webinarsApi.getWebinars(options).then((resp) => {
@@ -53,6 +74,8 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
     requestLectors,
     requestWebinars,
     requestWebinarCategories,
+    getWebinarQuestions,
+    registrationPartisipant,
     getWebinarCategories,
     getWebinarCategoriesWithAll,
     getWebinarLectors,

@@ -18,8 +18,8 @@ const inputDate = ref();
 const search = ref();
 const specializationId = ref(0);
 const lectorId = ref(0);
-const actual = ref("yes");
-const queryParams = ref<TWebinarsRequestOption>({ page: 1, actual: "yes" });
+const actual = ref<"yes" | "no">("yes");
+const queryParams = ref<TWebinarsRequestOption>({ page: 1, actual: actual.value });
 const dateToString = computed(() =>
   inputDate.value ? `c ${inputDate.value.from} по ${inputDate.value.to}` : "Выберите дату",
 );

@@ -20,6 +20,7 @@ export type TWebinarsRequestOption = {
 
 export type TWebinarData = {
   data: {
+    id: number;
     title: string;
     logo: string;
     webinarCategory: {
@@ -29,7 +30,7 @@ export type TWebinarData = {
     date: string; // "17.01.2016";
     timeStart: string; // "03.58";
     timeEnd: string; //"05.36";
-    questions: { id: number; questionText: string }[];
+    questions: TWebinarQuestion[];
     lectors: TWebinarsLectors;
   }[];
   links: any;
@@ -41,3 +42,4 @@ export type WebinarCategoriesResponse = {
   links: any;
   meta: any;
 };
+export type TWebinarQuestion = { id: number; questionText: string };

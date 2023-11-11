@@ -1,58 +1,25 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
-
-import axios from "@/common/axios";
+import { TWebinarCardData } from "@/components/common/Home/WebinarCard/types";
 import { useModal } from "@/hooks/useModal";
+import { useAuthStore } from "@/stores/authStore";
 
+import { useWebinarsStore } from "../../../stores/webinarsStore";
 import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
-import { type TWebinarResponse } from "./types";
 
 const emit = defineEmits(["close"]);
 
+const props = defineProps<{
+  webinar: TWebinarCardData;
+}>();
+
 const { closeModal } = useModal(emit);
 
-const webinar = ref<TWebinarResponse>({
-  id: null,
-  title: "",
-  questions: [
-    {
-      id: null,
-      questionText: "",
-    },
-  ],
-});
-
-const getWebinarsQuestions = async () => {
-  await axios
-    //TODO:передать id нормально
-    .get("/api/webinars/11")
-    .then((response) => {
-      webinar.value = response.data.data[0];
-      console.log(response);
-    })
-    .catch((errors) => {
-      console.log(errors);
-    });
+const webinarStore = useWebinarsStore();
+const { user } = useAuthStore();
+const webinarRegistration = () => {
+  webinarStore.registrationPartisipant(props.webinar.id, user?.id || 1);
+  closeModal();
 };
-
-const registrationPartisipantToWebinar = async () => {
-  await axios
-    //TODO:передать user_id из стора зарегистрированного пользователя
-    .post("/api/webinarPartisipants", {
-      user_id: 1,
-      webinar_id: 1,
-    })
-    .then((response) => {
-      console.log(response);
-    })
-    .catch((errors) => {
-      console.log(errors);
-    });
-};
-
-onMounted(async () => {
-  getWebinarsQuestions();
-});
 </script>
 
 <template>
@@ -64,12 +31,12 @@ onMounted(async () => {
     <div class="q-pb-lg">
       <span class="question-title text-uppercase">Вопросы к обсуждению:</span>
     </div>
-    <div v-for="(question, index) in webinar.questions">
+    <div v-for="(question, index) in webinar.questions" :key="question.questionText">
       <div class="text-question q-pb-md">{{ index + 1 }}. {{ question.questionText }}</div>
     </div>
 
     <div class="fit q-pt-lg footer">
-      <q-btn label="Принять участие" class="q-btn--form" color="primary" @click="registrationPartisipantToWebinar" />
+      <q-btn label="Принять участие" class="q-btn--form" color="primary" @click="webinarRegistration()" />
     </div>
   </ModalWrapper>
 </template>
