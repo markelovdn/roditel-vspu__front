@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 
 import { useQuestionnaire } from "@/hooks/useQuestionnaire";
 
@@ -13,11 +13,13 @@ type TAnswere = {
   optionId?: number;
 };
 
-const radio = ref(null);
-const checked = ref([]);
-const text = ref("");
+type TOption = Record<number, number>;
+
+const radio = ref<TOption>({});
+const checked = ref<number[]>([]);
+const text = ref([]);
 const answeres = ref<{ radio: TAnswere[]; checked: TAnswere[] }>({ radio: [], checked: [] });
-// const selected = ref<{ questionId: number; optionId?: number | undefined }[]>([]);
+const selected = computed(() => [...answeres.value.radio, ...answeres.value.checked]);
 const other = ref<{ questionId: number; text: string | undefined }[]>([]);
 
 const addRadio = (questionId: number, optionId: number) => {
@@ -32,9 +34,12 @@ const addChecked = (questionId: number, optionId: number) => {
       answeres.value.checked.push({ questionId, optionId });
     }
   });
-  answeres.value.checked = answeres.value.checked.filter((selectedItem) =>
-    checked.value.includes(selectedItem.optionId),
-  );
+
+  answeres.value.checked = answeres.value.checked.filter((selectedItem) => {
+    if (selectedItem.optionId) {
+      checked.value.includes(selectedItem.optionId);
+    }
+  });
 };
 
 const addOtherAnswer = (questionId: number, text: string) => {
@@ -42,10 +47,16 @@ const addOtherAnswer = (questionId: number, text: string) => {
   other.value.push({ questionId, text });
 };
 
+const filterAnswers = (questionIndex: number) => {
+  answeres.value.radio = answeres.value.radio.filter((item) => item.optionId !== radio.value[questionIndex]);
+  delete radio.value[questionIndex];
+};
+
 onMounted(async () => {
   if (router.currentRoute.value.params.id) {
     await questionnairesStore.showQuestionnaire(Number(router.currentRoute.value.params.id));
     SurveyData.value = questionnaire.value;
+    // radio.value = new Array(SurveyData.value.questions.length);
   }
 });
 </script>
@@ -55,10 +66,12 @@ onMounted(async () => {
     <p class="q-mb-sm" label="Название анкеты*">{{ SurveyData.title }}</p>
     <p class="q-mb-sm" label="Название анкеты*">{{ SurveyData.description }}</p>
     <p class="q-mb-sm" label="Название анкеты*">{{ SurveyData.answerBefore }}</p>
-    <p>Выбаранные ответы: {{ answeres }}</p>
+    <p>Выбаранные ответы: {{ selected }}</p>
+    <p>Answeres: {{ answeres }}</p>
     <p>Другое: {{ other }}</p>
     <p>Checked: {{ checked }}</p>
     <p>Radio: {{ radio }}</p>
+    <p>Text: {{ text }}</p>
     <!-- Вопросы -->
     <div class="row justify-center flex-center q-mt-lg">
       <h5>Вопросы</h5>
@@ -68,8 +81,11 @@ onMounted(async () => {
         <p class="q-mb-sm" label="Текст вопроса*">{{ question.text }}</p>
         <p class="q-mb-sm" label="Текст вопроса*">{{ question.description }}</p>
         <!-- Ответы -->
-        <div v-for="(option, optionIndex) in SurveyData.questions[questionIndex].options" :key="optionIndex">
+        <div
+          v-for="(option, optionIndex) in SurveyData.questions[questionIndex].options"
+          :key="option.id + optionIndex">
           <div v-if="SurveyData.questions[questionIndex].type !== 'text'" class="option">
+            {{ optionIndex }}
             <q-checkbox
               v-show="question.type === 'many'"
               v-model="checked"
@@ -77,7 +93,7 @@ onMounted(async () => {
               @update:model-value="addChecked(SurveyData.questions[questionIndex].id, option.id)" />
             <q-radio
               v-show="question.type === 'single'"
-              v-model="radio"
+              v-model="radio[questionIndex]"
               :val="option.id"
               @update:model-value="addRadio(SurveyData.questions[questionIndex].id, option.id)" />
             {{ option.text }}
@@ -85,10 +101,11 @@ onMounted(async () => {
         </div>
         <div class="option">
           <q-input
-            v-model="text"
+            v-model="text[questionIndex]"
             class="option__input"
             label="Другое"
-            @update:model-value="addOtherAnswer(SurveyData.questions[questionIndex].id, text)" />
+            @click="filterAnswers(questionIndex)"
+            @update:model-value="addOtherAnswer(SurveyData.questions[questionIndex].id, text[questionIndex])" />
         </div>
       </div>
     </div>
