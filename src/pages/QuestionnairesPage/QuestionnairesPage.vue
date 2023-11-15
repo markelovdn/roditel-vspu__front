@@ -78,7 +78,20 @@ onMounted(async () => {
         class="fit q-mb-sm"
         label="Название анкеты*"
         @blur="handleBlur('title')" />
-      <q-input v-model="SurveyData.description" autogrow class="fit q-mb-sm" label="Описание анкеты" />
+      <q-input v-model="SurveyData.description" autogrow class="q-mb-sm" label="Описание анкеты" />
+      <q-input v-model="SurveyData.answerBefore" dense mask="##.##.####">
+        <template #append>
+          <q-icon name="event" class="cursor-pointer">
+            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+              <q-date v-model="SurveyData.answerBefore" mask="DD.MM.YYYY">
+                <div class="row items-center justify-end">
+                  <q-btn v-close-popup label="Закрыть" color="primary" flat />
+                </div>
+              </q-date>
+            </q-popup-proxy>
+          </q-icon>
+        </template>
+      </q-input>
     </q-form>
 
     <!-- Вопросы -->

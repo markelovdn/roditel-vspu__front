@@ -11,11 +11,10 @@ export class QuestionnairesApiService {
   }
 
   addQuestionnaire(consultantId: number | string, questionnaire: TQuestionnairePayload) {
-    return axios.post<TQuestionnairePayload>(`/consultant/${consultantId}/questionnaires`, {
+    return axios.post<TQuestionnairePayload>(`/consultant/${consultantId}/questionnaires?XDEBUG_SESSION=VSCODE`, {
       title: questionnaire.title,
       description: questionnaire.description,
-      //TODO: поправить метод для даты
-      answerBefore: "10.08.2000",
+      answerBefore: questionnaire.answerBefore,
       questions: questionnaire.questions,
     });
   }
@@ -29,8 +28,7 @@ export class QuestionnairesApiService {
       id: questionnaire.id,
       title: questionnaire.title,
       description: questionnaire.description,
-      //TODO: поправить метод для даты
-      answerBefore: "10.08.2000",
+      answerBefore: questionnaire.answerBefore,
       questions: questionnaire.questions,
     });
   }

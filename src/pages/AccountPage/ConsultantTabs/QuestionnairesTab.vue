@@ -123,8 +123,6 @@ const questionnairesListHeaders = [
 
 <template>
   <div>
-    dfsdfsfdsfdsdfsdfsdfsdfdsfsdf
-    {{ dateFilter }}
     <TableWrapper :items="questionnairesListRows" :headers="questionnairesListHeaders" :title="'Анкеты'">
       <template #header_right>
         <router-link :to="'/questionnaires'">

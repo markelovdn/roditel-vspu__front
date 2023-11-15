@@ -15,6 +15,7 @@ export type TQuestionnairePayload = {
   fileName?: string;
   status?: string;
   parented?: string;
+  consultant?: string;
   updatedAt?: string;
   questions: Array<TDefaultQuestion>;
 };
