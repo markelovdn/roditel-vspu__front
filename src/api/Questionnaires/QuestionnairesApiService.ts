@@ -1,7 +1,13 @@
 import axios from "@/common/axios";
 import { useParamBuilder, useUrlParams } from "@/hooks/useParamBuilder ";
 
-import { TGetConsultantQuestionnairesFilter, TQuestionnairePayload, TQuestionnairesData } from "./types";
+import {
+  TGetConsultantQuestionnairesFilter,
+  TOtherAnsweres,
+  TQuestionnairePayload,
+  TQuestionnairesData,
+  TSelectedAnsweres,
+} from "./types";
 
 export class QuestionnairesApiService {
   getQuestionnaires(consultantId: number | string, filters: TGetConsultantQuestionnairesFilter) {
@@ -35,5 +41,12 @@ export class QuestionnairesApiService {
 
   deleteQuestionnaire(questionaireId: number | string) {
     return axios.delete(`/questionnaires/${questionaireId}`);
+  }
+
+  setSelectedParentedAnsweres(questionaireId: number | string, selected: TSelectedAnsweres, other: TOtherAnsweres) {
+    return axios.post(`/questionnaire/${questionaireId}/selectedOptions`, {
+      selected: selected,
+      other: other,
+    });
   }
 }

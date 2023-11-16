@@ -37,3 +37,13 @@ export type TQuestionnairesData = {
   links: any;
   meta: any;
 };
+
+export type TSelectedAnsweres = Array<{
+  questionId: number;
+  optionId: number;
+}>;
+
+export type TOtherAnsweres = Array<{
+  questionId: number;
+  text: string;
+}>;

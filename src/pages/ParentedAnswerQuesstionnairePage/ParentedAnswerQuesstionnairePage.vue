@@ -3,28 +3,23 @@ import { storeToRefs } from "pinia";
 import { computed, onMounted, ref } from "vue";
 
 import { useQuestionnaire } from "@/hooks/useQuestionnaire";
+import type { TAnswere, TOther } from "@/pages/ParentedAnswerQuesstionnairePage/types";
 
 const { SurveyData, router, questionnairesStore } = useQuestionnaire();
 
 const { questionnaire } = storeToRefs(questionnairesStore);
 
-type TAnswere = {
-  questionId: number;
-  optionId?: number;
-};
-
-type TOption = Record<number, number>;
-
-const radio = ref<TOption>({});
+const radio = ref<Record<number, number>>({});
 const checked = ref<number[]>([]);
 const text = ref([]);
 const answeres = ref<{ radio: TAnswere[]; checked: TAnswere[] }>({ radio: [], checked: [] });
 const selected = computed(() => [...answeres.value.radio, ...answeres.value.checked]);
-const other = ref<{ questionId: number; text: string | undefined }[]>([]);
+const other = ref<TOther[]>([]);
 
 const addRadio = (questionId: number, optionId: number) => {
   answeres.value.radio = answeres.value.radio.filter((item) => item.questionId !== questionId);
   answeres.value.radio.push({ questionId, optionId });
+  other.value = other.value.filter((item) => item.questionId !== questionId);
 };
 
 const addChecked = (questionId: number, optionId: number) => {
@@ -34,12 +29,13 @@ const addChecked = (questionId: number, optionId: number) => {
       answeres.value.checked.push({ questionId, optionId });
     }
   });
+  answeres.value.checked = answeres.value.checked.filter((selectedItem) =>
+    checked.value.includes(selectedItem.optionId),
+  );
 
-  answeres.value.checked = answeres.value.checked.filter((selectedItem) => {
-    if (selectedItem.optionId) {
-      checked.value.includes(selectedItem.optionId);
-    }
-  });
+  other.value = other.value.filter(
+    (item) => item.questionId !== questionId && item.text !== undefined && item.text !== "",
+  );
 };
 
 const addOtherAnswer = (questionId: number, text: string) => {
@@ -47,16 +43,28 @@ const addOtherAnswer = (questionId: number, text: string) => {
   other.value.push({ questionId, text });
 };
 
-const filterAnswers = (questionIndex: number) => {
+const filterAnswers = (questionIndex: number, questionId: number) => {
   answeres.value.radio = answeres.value.radio.filter((item) => item.optionId !== radio.value[questionIndex]);
   delete radio.value[questionIndex];
+  other.value = other.value.filter(
+    (item) => item.questionId !== questionId && item.text !== undefined && item.text !== "",
+  );
+  other.value.push({ questionId: questionId, text: text.value[questionIndex] });
+};
+
+const submitSelected = () => {
+  questionnairesStore.setSelectedParentedAnsweres(
+    Number(router.currentRoute.value.params.id),
+    selected.value,
+    other.value,
+  );
+  router.push({ name: "My" });
 };
 
 onMounted(async () => {
   if (router.currentRoute.value.params.id) {
     await questionnairesStore.showQuestionnaire(Number(router.currentRoute.value.params.id));
     SurveyData.value = questionnaire.value;
-    // radio.value = new Array(SurveyData.value.questions.length);
   }
 });
 </script>
@@ -81,11 +89,8 @@ onMounted(async () => {
         <p class="q-mb-sm" label="Текст вопроса*">{{ question.text }}</p>
         <p class="q-mb-sm" label="Текст вопроса*">{{ question.description }}</p>
         <!-- Ответы -->
-        <div
-          v-for="(option, optionIndex) in SurveyData.questions[questionIndex].options"
-          :key="option.id + optionIndex">
+        <div v-for="(option, optionIndex) in SurveyData.questions[questionIndex].options" :key="optionIndex">
           <div v-if="SurveyData.questions[questionIndex].type !== 'text'" class="option">
-            {{ optionIndex }}
             <q-checkbox
               v-show="question.type === 'many'"
               v-model="checked"
@@ -104,10 +109,11 @@ onMounted(async () => {
             v-model="text[questionIndex]"
             class="option__input"
             label="Другое"
-            @click="filterAnswers(questionIndex)"
+            @click="filterAnswers(questionIndex, SurveyData.questions[questionIndex].id)"
             @update:model-value="addOtherAnswer(SurveyData.questions[questionIndex].id, text[questionIndex])" />
         </div>
       </div>
+      <q-btn label="Сохранить анкету" class="q-btn--form" color="primary" @click="submitSelected"></q-btn>
     </div>
   </div>
 </template>
@@ -118,7 +124,7 @@ onMounted(async () => {
 }
 .questions-wrapper {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(1, 1fr);
   gap: 20px;
   .question {
     display: flex;

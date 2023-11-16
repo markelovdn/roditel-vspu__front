@@ -2,7 +2,12 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 
 import { questionnairesApi } from "@/api";
-import { TGetConsultantQuestionnairesFilter, TQuestionnairePayload } from "@/api/Questionnaires/types";
+import {
+  TGetConsultantQuestionnairesFilter,
+  TOtherAnsweres,
+  TQuestionnairePayload,
+  TSelectedAnsweres,
+} from "@/api/Questionnaires/types";
 import notify from "@/utils/notify";
 
 import { useAuthStore } from "./authStore";
@@ -64,6 +69,17 @@ export const useQuestionnairesStore = defineStore("questionnaresStore", () => {
     });
   }
 
+  async function setSelectedParentedAnsweres(
+    questionnaireId: number | string,
+    selected: TSelectedAnsweres,
+    other: TOtherAnsweres,
+  ) {
+    await questionnairesApi.setSelectedParentedAnsweres(questionnaireId, selected, other).then((resp) => {
+      console.log(resp);
+      notify({ type: "positive", message: "Ответы на анкету добавлены" });
+    });
+  }
+
   return {
     questionnaires,
     questionnaire,
@@ -74,5 +90,6 @@ export const useQuestionnairesStore = defineStore("questionnaresStore", () => {
     updateQuestionnaire,
     deleteQuestionnaire,
     clearFilters,
+    setSelectedParentedAnsweres,
   };
 });
