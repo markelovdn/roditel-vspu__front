@@ -62,6 +62,11 @@ const handleDelete = (questionnaireId: number) => {
     cancel: () => void 0,
   });
 };
+
+//TODO: временный метод для тестирования
+const questionaireToParented = (questionnaireId: number | string | null | undefined) => {
+  questionnairesStore.setQuestionnaireToParented(questionnaireId);
+};
 const deleteQuestionnaire = (questionnaireId: number) => {
   questionnairesStore.deleteQuestionnaire(Number(questionnaireId));
   const updatedQuestionnairesList = questionnairesStore.questionnaires.filter((item) => item.id !== questionnaireId);
@@ -168,7 +173,9 @@ const questionnairesListHeaders = [
           <span v-else>Ответ от {{ item.status }}</span>
         </div>
         <div :class="cellClass" class="justify-center">
-          <span v-if="!item.parented">Не назначено</span>
+          <span v-if="!item.parented" style="cursor: pointer" @click="questionaireToParented(item.id)">
+            Не назначено
+          </span>
           <span>{{ item.parented }}</span>
         </div>
         <div :class="cellClass">

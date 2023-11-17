@@ -29,6 +29,8 @@ export const useQuestionnairesStore = defineStore("questionnaresStore", () => {
     max: 1,
   });
 
+  const temp: any = [];
+
   function clearFilters() {
     page.value.current = 1;
     page.value.max = 1;
@@ -57,7 +59,7 @@ export const useQuestionnairesStore = defineStore("questionnaresStore", () => {
 
   async function updateQuestionnaire(questionnaireId: number, questionnaire: TQuestionnairePayload) {
     await questionnairesApi.updateQuestionnaire(questionnaireId, questionnaire).then((resp) => {
-      console.log(resp);
+      console.log(resp.data.data);
       notify({ type: "positive", message: "Анкета успешно обновлена" });
     });
   }
@@ -80,10 +82,26 @@ export const useQuestionnairesStore = defineStore("questionnaresStore", () => {
     });
   }
 
+  async function getSelectedParentedAnsweres(questionnaireId: number | string) {
+    await questionnairesApi.getSelectedParentedAnsweres(questionnaireId).then((resp) => {
+      temp.push(resp.data);
+      console.log(resp);
+      notify({ type: "positive", message: "Ответы на анкету добавлены" });
+    });
+  }
+
+  async function setQuestionnaireToParented(questionnaireId: number | string | null | undefined) {
+    await questionnairesApi.setQuestionnaireToParented(questionnaireId).then((resp) => {
+      console.log(resp);
+      notify({ type: "positive", message: "Родитель назначен для анкеты" });
+    });
+  }
+
   return {
     questionnaires,
     questionnaire,
     page,
+    temp,
     getQuestionnaires,
     addQuestionnaire,
     showQuestionnaire,
@@ -91,5 +109,7 @@ export const useQuestionnairesStore = defineStore("questionnaresStore", () => {
     deleteQuestionnaire,
     clearFilters,
     setSelectedParentedAnsweres,
+    setQuestionnaireToParented,
+    getSelectedParentedAnsweres,
   };
 });

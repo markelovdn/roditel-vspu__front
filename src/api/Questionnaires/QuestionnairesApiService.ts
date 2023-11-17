@@ -43,10 +43,22 @@ export class QuestionnairesApiService {
     return axios.delete(`/questionnaires/${questionaireId}`);
   }
 
+  //TODO:: временнный метод
+  setQuestionnaireToParented(questionnaireId: number | string | null | undefined) {
+    return axios.post(`/setParentedToQuestionnaire?XDEBUG_SESSION=VSCODE`, {
+      questionnaireId: questionnaireId,
+      parentedId: 21,
+    });
+  }
+
   setSelectedParentedAnsweres(questionaireId: number | string, selected: TSelectedAnsweres, other: TOtherAnsweres) {
     return axios.post(`/questionnaire/${questionaireId}/selectedOptions`, {
       selected: selected,
       other: other,
     });
+  }
+
+  getSelectedParentedAnsweres(questionaireId: number | string) {
+    return axios.get(`/questionnaire/${questionaireId}/selectedOptions`);
   }
 }

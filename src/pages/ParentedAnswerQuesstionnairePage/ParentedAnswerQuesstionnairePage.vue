@@ -33,9 +33,7 @@ const addChecked = (questionId: number, optionId: number) => {
     checked.value.includes(selectedItem.optionId),
   );
 
-  other.value = other.value.filter(
-    (item) => item.questionId !== questionId && item.text !== undefined && item.text !== "",
-  );
+  other.value = other.value.filter((item) => item.text !== undefined && item.text !== "");
 };
 
 const addOtherAnswer = (questionId: number, text: string) => {
@@ -66,6 +64,9 @@ onMounted(async () => {
     await questionnairesStore.showQuestionnaire(Number(router.currentRoute.value.params.id));
     SurveyData.value = questionnaire.value;
   }
+
+  questionnairesStore.getSelectedParentedAnsweres(Number(router.currentRoute.value.params.id));
+  await questionnairesStore.temp;
 });
 </script>
 
@@ -74,9 +75,9 @@ onMounted(async () => {
     <p class="q-mb-sm" label="Название анкеты*">{{ SurveyData.title }}</p>
     <p class="q-mb-sm" label="Название анкеты*">{{ SurveyData.description }}</p>
     <p class="q-mb-sm" label="Название анкеты*">{{ SurveyData.answerBefore }}</p>
-    <p>Выбаранные ответы: {{ selected }}</p>
+    <p>Выбаранные ответы (уходят на бэк): {{ selected }}</p>
+    <p>Другое (уходят на бэк): {{ other }}</p>
     <p>Answeres: {{ answeres }}</p>
-    <p>Другое: {{ other }}</p>
     <p>Checked: {{ checked }}</p>
     <p>Radio: {{ radio }}</p>
     <p>Text: {{ text }}</p>
@@ -104,17 +105,19 @@ onMounted(async () => {
             {{ option.text }}
           </div>
         </div>
-        <div class="option">
+        <div v-if="SurveyData.questions[questionIndex].other" class="option">
           <q-input
             v-model="text[questionIndex]"
             class="option__input"
-            label="Другое"
+            label="Свой ответ"
             @click="filterAnswers(questionIndex, SurveyData.questions[questionIndex].id)"
             @update:model-value="addOtherAnswer(SurveyData.questions[questionIndex].id, text[questionIndex])" />
         </div>
       </div>
       <q-btn label="Сохранить анкету" class="q-btn--form" color="primary" @click="submitSelected"></q-btn>
     </div>
+    <h5>Ответы</h5>
+    {{ questionnairesStore.temp }}
   </div>
 </template>
 
@@ -124,7 +127,7 @@ onMounted(async () => {
 }
 .questions-wrapper {
   display: grid;
-  grid-template-columns: repeat(1, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   .question {
     display: flex;
