@@ -15,6 +15,7 @@ const text = ref([]);
 const answeres = ref<{ radio: TAnswere[]; checked: TAnswere[] }>({ radio: [], checked: [] });
 const selected = computed(() => [...answeres.value.radio, ...answeres.value.checked]);
 const other = ref<TOther[]>([]);
+const temp = ref([]);
 
 const addRadio = (questionId: number, optionId: number) => {
   answeres.value.radio = answeres.value.radio.filter((item) => item.questionId !== questionId);
@@ -65,8 +66,8 @@ onMounted(async () => {
     SurveyData.value = questionnaire.value;
   }
 
-  questionnairesStore.getSelectedParentedAnsweres(Number(router.currentRoute.value.params.id));
-  await questionnairesStore.temp;
+  await questionnairesStore.getSelectedParentedAnsweres(Number(router.currentRoute.value.params.id));
+  temp.value = questionnairesStore.temp;
 });
 </script>
 
@@ -114,10 +115,20 @@ onMounted(async () => {
             @update:model-value="addOtherAnswer(SurveyData.questions[questionIndex].id, text[questionIndex])" />
         </div>
       </div>
-      <q-btn label="Сохранить анкету" class="q-btn--form" color="primary" @click="submitSelected"></q-btn>
     </div>
+    <q-btn label="Отправить" class="q-btn--form" color="primary" @click="submitSelected"></q-btn>
     <h5>Ответы</h5>
-    {{ questionnairesStore.temp }}
+    <!-- {{ temp }} -->
+    <div>
+      <ul v-for="(question, questionIndex) in temp.questions" :key="questionIndex">
+        Вопрос:{{
+          question.text
+        }}
+        <p>Ответы:</p>
+        <li v-for="(option, optionIndex) in question.options" :key="optionIndex">{{ option.text }}</li>
+        <p v-if="question.option_other">Другое: {{ question.option_other.text }}</p>
+      </ul>
+    </div>
   </div>
 </template>
 

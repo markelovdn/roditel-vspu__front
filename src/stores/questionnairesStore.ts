@@ -29,7 +29,7 @@ export const useQuestionnairesStore = defineStore("questionnaresStore", () => {
     max: 1,
   });
 
-  const temp: any = [];
+  const temp: any = ref([]);
 
   function clearFilters() {
     page.value.current = 1;
@@ -84,9 +84,9 @@ export const useQuestionnairesStore = defineStore("questionnaresStore", () => {
 
   async function getSelectedParentedAnsweres(questionnaireId: number | string) {
     await questionnairesApi.getSelectedParentedAnsweres(questionnaireId).then((resp) => {
-      temp.push(resp.data);
+      temp.value = resp.data;
       console.log(resp);
-      notify({ type: "positive", message: "Ответы на анкету добавлены" });
+      notify({ type: "positive", message: "Ответы загружены" });
     });
   }
 
