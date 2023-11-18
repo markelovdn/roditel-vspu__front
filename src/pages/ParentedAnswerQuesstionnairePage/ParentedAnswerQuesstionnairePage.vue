@@ -75,13 +75,13 @@ onMounted(async () => {
   <div class="main-container">
     <p class="q-mb-sm" label="Название анкеты*">{{ SurveyData.title }}</p>
     <p class="q-mb-sm" label="Название анкеты*">{{ SurveyData.description }}</p>
-    <p class="q-mb-sm" label="Название анкеты*">{{ SurveyData.answerBefore }}</p>
-    <p>Выбаранные ответы (уходят на бэк): {{ selected }}</p>
+    <p class="q-mb-sm" label="Название анкеты*">Ответить до: {{ SurveyData.answerBefore }}</p>
+    <!-- <p>Выбаранные ответы (уходят на бэк): {{ selected }}</p>
     <p>Другое (уходят на бэк): {{ other }}</p>
     <p>Answeres: {{ answeres }}</p>
     <p>Checked: {{ checked }}</p>
     <p>Radio: {{ radio }}</p>
-    <p>Text: {{ text }}</p>
+    <p>Text: {{ text }}</p> -->
     <!-- Вопросы -->
     <div class="row justify-center flex-center q-mt-lg">
       <h5>Вопросы</h5>
@@ -117,8 +117,7 @@ onMounted(async () => {
       </div>
     </div>
     <q-btn label="Отправить" class="q-btn--form" color="primary" @click="submitSelected"></q-btn>
-    <h5>Ответы</h5>
-    <!-- {{ temp }} -->
+    <!-- <h5>Ответы</h5>
     <div>
       <ul v-for="(question, questionIndex) in temp.questions" :key="questionIndex">
         Вопрос:{{
@@ -128,7 +127,7 @@ onMounted(async () => {
         <li v-for="(option, optionIndex) in question.options" :key="optionIndex">{{ option.text }}</li>
         <p v-if="question.option_other">Другое: {{ question.option_other.text }}</p>
       </ul>
-    </div>
+    </div> -->
   </div>
 </template>
 
