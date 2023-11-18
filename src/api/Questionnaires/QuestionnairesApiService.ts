@@ -17,7 +17,7 @@ export class QuestionnairesApiService {
   }
 
   addQuestionnaire(consultantId: number | string, questionnaire: TQuestionnairePayload) {
-    return axios.post<TQuestionnairePayload>(`/consultant/${consultantId}/questionnaires?XDEBUG_SESSION=VSCODE`, {
+    return axios.post<TQuestionnairePayload>(`/consultant/${consultantId}/questionnaires`, {
       title: questionnaire.title,
       description: questionnaire.description,
       answerBefore: questionnaire.answerBefore,
@@ -45,7 +45,7 @@ export class QuestionnairesApiService {
 
   //TODO:: временнный метод
   setQuestionnaireToParented(questionnaireId: number | string | null | undefined) {
-    return axios.post(`/setParentedToQuestionnaire?XDEBUG_SESSION=VSCODE`, {
+    return axios.post(`/setParentedToQuestionnaire`, {
       questionnaireId: questionnaireId,
       parentedId: 21,
     });
