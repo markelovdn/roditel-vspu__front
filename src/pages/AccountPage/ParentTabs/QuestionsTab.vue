@@ -1,10 +1,53 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import Echo from "laravel-echo";
+import io from "socket.io-client";
+import { onBeforeMount, ref } from "vue";
 
+import axios from "@/common/axios";
 import ChatSideBarWrapper from "@/components/Chat/ChatSideBarWrapper.vue";
 import ChatWrapper from "@/components/Chat/ChatWrapper.vue";
 import MessageInput from "@/components/Chat/MessageInput.vue";
 
+const messages = ref([]);
+const newMessage = ref("");
+
+const socket = io("http://localhost:6001", {
+  query: { token: localStorage.getItem("token") },
+});
+
+window.io = io;
+
+window.Echo = new Echo({
+  broadcaster: "socket.io",
+  host: window.location.hostname + ":6001",
+  transports: ["websocket"],
+  authEndpoint: "/broadcasting/auth",
+  auth: {
+    headers: {
+      Authorization: "Bearer " + localStorage.getItem("token"),
+    },
+  },
+});
+
+// Authenticate the user
+window.Echo.channel("consultation." + 93).listen("ConsultationEvent", (event) => {
+  console.log(event);
+  messages.value.push(event.message);
+});
+
+const sendMessage = () => {
+  axios.post("/messages?XDEBUG_SESSION=VSCODE", { message: newMessage.value });
+  // socket.emit("sendMessage", newMessage.value);
+  console.log(newMessage.value);
+  newMessage.value = "";
+};
+
+onBeforeMount(() => {
+  console.log("OK");
+  socket.on("newMessage", (message) => {
+    messages.value = [...messages.value, message];
+  });
+});
 const search = ref("");
 </script>
 
@@ -12,11 +55,12 @@ const search = ref("");
   <div class="question">
     <div class="question__header">
       <div class="question__box">
+        {{ messages }}
         <h5>Заявки</h5>
-        <q-input v-model="search" outlined bottom-slots class="q-pb-none">
+        <q-input v-model="newMessage" outlined bottom-slots class="q-pb-none">
           <template #append>
-            <q-icon v-if="search !== ''" name="close" class="cursor-pointer" @click="search = ''" />
-            <q-icon name="search" />
+            <q-icon v-if="search !== ''" name="close" class="cursor-pointer" />
+            <q-icon name="search" style="cursor: pointer" @click="sendMessage" />
           </template>
         </q-input>
       </div>
