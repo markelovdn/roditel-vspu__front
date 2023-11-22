@@ -17,13 +17,21 @@ const selected = computed(() => [...answeres.value.radio, ...answeres.value.chec
 const other = ref<TOther[]>([]);
 const temp = ref([]);
 
-const addRadio = (questionId: number, optionId: number) => {
+const addRadio = (questionId?: number | null, optionId?: number | null) => {
+  if (typeof questionId !== "number" || typeof optionId !== "number") {
+    return;
+  }
+
   answeres.value.radio = answeres.value.radio.filter((item) => item.questionId !== questionId);
   answeres.value.radio.push({ questionId, optionId });
   other.value = other.value.filter((item) => item.questionId !== questionId);
 };
 
-const addChecked = (questionId: number, optionId: number) => {
+const addChecked = (questionId?: number | null, optionId?: number | null) => {
+  if (typeof questionId !== "number" || typeof optionId !== "number") {
+    return;
+  }
+
   checked.value.forEach((checkedItem) => {
     const existingItem = answeres.value.checked.find((selectedItem) => selectedItem.optionId === checkedItem);
     if (!existingItem) {
@@ -37,12 +45,20 @@ const addChecked = (questionId: number, optionId: number) => {
   other.value = other.value.filter((item) => item.text !== undefined && item.text !== "");
 };
 
-const addOtherAnswer = (questionId: number, text: string) => {
+const addOtherAnswer = (text: string, questionId?: number | null) => {
+  if (typeof questionId !== "number") {
+    return;
+  }
+
   other.value = other.value.filter((item) => item.questionId !== questionId);
   other.value.push({ questionId, text });
 };
 
-const filterAnswers = (questionIndex: number, questionId: number) => {
+const filterAnswers = (questionIndex: number, questionId?: number | null) => {
+  if (typeof questionId !== "number") {
+    return;
+  }
+
   answeres.value.radio = answeres.value.radio.filter((item) => item.optionId !== radio.value[questionIndex]);
   delete radio.value[questionIndex];
   other.value = other.value.filter(
@@ -112,7 +128,7 @@ onMounted(async () => {
             class="option__input"
             label="Свой ответ"
             @click="filterAnswers(questionIndex, SurveyData.questions[questionIndex].id)"
-            @update:model-value="addOtherAnswer(SurveyData.questions[questionIndex].id, text[questionIndex])" />
+            @update:model-value="addOtherAnswer(text[questionIndex], SurveyData.questions[questionIndex].id)" />
         </div>
       </div>
     </div>
