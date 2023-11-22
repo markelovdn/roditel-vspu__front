@@ -1,9 +1,8 @@
 <script setup lang="ts" generic="T extends Record<string, unknown>">
-import { QTableColumn } from "quasar";
-
 import CardTableWrapper from "./CardTableWrapper.vue";
 import ListTableWrapper from "./ListTableWrapper.vue";
-export type TTableWrapperHeaders = Array<QTableColumn & { width: number }>;
+import { TTableWrapperHeaders } from "./types";
+
 defineProps<{ items: T[]; title: string; cardsList?: boolean; headers?: TTableWrapperHeaders }>();
 </script>
 

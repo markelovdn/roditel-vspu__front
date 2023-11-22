@@ -4,7 +4,8 @@ import { computed, onMounted, ref } from "vue";
 
 import { TGetConsultantReportsFilter } from "@/api/Consultant/types";
 import ReportModal from "@/components/modals/ReportModal/ReportModal.vue";
-import TableWrapper, { TTableWrapperHeaders } from "@/components/TableWrapper/TableWrapper.vue";
+import TableWrapper from "@/components/TableWrapper/TableWrapper.vue";
+import { TTableWrapperHeaders } from "@/components/TableWrapper/types";
 import { useRequestPayload } from "@/hooks/useRequestPayload";
 import { useConsultantStore } from "@/stores/consultantStore";
 import notify from "@/utils/notify";

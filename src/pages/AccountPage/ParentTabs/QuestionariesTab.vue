@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { QTableColumn } from "quasar";
 import { computed, ref } from "vue";
 
 import { TGetConsultantQuestionnairesFilter } from "@/api/Questionnaires/types";
 import TableWrapper from "@/components/TableWrapper/TableWrapper.vue";
+import { TTableWrapperHeaders } from "@/components/TableWrapper/types";
 import { useRequestPayload } from "@/hooks/useRequestPayload";
 import { useQuestionnairesStore } from "@/stores/questionnairesStore";
 
@@ -58,7 +58,7 @@ const questionnairesListHeaders = [
     field: "toAnswer",
     width: "110px",
   },
-] as QTableColumn[];
+] as unknown as TTableWrapperHeaders;
 </script>
 
 <template>
