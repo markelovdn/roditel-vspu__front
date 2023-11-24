@@ -6,7 +6,6 @@ import { parse, stringify } from "zipson";
 import { authApi } from "@/api";
 import { TForgotPasswordArgs, TLoginArgs, TRegistrationPayload, TResetPasswordArgs, TUser } from "@/api/Auth/types";
 import axios from "@/common/axios";
-import { socket } from "@/common/socket";
 import notify from "@/utils/notify";
 
 export const useAuthStore = defineStore(
@@ -14,21 +13,6 @@ export const useAuthStore = defineStore(
   () => {
     const token = ref<null | string>(localStorage.token ?? null);
     const user = ref<TUser>();
-    const isConnected = ref(false);
-
-    function bindEvents() {
-      // sync the list of items upon connection
-      socket.on("connect", () => {
-        isConnected.value = true;
-      });
-
-      socket.on("disconnect", () => {
-        isConnected.value = false;
-      });
-    }
-    function connect() {
-      socket.connect();
-    }
 
     function requestUserInfo() {
       return authApi
@@ -149,8 +133,6 @@ export const useAuthStore = defineStore(
       isLoggedIn,
       resetPassword,
       getUserId,
-      bindEvents,
-      connect,
     };
   },
   {
