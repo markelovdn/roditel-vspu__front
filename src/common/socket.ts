@@ -1,7 +1,15 @@
-import { io } from "socket.io-client";
-const { token } = localStorage;
+import Echo from "laravel-echo";
+import io from "socket.io-client";
 
-const URL = process.env.NODE_ENV === "production" ? undefined : "http://localhost:6001";
-export const socket = io.connect(URL, {
-  query: { token },
+export const socketConnection = new Echo({
+  broadcaster: "socket.io",
+  client: io,
+  host: window.location.hostname + ":6001",
+  transports: ["websocket"],
+  authEndpoint: "/broadcasting/auth",
+  auth: {
+    headers: {
+      Authorization: "Bearer " + localStorage.getItem("token"),
+    },
+  },
 });

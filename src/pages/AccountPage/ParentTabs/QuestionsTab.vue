@@ -1,52 +1,20 @@
 <script setup lang="ts">
-import Echo from "laravel-echo";
-import io from "socket.io-client";
 import { onBeforeMount, ref } from "vue";
 
-import axios from "@/common/axios";
+import { TGetConsultationsFilter } from "@/api/Consultations/types";
 import ChatSideBarWrapper from "@/components/Chat/ChatSideBarWrapper.vue";
 import ChatWrapper from "@/components/Chat/ChatWrapper.vue";
 import MessageInput from "@/components/Chat/MessageInput.vue";
+import { useRequestPayload } from "@/hooks/useRequestPayload";
+import { useConsultationsStore } from "@/stores/consultationsStore";
 
-const messages = ref([]);
-const newMessage = ref("");
+const consultationsStore = useConsultationsStore();
+const queryParams = ref<TGetConsultationsFilter>({});
 
-const socket = io("http://localhost:6001", {
-  query: { token: localStorage.getItem("token") },
-});
-
-window.io = io;
-
-window.Echo = new Echo({
-  broadcaster: "socket.io",
-  host: window.location.hostname + ":6001",
-  transports: ["websocket"],
-  authEndpoint: "/broadcasting/auth",
-  auth: {
-    headers: {
-      Authorization: "Bearer " + localStorage.getItem("token"),
-    },
-  },
-});
-
-// Authenticate the user
-window.Echo.channel("consultation." + 93).listen("ConsultationEvent", (event) => {
-  console.log(event);
-  messages.value.push(event.message);
-});
-
-const sendMessage = () => {
-  axios.post("/messages?XDEBUG_SESSION=VSCODE", { message: newMessage.value });
-  // socket.emit("sendMessage", newMessage.value);
-  console.log(newMessage.value);
-  newMessage.value = "";
-};
+useRequestPayload(queryParams, consultationsStore.getConsultations, {});
 
 onBeforeMount(() => {
-  console.log("OK");
-  socket.on("newMessage", (message) => {
-    messages.value = [...messages.value, message];
-  });
+  consultationsStore.connectChannel(21);
 });
 const search = ref("");
 </script>
@@ -55,12 +23,11 @@ const search = ref("");
   <div class="question">
     <div class="question__header">
       <div class="question__box">
-        {{ messages }}
         <h5>Заявки</h5>
-        <q-input v-model="newMessage" outlined bottom-slots class="q-pb-none">
+        <q-input v-model="search" outlined bottom-slots class="q-pb-none">
           <template #append>
             <q-icon v-if="search !== ''" name="close" class="cursor-pointer" />
-            <q-icon name="search" style="cursor: pointer" @click="sendMessage" />
+            <q-icon name="search" style="cursor: pointer" />
           </template>
         </q-input>
       </div>
