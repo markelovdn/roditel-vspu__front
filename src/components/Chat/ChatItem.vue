@@ -1,4 +1,21 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { TConsultation, TMessage } from "@/api/Consultations/types";
+
+import { useAuthStore } from "../../stores/authStore";
+
+const authStore = useAuthStore();
+authStore.user;
+withDefaults(
+  defineProps<{
+    item: TConsultation;
+    message: TMessage;
+    isMyMessage: boolean;
+  }>(),
+  {
+    isMyMessage: true,
+  },
+);
+</script>
 
 <template>
   <div class="chat-item">
@@ -9,9 +26,7 @@
           <h4 class="chat-item__spec">Кат. Дошкольники</h4>
         </div>
         <div class="chat-item__content">
-          Добрый день, Валентина Сергеевна! Хотела уточнить следующий вопрос касаемо моего ребенка. Добрый день,
-          Валентина Сергеевна! Хотела уточнить следующий вопрос касаемо моего ребенка. Добрый день, Валентина Сергеевна!
-          Хотела уточнить следующий вопрос касаемо моего ребенка. Добрый день, Валентина Сергеевна!
+          {{ message.text }}
         </div>
       </div>
       <div class="chat-item__time">01:51</div>

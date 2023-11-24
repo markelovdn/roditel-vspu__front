@@ -11,7 +11,7 @@ import { useConsultationsStore } from "@/stores/consultationsStore";
 const consultationsStore = useConsultationsStore();
 const queryParams = ref<TGetConsultationsFilter>({});
 
-useRequestPayload(queryParams, consultationsStore.getConsultations, {});
+useRequestPayload(queryParams, consultationsStore.requestConsultations, {});
 
 onBeforeMount(() => {
   consultationsStore.connectChannel(21);
