@@ -11,20 +11,19 @@ export const useConsultationsStore = defineStore("consultationsStore", () => {
   const authStore = useAuthStore();
   const userId = authStore.getUserId;
   const messages = ref([]);
-  const consultations = ref<TConsultation[]>([]);
+  const consultations = ref<TConsultation>({});
 
   function connectChannel(consultationId: number) {
-    console.log(consultationId);
+    //todo Нужно описать event
     socketConnection.private(`App.Models.Consultation.${consultationId}`).listen("ConsultationEvent", (event) => {
-      console.log(consultationId);
       messages.value.push(event);
     });
   }
 
-  function getConsultations(filters: TGetConsultationsFilter) {
+  function requestConsultations(filters: TGetConsultationsFilter) {
     if (userId === undefined) return;
     consultationsApi.getConsultations(userId, filters).then((resp) => {
-      consultations.value = resp.data.data;
+      consultations.value = resp.data.data[0];
     });
   }
 
@@ -36,7 +35,7 @@ export const useConsultationsStore = defineStore("consultationsStore", () => {
 
   return {
     connectChannel,
-    getConsultations,
+    requestConsultations,
     messages,
     consultations,
   };

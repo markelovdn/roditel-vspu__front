@@ -1,3 +1,5 @@
+import { TUser } from "../Auth/types";
+
 export type TGetConsultationsFilter = {
   dateBetween?: string;
   status?: string;
@@ -18,17 +20,19 @@ export type TConsultation = {
   id: number;
   title: string;
   allConsultants: boolean;
-  messages: messages;
+  messages: TMessages;
+  users: TUser[];
   specialization: {
     id: number;
     title: string;
   };
 };
 
-export type messages = Array<{
+export type TMessage = {
   userId: number;
   text: string;
   readed: boolean;
   createdAt: string;
   updatedAt: string;
-}>;
+};
+export type TMessages = TMessage[];
