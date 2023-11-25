@@ -1,4 +1,5 @@
 import Echo from "laravel-echo";
+// @ts-ignore
 import io from "socket.io-client";
 
 export const socketConnection = new Echo({
