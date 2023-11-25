@@ -11,10 +11,9 @@ export const useConsultationsStore = defineStore("consultationsStore", () => {
   const authStore = useAuthStore();
   const userId = authStore.getUserId;
   const messages = ref([]);
-  const consultations = ref<TConsultation>({});
+  const consultations = ref<TConsultation | null>(null);
 
   function connectChannel(consultationId: number) {
-    //todo Нужно описать event
     socketConnection.private(`Consultation.${consultationId}`).listen("ConsultationEvent", (event) => {
       messages.value.push(event);
     });

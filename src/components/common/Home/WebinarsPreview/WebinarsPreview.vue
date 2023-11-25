@@ -63,4 +63,3 @@ useRequestPayload(queryParams, webinarsStore.requestWebinars, {
   }
 }
 </style>
-@/hooks/useRequestPayload

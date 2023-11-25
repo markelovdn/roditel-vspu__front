@@ -8,8 +8,8 @@ export class WebinarsApiService {
     return axios.get<TRequestWebinarsLectors>("/lectors");
   }
 
-  getWebinars(options: TWebinarsRequestOption) {
-    return axios.get<TWebinarData>(useUrlParams("/webinars", useParamBuilder(options)));
+  getWebinars(filters: TWebinarsRequestOption) {
+    return axios.get<TWebinarData>(useUrlParams("/webinars", useParamBuilder(filters)));
   }
   getCategories() {
     return axios.get<WebinarCategoriesResponse>("/webinarCategories");
