@@ -8,8 +8,8 @@ export const useRequestPayload = <T extends Record<string, unknown>>(
   data: Ref<T>,
   callback: (...args: any) => any,
   options: {
-    watchParams?: Array<keyof T>;
-    clearableParams?: Array<keyof T>;
+    watchParams?: Record<string, unknown>;
+    clearableParams?: Record<string, unknown>;
   },
 ) => {
   options;
