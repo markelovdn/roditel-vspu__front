@@ -1,19 +1,16 @@
 <script setup lang="ts">
 // import { ref } from "vue";
 
-import { useConsultationsStore } from "@/stores/consultationsStore";
+import { TConsultation, TMessage } from "@/api/Consultations/types";
 
 import ChatItem from "./ChatItem.vue";
-const consultationsStore = useConsultationsStore();
+
+defineProps<{ messages: TMessage[]; consultation: TConsultation }>();
 </script>
 
 <template>
   <div class="chat-wrapper">
-    <ChatItem
-      v-for="(item, i) in consultationsStore.consultations.messages"
-      :key="i"
-      :item="consultationsStore.consultations"
-      :message="item" />
+    <ChatItem v-for="(item, i) in messages" :key="i" :item="consultation" :message="item" />
   </div>
 </template>
 

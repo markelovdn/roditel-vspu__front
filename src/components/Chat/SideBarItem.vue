@@ -1,14 +1,25 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref } from "vue";
+
+import { TUser } from "@/api/Auth/types";
+import { TConsultation } from "@/api/Consultations/types";
+import { useAuthStore } from "@/stores/authStore";
+
+const props = defineProps<{ item: TConsultation; isActive: boolean }>();
+const authStore = useAuthStore();
+authStore.user;
+const parent = ref(props.item.users.find((user: TUser) => user.id !== authStore.user?.id)?.fullName || "неизвестно");
+</script>
 
 <template>
-  <div class="sidebar-item">
+  <div class="sidebar-item" :class="{ 'sidebar-item_active': isActive }">
     <div class="sidebar-item__box">
       <div class="sidebar-item__status">Новый (15 д.)</div>
-      <div class="sidebar-item__date">05.05.23</div>
+      <div class="sidebar-item__date">{{ item.createdAt }}</div>
     </div>
     <div class="sidebar-item__box">
-      <div class="sidebar-item__question">Вопрос #13454646</div>
-      <div class="sidebar-item__name">Калмыкова Е.Н.</div>
+      <div class="sidebar-item__question">{{ item.title }}</div>
+      <div class="sidebar-item__name">{{ parent }}</div>
     </div>
   </div>
 </template>
@@ -49,6 +60,10 @@
     font-size: 14px;
     font-weight: 400;
     line-height: 130%;
+  }
+
+  &_active {
+    background: rgba(228, 235, 246, 0.5);
   }
 }
 </style>
