@@ -1,34 +1,19 @@
 <script setup lang="ts">
+import { TConsultation } from "@/api/Consultations/types";
+
 import SideBarItem from "./SideBarItem.vue";
+defineEmits<{ (event: "setChangeChat", index: number): void }>();
+defineProps<{ activeChat: number; consultations: TConsultation[] }>();
 </script>
 
 <template>
   <div class="sidebar-wrapper">
-    <div><SideBarItem :style="{ background: 'rgba(228, 235, 246, 0.2)' }" /></div>
-
-    <div><SideBarItem /></div>
-    <div><SideBarItem /></div>
-
-    <div><SideBarItem /></div>
-    <div><SideBarItem /></div>
-
-    <div><SideBarItem /></div>
-    <div><SideBarItem /></div>
-
-    <div><SideBarItem /></div>
-    <div><SideBarItem /></div>
-
-    <div><SideBarItem /></div>
-    <div><SideBarItem /></div>
-
-    <div><SideBarItem /></div>
-    <div><SideBarItem /></div>
-
-    <div><SideBarItem /></div>
-    <div><SideBarItem /></div>
-
-    <div><SideBarItem /></div>
-    <div><SideBarItem /></div>
+    <SideBarItem
+      v-for="(item, index) in consultations"
+      :key="index"
+      :item="item"
+      :is-active="activeChat === item.id"
+      @click="$emit('setChangeChat', item.id)" />
   </div>
 </template>
 

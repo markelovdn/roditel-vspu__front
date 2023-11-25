@@ -22,10 +22,9 @@ export type TConsultation = {
   allConsultants: boolean;
   messages: TMessages;
   users: TUser[];
-  specialization: {
-    id: number;
-    title: string;
-  };
+  closed: boolean;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type TMessage = {
