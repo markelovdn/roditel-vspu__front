@@ -15,7 +15,7 @@ export const useConsultationsStore = defineStore("consultationsStore", () => {
 
   function connectChannel(consultationId: number) {
     //todo Нужно описать event
-    socketConnection.private(`App.Models.Consultation.${consultationId}`).listen("ConsultationEvent", (event) => {
+    socketConnection.private(`Consultation.${consultationId}`).listen("ConsultationEvent", (event) => {
       messages.value.push(event);
     });
   }

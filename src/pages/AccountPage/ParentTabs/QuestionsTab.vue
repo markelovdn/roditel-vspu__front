@@ -14,6 +14,7 @@ const queryParams = ref<TGetConsultationsFilter>({});
 useRequestPayload(queryParams, consultationsStore.requestConsultations, {});
 
 onBeforeMount(() => {
+  //TODO: нужно динамически передавать id консультации не уверен что это надо делать в этом компоненте
   consultationsStore.connectChannel(21);
 });
 const search = ref("");
