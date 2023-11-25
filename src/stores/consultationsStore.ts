@@ -6,15 +6,20 @@ import { TConsultation, TGetConsultationsFilter } from "@/api/Consultations/type
 import { socketConnection } from "@/common/socket";
 
 import { useAuthStore } from "./authStore";
+//todo описать тип
+type TSocketEvent = {
+  text: string;
+  id: number;
+};
 
 export const useConsultationsStore = defineStore("consultationsStore", () => {
   const authStore = useAuthStore();
   const userId = authStore.getUserId;
-  const messages = ref([]);
-  const consultations = ref<TConsultation | null>(null);
+  const messages = ref<TSocketEvent[]>([]);
+  const consultations = ref<TConsultation>({} as TConsultation);
 
   function connectChannel(consultationId: number) {
-    socketConnection.private(`Consultation.${consultationId}`).listen("ConsultationEvent", (event) => {
+    socketConnection.private(`Consultation.${consultationId}`).listen("ConsultationEvent", (event: TSocketEvent) => {
       messages.value.push(event);
     });
   }

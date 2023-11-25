@@ -7,3 +7,8 @@ export type TPersonalDataPayload = {
   description: string;
   image?: File | FileList | null;
 };
+
+export type TDateFilter = {
+  from: string;
+  to: string;
+};
