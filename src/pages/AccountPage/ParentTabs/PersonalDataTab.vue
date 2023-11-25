@@ -1,7 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import PersonalData from "./PersonalDataTab/PersonalData.vue";
+</script>
 
 <template>
-  <div>4</div>
+  <PersonalData />
 </template>
 
-<style lang="scss" scoped></style>
+<style scoped></style>

@@ -6,7 +6,7 @@ import AccountWrapper from "@/components/AccountWrapper/AccountWrapper.vue";
 import { useAuthStore } from "@/stores/authStore";
 
 import { consultantTabs } from "./ConsultantTabs/consultantTabs";
-import { parentTabs } from "./ParentTabs/types";
+import { parentTabs } from "./ParentTabs/parentsTab";
 import { CONSULTANT_CODE } from "./types";
 
 const authStore = useAuthStore();
