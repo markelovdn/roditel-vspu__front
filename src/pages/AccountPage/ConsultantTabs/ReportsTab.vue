@@ -88,7 +88,7 @@ const handleFileDownload = (fileUrl: string, fileName: string) => {
 };
 
 onMounted(() => {
-  useRequestPayload(queryParams, consultantStore.requestReports, { clearableParams: ["page"] });
+  useRequestPayload(queryParams, consultantStore.requestReports, { clearableParams: { page: 1 } });
 });
 </script>
 

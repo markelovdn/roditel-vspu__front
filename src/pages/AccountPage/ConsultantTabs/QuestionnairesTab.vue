@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { QTableColumn } from "quasar";
 import { computed, ref } from "vue";
 
 import { TGetConsultantQuestionnairesFilter } from "@/api/Questionnaires/types";
-import TableWrapper from "@/components/TableWrapper/TableWrapper.vue";
+import TableWrapper, { TTableWrapperHeaders } from "@/components/TableWrapper/TableWrapper.vue";
 import useAlert from "@/hooks/useAlert";
 import { useRequestPayload } from "@/hooks/useRequestPayload";
 import { useQuestionnairesStore } from "@/stores/questionnairesStore";
@@ -18,8 +17,8 @@ const queryParams = ref<TGetConsultantQuestionnairesFilter>({ page: 1 });
 const setPage = (page: number) => (queryParams.value.page = page);
 const filterStatusSelect = [
   { value: "", label: "Все" },
-  { value: "answered", label: "Отвеченые" },
-  { value: "notAnswered", label: "Ожидат ответа" },
+  { value: "answered", label: "Отвеченные" },
+  { value: "notAnswered", label: "Ожидает ответа" },
 ];
 const statusFilter = ref("");
 
@@ -28,7 +27,7 @@ const questionnairesListRows = computed(() => {
 });
 
 useRequestPayload(queryParams, questionnairesStore.getQuestionnaires, {
-  clearableParams: ["page"],
+  clearableParams: { page: 1 },
 });
 const setDataFilter = (value?: any) => {
   if (value) {
@@ -119,11 +118,13 @@ const questionnairesListHeaders = [
     field: "delete",
     width: "40px",
   },
-] as QTableColumn[];
+] as unknown as TTableWrapperHeaders;
 </script>
 
 <template>
   <div>
+    dfsdfsfdsfdsdfsdfsdfsdfdsfsdf
+    {{ dateFilter }}
     <TableWrapper :items="questionnairesListRows" :headers="questionnairesListHeaders" :title="'Анкеты'">
       <template #header_right>
         <router-link :to="'/questionnaires'">
