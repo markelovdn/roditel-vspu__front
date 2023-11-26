@@ -37,13 +37,9 @@ const { handleBlur, getErrorAttrs, isValid } = useValidation<TPersonalDataParent
 });
 
 const handleForm = () => {
-  const setResult = parentStore.setParentInfo(data.value);
-
-  if (setResult) {
-    setResult.then(() => {
-      authStore.requestUserInfo();
-    });
-  }
+  parentStore.setParentInfo(data.value)?.then(() => {
+    authStore.requestUserInfo();
+  });
 };
 
 onMounted(() => {

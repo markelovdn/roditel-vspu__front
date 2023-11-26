@@ -1,58 +1,46 @@
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
-import { emit } from "process";
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 
-import {
-  emailValidator,
-  minLengthValidator,
-  requiredValidator,
-  splitNameValidator,
-  useValidation,
-} from "@/hooks/useValidation";
-import { useAuthStore } from "@/stores/authStore";
-import { useCollectionsStore } from "@/stores/collectionsStore";
-// import { useConsultantStore } from "@/stores/consultantStore";
+import { useParentStore } from "@/stores/parentStore";
 
-const authStore = useAuthStore();
-// const consultantStore = useConsultantStore();
+import { TPersonalDataChildrenPayload } from "../types";
+import ChildrenItem from "./ChildrenItem.vue";
 
-const collectionsStore = useCollectionsStore();
+const parentStore = useParentStore();
+const data = ref<Omit<TPersonalDataChildrenPayload, "id">[]>([]);
 
-const { getRegions: optionsRegions } = storeToRefs(collectionsStore);
+const isEnoughChildren = computed(() => {
+  if (data.value && data.value.length) {
+    return data.value.length === 6;
+  }
 
-// const { getSpecializations: optionsSpecializations, getProfessions: optionsProfessions } =
-//   storeToRefs(collectionsStore);
-
-const data = ref({
-  name: authStore.user?.fullName,
-  phone: authStore.user?.phone,
-  email: authStore.user?.email,
-  region_id: authStore?.user?.ragionId,
+  return false;
 });
 
-const { handleBlur, getErrorAttrs, isValid } = useValidation(data, emit, {
-  name: { requiredValidator, splitNameValidator },
-  phone: { requiredValidator, minLengthValidator: minLengthValidator(17) },
-  email: { requiredValidator, emailValidator },
-  region_id: { requiredValidator },
-});
+const addChild = () => {
+  data.value.push({ age: 3 });
+};
 
-// const handleForm = () => {
-//   Promise.allSettled([
-//     consultantStore.setNewConsultantInfo(data.value),
-//     consultantStore.setNewConsultantPhoto(data.value),
-//   ]).then(() => {
-//     authStore.requestUserInfo();
-//     consultantStore.getConsultantInfo();
-//   });
-// };
+const handleForm = () => {
+  const promises = data.value.map((child) => {
+    const numberedAge = Number(child.age);
+
+    return parentStore.setChildrenAge(numberedAge);
+  });
+  Promise.allSettled(promises);
+};
+
+watch(
+  () => parentStore.childrenData,
+  () => {
+    data.value = parentStore.childrenData.map((item) => {
+      return { age: item.age };
+    });
+  },
+);
 
 onMounted(() => {
-  collectionsStore.requestRegions();
-  // collectionsStore.requestSpecializations();
-  // collectionsStore.requestProfessions();
-  // consultantStore.getConsultantInfo();
+  parentStore.getChildren();
 });
 </script>
 
@@ -64,58 +52,21 @@ onMounted(() => {
       </div>
 
       <q-form class="personal-data__form">
-        <div class="personal-data__box">
-          <q-input
-            v-bind="getErrorAttrs('name')"
-            v-model="data.name"
-            outlined
-            class="personal-data__item"
-            input-class="q-input--form"
-            label="Ф.И.О.*"
-            borderless
-            color="primary"
-            @blur="handleBlur('name')" />
-
-          <q-input
-            v-bind="getErrorAttrs('email')"
-            v-model="data.email"
-            outlined
-            class="personal-data__item"
-            input-class="q-input--form"
-            label="Почта*"
-            borderless
-            @blur="handleBlur('email')" />
+        <div v-for="(item, index) in data" :key="index" class="personal-data__box">
+          <children-item v-model="data[index]" :index="index" />
         </div>
 
         <div class="personal-data__box">
-          <q-input
-            v-bind="getErrorAttrs('phone')"
-            v-model="data.phone"
-            outlined
-            class="personal-data__item"
-            input-class="q-input--form"
-            label="Телефон*"
-            mask="+7 (###) ### ####"
-            borderless
-            @blur="handleBlur('phone')" />
-
-          <q-select
-            v-bind="getErrorAttrs('region_id')"
-            v-model="data.region_id"
-            class="personal-data__item"
-            input-class="q-select--form"
-            label="Регион*"
-            outlined
-            :options="optionsRegions"
-            :option-label="(item) => item.label"
-            emit-value
-            map-options
-            @blur="handleBlur('region_id')" />
+          <q-btn
+            v-if="!isEnoughChildren"
+            label="Добавить ребенка"
+            class="q-btn--form"
+            color="primary"
+            @click="addChild" />
         </div>
       </q-form>
       <div class="personal-data__block">
-        <q-btn label="Сохранить изменения" :disable="!isValid" class="q-btn--form" color="primary" />
-        <!-- <q-btn label="Отменить" class="q-ml-sm q-btn--form" :disable="isValid" flat :ripple="false" color="grey-1" /> -->
+        <q-btn label="Сохранить изменения" class="q-btn--form" color="primary" @click="handleForm" />
       </div>
     </div>
   </div>

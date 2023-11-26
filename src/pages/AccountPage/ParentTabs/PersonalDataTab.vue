@@ -1,9 +1,19 @@
 <script setup lang="ts">
+import ChildrenData from "./PersonalDataTab/ChildrenData.vue";
 import PersonalData from "./PersonalDataTab/PersonalData.vue";
 </script>
 
 <template>
-  <PersonalData />
+  <div class="wrapper">
+    <PersonalData />
+    <ChildrenData />
+  </div>
 </template>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+</style>

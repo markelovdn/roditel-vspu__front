@@ -4,3 +4,8 @@ export type TPersonalDataParentPayload = {
   phone?: string;
   region_id?: number;
 };
+
+export type TPersonalDataChildrenPayload = {
+  age: number;
+  id: number;
+};
