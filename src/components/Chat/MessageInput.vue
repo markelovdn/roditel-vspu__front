@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-const message = ref("");
+import { useConsultationsStore } from "@/stores/consultationsStore";
+
+const consultationsStore = useConsultationsStore();
+
+const message = ref<string>("");
 </script>
 
 <template>
@@ -12,7 +16,7 @@ const message = ref("");
       class="message__input"
       bg-color="white"
       filled />
-    <q-btn color="primary" class="message__btn">Отправить</q-btn>
+    <q-btn color="primary" class="message__btn" @click="consultationsStore.sendMessage(message)">Отправить</q-btn>
   </div>
 </template>
 

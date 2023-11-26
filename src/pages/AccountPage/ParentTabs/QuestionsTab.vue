@@ -28,8 +28,7 @@ const activeChatConsultation = computed(
 onBeforeMount(() => {
   //TODO: нужно динамически передавать id консультации не уверен что это надо делать в этом компоненте
 
-  // закоментил, так как вместе с попыткой авторизацией отправляет слишком много запросов
-  // consultationsStore.connectChannel(21);
+  consultationsStore.connectChannel(21);
   consultationsStore.requestConsultations({}).then((data: TConsultation[]) => {
     activeChat.value = data[0].id;
   });
