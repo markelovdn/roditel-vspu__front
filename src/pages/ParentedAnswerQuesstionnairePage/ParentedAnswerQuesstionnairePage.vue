@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { computed, onMounted, ref } from "vue";
+import { onMounted, ref } from "vue";
 
 import { useQuestionnaire } from "@/hooks/useQuestionnaire";
-import type { TAnswere, TOther } from "@/pages/ParentedAnswerQuesstionnairePage/types";
+import type { TAnswer, TOther } from "@/pages/ParentedAnswerQuesstionnairePage/types";
 
 const { SurveyData, router, questionnairesStore } = useQuestionnaire();
 
@@ -12,33 +12,32 @@ const { questionnaire } = storeToRefs(questionnairesStore);
 const radio = ref<Record<number, number>>({});
 const checked = ref<number[]>([]);
 const text = ref([]);
-const answers = ref<{ radio: TAnswere[]; checked: TAnswere[] }>({ radio: [], checked: [] });
-const selected = computed(() => [...answers.value.radio, ...answers.value.checked]);
+const answers = ref<{ radio: TAnswer[]; checked: TAnswer[] }>({ radio: [], checked: [] });
 const other = ref<TOther[]>([]);
 const temp = ref([]);
 
+const checkIsNumber = (arg?: number | null): arg is number => {
+  return arg !== undefined && arg !== null && typeof arg === "number";
+};
+const clearOther = (questionId: number) => (other.value = other.value.filter((item) => item.questionId !== questionId));
 const addRadio = (questionId?: number | null, optionId?: number | null) => {
-  if (typeof questionId !== "number" || typeof optionId !== "number") {
+  if (!checkIsNumber(questionId) || !checkIsNumber(optionId)) {
     return;
   }
 
   answers.value.radio = answers.value.radio.filter((item) => item.questionId !== questionId);
   answers.value.radio.push({ questionId, optionId });
-  other.value = other.value.filter((item) => item.questionId !== questionId);
+  clearOther(questionId);
 };
 
 const addChecked = (questionId?: number | null, optionId?: number | null) => {
-  if (typeof questionId !== "number" || typeof optionId !== "number") {
+  if (!checkIsNumber(questionId) || !checkIsNumber(optionId)) {
     return;
   }
-
-  checked.value.forEach((checkedItem) => {
-    const existingItem = answers.value.checked.find((selectedItem) => selectedItem.optionId === checkedItem);
-    if (!existingItem) {
-      answers.value.checked.push({ questionId, optionId });
-    }
-  });
-  answers.value.checked = answers.value.checked.filter((selectedItem) => checked.value.includes(selectedItem.optionId));
+  answers.value.checked =
+    answers.value.checked.findIndex((el) => el.optionId === optionId) > -1
+      ? answers.value.checked.filter((el) => el.optionId !== optionId)
+      : [...answers.value.checked, { questionId, optionId }];
 
   other.value = other.value.filter((item) => item.text !== undefined && item.text !== "");
 };
@@ -48,7 +47,7 @@ const addOtherAnswer = (text: string, questionId?: number | null) => {
     return;
   }
 
-  other.value = other.value.filter((item) => item.questionId !== questionId);
+  clearOther(questionId);
   other.value.push({ questionId, text });
 };
 
@@ -67,18 +66,24 @@ const filterAnswers = (questionIndex: number, questionId?: number | null) => {
 
 const submitSurvey = () => {
   questionnairesStore
-    .setSelectedParentedAnswers(Number(router.currentRoute.value.params.id), selected.value, other.value)
+    .setSelectedParentedAnswers(
+      Number(router.currentRoute.value.params.id),
+      [...answers.value.radio, ...answers.value.checked],
+      other.value,
+    )
     .then(() => router.push({ name: "My", query: { tabId: "questionaries" } }));
 };
 
-onMounted(async () => {
+onMounted(() => {
   if (router.currentRoute.value.params.id) {
-    await questionnairesStore.showQuestionnaire(Number(router.currentRoute.value.params.id));
-    SurveyData.value = questionnaire.value;
-  }
+    questionnairesStore
+      .showQuestionnaire(Number(router.currentRoute.value.params.id))
+      .then(() => (SurveyData.value = questionnaire.value));
 
-  await questionnairesStore.getSelectedParentedAnswers(Number(router.currentRoute.value.params.id));
-  temp.value = questionnairesStore.temp;
+    questionnairesStore
+      .getSelectedParentedAnswers(Number(router.currentRoute.value.params.id))
+      .then(() => (temp.value = questionnairesStore.temp));
+  }
 });
 </script>
 

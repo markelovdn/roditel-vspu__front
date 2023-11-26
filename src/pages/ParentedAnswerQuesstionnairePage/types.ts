@@ -1,4 +1,4 @@
-export type TAnswere = {
+export type TAnswer = {
   questionId: number;
   optionId: number;
 };
