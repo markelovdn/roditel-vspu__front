@@ -51,14 +51,14 @@ export class QuestionnairesApiService {
     });
   }
 
-  setSelectedParentedAnsweres(questionaireId: number | string, selected: TSelectedAnsweres, other: TOtherAnsweres) {
+  setSelectedParentedAnswers(questionaireId: number | string, selected: TSelectedAnsweres, other: TOtherAnsweres) {
     return axios.post(`/questionnaire/${questionaireId}/selectedOptions`, {
       selected: selected,
       other: other,
     });
   }
 
-  getSelectedParentedAnsweres(questionaireId: number | string) {
+  getSelectedParentedAnswers(questionaireId: number | string) {
     return axios.get(`/questionnaire/${questionaireId}/selectedOptions`);
   }
 }

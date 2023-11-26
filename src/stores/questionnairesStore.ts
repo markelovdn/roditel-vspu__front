@@ -58,8 +58,7 @@ export const useQuestionnairesStore = defineStore("questionnaresStore", () => {
   }
 
   async function updateQuestionnaire(questionnaireId: number, questionnaire: TQuestionnairePayload) {
-    await questionnairesApi.updateQuestionnaire(questionnaireId, questionnaire).then((resp) => {
-      console.log(resp.data.data);
+    await questionnairesApi.updateQuestionnaire(questionnaireId, questionnaire).then(() => {
       notify({ type: "positive", message: "Анкета успешно обновлена" });
     });
   }
@@ -71,19 +70,19 @@ export const useQuestionnairesStore = defineStore("questionnaresStore", () => {
     });
   }
 
-  async function setSelectedParentedAnsweres(
+  async function setSelectedParentedAnswers(
     questionnaireId: number | string,
     selected: TSelectedAnsweres,
     other: TOtherAnsweres,
   ) {
-    await questionnairesApi.setSelectedParentedAnsweres(questionnaireId, selected, other).then((resp) => {
+    await questionnairesApi.setSelectedParentedAnswers(questionnaireId, selected, other).then((resp) => {
       console.log(resp);
       notify({ type: "positive", message: "Ответы на анкету добавлены" });
     });
   }
 
-  async function getSelectedParentedAnsweres(questionnaireId: number | string) {
-    await questionnairesApi.getSelectedParentedAnsweres(questionnaireId).then((resp) => {
+  async function getSelectedParentedAnswers(questionnaireId: number | string) {
+    await questionnairesApi.getSelectedParentedAnswers(questionnaireId).then((resp) => {
       temp.value = resp.data;
       console.log(resp);
       notify({ type: "positive", message: "Ответы загружены" });
@@ -108,8 +107,8 @@ export const useQuestionnairesStore = defineStore("questionnaresStore", () => {
     updateQuestionnaire,
     deleteQuestionnaire,
     clearFilters,
-    setSelectedParentedAnsweres,
+    setSelectedParentedAnswers,
     setQuestionnaireToParented,
-    getSelectedParentedAnsweres,
+    getSelectedParentedAnswers,
   };
 });

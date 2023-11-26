@@ -12,8 +12,8 @@ const { questionnaire } = storeToRefs(questionnairesStore);
 const radio = ref<Record<number, number>>({});
 const checked = ref<number[]>([]);
 const text = ref([]);
-const answeres = ref<{ radio: TAnswere[]; checked: TAnswere[] }>({ radio: [], checked: [] });
-const selected = computed(() => [...answeres.value.radio, ...answeres.value.checked]);
+const answers = ref<{ radio: TAnswere[]; checked: TAnswere[] }>({ radio: [], checked: [] });
+const selected = computed(() => [...answers.value.radio, ...answers.value.checked]);
 const other = ref<TOther[]>([]);
 const temp = ref([]);
 
@@ -22,8 +22,8 @@ const addRadio = (questionId?: number | null, optionId?: number | null) => {
     return;
   }
 
-  answeres.value.radio = answeres.value.radio.filter((item) => item.questionId !== questionId);
-  answeres.value.radio.push({ questionId, optionId });
+  answers.value.radio = answers.value.radio.filter((item) => item.questionId !== questionId);
+  answers.value.radio.push({ questionId, optionId });
   other.value = other.value.filter((item) => item.questionId !== questionId);
 };
 
@@ -33,14 +33,12 @@ const addChecked = (questionId?: number | null, optionId?: number | null) => {
   }
 
   checked.value.forEach((checkedItem) => {
-    const existingItem = answeres.value.checked.find((selectedItem) => selectedItem.optionId === checkedItem);
+    const existingItem = answers.value.checked.find((selectedItem) => selectedItem.optionId === checkedItem);
     if (!existingItem) {
-      answeres.value.checked.push({ questionId, optionId });
+      answers.value.checked.push({ questionId, optionId });
     }
   });
-  answeres.value.checked = answeres.value.checked.filter((selectedItem) =>
-    checked.value.includes(selectedItem.optionId),
-  );
+  answers.value.checked = answers.value.checked.filter((selectedItem) => checked.value.includes(selectedItem.optionId));
 
   other.value = other.value.filter((item) => item.text !== undefined && item.text !== "");
 };
@@ -59,7 +57,7 @@ const filterAnswers = (questionIndex: number, questionId?: number | null) => {
     return;
   }
 
-  answeres.value.radio = answeres.value.radio.filter((item) => item.optionId !== radio.value[questionIndex]);
+  answers.value.radio = answers.value.radio.filter((item) => item.optionId !== radio.value[questionIndex]);
   delete radio.value[questionIndex];
   other.value = other.value.filter(
     (item) => item.questionId !== questionId && item.text !== undefined && item.text !== "",
@@ -67,13 +65,10 @@ const filterAnswers = (questionIndex: number, questionId?: number | null) => {
   other.value.push({ questionId: questionId, text: text.value[questionIndex] });
 };
 
-const submitSelected = () => {
-  questionnairesStore.setSelectedParentedAnsweres(
-    Number(router.currentRoute.value.params.id),
-    selected.value,
-    other.value,
-  );
-  router.push({ name: "My" });
+const submitSurvey = () => {
+  questionnairesStore
+    .setSelectedParentedAnswers(Number(router.currentRoute.value.params.id), selected.value, other.value)
+    .then(() => router.push({ name: "My", query: { tabId: "questionaries" } }));
 };
 
 onMounted(async () => {
@@ -82,7 +77,7 @@ onMounted(async () => {
     SurveyData.value = questionnaire.value;
   }
 
-  await questionnairesStore.getSelectedParentedAnsweres(Number(router.currentRoute.value.params.id));
+  await questionnairesStore.getSelectedParentedAnswers(Number(router.currentRoute.value.params.id));
   temp.value = questionnairesStore.temp;
 });
 </script>
@@ -97,12 +92,12 @@ onMounted(async () => {
 
     <!-- <p>Выбаранные ответы (уходят на бэк): {{ selected }}</p>
     <p>Другое (уходят на бэк): {{ other }}</p>
-    <p>Answeres: {{ answeres }}</p>
+    <p>Answers: {{ answers }}</p>
     <p>Checked: {{ checked }}</p>
     <p>Radio: {{ radio }}</p>
     <p>Text: {{ text }}</p> -->
-    <!-- Вопросы -->
 
+    <!-- Вопросы -->
     <div class="questions-wrapper">
       <div v-for="(question, questionIndex) in SurveyData.questions" :key="questionIndex" class="question shadow-1">
         <p class="question__title subtitle q-mb-sm">{{ question.text }}</p>
@@ -136,7 +131,7 @@ onMounted(async () => {
       </div>
     </div>
     <div class="fit flex flex-center q-mt-sm">
-      <q-btn label="Отправить" class="q-btn--form" color="primary" @click="submitSelected"></q-btn>
+      <q-btn label="Отправить" class="q-btn--form" color="primary" @click="submitSurvey"></q-btn>
     </div>
 
     <!-- <h5>Ответы</h5>
