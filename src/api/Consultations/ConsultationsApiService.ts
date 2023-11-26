@@ -19,7 +19,11 @@ export class ConsultationsApiService {
     return axios.delete(`/questionnaires/${consultationId}`);
   }
   sendMessage(message: string) {
-    axios.post("/messages", { message });
+    //TODO: сделать динамическим id консультации
+    axios.post("/consultations/21/messages", {
+      consultationId: 21,
+      text: message,
+    });
     console.log(message);
   }
 }
