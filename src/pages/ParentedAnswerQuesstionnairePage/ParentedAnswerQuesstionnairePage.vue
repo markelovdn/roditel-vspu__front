@@ -88,10 +88,13 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="main-container">
-    <p class="q-mb-sm" label="Название анкеты*">{{ SurveyData.title }}</p>
-    <p class="q-mb-sm" label="Название анкеты*">{{ SurveyData.description }}</p>
-    <p class="q-mb-sm" label="Название анкеты*">Ответить до: {{ SurveyData.answerBefore }}</p>
+  <div class="main-container survey">
+    <div class="column justify-center flex-center q-mb-lg">
+      <h2 class="survey__title q-mb-sm">{{ SurveyData.title }}</h2>
+      <p class="survey__description subtitle q-mb-sm">{{ SurveyData.description }}</p>
+      <p class="survey__answerBefore q-mb-sm">Ответить до: {{ SurveyData.answerBefore }}</p>
+    </div>
+
     <!-- <p>Выбаранные ответы (уходят на бэк): {{ selected }}</p>
     <p>Другое (уходят на бэк): {{ other }}</p>
     <p>Answeres: {{ answeres }}</p>
@@ -99,13 +102,11 @@ onMounted(async () => {
     <p>Radio: {{ radio }}</p>
     <p>Text: {{ text }}</p> -->
     <!-- Вопросы -->
-    <div class="row justify-center flex-center q-mt-lg">
-      <h5>Вопросы</h5>
-    </div>
+
     <div class="questions-wrapper">
-      <div v-for="(question, questionIndex) in SurveyData.questions" :key="questionIndex" class="question">
-        <p class="q-mb-sm" label="Текст вопроса*">{{ question.text }}</p>
-        <p class="q-mb-sm" label="Текст вопроса*">{{ question.description }}</p>
+      <div v-for="(question, questionIndex) in SurveyData.questions" :key="questionIndex" class="question shadow-1">
+        <p class="question__title subtitle q-mb-sm">{{ question.text }}</p>
+        <p class="question__description subtitle q-mb-sm">{{ question.description }}</p>
         <!-- Ответы -->
         <div v-for="(option, optionIndex) in SurveyData.questions[questionIndex].options" :key="optionIndex">
           <div v-if="SurveyData.questions[questionIndex].type !== 'text'" class="option">
@@ -127,12 +128,17 @@ onMounted(async () => {
             v-model="text[questionIndex]"
             class="option__input"
             label="Свой ответ"
+            outlined
+            autogrow
             @click="filterAnswers(questionIndex, SurveyData.questions[questionIndex].id)"
             @update:model-value="addOtherAnswer(text[questionIndex], SurveyData.questions[questionIndex].id)" />
         </div>
       </div>
     </div>
-    <q-btn label="Отправить" class="q-btn--form" color="primary" @click="submitSelected"></q-btn>
+    <div class="fit flex flex-center q-mt-sm">
+      <q-btn label="Отправить" class="q-btn--form" color="primary" @click="submitSelected"></q-btn>
+    </div>
+
     <!-- <h5>Ответы</h5>
     <div>
       <ul v-for="(question, questionIndex) in temp.questions" :key="questionIndex">
@@ -148,16 +154,38 @@ onMounted(async () => {
 </template>
 
 <style lang="scss" scoped>
+.survey {
+  &__title {
+    color: var(--black);
+  }
+  &__description {
+    color: var(--grey-1);
+  }
+  &__answerBefore {
+  }
+}
 .btn-delete {
   height: unset;
 }
 .questions-wrapper {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 20px;
+
   .question {
+    background: var(--q-background-primary);
+    border-radius: 16px;
+    padding: 20px;
+    width: 100%;
     display: flex;
     flex-direction: column;
+    &__title {
+      color: var(--grey-2);
+    }
+    &__description {
+      color: var(--text-color);
+    }
   }
   .question-delete {
     margin-top: 20px;
