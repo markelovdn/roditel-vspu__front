@@ -18,10 +18,10 @@ export class ConsultationsApiService {
   deleteQuestionnaire(consultationId: number | string) {
     return axios.delete(`/questionnaires/${consultationId}`);
   }
-  sendMessage(message: string) {
+  sendMessage(message: string, id: number) {
     //TODO: сделать динамическим id консультации
-    axios.post("/consultations/21/messages", {
-      consultationId: 21,
+    axios.post(`/consultations/${id}/messages`, {
+      consultationId: id,
       text: message,
     });
     console.log(message);

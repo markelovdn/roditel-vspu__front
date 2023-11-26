@@ -10,27 +10,33 @@ import { useConsultationsStore } from "@/stores/consultationsStore";
 
 const consultationsStore = useConsultationsStore();
 const queryParams = ref<TGetConsultationsFilter>({});
-const activeChat = ref(0);
+const idActiveChat = ref(0);
 useRequestPayload(queryParams, consultationsStore.requestConsultations, {});
 
-const setActiveChat = (id: number) => (activeChat.value = id);
-const activeChatMessages = computed(
-  () => consultationsStore.consultations.find((item) => item.id === activeChat.value)?.messages || [],
+const setIdActiveChat = (id: number) => {
+  consultationsStore.connectChannel(id);
+  idActiveChat.value = id;
+};
+
+const sendMessage = (message: string) => {
+  consultationsStore.sendMessage(message, idActiveChat.value);
+};
+const idActiveChatMessages = computed(
+  () => consultationsStore.consultations.find((item) => item.id === idActiveChat.value)?.messages || [],
 );
 
-const activeChatConsultation = computed(
+const idActiveChatConsultation = computed(
   () =>
     consultationsStore.consultations[
-      consultationsStore.consultations.findIndex((item) => item.id === activeChat.value)
+      consultationsStore.consultations.findIndex((item) => item.id === idActiveChat.value)
     ],
 );
 
 onBeforeMount(() => {
   //TODO: нужно динамически передавать id консультации не уверен что это надо делать в этом компоненте
-
-  consultationsStore.connectChannel(21);
   consultationsStore.requestConsultations({}).then((data: TConsultation[]) => {
-    activeChat.value = data[0].id;
+    idActiveChat.value = data[0].id;
+    consultationsStore.connectChannel(data[0].id);
   });
 });
 const search = ref("");
@@ -58,13 +64,13 @@ const search = ref("");
     <div class="question__wrapper">
       <div class="question__sidebar">
         <ChatSideBarWrapper
-          :active-chat="activeChat"
+          :active-chat="idActiveChat"
           :consultations="consultationsStore.consultations"
-          @set-change-chat="setActiveChat" />
+          @set-change-chat="setIdActiveChat" />
       </div>
       <div class="question__content">
-        <ChatWrapper :messages="activeChatMessages" :consultation="activeChatConsultation" />
-        <MessageInput />
+        <ChatWrapper :messages="idActiveChatMessages" :consultation="idActiveChatConsultation" />
+        <MessageInput @send-message="sendMessage" />
       </div>
     </div>
   </div>
