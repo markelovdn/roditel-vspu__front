@@ -11,10 +11,7 @@ export class ParentsApiService {
       patronymic: splitName[2],
       phone: data.phone,
       email: data.email,
+      regionId: data.region_id,
     });
-  }
-
-  setParentRegion(regionId: number) {
-    return axios.put<any>(`/parenteds/${regionId}`);
   }
 }

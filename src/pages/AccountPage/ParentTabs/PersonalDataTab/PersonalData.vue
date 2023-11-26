@@ -12,11 +12,12 @@ import {
 } from "@/hooks/useValidation";
 import { useAuthStore } from "@/stores/authStore";
 import { useCollectionsStore } from "@/stores/collectionsStore";
+import { useParentStore } from "@/stores/parentStore";
 
 import { TPersonalDataParentPayload } from "../types";
 
 const authStore = useAuthStore();
-
+const parentStore = useParentStore();
 const collectionsStore = useCollectionsStore();
 
 const { getRegions: optionsRegions } = storeToRefs(collectionsStore);
@@ -36,20 +37,17 @@ const { handleBlur, getErrorAttrs, isValid } = useValidation<TPersonalDataParent
 });
 
 const handleForm = () => {
-  // Promise.allSettled([
-  //   consultantStore.setNewConsultantInfo(data.value),
-  //   consultantStore.setNewConsultantPhoto(data.value),
-  // ]).then(() => {
-  //   authStore.requestUserInfo();
-  //   consultantStore.getConsultantInfo();
-  // });
+  const setResult = parentStore.setParentInfo(data.value);
+
+  if (setResult) {
+    setResult.then(() => {
+      authStore.requestUserInfo();
+    });
+  }
 };
 
 onMounted(() => {
   collectionsStore.requestRegions();
-  // collectionsStore.requestSpecializations();
-  // collectionsStore.requestProfessions();
-  // consultantStore.getConsultantInfo();
 });
 </script>
 
