@@ -32,13 +32,13 @@ const questionnairesListHeaders = [
     name: "title",
     label: "Название файла",
     field: "title",
-    width: "350px",
+    width: "300px",
   },
   {
     name: "consultant",
     label: "От кого",
     field: "consultant",
-    width: "110px",
+    width: "140px",
   },
   {
     name: "updatedAt",
@@ -66,16 +66,14 @@ const questionnairesListHeaders = [
     <TableWrapper :items="questionnairesListRows" :headers="questionnairesListHeaders" :title="'Анкеты'">
       <template #header_right></template>
       <template #filters></template>
-      <template #item="{ item, index, cellClass }">
-        <div :class="cellClass">{{ index + 1 }}</div>
-        <div :class="cellClass" class="justify-center">{{ item.title }}</div>
-        <div :class="cellClass" class="justify-center">{{ item.consultant }}</div>
-        <div :class="cellClass" class="justify-center">{{ item.updatedAt }}</div>
-        <div :class="cellClass" class="justify-center">{{ item.answerBefore }}</div>
-        <div :class="cellClass">
-          <router-link :to="`/answerParentedQuesstionaire/${item.id}`">
-            <span>Ответить</span>
-          </router-link>
+      <template #item="{ item, index }">
+        <div>{{ index + 1 }}</div>
+        <div>{{ item.title }}</div>
+        <div>{{ item.consultant }}</div>
+        <div>{{ item.updatedAt }}</div>
+        <div>{{ item.answerBefore }}</div>
+        <div class="answer-btn-cell">
+          <q-btn flat :padding="'xs'" color="primary" :to="`/answerParentedQuesstionaire/${item.id}`">Ответить</q-btn>
         </div>
       </template>
     </TableWrapper>
@@ -95,6 +93,9 @@ const questionnairesListHeaders = [
 </template>
 
 <style lang="scss" scoped>
+.answer-btn-cell {
+  // background: #ecedf3;
+}
 .filters {
   border: 1px solid #e0e0e0;
   display: flex;

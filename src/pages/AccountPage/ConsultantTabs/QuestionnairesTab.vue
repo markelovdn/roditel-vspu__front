@@ -169,21 +169,21 @@ const questionnairesListHeaders = [
             @update:model-value="(value) => setStatusFilter(value)" />
         </div>
       </template>
-      <template #item="{ item, index, cellClass }">
-        <div :class="cellClass">{{ index + 1 }}</div>
-        <div :class="cellClass" class="justify-center">{{ item.title }}</div>
-        <div :class="cellClass" class="justify-center">{{ item.updatedAt }}</div>
-        <div :class="cellClass" class="justify-center">
+      <template #item="{ item, index }">
+        <div>{{ index + 1 }}</div>
+        <div>{{ item.title }}</div>
+        <div>{{ item.updatedAt }}</div>
+        <div>
           <span v-if="!item.status">Ожидает ответа</span>
           <span v-else>Ответ от {{ item.status }}</span>
         </div>
-        <div :class="cellClass" class="justify-center">
+        <div>
           <span v-if="!item.parented" style="cursor: pointer" @click="questionaireToParented(item.id)">
             Не назначено
           </span>
           <span>{{ item.parented }}</span>
         </div>
-        <div :class="cellClass">
+        <div>
           <q-btn flat @click="handleFileDownload(String(item.fileUrl), String(item.fileName))">
             <svg
               fill="currentColor"
@@ -200,12 +200,12 @@ const questionnairesListHeaders = [
             </svg>
           </q-btn>
         </div>
-        <div :class="cellClass" class="flex gap-1 justify-end">
+        <div class="flex gap-1 justify-end">
           <div>
             <q-btn v-if="item.id" dense icon="edit" size="xs" color="primary" :to="`/questionnaire/${item.id}`"></q-btn>
           </div>
         </div>
-        <div :class="cellClass" class="flex gap-1 justify-end">
+        <div class="flex gap-1 justify-end">
           <div>
             <q-btn v-if="item.id" dense size="xs" icon="delete" color="negative" @click="handleDelete(item.id)"></q-btn>
           </div>
