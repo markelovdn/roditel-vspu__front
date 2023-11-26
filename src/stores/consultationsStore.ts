@@ -23,6 +23,9 @@ export const useConsultationsStore = defineStore("consultationsStore", () => {
       messages.value.push(event);
     });
   }
+  function sendMessage(message: string) {
+    consultationsApi.sendMessage(message);
+  }
 
   async function requestConsultations(filters: TGetConsultationsFilter) {
     if (userId === undefined) return Promise.reject(new Error("userId is undefined"));
@@ -35,15 +38,10 @@ export const useConsultationsStore = defineStore("consultationsStore", () => {
       .catch((err) => err);
   }
 
-  // const sendMessage = () => {
-  //   axios.post("/messages", { message: newMessage.value });
-  //   console.log(newMessage.value);
-  //   newMessage.value = "";
-  // };
-
   return {
     connectChannel,
     requestConsultations,
+    sendMessage,
     messages,
     consultations,
   };

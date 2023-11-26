@@ -18,4 +18,8 @@ export class ConsultationsApiService {
   deleteQuestionnaire(consultationId: number | string) {
     return axios.delete(`/questionnaires/${consultationId}`);
   }
+  sendMessage(message: string) {
+    axios.post("/messages", { message });
+    console.log(message);
+  }
 }

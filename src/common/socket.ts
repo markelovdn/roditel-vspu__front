@@ -5,7 +5,7 @@ import io from "socket.io-client";
 export const socketConnection = new Echo({
   broadcaster: "socket.io",
   client: io,
-  host: window.location.hostname + ":6001",
+  host: "https://markelovdn.ru:6001",
   transports: ["websocket"],
   authEndpoint: "/broadcasting/auth",
   auth: {
