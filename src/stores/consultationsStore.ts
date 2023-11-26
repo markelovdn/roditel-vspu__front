@@ -15,16 +15,17 @@ type TSocketEvent = {
 export const useConsultationsStore = defineStore("consultationsStore", () => {
   const authStore = useAuthStore();
   const userId = authStore.getUserId;
-  const messages = ref<TSocketEvent[]>([]);
   const consultations = ref<TConsultation[]>([]);
 
   function connectChannel(consultationId: number) {
+    socketConnection.leaveAllChannels();
     socketConnection.private(`Consultation.${consultationId}`).listen("ConsultationEvent", (event: TSocketEvent) => {
-      messages.value.push(event);
+      console.log(event);
+      //добавляем сообщение в consultations.value[index].messages.push(event)
     });
   }
-  function sendMessage(message: string) {
-    consultationsApi.sendMessage(message);
+  function sendMessage(message: string, id: number) {
+    consultationsApi.sendMessage(message, id);
   }
 
   async function requestConsultations(filters: TGetConsultationsFilter) {
@@ -42,7 +43,6 @@ export const useConsultationsStore = defineStore("consultationsStore", () => {
     connectChannel,
     requestConsultations,
     sendMessage,
-    messages,
     consultations,
   };
 });

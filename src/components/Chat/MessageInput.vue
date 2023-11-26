@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-import { useConsultationsStore } from "@/stores/consultationsStore";
-
-const consultationsStore = useConsultationsStore();
-
+const emits = defineEmits<{ (e: "send-message", message: string): void }>();
 const message = ref<string>("");
+
+const sendMessage = () => {
+  emits("send-message", message.value);
+};
 </script>
 
 <template>
@@ -16,7 +17,7 @@ const message = ref<string>("");
       class="message__input"
       bg-color="white"
       filled />
-    <q-btn color="primary" class="message__btn" @click="consultationsStore.sendMessage(message)">Отправить</q-btn>
+    <q-btn color="primary" class="message__btn" @click="sendMessage">Отправить</q-btn>
   </div>
 </template>
 
