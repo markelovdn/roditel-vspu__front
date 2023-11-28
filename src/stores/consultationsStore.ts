@@ -2,13 +2,13 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 
 import { consultationsApi } from "@/api";
-import { TConsultation, TGetConsultationsFilter } from "@/api/Consultations/types";
+import { TConsultation, TGetConsultationsFilter, TMessage } from "@/api/Consultations/types";
 import { socketConnection } from "@/common/socket";
 
 import { useAuthStore } from "./authStore";
 //todo описать тип
 type TSocketEvent = {
-  text: string;
+  message: TMessage;
   id: number;
 };
 
@@ -20,8 +20,8 @@ export const useConsultationsStore = defineStore("consultationsStore", () => {
   function connectChannel(consultationId: number) {
     socketConnection.leaveAllChannels();
     socketConnection.private(`Consultation.${consultationId}`).listen("ConsultationEvent", (event: TSocketEvent) => {
-      console.log(event);
-      //добавляем сообщение в consultations.value[index].messages.push(event)
+      const index = consultations.value.findIndex((c) => c.id == event.id);
+      consultations.value[index].messages.push(event.message);
     });
   }
   function sendMessage(message: string, id: number) {
