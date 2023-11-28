@@ -18,6 +18,10 @@ export class ConsultantApiService {
     return axios.get(`/consultants/${consultantId}`);
   }
 
+  getAllConsultants() {
+    return axios.get("/consultants?all=true");
+  }
+
   setConsultantInfo(consultantId: number | string, data: TPersonalDataPayload) {
     const splitName: Array<string> = (data.name as string).split(" ");
 
