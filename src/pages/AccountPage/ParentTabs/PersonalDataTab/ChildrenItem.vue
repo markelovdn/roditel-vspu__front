@@ -52,7 +52,7 @@ watch(
   <div class="wrapper">
     <q-input
       v-bind="getErrorAttrs('age')"
-      v-model="data.age"
+      v-model.number="data.age"
       type="number"
       outlined
       class="children-input"
