@@ -42,7 +42,7 @@ const { handleBlur, getErrorAttrs, isValid } = useValidation<TPersonalDataParent
 const handleForm = () => {
   const payload = {
     ...data.value,
-    childrens: children.value.map((item) => ({ age: item.age, id: item.id })),
+    childrens: children.value.map((item) => ({ age: Number(item.age), id: item.id })),
   };
   parentStore.setParentInfo(payload)?.then(() => {
     authStore.requestUserInfo();
