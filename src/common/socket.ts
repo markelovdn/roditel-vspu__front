@@ -5,12 +5,10 @@ import io from "socket.io-client";
 export const socketConnection = new Echo({
   broadcaster: "socket.io",
   client: io,
-  host: "https://markelovdn.ru:6001",
+  host: import.meta.env.VITE_SOCKET_URL,
   transports: ["websocket"],
   authEndpoint: "/broadcasting/auth",
   auth: {
-    headers: {
-      Authorization: "Bearer " + localStorage.getItem("token"),
-    },
+    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
   },
 });

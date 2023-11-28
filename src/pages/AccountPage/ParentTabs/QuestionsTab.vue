@@ -69,7 +69,11 @@ const search = ref("");
           @set-change-chat="setIdActiveChat" />
       </div>
       <div class="question__content">
-        <ChatWrapper :messages="idActiveChatMessages" :consultation="idActiveChatConsultation" />
+        <ChatWrapper
+          v-if="idActiveChatConsultation"
+          :messages="idActiveChatMessages"
+          :consultation="idActiveChatConsultation" />
+        <div v-else><h2>загрузка</h2></div>
         <MessageInput @send-message="sendMessage" />
       </div>
     </div>

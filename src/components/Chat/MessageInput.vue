@@ -6,6 +6,7 @@ const message = ref<string>("");
 
 const sendMessage = () => {
   emits("send-message", message.value);
+  message.value = "";
 };
 </script>
 
@@ -16,7 +17,8 @@ const sendMessage = () => {
       placeholder="Введите ответ на сообщение"
       class="message__input"
       bg-color="white"
-      filled />
+      filled
+      @keydown.enter="sendMessage" />
     <q-btn color="primary" class="message__btn" @click="sendMessage">Отправить</q-btn>
   </div>
 </template>
