@@ -3,7 +3,12 @@ import { ref } from "vue";
 
 import { consultantApi } from "@/api";
 import { toConsultantReportsData } from "@/api/Consultant/mappers";
-import { TGetConsultantInfo, TGetConsultantReportsData, TGetConsultantReportsFilter } from "@/api/Consultant/types";
+import {
+  TGetAllConsultants,
+  TGetConsultantInfo,
+  TGetConsultantReportsData,
+  TGetConsultantReportsFilter,
+} from "@/api/Consultant/types";
 import { TPersonalDataPayload } from "@/pages/AccountPage/ConsultantTabs/types";
 import notify from "@/utils/notify";
 
@@ -14,6 +19,7 @@ export const useConsultantStore = defineStore("consultantStore", () => {
   const consultantInfo = ref<TGetConsultantInfo>();
   const authStore = useAuthStore();
   const consultantId = authStore.getUserId;
+  const consultants = ref<TGetAllConsultants[]>([]);
 
   function requestReports(filters: TGetConsultantReportsFilter) {
     if (consultantId === undefined) return;
@@ -39,6 +45,10 @@ export const useConsultantStore = defineStore("consultantStore", () => {
     consultantApi.getConsultantInfo(consultantId).then((resp) => (consultantInfo.value = resp.data.data[0]));
   }
 
+  function requestAllConsultants() {
+    consultantApi.getAllConsultants().then((resp) => (consultants.value = resp.data.data[0]));
+  }
+
   function setNewConsultantInfo(payload: TPersonalDataPayload) {
     if (consultantId === undefined) return;
     return consultantApi
@@ -59,10 +69,12 @@ export const useConsultantStore = defineStore("consultantStore", () => {
     requestReports,
     reportsModel,
     consultantInfo,
+    consultants,
     getReports,
     createReport,
     getConsultantInfo,
     setNewConsultantInfo,
     setNewConsultantPhoto,
+    requestAllConsultants,
   };
 });

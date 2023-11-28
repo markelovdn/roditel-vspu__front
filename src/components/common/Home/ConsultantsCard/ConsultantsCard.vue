@@ -2,6 +2,7 @@
 import { onMounted, ref } from "vue";
 
 import ConsultantDescriptionModal from "@/components/modals/ConsultantDescriptionModal/ConsultantDescriptionModal.vue";
+import CreateConsultationModal from "@/components/modals/ConsultationModal/CreateConsultationModal.vue";
 
 import type { Consultant } from "./types";
 
@@ -12,6 +13,7 @@ const props = defineProps<{
 const description = ref<HTMLElement | null>(null);
 const isFullShow = ref(false);
 const isShowModal = ref(false);
+const isShowCreateConsultationModal = ref(false);
 const maxDescriptionHeight = 73;
 
 onMounted(() => {
@@ -30,9 +32,14 @@ onMounted(() => {
     </div>
     <div v-if="isFullShow" class="card__next"><span @click="isShowModal = true">читать далее</span></div>
     <ConsultantDescriptionModal v-if="isShowModal" :consultant="consultant" @close="isShowModal = !isShowModal" />
+    <CreateConsultationModal
+      v-if="isShowCreateConsultationModal"
+      @close="isShowCreateConsultationModal = false"></CreateConsultationModal>
 
     <q-btn color="yellow card__button">
-      <div class="btn__label">Задать вопрос специалисту</div>
+      <div class="btn__label" @click="isShowCreateConsultationModal = !isShowCreateConsultationModal">
+        Задать вопрос специалисту
+      </div>
     </q-btn>
   </div>
 </template>
