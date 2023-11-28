@@ -19,6 +19,10 @@ export const splitNameValidator = helpers.withMessage(
   `ФИО должно состоять из трех слов`,
   (value: string) => value.trim().split(" ").length >= 3,
 );
+export const ageChildrenValidator = helpers.withMessage(
+  `Возраст не должен превышать 18`,
+  (value: number) => value <= 17,
+);
 
 export function useValidation<T extends {}>(data: Ref<T>, emit: GenericEmit, rules: TRule<T>) {
   const getRules = computed(() => rules);

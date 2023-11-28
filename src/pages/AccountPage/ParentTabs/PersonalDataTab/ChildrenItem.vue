@@ -1,27 +1,51 @@
 <script setup lang="ts">
-import { emit } from "process";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
-import { maxLengthValidator, requiredValidator, useValidation } from "@/hooks/useValidation";
+import { ageChildrenValidator, maxLengthValidator, requiredValidator, useValidation } from "@/hooks/useValidation";
+import { useParentStore } from "@/stores/parentStore";
+
+import { TPersonalDataChildrenPayload } from "../types";
+
+const data = defineModel<TPersonalDataChildrenPayload & { isValid: boolean }>({
+  required: true,
+});
 
 const props = defineProps<{ index: number }>();
 
-const data = defineModel({
-  required: true,
-  default: {
-    age: 3,
-  },
-});
+const emit = defineEmits(["update-list", "validation-change", "delete-child"]);
+
+const parentStore = useParentStore();
 
 const isDisable = ref(true);
 
-const { handleBlur, getErrorAttrs } = useValidation(data, emit, {
-  age: { requiredValidator, maxLengthValidator: maxLengthValidator(2) },
+const { handleBlur, getErrorAttrs, isValid } = useValidation(data, emit, {
+  age: { requiredValidator, maxLengthValidator: maxLengthValidator(2), ageChildrenValidator },
+  id: {},
+  isValid: {},
 });
+
+const onDeleteChildren = () => {
+  if (data.value.id) {
+    parentStore.deleteChildren(data.value.id as number).then(() => {
+      emit("update-list");
+    });
+
+    return;
+  }
+
+  emit("delete-child", props.index);
+};
 
 const changeDisable = () => {
   isDisable.value = !isDisable.value;
 };
+
+watch(
+  () => isValid.value,
+  () => {
+    data.value.isValid = isValid.value;
+  },
+);
 </script>
 
 <template>
@@ -39,13 +63,12 @@ const changeDisable = () => {
       :disable="isDisable"
       @blur="handleBlur('age')" />
     <q-btn padding="xs" icon="edit" size="xs" color="primary" @click="changeDisable"></q-btn>
-    <q-btn padding="xs" size="xs" icon="delete" color="negative"></q-btn>
+    <q-btn padding="xs" size="xs" icon="delete" color="negative" @click="onDeleteChildren"></q-btn>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .wrapper {
-  flex-grow: 1;
   display: flex;
   gap: 20px;
 }

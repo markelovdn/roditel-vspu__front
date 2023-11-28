@@ -6,10 +6,8 @@ export class ParentsApiService {
     return axios.get<any>(`/parented/${parentId}/children`);
   }
 
-  setChildrenAge(parentId: number | string, age: number) {
-    return axios.post<any>(`/parented/${parentId}/children/`, {
-      age: age,
-    });
+  deleteChildren(children_id: number | string) {
+    return axios.delete<any>(`/children/${children_id}/`);
   }
 
   setParentInfo(parentId: number | string, data: TPersonalDataParentPayload) {
@@ -22,6 +20,7 @@ export class ParentsApiService {
       phone: data.phone,
       email: data.email,
       regionId: data.region_id,
+      childrens: data.childrens,
     });
   }
 }

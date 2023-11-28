@@ -3,8 +3,8 @@ import { ref } from "vue";
 
 import { parentsApi } from "@/api";
 import { TPersonalDataChildrenPayload, TPersonalDataParentPayload } from "@/pages/AccountPage/ParentTabs/types";
+import notify from "@/utils/notify";
 
-// import notify from "@/utils/notify";
 import { useAuthStore } from "./authStore";
 
 export const useParentStore = defineStore("parentStore", () => {
@@ -18,21 +18,25 @@ export const useParentStore = defineStore("parentStore", () => {
     return parentsApi.getChildren(parentId).then((res) => (childrenData.value = res.data.data));
   }
 
-  function setChildrenAge(age: number) {
-    if (parentId === undefined) return;
-
-    return parentsApi.setChildrenAge(parentId, age);
+  function deleteChildren(children_id: number) {
+    return parentsApi
+      .deleteChildren(children_id)
+      .then(() => notify({ type: "positive", message: "Ребенок успешно удален" }))
+      .catch(() => notify({ type: "negative", message: "Не удалось удалить ребенка" }));
   }
 
   function setParentInfo(data: TPersonalDataParentPayload) {
     if (parentId === undefined) return;
-    return parentsApi.setParentInfo(parentId, data);
+    return parentsApi
+      .setParentInfo(parentId, data)
+      .then(() => notify({ type: "positive", message: "Данные успешно сохранены" }))
+      .catch(() => notify({ type: "negative", message: "Не удалось сохранить данные" }));
   }
 
   return {
     childrenData,
     setParentInfo,
     getChildren,
-    setChildrenAge,
+    deleteChildren,
   };
 });
