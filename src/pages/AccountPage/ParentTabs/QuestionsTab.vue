@@ -1,17 +1,16 @@
 <script setup lang="ts">
 import { computed, onBeforeMount, ref } from "vue";
 
-import { TConsultation, TGetConsultationsFilter } from "@/api/Consultations/types";
+import { TConsultation } from "@/api/Consultations/types";
 import ChatSideBarWrapper from "@/components/Chat/ChatSideBarWrapper.vue";
 import ChatWrapper from "@/components/Chat/ChatWrapper.vue";
 import MessageInput from "@/components/Chat/MessageInput.vue";
-import { useRequestPayload } from "@/hooks/useRequestPayload";
+import CreateConsultationModal from "@/components/modals/ConsultationModal/CreateConsultationModal.vue";
 import { useConsultationsStore } from "@/stores/consultationsStore";
 
 const consultationsStore = useConsultationsStore();
-const queryParams = ref<TGetConsultationsFilter>({});
 const idActiveChat = ref(0);
-useRequestPayload(queryParams, consultationsStore.requestConsultations, {});
+const isShowCreateConsultationModal = ref(false);
 
 const setIdActiveChat = (id: number) => {
   consultationsStore.connectChannel(id);
@@ -33,31 +32,29 @@ const idActiveChatConsultation = computed(
 );
 
 onBeforeMount(() => {
+  // useRequestPayload(queryParams, consultationsStore.requestConsultations, {});
   //TODO: нужно динамически передавать id консультации не уверен что это надо делать в этом компоненте
   consultationsStore.requestConsultations({}).then((data: TConsultation[]) => {
     idActiveChat.value = data[0].id;
     consultationsStore.connectChannel(data[0].id);
   });
 });
-const search = ref("");
 </script>
 
 <template>
   <div class="question">
     <div class="question__header">
       <div class="question__box">
-        <h5>Заявки</h5>
-        <q-input v-model="search" outlined bottom-slots class="q-pb-none">
-          <template #append>
-            <q-icon v-if="search !== ''" name="close" class="cursor-pointer" />
-            <q-icon name="search" style="cursor: pointer" />
-          </template>
-        </q-input>
+        <h5>Вопросы</h5>
       </div>
-
       <div class="question__box">
-        <q-btn label="Актуальные" class="q-btn--form" color="primary" />
-        <q-btn label="Выполненные" class="q-btn--form" flat :ripple="false" color="grey-1" />
+        <q-btn outline style="color: #f7b70b" class="q-btn--form q-ml-sm">
+          <span
+            class="text-primary question__btn-label"
+            @click="isShowCreateConsultationModal = !isShowCreateConsultationModal">
+            Задать вопрос
+          </span>
+        </q-btn>
       </div>
     </div>
 
@@ -77,6 +74,9 @@ const search = ref("");
         <MessageInput @send-message="sendMessage" />
       </div>
     </div>
+    <CreateConsultationModal
+      v-if="isShowCreateConsultationModal"
+      @close="isShowCreateConsultationModal = false"></CreateConsultationModal>
   </div>
 </template>
 
@@ -125,6 +125,12 @@ const search = ref("");
     justify-content: space-between;
     flex-basis: 64%;
     height: 100%;
+  }
+  &__btn-label {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 19px;
   }
 }
 </style>
