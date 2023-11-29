@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 import { consultantApi } from "@/api";
 import { toConsultantReportsData } from "@/api/Consultant/mappers";
@@ -45,9 +45,16 @@ export const useConsultantStore = defineStore("consultantStore", () => {
     consultantApi.getConsultantInfo(consultantId).then((resp) => (consultantInfo.value = resp.data.data[0]));
   }
 
-  function requestAllConsultants() {
-    consultantApi.getAllConsultants().then((resp) => (consultants.value = resp.data.data[0]));
+  async function requestAllConsultants() {
+    consultantApi.getAllConsultants().then((resp) => (consultants.value = resp.data.data));
   }
+
+  const getConsultants = computed(() => {
+    return consultants.value.map((item: any) => {
+      console.log(item);
+      return { label: item.fullName, value: item.userId };
+    });
+  });
 
   function setNewConsultantInfo(payload: TPersonalDataPayload) {
     if (consultantId === undefined) return;
@@ -73,6 +80,7 @@ export const useConsultantStore = defineStore("consultantStore", () => {
     getReports,
     createReport,
     getConsultantInfo,
+    getConsultants,
     setNewConsultantInfo,
     setNewConsultantPhoto,
     requestAllConsultants,
