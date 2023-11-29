@@ -2,8 +2,9 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 
 import { consultationsApi } from "@/api";
-import { TConsultation, TGetConsultationsFilter, TMessage } from "@/api/Consultations/types";
+import { TConsultation, TConsultationPayload, TGetConsultationsFilter, TMessage } from "@/api/Consultations/types";
 import { socketConnection } from "@/common/socket";
+import notify from "@/utils/notify";
 
 import { useAuthStore } from "./authStore";
 //todo описать тип
@@ -39,10 +40,31 @@ export const useConsultationsStore = defineStore("consultationsStore", () => {
       .catch((err) => err);
   }
 
+  async function createConsultation(consultation: TConsultationPayload<number | null>) {
+    if (userId === undefined) return Promise.reject(new Error("userId is undefined"));
+    console.log(userId);
+    return consultationsApi
+      .addConsultation(userId, consultation)
+      .then(() => {
+        notify({
+          type: "positive",
+          message: "Заявка на консультацию успешно создана",
+        });
+      })
+      .catch((err) => {
+        err;
+        notify({
+          type: "negative",
+          message: "Не удалось создать заявку на консультацию",
+        });
+      });
+  }
+
   return {
     connectChannel,
     requestConsultations,
     sendMessage,
+    createConsultation,
     consultations,
   };
 });

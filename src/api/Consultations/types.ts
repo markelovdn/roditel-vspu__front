@@ -8,12 +8,11 @@ export type TGetConsultationsFilter = {
   consultantId?: string;
 };
 
-export type TConsultationPayload<ConsultantId extends number | undefined> = {
-  title: string;
-  consultantId?: ConsultantId;
-  allConsultants: ConsultantId extends undefined ? true : false;
+export type TConsultationPayload<ConsultantId extends number | null> = {
+  consultantId?: number | null;
+  allConsultants: ConsultantId extends null ? true : false;
   messageText: string;
-  specializationId: number;
+  specializationId: number | null;
 };
 
 export type TConsultation = {
