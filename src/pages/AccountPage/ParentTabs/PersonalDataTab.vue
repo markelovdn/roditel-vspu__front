@@ -51,15 +51,11 @@ const handleForm = () => {
 };
 
 const isEnoughChildren = computed(() => {
-  if (children.value && children.value.length) {
-    return children.value.length === 6;
-  }
-
-  return false;
+  return children.value?.length === 6;
 });
 
 const isChildrenValid = computed(() => {
-  return children.value.some((item) => item.isValid === false);
+  return children.value.every((item) => item.isValid === true);
 });
 
 const addChild = () => {
@@ -149,13 +145,17 @@ onMounted(() => {
         </div>
 
         <div class="personal-data__kids">
-          <children-item
-            v-for="(item, index) in children"
-            :key="index"
-            v-model="children[index]"
-            :index="index"
-            @update-list="updateChildrenList"
-            @delete-child="deleteNewChildren" />
+          <template v-if="children.length !== 0">
+            <children-item
+              v-for="(item, index) in children"
+              :key="index"
+              v-model="children[index]"
+              :index="index"
+              @update-list="updateChildrenList"
+              @delete-child="deleteNewChildren" />
+          </template>
+
+          <div v-else class="personal-data__notify">Пожалуйста добавьте детей, иначе мы удалим ваш аккаунт</div>
 
           <q-btn
             v-if="!isEnoughChildren"
@@ -168,7 +168,7 @@ onMounted(() => {
       <div class="personal-data__block">
         <q-btn
           label="Сохранить личные данные"
-          :disable="!isValid || isChildrenValid"
+          :disable="!isValid || !isChildrenValid"
           class="q-btn--form"
           color="primary"
           @click="handleForm" />
@@ -230,6 +230,11 @@ onMounted(() => {
     height: 145px;
     max-width: 150px;
     border-radius: 50%;
+  }
+
+  &__notify {
+    grid-column: span 2;
+    color: var(--error);
   }
 }
 </style>
