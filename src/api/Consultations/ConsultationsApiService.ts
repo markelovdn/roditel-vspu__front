@@ -10,11 +10,11 @@ export class ConsultationsApiService {
     );
   }
 
-  addQuestionnaire(userId: number | string, consultation: TConsultationPayload<number>) {
-    return axios.post<TConsultationPayload<number>>(`/user/${userId}/consultations`, consultation);
+  addConsultation(userId: number | string, consultation: TConsultationPayload<number | null>) {
+    return axios.post<TConsultationPayload<number | null>>(`/users/${userId}/consultations`, consultation);
   }
 
-  deleteQuestionnaire(consultationId: number | string) {
+  deleteConsultation(consultationId: number | string) {
     return axios.delete(`/questionnaires/${consultationId}`);
   }
   sendMessage(text: string, consultationId: number) {
