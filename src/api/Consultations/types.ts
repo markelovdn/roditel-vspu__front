@@ -22,8 +22,8 @@ export type TConsultation = {
   messages: TMessages;
   users: TUser[];
   closed: boolean;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: number;
+  updatedAt: number;
 };
 
 export type TMessage = {

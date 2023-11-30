@@ -49,9 +49,7 @@ onBeforeMount(() => {
       </div>
       <div class="question__box">
         <q-btn outline style="color: #f7b70b" class="q-btn--form q-ml-sm">
-          <span
-            class="text-primary question__btn-label"
-            @click="isShowCreateConsultationModal = !isShowCreateConsultationModal">
+          <span class="text-primary question__btn-label" @click="isShowCreateConsultationModal = true">
             Задать вопрос
           </span>
         </q-btn>

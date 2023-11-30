@@ -1,25 +1,36 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 import { TUser } from "@/api/Auth/types";
 import { TConsultation } from "@/api/Consultations/types";
 import { useAuthStore } from "@/stores/authStore";
+import { timeConvertor } from "@/utils/timeConvertor";
 
 const props = defineProps<{ item: TConsultation; isActive: boolean }>();
 const authStore = useAuthStore();
-authStore.user;
-const parent = ref(props.item.users.find((user: TUser) => user.id !== authStore.user?.id)?.fullName || "неизвестно");
+const interlocutor = ref("");
+
+onMounted(() => {
+  (function start() {
+    if (props.item.users.length > 2) {
+      interlocutor.value = "Поиск консультанта";
+      return;
+    }
+    interlocutor.value =
+      props.item.users.find((user: TUser) => user.id !== authStore.user?.id)?.fullName || "неизвестно";
+  })();
+});
 </script>
 
 <template>
   <div class="sidebar-item" :class="{ 'sidebar-item_active': isActive }">
     <div class="sidebar-item__box">
       <div class="sidebar-item__status">Новый (15 д.)</div>
-      <div class="sidebar-item__date">{{ item.createdAt }}</div>
+      <div class="sidebar-item__date">{{ timeConvertor(item.createdAt, "dd/mm/yyyy") }}</div>
     </div>
     <div class="sidebar-item__box">
       <div class="sidebar-item__question">{{ item.title }}</div>
-      <div class="sidebar-item__name">{{ parent }}</div>
+      <div class="sidebar-item__name">{{ interlocutor }}</div>
     </div>
   </div>
 </template>

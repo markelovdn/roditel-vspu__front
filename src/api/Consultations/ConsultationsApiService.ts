@@ -18,6 +18,9 @@ export class ConsultationsApiService {
     return axios.delete(`/questionnaires/${consultationId}`);
   }
   sendMessage(text: string, consultationId: number) {
-    axios.post(`/consultations/${consultationId}/messages`, { consultationId, text });
+    axios.post(`/consultations/${consultationId}/messages`, { consultationId, text }).catch((err) => {
+      console.log(err);
+      //TODO: обработать ошибку 423
+    });
   }
 }

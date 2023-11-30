@@ -37,9 +37,7 @@ onMounted(() => {
       @close="isShowCreateConsultationModal = false"></CreateConsultationModal>
 
     <q-btn color="yellow card__button">
-      <div class="btn__label" @click="isShowCreateConsultationModal = !isShowCreateConsultationModal">
-        Задать вопрос специалисту
-      </div>
+      <div class="btn__label" @click="isShowCreateConsultationModal = true">Задать вопрос специалисту</div>
     </q-btn>
   </div>
 </template>
