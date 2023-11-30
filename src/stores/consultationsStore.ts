@@ -19,6 +19,9 @@ export const useConsultationsStore = defineStore("consultationsStore", () => {
   const consultations = ref<TConsultation[]>([]);
 
   function connectChannel(consultationId: number) {
+    if (socketConnection.options.auth.headers.Authorization === "Bearer null") {
+      socketConnection.options.auth.headers.Authorization = `Bearer ${authStore.token}`;
+    }
     socketConnection.leaveAllChannels();
     socketConnection.private(`Consultation.${consultationId}`).listen("ConsultationEvent", (event: TSocketEvent) => {
       const index = consultations.value.findIndex((c) => c.id == event.id);

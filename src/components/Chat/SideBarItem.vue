@@ -26,7 +26,7 @@ onMounted(() => {
   <div class="sidebar-item" :class="{ 'sidebar-item_active': isActive }">
     <div class="sidebar-item__box">
       <div class="sidebar-item__status">Новый (15 д.)</div>
-      <div class="sidebar-item__date">{{ timeConvertor(item.createdAt, "dd/mm/yyyy") }}</div>
+      <div class="sidebar-item__date">{{ timeConvertor(item.createdAt, "dd/mm/yy") }}</div>
     </div>
     <div class="sidebar-item__box">
       <div class="sidebar-item__question">{{ item.title }}</div>
