@@ -1,16 +1,35 @@
 <script setup lang="ts">
-import { computed, onBeforeMount, ref } from "vue";
+import { storeToRefs } from "pinia";
+import { computed, onBeforeMount, ref, watch } from "vue";
 
 import { TConsultation } from "@/api/Consultations/types";
+import { TWebinarsRequestOption } from "@/api/Webinars/types";
 import ChatSideBarWrapper from "@/components/Chat/ChatSideBarWrapper.vue";
 import ChatWrapper from "@/components/Chat/ChatWrapper.vue";
 import MessageInput from "@/components/Chat/MessageInput.vue";
 import CreateConsultationModal from "@/components/modals/ConsultationModal/CreateConsultationModal.vue";
+import { useRequestPayload } from "@/hooks/useRequestPayload";
+import { useCollectionsStore } from "@/stores/collectionsStore";
 import { useConsultationsStore } from "@/stores/consultationsStore";
+import { useWebinarsStore } from "@/stores/webinarsStore";
+
+const webinarsStore = useWebinarsStore();
+const collectionsStore = useCollectionsStore();
+
+const { getSpecializationsWithAll: optionsCategories } = storeToRefs(collectionsStore);
+const { getWebinarLectorsWithAll: optionsLectors } = storeToRefs(webinarsStore);
 
 const consultationsStore = useConsultationsStore();
 const idActiveChat = ref(0);
 const isShowCreateConsultationModal = ref(false);
+const queryParams = ref<TWebinarsRequestOption>({ page: 1 });
+const inputDate = ref();
+const search = ref();
+const specializationId = ref(0);
+const lectorId = ref(0);
+
+// const setPage = (page: number) => (queryParams.value.page = page);
+// const paginationPage = ref(1);
 
 const setIdActiveChat = (id: number) => {
   consultationsStore.connectChannel(id);
@@ -31,13 +50,33 @@ const idActiveChatConsultation = computed(
     ],
 );
 
+const dateToString = computed(() =>
+  inputDate.value ? `c ${inputDate.value.from} по ${inputDate.value.to}` : "Выберите дату",
+);
+const dateClear = () => {
+  inputDate.value = null;
+  setData();
+};
+const setData = (value?: any) => {
+  if (value) {
+    queryParams.value.dateBetween = `${value.from}, ${value.to}`;
+  } else {
+    delete queryParams.value["dateBetween"];
+  }
+};
+const setSpecialization = (value: string) => (queryParams.value.category = Number(value));
+const setLectors = (value: string) => (queryParams.value.lector = Number(value));
+
+watch(search, () => (queryParams.value.searchField = search.value));
+
 onBeforeMount(() => {
-  // useRequestPayload(queryParams, consultationsStore.requestConsultations, {});
-  //TODO: нужно динамически передавать id консультации не уверен что это надо делать в этом компоненте
+  webinarsStore.requestLectors();
+  collectionsStore.requestSpecializations();
   consultationsStore.requestConsultations({}).then((data: TConsultation[]) => {
     idActiveChat.value = data[0].id;
     consultationsStore.connectChannel(data[0].id);
   });
+  useRequestPayload(queryParams, consultationsStore.requestConsultations, {});
 });
 </script>
 
@@ -47,12 +86,66 @@ onBeforeMount(() => {
       <div class="question__box">
         <h5>Вопросы</h5>
       </div>
+
       <div class="question__box">
         <q-btn outline style="color: #f7b70b" class="q-btn--form q-ml-sm">
           <span class="text-primary question__btn-label" @click="isShowCreateConsultationModal = true">
             Задать вопрос
           </span>
         </q-btn>
+      </div>
+    </div>
+    <div class="question__header">
+      <div class="flex">
+        <div class="q-pa-md" style="width: 150px">
+          <q-input v-model="search" debounce="500" filled placeholder="Search">
+            <template #append>
+              <q-icon name="search" />
+            </template>
+          </q-input>
+        </div>
+        <div class="q-pa-md" style="max-width: 200px">
+          <q-input v-model="dateToString" dense filled>
+            <template #append>
+              <q-icon name="event" class="cursor-pointer">
+                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                  <q-date v-model="inputDate" range @update:model-value="setData">
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="Close" color="primary" flat />
+                      <q-btn v-close-popup label="Сбросить" color="primary" flat @click="dateClear()" />
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
+        </div>
+        <div class="q-pa-md" style="width: 200px">
+          <q-select
+            v-model="specializationId"
+            input-class="q-select--form"
+            label="Лектор*"
+            outlined
+            class="fit q-mb-sm"
+            :options="optionsLectors"
+            :option-label="(item) => item.label"
+            emit-value
+            map-options
+            @update:model-value="setLectors" />
+        </div>
+        <div class="q-pa-md" style="width: 200px">
+          <q-select
+            v-model="lectorId"
+            input-class="q-select--form"
+            label="Категория*"
+            outlined
+            class="fit q-mb-sm"
+            :options="optionsCategories"
+            :option-label="(item) => item.label"
+            emit-value
+            map-options
+            @update:model-value="setSpecialization" />
+        </div>
       </div>
     </div>
 
@@ -83,7 +176,7 @@ onBeforeMount(() => {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  border-radius: 10px 10px 10px 10px;
+  border-radius: 10px;
   background-color: #e4ebf5;
 
   &__wrapper {

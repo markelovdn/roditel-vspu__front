@@ -10,6 +10,16 @@ const props = defineProps<{ item: TConsultation; isActive: boolean }>();
 const authStore = useAuthStore();
 const interlocutor = ref("");
 
+const getDays = () => {
+  const days = new Date().getTime() - new Date(props.item.createdAt).getTime();
+  return Math.floor(days / (1000 * 60 * 60 * 24));
+};
+
+const textColor = ref({
+  "sidebar-item__status_green": getDays() === 0,
+  "sidebar-item__status_yellow": getDays() >= 3,
+  "sidebar-item__status_red": getDays() >= 6,
+});
 onMounted(() => {
   (function start() {
     if (props.item.users.length > 2) {
@@ -25,11 +35,11 @@ onMounted(() => {
 <template>
   <div class="sidebar-item" :class="{ 'sidebar-item_active': isActive }">
     <div class="sidebar-item__box">
-      <div class="sidebar-item__status">Новый (15 д.)</div>
+      <div class="sidebar-item__status" :class="textColor">Новый ({{ 7 - getDays() }} д.)</div>
       <div class="sidebar-item__date">{{ timeConvertor(item.createdAt, "dd/mm/yy") }}</div>
     </div>
     <div class="sidebar-item__box">
-      <div class="sidebar-item__question">{{ item.title }}</div>
+      <div class="sidebar-item__question" :class="textColor">{{ item.title }}</div>
       <div class="sidebar-item__name">{{ interlocutor }}</div>
     </div>
   </div>
@@ -53,6 +63,16 @@ onMounted(() => {
     font-size: 16px;
     font-weight: 500;
     line-height: 120%;
+
+    &_green {
+      color: var(--green, #00e38c);
+    }
+    &_yellow {
+      color: var(--yellow, #f7b70b);
+    }
+    &_red {
+      color: var(--error, #d00);
+    }
   }
   &__date {
     color: $grey-2;
@@ -61,7 +81,6 @@ onMounted(() => {
     line-height: 130%;
   }
   &__question {
-    color: $Text-color;
     font-size: 16px;
     font-weight: 500;
     line-height: 120%;
