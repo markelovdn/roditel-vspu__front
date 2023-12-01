@@ -19,7 +19,7 @@ export const useConsultationsStore = defineStore("consultationsStore", () => {
   const consultations = ref<TConsultation[]>([]);
 
   function connectChannel(consultationId: number) {
-    if (socketConnection.options.auth.headers.Authorization === "Bearer null") {
+    if (socketConnection.options.auth.headers.Authorization === "Bearer null" && authStore.token) {
       socketConnection.options.auth.headers.Authorization = `Bearer ${authStore.token}`;
     }
     socketConnection.leaveAllChannels();
