@@ -18,6 +18,7 @@ const sendMessage = () => {
       class="message__input"
       bg-color="white"
       filled
+      autogrow
       @keydown.enter="sendMessage" />
     <q-btn color="primary" class="message__btn" @click="sendMessage">Отправить</q-btn>
   </div>
