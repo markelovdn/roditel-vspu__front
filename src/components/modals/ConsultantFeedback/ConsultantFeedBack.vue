@@ -5,19 +5,16 @@ import { ref } from "vue";
 import ReviewGrade from "@/components/common/Home/ReviewGrade/ReviewGrade.vue";
 import { useModal } from "@/hooks/useModal";
 import { isNotZero, useValidation } from "@/hooks/useValidation";
+import { useConsultantStore } from "@/stores/consultantStore";
 
-// import { useAuthStore } from "@/stores/authStore";
 import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
+import { TConsultantFeedbackPayload } from "./types";
 
-const emit = defineEmits(["close"]);
-// const router = useRouter();
+const emit = defineEmits(["close", "validation-change"]);
 
-// const data = ref({
-//   email: "",
-//   password: "",
-// });
+const consultantStore = useConsultantStore();
 
-const data = ref({
+const data = ref<TConsultantFeedbackPayload>({
   quality: 0,
   conditions: 0,
   availability: 0,
@@ -27,11 +24,8 @@ const data = ref({
 });
 
 const { closeModal } = useModal(emit, data);
-// const authStore = useAuthStore();
-const isPwd = ref(true);
-// const showLoginError = ref(false);
 
-const { handleBlur, getErrorAttrs, isValid } = useValidation(data, emit, {
+const { isValid } = useValidation<TConsultantFeedbackPayload>(data, emit, {
   quality: { isNotZero },
   conditions: { isNotZero },
   availability: { isNotZero },
@@ -40,11 +34,9 @@ const { handleBlur, getErrorAttrs, isValid } = useValidation(data, emit, {
   proposals: {},
 });
 
-console.log(closeModal);
-console.log(isPwd);
-console.log(handleBlur);
-console.log(getErrorAttrs);
-console.log(isValid);
+const handleData = () => {
+  consultantStore.setConsultantFeedBack(data.value);
+};
 </script>
 
 <template>
@@ -62,7 +54,7 @@ console.log(isValid);
           Удовлетворены ли Вы качеством оказанной услуги? Соответствовало ли содержание консультации имеющейся проблеме,
           помог ли консультант Межрегиональной службы консультирования родителей ВГСПУ? *
         </div>
-        <ReviewGrade v-model="data.quality" />
+        <ReviewGrade v-model="data.quality" :max="5" />
       </div>
       <div class="box">
         <div class="divider"></div>
@@ -70,7 +62,7 @@ console.log(isValid);
           Удовлетворены ли Вы условиями предоставления услуги (оценивается доступность для людей с ОВЗ, доступность
           записи, время ожидания от момента обращения, возможность выбора формата оказания услуги)? *
         </div>
-        <ReviewGrade v-model="data.conditions" />
+        <ReviewGrade v-model="data.conditions" :max="5" />
       </div>
       <div class="box">
         <div class="divider"></div>
@@ -80,29 +72,38 @@ console.log(isValid);
           <a href="https://roditel-vspu.ru" target="_blank">https://roditel-vspu.ru/</a>
           , на информационных стендах) *
         </div>
-        <ReviewGrade v-model="data.availability" />
+        <ReviewGrade v-model="data.availability" :max="5" />
       </div>
       <div class="box">
         <div class="divider"></div>
         <div class="text">Оцените доброжелательность и вежливость консультантов Службы *</div>
-        <ReviewGrade v-model="data.politeness" />
+        <ReviewGrade v-model="data.politeness" :max="5" />
       </div>
 
       <div class="box">
         <div class="divider"></div>
-        <div class="text">Оцените доброжелательность и вежливость консультантов Службы</div>
+        <div class="text">Есть ли у Вас жалобы на работу Межрегиональной службы консультирования родителей ВГСПУ?</div>
         <q-input v-model="data.complaints" filled type="textarea" placeholder="Введите ваш комментарий" />
       </div>
 
       <div class="box">
         <div class="divider"></div>
-        <div class="text">Оцените доброжелательность и вежливость консультантов Службы</div>
+        <div class="text">
+          Есть ли у Вас предложения и пожелания по улучшению работы Межрегиональной службы консультирования родителей
+          ВГСПУ?
+        </div>
         <q-input v-model="data.proposals" filled type="textarea" placeholder="Введите ваш комментарий" />
       </div>
 
       <div class="btn-block">
-        <q-btn label="Отправить" class="q-btn--form" color="primary" />
-        <q-btn label="Оценить позже" class="q-ml-sm q-btn--form" flat :ripple="false" color="grey-1" />
+        <q-btn label="Отправить" :disable="!isValid" class="q-btn--form" color="primary" @click="handleData()" />
+        <q-btn
+          label="Оценить позже"
+          class="q-ml-sm q-btn--form"
+          flat
+          :ripple="false"
+          color="grey-1"
+          @click="closeModal()" />
       </div>
     </div>
   </ModalWrapper>
@@ -116,13 +117,10 @@ console.log(isValid);
 }
 .title {
   color: var(--blue-accent, #253281);
-
-  /* H3 caps */
-  font-family: Ubuntu;
   font-size: 20px;
   font-style: normal;
   font-weight: 500;
-  line-height: 150%; /* 30px */
+  line-height: 150%;
   text-transform: uppercase;
 }
 .wrapper {
