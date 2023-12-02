@@ -19,6 +19,7 @@ export const splitNameValidator = helpers.withMessage(
   `ФИО должно состоять из трех слов`,
   (value: string) => value.trim().split(" ").length >= 3,
 );
+export const isNotZero = helpers.withMessage(`ФИО должно состоять из трех слов`, (value: number) => value === 0);
 
 export function useValidation<T extends {}>(data: Ref<T>, emit: GenericEmit, rules: TRule<T>) {
   const getRules = computed(() => rules);

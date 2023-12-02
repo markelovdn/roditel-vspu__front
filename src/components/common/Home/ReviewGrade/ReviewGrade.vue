@@ -3,6 +3,7 @@
     <div
       v-for="index in props.max"
       :key="index"
+      class="star-item"
       @click="setRating(index)"
       @mouseover="setHoverRating(index)"
       @mouseout="removeHoverRating">
@@ -14,7 +15,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-import StarIcon from "@/assets/img/icons/StarIcon.svg";
+import StarIcon from "@/components/icons/IconStar.vue";
 
 interface IProps {
   max: number;
@@ -47,20 +48,35 @@ const removeHoverRating = () => {
 <style scoped lang="scss">
 .star-wrapper {
   display: flex;
-  gap: px-to-rem(15px);
+}
+
+.star-item {
+  & + & {
+    padding: 0 15px;
+  }
+
+  &:first-child {
+    padding-right: 15px;
+  }
+
+  &:last-child {
+    padding-right: 0px;
+  }
+
+  cursor: pointer;
 }
 </style>
 
 <style lang="scss">
 .star-grade {
   path {
-    stroke: #cedbec;
+    fill: #cedbec;
   }
   cursor: pointer;
 
   &__chosen {
     path {
-      stroke: #ffc850;
+      fill: #649fed;
     }
   }
 }

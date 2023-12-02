@@ -4,8 +4,10 @@ import { ref } from "vue";
 import ChatSideBarWrapper from "@/components/Chat/ChatSideBarWrapper.vue";
 import ChatWrapper from "@/components/Chat/ChatWrapper.vue";
 import MessageInput from "@/components/Chat/MessageInput.vue";
+import ConsultantFeedBack from "@/components/modals/ConsultantFeedback/ConsultantFeedBack.vue";
 
 const search = ref("");
+const showFeedbackModal = ref(false);
 </script>
 
 <template>
@@ -34,6 +36,9 @@ const search = ref("");
         <MessageInput />
       </div>
     </div>
+
+    <button @click="showFeedbackModal = true">Оценить качество</button>
+    <ConsultantFeedBack v-if="showFeedbackModal" @close="showFeedbackModal = false" />
   </div>
 </template>
 

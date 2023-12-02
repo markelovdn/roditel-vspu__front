@@ -8,6 +8,7 @@ defineProps<{
   header?: string;
   subHeader?: string;
   closeButtonHeader?: boolean;
+  fullWidth?: boolean;
 }>();
 
 const position: ComputedRef<"left" | "right" | "bottom" | "top" | "standard"> = computed(() => {
@@ -21,7 +22,7 @@ const position: ComputedRef<"left" | "right" | "bottom" | "top" | "standard"> = 
 <template>
   <Teleport to="body">
     <q-dialog :position="position" :persistent="true" :model-value="true" :attrs="$attrs" basic>
-      <q-card class="dialog-card" basic>
+      <q-card class="dialog-card" basic :style="fullWidth && 'max-width: 80vw'">
         <div v-if="closeButtonHeader" class="fit absolute-top q-pt-md q-pr-md">
           <q-icon :name="mdiClose" class="float-right cursor-pointer close" @click="emit('close')" />
         </div>
