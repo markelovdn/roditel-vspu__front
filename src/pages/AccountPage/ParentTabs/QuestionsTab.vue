@@ -83,28 +83,29 @@ onBeforeMount(() => {
 <template>
   <div class="question">
     <div class="question__header">
-      <div class="question__box">
-        <h5>Вопросы</h5>
+      <div class="flex justify-between justify-between question__header_line">
+        <div class="question__box">
+          <h5>Вопросы</h5>
+        </div>
+
+        <div class="question__box">
+          <q-btn outline style="color: #f7b70b" class="q-btn--form q-ml-sm">
+            <span class="text-primary question__btn-label" @click="isShowCreateConsultationModal = true">
+              Задать вопрос
+            </span>
+          </q-btn>
+        </div>
       </div>
 
-      <div class="question__box">
-        <q-btn outline style="color: #f7b70b" class="q-btn--form q-ml-sm">
-          <span class="text-primary question__btn-label" @click="isShowCreateConsultationModal = true">
-            Задать вопрос
-          </span>
-        </q-btn>
-      </div>
-    </div>
-    <div class="question__header">
-      <div class="flex">
-        <div class="q-pa-md" style="width: 150px">
+      <div class="flex justify-between justify-between question__header_line">
+        <div>
           <q-input v-model="search" debounce="500" filled placeholder="Search">
             <template #append>
               <q-icon name="search" />
             </template>
           </q-input>
         </div>
-        <div class="q-pa-md" style="max-width: 200px">
+        <div>
           <q-input v-model="dateToString" dense filled>
             <template #append>
               <q-icon name="event" class="cursor-pointer">
@@ -120,7 +121,7 @@ onBeforeMount(() => {
             </template>
           </q-input>
         </div>
-        <div class="q-pa-md" style="width: 200px">
+        <div>
           <q-select
             v-model="specializationId"
             input-class="q-select--form"
@@ -133,7 +134,7 @@ onBeforeMount(() => {
             map-options
             @update:model-value="setLectors" />
         </div>
-        <div class="q-pa-md" style="width: 200px">
+        <div>
           <q-select
             v-model="lectorId"
             input-class="q-select--form"
@@ -161,7 +162,10 @@ onBeforeMount(() => {
           v-if="idActiveChatConsultation"
           :messages="idActiveChatMessages"
           :consultation="idActiveChatConsultation" />
-        <div v-else><h2>загрузка</h2></div>
+        <div v-else>
+          <h4 class="q-pt-md">Создайте новую заявку</h4>
+          <p style="text-align: center" class="q-pt-md">Вы мажите задать вопрос консультанту</p>
+        </div>
         <MessageInput @send-message="sendMessage" />
       </div>
     </div>
@@ -186,14 +190,14 @@ onBeforeMount(() => {
   }
 
   &__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 80px;
     padding: 0 35px;
     background-color: $white;
     border-radius: 10px 10px 0 0;
     filter: drop-shadow(0 4px 4px rgb(0 0 0 / 3%));
+
+    &_line {
+      height: 80px;
+    }
   }
 
   &__box {
