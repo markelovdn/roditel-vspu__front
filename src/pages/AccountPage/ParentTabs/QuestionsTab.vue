@@ -37,7 +37,6 @@ const showFeedbackModal = ref(false);
       </div>
     </div>
 
-    <button @click="showFeedbackModal = true">Оценить качество</button>
     <ConsultantFeedBack v-if="showFeedbackModal" @close="showFeedbackModal = false" />
   </div>
 </template>
