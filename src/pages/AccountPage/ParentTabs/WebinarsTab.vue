@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { computed, onMounted, ref, watch } from "vue";
+import { useRoute } from "vue-router";
 
 import { TWebinarsRequestOption } from "@/api/Webinars/types";
 import WebinarCard from "@/components/common/Home/WebinarCard/WebinarCard.vue";
@@ -9,6 +10,7 @@ import { useRequestPayload } from "@/hooks/useRequestPayload";
 import { useWebinarsStore } from "@/stores/webinarsStore";
 
 const webinarsStore = useWebinarsStore();
+const route = useRoute();
 const { getWebinarCategoriesWithAll: optionsCategories, getWebinarLectorsWithAll: optionsLectors } =
   storeToRefs(webinarsStore);
 
@@ -18,7 +20,7 @@ const inputDate = ref();
 const search = ref();
 const specializationId = ref(0);
 const lectorId = ref(0);
-const actual = ref<"yes" | "no">("yes");
+const actual = ref<"yes" | "no">((route.query.actual as "yes" | "no") || "yes");
 const queryParams = ref<TWebinarsRequestOption>({ page: 1, actual: actual.value });
 const dateToString = computed(() =>
   inputDate.value ? `c ${inputDate.value.from} по ${inputDate.value.to}` : "Выберите дату",
@@ -36,7 +38,11 @@ const setData = (value?: any) => {
 };
 const setSpecialization = (value: string) => (queryParams.value.category = Number(value));
 const setLectors = (value: string) => (queryParams.value.lector = Number(value));
-const setActual = (value: "yes" | "no") => (queryParams.value.actual = value);
+const setActual = (value: "yes" | "no") => {
+  console.log("value:", value);
+
+  queryParams.value.actual = value;
+};
 watch(search, () => (queryParams.value.searchField = search.value));
 
 onMounted(() => {

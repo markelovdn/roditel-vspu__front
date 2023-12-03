@@ -5,6 +5,7 @@ import useAlert from "@/hooks/useAlert";
 import router from "@/router/index";
 import { useAuthStore } from "@/stores/authStore";
 import type { GenericEmit } from "@/types";
+
 export function useModal(emit: GenericEmit, data: Ref<unknown> = ref({})) {
   const hasChanges = ref(false);
   const forceClose = ref(false);
@@ -57,6 +58,18 @@ export function useToQuestions(showLoginModal: Ref<boolean>) {
 
   if (!authStore.getUserInfo) {
     router.push({ query: { isOpenNewConsultation: "true", tabId: "questions" } });
+    showLoginModal.value = true;
+  }
+}
+
+export function useToOldWebinars(showLoginModal: Ref<boolean>) {
+  const authStore = useAuthStore();
+  if (authStore.user?.role.title === "Консультант") {
+    alert("Вы консультант, зайдите под учёткой родителя");
+    return;
+  }
+  router.push({ name: "My", query: { actual: "no", tabId: "webinars" } });
+  if (!authStore.getUserInfo) {
     showLoginModal.value = true;
   }
 }
