@@ -3,10 +3,11 @@ import { ref } from "vue";
 
 import bannerUrl from "@/assets/img/home-banner.png";
 import AuthWrapper from "@/components/common/AuthWrapper/AuthWrapper.vue";
-import { useToQuestions } from "@/hooks/useModal";
+import { useToOldWebinars, useToQuestions } from "@/hooks/useModal";
 
 const showLoginModal = ref(false);
 const toQuestions = () => useToQuestions(showLoginModal);
+const toOldWebinars = () => useToOldWebinars(showLoginModal);
 </script>
 
 <template>
@@ -18,7 +19,7 @@ const toQuestions = () => useToQuestions(showLoginModal);
         <q-btn color="primary" @click="toQuestions">
           <div class="btn__label">Задать вопрос специалисту</div>
         </q-btn>
-        <q-btn outline class="btn__border">
+        <q-btn outline class="btn__border" @click="toOldWebinars">
           <div class="btn__label btn__label_dark">Архив вебинаров</div>
         </q-btn>
         <q-btn color="yellow">
