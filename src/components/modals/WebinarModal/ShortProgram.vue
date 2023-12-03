@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { ref } from "vue";
+
+import AuthWrapper from "@/components/common/AuthWrapper/AuthWrapper.vue";
 import { TWebinarCardData } from "@/components/common/Home/WebinarCard/types";
 import { useModal } from "@/hooks/useModal";
 import { useAuthStore } from "@/stores/authStore";
@@ -13,12 +16,17 @@ const props = defineProps<{
 }>();
 
 const { closeModal } = useModal(emit);
-
 const webinarStore = useWebinarsStore();
-const { user } = useAuthStore();
+const { user, getUserInfo } = useAuthStore();
+
+const showLoginModal = ref(false);
 const webinarRegistration = () => {
-  webinarStore.registrationPartisipant(props.webinar.id, user?.id || 1);
-  closeModal();
+  if (!getUserInfo) {
+    showLoginModal.value = true;
+  } else {
+    webinarStore.registrationPartisipant(props.webinar.id, user?.id || 1);
+    closeModal();
+  }
 };
 </script>
 
@@ -39,6 +47,7 @@ const webinarRegistration = () => {
       <q-btn label="Принять участие" class="q-btn--form" color="primary" @click="webinarRegistration()" />
     </div>
   </ModalWrapper>
+  <AuthWrapper v-if="showLoginModal" @close="showLoginModal = false" />
 </template>
 
 <style lang="scss" scoped>

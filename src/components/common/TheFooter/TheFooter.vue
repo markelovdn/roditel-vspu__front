@@ -1,7 +1,15 @@
 <script setup lang="ts">
+import { ref } from "vue";
+
 import logoUrl from "@/assets/img/icons/VGSPU.png";
+import AuthWrapper from "@/components/common/AuthWrapper/AuthWrapper.vue";
 import CommonLink from "@/components/common/CommonLink/CommonLink.vue";
 import { headerMenuItems } from "@/components/common/TheHeader/types";
+import { useToQuestions } from "@/hooks/useModal";
+
+const showLoginModal = ref(false);
+
+const toQuestions = () => useToQuestions(showLoginModal);
 </script>
 
 <template>
@@ -14,7 +22,7 @@ import { headerMenuItems } from "@/components/common/TheHeader/types";
             <span>Социально-психологический центр ВГСПУ</span>
           </div>
         </div>
-        <q-btn outline class="col-1__btn_border">
+        <q-btn outline class="col-1__btn_border" @click="toQuestions">
           <div class="col-1__btn_label">Задать вопрос специалисту</div>
         </q-btn>
         <CommonLink :to="'https://ya.ru/'">Политика конфиденциальности</CommonLink>
@@ -46,15 +54,18 @@ import { headerMenuItems } from "@/components/common/TheHeader/types";
           Для жителей Волгограда и Волгоградской области возможны очные консультации по адресу г.Волгоград, проспект
           Ленина, 27
         </span>
-        <CommonLink :to="'https://ya.ru/'">
+        <CommonLink
+          :to="'https://bitrix24public.com/b24-l12664.bitrix24.ru/docs/pub/259c2a702e5b56107f15299be4997cc6/default/?&/'">
           Приказ Об утверждении Положения о Межрегиональной службе консультирования родителей социально -
           психологическим центром "ВГСПУ"
         </CommonLink>
-        <CommonLink :to="'https://ya.ru/'">
+        <CommonLink
+          :to="'https://bitrix24public.com/b24-l12664.bitrix24.ru/docs/pub/e656905b09fa602e0aeb129129ed007a/default/?&'">
           Положение о межрегиональной службе консультирования родителей социально-психологического центра ФГБОУ ВО ВГСПУ
         </CommonLink>
       </div>
     </div>
+    <AuthWrapper v-if="showLoginModal" @close="showLoginModal = false" />
   </q-footer>
 </template>
 

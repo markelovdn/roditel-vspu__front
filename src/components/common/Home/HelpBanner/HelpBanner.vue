@@ -1,5 +1,13 @@
 <script setup lang="ts">
+import { ref } from "vue";
+
 import bannerUrl from "@/assets/img/help-banner.png";
+import AuthWrapper from "@/components/common/AuthWrapper/AuthWrapper.vue";
+import { useToQuestions } from "@/hooks/useModal";
+
+const showLoginModal = ref(false);
+const toQuestions = () => useToQuestions(showLoginModal);
+
 const content = [
   "Родителям или законным представителям детей дошкольного возраста, не посещающих дошкольные образовательные организации",
   "Родителям или законным представителям, чьи дети находятся на семейном обучении",
@@ -20,10 +28,13 @@ const content = [
         <div class="content__item_text">{{ text }}</div>
       </div>
       <div class="buttons">
-        <q-btn color="yellow">
-          <div class="btn__label">Записаться очно</div>
-        </q-btn>
-        <q-btn color="primary">
+        <a href="tel:+78004442232p771">
+          <q-btn color="yellow">
+            <div class="btn__label">Записаться очно</div>
+          </q-btn>
+        </a>
+
+        <q-btn color="primary" @click="toQuestions">
           <div class="btn__label">Записаться онлайн</div>
         </q-btn>
       </div>
@@ -38,6 +49,7 @@ const content = [
       </svg>
       <q-img :src="bannerUrl" class="image" />
     </div>
+    <AuthWrapper v-if="showLoginModal" @close="showLoginModal = false" />
   </div>
 </template>
 

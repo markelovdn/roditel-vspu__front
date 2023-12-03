@@ -1,9 +1,14 @@
 <script setup lang="ts">
+import { ref } from "vue";
+
+import ServicesInfoModal from "@/components/modals/ServicesInfoModal/ServicesInfoModal.vue";
 defineProps<{
   title: string;
   description: string;
   link: string;
 }>();
+
+const isShowModal = ref(false);
 </script>
 
 <template>
@@ -13,9 +18,8 @@ defineProps<{
       <h5>{{ title }}</h5>
     </div>
     <div class="card-2__content">{{ description }}</div>
-    <router-link class="card-2__link" :to="link">
-      <div class="card-2__link">Подробнее</div>
-    </router-link>
+    <div class="card-2__link" @click="isShowModal = true">Подробнее</div>
+    <ServicesInfoModal v-if="isShowModal" @close="isShowModal = false" />
   </div>
 </template>
 

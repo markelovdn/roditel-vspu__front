@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { computed, onBeforeMount, ref, watch } from "vue";
+import { useRoute } from "vue-router";
 
 import { TConsultation } from "@/api/Consultations/types";
 import { TWebinarsRequestOption } from "@/api/Webinars/types";
@@ -19,6 +20,7 @@ const collectionsStore = useCollectionsStore();
 
 const { getSpecializationsWithAll: optionsCategories } = storeToRefs(collectionsStore);
 const { getWebinarLectorsWithAll: optionsLectors } = storeToRefs(webinarsStore);
+const route = useRoute();
 
 const consultationsStore = useConsultationsStore();
 const idActiveChat = ref(0);
@@ -73,6 +75,9 @@ const setLectors = (value: string) => (queryParams.value.lector = Number(value))
 watch(search, () => (queryParams.value.searchField = search.value));
 
 onBeforeMount(() => {
+  if (route.query.isOpenNewConsultation) {
+    isShowCreateConsultationModal.value = true;
+  }
   webinarsStore.requestLectors();
   collectionsStore.requestSpecializations();
   consultationsStore.requestConsultations({}).then((data: TConsultation[]) => {
