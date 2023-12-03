@@ -53,7 +53,9 @@ export const useConsultationsStore = defineStore("consultationsStore", () => {
           type: "positive",
           message: "Заявка на консультацию успешно создана",
         });
+        requestConsultations({});
       })
+
       .catch((err) => {
         err;
         notify({
