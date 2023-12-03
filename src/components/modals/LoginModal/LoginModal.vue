@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 import { useModal } from "@/hooks/useModal";
 import { emailValidator, requiredValidator, useValidation } from "@/hooks/useValidation";
@@ -11,6 +11,7 @@ import { TLoginPayload } from "./types";
 
 const emit = defineEmits(["close", "showRegistrationModal", "showForgotPasswordModal"]);
 const router = useRouter();
+const route = useRoute();
 
 const data = ref<TLoginPayload>({
   email: "",
@@ -28,7 +29,7 @@ const { handleBlur, getErrorAttrs, isValid } = useValidation<TLoginPayload>(data
 });
 const onLoginSuccess = () => {
   closeModal({ force: true });
-  router.push({ name: "My" });
+  router.push({ name: "My", query: { ...route.query } });
 };
 const onLoginFail = () => (showLoginError.value = true);
 const handleLogin = () => {

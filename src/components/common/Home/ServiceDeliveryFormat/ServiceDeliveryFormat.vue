@@ -1,8 +1,15 @@
 <script setup lang="ts">
+import { ref } from "vue";
+
+import AuthWrapper from "@/components/common/AuthWrapper/AuthWrapper.vue";
+import { useToQuestions } from "@/hooks/useModal";
+
 import BlockContainer from "./BlockContainer.vue";
 import FormatCard from "./FormatCard.vue";
 import FormCard from "./FormCard.vue";
 
+const showLoginModal = ref(false);
+const toQuestions = () => useToQuestions(showLoginModal);
 const row1 = [
   {
     title: "Диспетчерское консультирование по телефону",
@@ -47,15 +54,18 @@ const row1 = [
 
   <div class="buttons">
     <div class="button__container">
-      <q-btn class="button" outline style="color: #f7b70b">
-        <span class="button__label text-primary">Записаться по телефону</span>
-      </q-btn>
+      <a href="tel:+78004442232p771">
+        <q-btn class="button" outline style="color: #f7b70b">
+          <span class="button__label text-primary">Записаться по телефону</span>
+        </q-btn>
+      </a>
     </div>
     <div class="button__container">
-      <q-btn outline style="color: #f7b70b">
+      <q-btn outline style="color: #f7b70b" @click="toQuestions">
         <span class="button__label text-primary">Задать вопрос специалисту</span>
       </q-btn>
     </div>
+    <AuthWrapper v-if="showLoginModal" @close="showLoginModal = false" />
   </div>
 </template>
 

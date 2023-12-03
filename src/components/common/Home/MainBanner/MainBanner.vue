@@ -1,5 +1,12 @@
 <script setup lang="ts">
+import { ref } from "vue";
+
 import bannerUrl from "@/assets/img/home-banner.png";
+import AuthWrapper from "@/components/common/AuthWrapper/AuthWrapper.vue";
+import { useToQuestions } from "@/hooks/useModal";
+
+const showLoginModal = ref(false);
+const toQuestions = () => useToQuestions(showLoginModal);
 </script>
 
 <template>
@@ -8,7 +15,7 @@ import bannerUrl from "@/assets/img/home-banner.png";
       <div class="content__head">Межрегиональная служба консультирования родителей</div>
       <div class="content__sub-head">Методическая и консультационная помощь родителям</div>
       <div class="content__buttons">
-        <q-btn color="primary">
+        <q-btn color="primary" @click="toQuestions">
           <div class="btn__label">Задать вопрос специалисту</div>
         </q-btn>
         <q-btn outline class="btn__border">
@@ -21,6 +28,7 @@ import bannerUrl from "@/assets/img/home-banner.png";
     </div>
 
     <q-img :src="bannerUrl" :fit="'none'" :position="'100% 50%'" class="container__image" />
+    <AuthWrapper v-if="showLoginModal" @close="showLoginModal = false" />
   </div>
 </template>
 

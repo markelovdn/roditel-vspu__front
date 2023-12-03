@@ -3,11 +3,9 @@ import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
 
 import logoUrl from "@/assets/img/icons/logo.png";
+import AuthWrapper from "@/components/common/AuthWrapper/AuthWrapper.vue";
 import IconPersonal from "@/components/icons/IconPersonal.vue";
 import IconPhone from "@/components/icons/IconPhone.vue";
-import ForgotPassword from "@/components/modals/ForgotPasswordModal/ForgotPassword.vue";
-import LoginModal from "@/components/modals/LoginModal/LoginModal.vue";
-import RegistrationModal from "@/components/modals/RegistrationModal/RegistrationModal.vue";
 
 import { useAuthStore } from "../../../stores/authStore";
 import { headerMenuItems } from "./types";
@@ -16,8 +14,6 @@ const authStore = useAuthStore();
 const router = useRouter();
 
 const showLoginModal = ref(false);
-const showRegistrationModal = ref(false);
-const showForgotPasswordModal = ref(false);
 
 const userCabinetButtontext = computed(() => {
   return authStore.getUserInfo ? "Личный кабинет" : "Войти";
@@ -45,7 +41,7 @@ const logout = () => {
           <span class="logo__text">Социально-психологический центр ВГСПУ</span>
         </div>
         <div class="contacts">
-          <a href="tel:+78004442232" class="contacts__phone-number text-primary">
+          <a href="tel:+7-800-444-2232p771" class="contacts__phone-number text-primary">
             8 (800) 444-22-32
             <span class="contacts__phone-number_optional">(доб. 711)</span>
           </a>
@@ -84,7 +80,14 @@ const logout = () => {
           </router-link>
         </div>
         <div class="fit row wrap justify-end">
-          <span class="cursor-pointer materials">Методические материалы</span>
+          <a
+            href="https://bitrix24public.com/b24-l12664.bitrix24.ru/docs/pub/8ceb665e20b23b3aa5b2f0444d4069f4/default/?&"
+            class="link"
+            target="_blank"
+            rel="Методические материалы">
+            <span class="cursor-pointer materials">Методические материалы</span>
+          </a>
+
           <div class="link-ask-expert">
             <div>Задать вопрос консультанту</div>
             <svg
@@ -100,13 +103,7 @@ const logout = () => {
           </div>
         </div>
       </div>
-      <LoginModal
-        v-if="showLoginModal"
-        @close="showLoginModal = false"
-        @show-registration-modal="showRegistrationModal = true"
-        @show-forgot-password-modal="showForgotPasswordModal = true"></LoginModal>
-      <ForgotPassword v-if="showForgotPasswordModal" @close="showForgotPasswordModal = false"></ForgotPassword>
-      <RegistrationModal v-if="showRegistrationModal" @close="showRegistrationModal = false"></RegistrationModal>
+      <AuthWrapper v-if="showLoginModal" @close="showLoginModal = false" />
     </div>
   </q-header>
 </template>
