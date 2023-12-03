@@ -57,10 +57,7 @@ export const useConsultantStore = defineStore("consultantStore", () => {
   }
 
   function setConsultantFeedBack(payload: TConsultantFeedbackPayload) {
-    return consultantApi
-      .setConsultantFeedBack(payload)
-      .then(() => notify({ type: "positive", message: "Данные успешно сохранены" }))
-      .catch(() => notify({ type: "negative", message: "Не удалось сохранить данные" }));
+    return consultantApi.setConsultantFeedBack(payload);
   }
 
   return {

@@ -51,6 +51,5 @@ export function useValidation<T extends {}>(data: Ref<T>, emit: GenericEmit, rul
     { immediate: true },
   );
 
-  console.log(isValid);
   return { isValid, $v, handleBlur, getErrorAttrs };
 }

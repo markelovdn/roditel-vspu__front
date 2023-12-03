@@ -55,6 +55,6 @@ export class ConsultantApiService {
       ],
     };
 
-    return axios.post<any>(`/consultationRatings`, payload);
+    return axios.post<{ message: string }>(`/consultationRatings`, payload);
   }
 }

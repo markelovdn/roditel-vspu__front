@@ -6,6 +6,7 @@ import ReviewGrade from "@/components/common/Home/ReviewGrade/ReviewGrade.vue";
 import { useModal } from "@/hooks/useModal";
 import { isNotZero, useValidation } from "@/hooks/useValidation";
 import { useConsultantStore } from "@/stores/consultantStore";
+import notify from "@/utils/notify";
 
 import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
 import { TConsultantFeedbackPayload } from "./types";
@@ -35,7 +36,13 @@ const { isValid } = useValidation<TConsultantFeedbackPayload>(data, emit, {
 });
 
 const handleData = () => {
-  consultantStore.setConsultantFeedBack(data.value);
+  consultantStore
+    .setConsultantFeedBack(data.value)
+    .then(() => {
+      notify({ type: "positive", message: "Данные успешно сохранены" });
+      closeModal({ force: true });
+    })
+    .catch(() => notify({ type: "negative", message: "Не удалось сохранить данные" }));
 };
 </script>
 
