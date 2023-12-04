@@ -24,6 +24,7 @@ export type TUser = {
   surName: string;
   phone: string;
   role: TUserRole;
+  ragionId: number;
 };
 
 export type TUserRole = {
