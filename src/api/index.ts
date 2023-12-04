@@ -1,8 +1,8 @@
 import { AuthApiService } from "./Auth/AuthApiService";
 import { CollectionsApiService } from "./Collections/CollectionsApiService";
 import { ConsultantApiService } from "./Consultant/ConsultantApiService";
-import { ParentsApiService } from "./Parents/ParentsApiService";
 import { ConsultationsApiService } from "./Consultations/ConsultationsApiService";
+import { ParentsApiService } from "./Parents/ParentsApiService";
 import { QuestionnairesApiService } from "./Questionnaires/QuestionnairesApiService";
 import { WebinarsApiService } from "./Webinars/WebinarsApiService";
 
