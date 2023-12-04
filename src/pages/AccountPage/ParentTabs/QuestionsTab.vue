@@ -32,6 +32,8 @@ const lectorId = ref(0);
 // const setPage = (page: number) => (queryParams.value.page = page);
 // const paginationPage = ref(1);
 
+const showFeedbackModal = ref(false);
+
 const setIdActiveChat = (id: number) => {
   consultationsStore.connectChannel(id);
   idActiveChat.value = id;
@@ -79,7 +81,6 @@ onBeforeMount(() => {
   });
   useRequestPayload(queryParams, consultationsStore.requestConsultations, {});
 });
-const showFeedbackModal = ref(false);
 </script>
 
 <template>
