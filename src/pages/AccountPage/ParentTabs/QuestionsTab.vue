@@ -7,6 +7,7 @@ import { TWebinarsRequestOption } from "@/api/Webinars/types";
 import ChatSideBarWrapper from "@/components/Chat/ChatSideBarWrapper.vue";
 import ChatWrapper from "@/components/Chat/ChatWrapper.vue";
 import MessageInput from "@/components/Chat/MessageInput.vue";
+import ConsultantFeedBack from "@/components/modals/ConsultantFeedback/ConsultantFeedBack.vue";
 import CreateConsultationModal from "@/components/modals/ConsultationModal/CreateConsultationModal.vue";
 import { useRequestPayload } from "@/hooks/useRequestPayload";
 import { useCollectionsStore } from "@/stores/collectionsStore";
@@ -78,6 +79,7 @@ onBeforeMount(() => {
   });
   useRequestPayload(queryParams, consultationsStore.requestConsultations, {});
 });
+const showFeedbackModal = ref(false);
 </script>
 
 <template>
@@ -169,6 +171,8 @@ onBeforeMount(() => {
         <MessageInput @send-message="sendMessage" />
       </div>
     </div>
+
+    <ConsultantFeedBack v-if="showFeedbackModal" @close="showFeedbackModal = false" />
     <CreateConsultationModal
       v-if="isShowCreateConsultationModal"
       @close="isShowCreateConsultationModal = false"></CreateConsultationModal>

@@ -1,4 +1,5 @@
 import axios from "@/common/axios";
+import { TConsultantFeedbackPayload } from "@/components/modals/ConsultantFeedback/types";
 import { useParamBuilder, useUrlParams } from "@/hooks/useParamBuilder ";
 import { TPersonalDataPayload } from "@/pages/AccountPage/ConsultantTabs/types";
 
@@ -42,5 +43,22 @@ export class ConsultantApiService {
     formData.append("photo", data.image as File);
 
     return axios.post<any>(`/uploadPhotoConsultant`, formData);
+  }
+
+  setConsultantFeedBack(data: TConsultantFeedbackPayload) {
+    const payload = {
+      // TODO поменять id
+      consultation_id: 21,
+      ratings: [
+        { rating_question_id: 1, rating_answer: data.quality },
+        { rating_question_id: 2, rating_answer: data.conditions },
+        { rating_question_id: 3, rating_answer: data.availability },
+        { rating_question_id: 4, rating_answer: data.politeness },
+        { rating_question_id: 5, rating_answer: data.complaints },
+        { rating_question_id: 6, rating_answer: data.proposals },
+      ],
+    };
+
+    return axios.post<{ message: string }>(`/consultationRatings`, payload);
   }
 }

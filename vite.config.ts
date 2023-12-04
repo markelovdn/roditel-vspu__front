@@ -14,6 +14,9 @@ export default defineConfig(({ mode }) => {
     plugins: [
       vue({
         template: { transformAssetUrls },
+        script: {
+          defineModel: true,
+        },
       }),
       quasar({
         sassVariables: "src/quasar-variables.sass",

@@ -9,6 +9,7 @@ import {
   TGetConsultantReportsData,
   TGetConsultantReportsFilter,
 } from "@/api/Consultant/types";
+import { TConsultantFeedbackPayload } from "@/components/modals/ConsultantFeedback/types";
 import { TPersonalDataPayload } from "@/pages/AccountPage/ConsultantTabs/types";
 import notify from "@/utils/notify";
 
@@ -72,6 +73,10 @@ export const useConsultantStore = defineStore("consultantStore", () => {
       .catch(() => notify({ type: "negative", message: "Не удалось сохранить фотографию" }));
   }
 
+  function setConsultantFeedBack(payload: TConsultantFeedbackPayload) {
+    return consultantApi.setConsultantFeedBack(payload);
+  }
+
   return {
     requestReports,
     reportsModel,
@@ -83,6 +88,7 @@ export const useConsultantStore = defineStore("consultantStore", () => {
     getConsultants,
     setNewConsultantInfo,
     setNewConsultantPhoto,
+    setConsultantFeedBack,
     requestAllConsultants,
   };
 });

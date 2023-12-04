@@ -19,6 +19,7 @@ export const splitNameValidator = helpers.withMessage(
   `ФИО должно состоять из трех слов`,
   (value: string) => value.trim().split(" ").length >= 3,
 );
+export const isNotZero = helpers.withMessage(`Пожалуйста дайте свою оценку`, (value: number) => value !== 0);
 
 export function useValidation<T extends {}>(data: Ref<T>, emit: GenericEmit, rules: TRule<T>) {
   const getRules = computed(() => rules);
@@ -49,5 +50,6 @@ export function useValidation<T extends {}>(data: Ref<T>, emit: GenericEmit, rul
     },
     { immediate: true },
   );
+
   return { isValid, $v, handleBlur, getErrorAttrs };
 }
