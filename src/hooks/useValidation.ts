@@ -25,6 +25,9 @@ export const ageChildrenValidator = helpers.withMessage(
 );
 export const isNotZero = helpers.withMessage(`Пожалуйста дайте свою оценку`, (value: number) => value !== 0);
 
+export const matchEmailValidator = (emailToMatch: Ref<string> | ComputedRef<string>) =>
+  helpers.withMessage("Email адреса не совпадают", sameAs(emailToMatch));
+
 export function useValidation<T extends {}>(data: Ref<T>, emit: GenericEmit, rules: TRule<T>) {
   const getRules = computed(() => rules);
   const $v = useVuelidate<T>(getRules, data);

@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 
 import { useModal } from "@/hooks/useModal";
-import { emailValidator, requiredValidator, useValidation } from "@/hooks/useValidation";
+import { emailValidator, matchEmailValidator, requiredValidator, useValidation } from "@/hooks/useValidation";
 import { useAuthStore } from "@/stores/authStore";
 
 import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
 import { TForgotPasswordPayload } from "./types";
+
+const props = defineProps<{ email?: string }>();
 
 const emit = defineEmits(["close"]);
 const router = useRouter();
@@ -25,12 +27,22 @@ const onForgotSuccess = () => {
 };
 
 const { handleBlur, getErrorAttrs, isValid } = useValidation<TForgotPasswordPayload>(data, emit, {
-  email: { requiredValidator, emailValidator },
+  email: {
+    requiredValidator,
+    emailValidator,
+    sameAsEmail: matchEmailValidator(computed(() => authStore.user?.email as string)),
+  },
 });
 
 const handleForgotPassword = () => {
   authStore.forgotPassword({ email: data.value.email }).then(onForgotSuccess);
 };
+
+onMounted(() => {
+  if (props.email) {
+    data.value.email = props.email;
+  }
+});
 </script>
 
 <template>
