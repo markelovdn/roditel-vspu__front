@@ -3,6 +3,7 @@ import { storeToRefs } from "pinia";
 import { emit } from "process";
 import { computed, onMounted, ref, watch } from "vue";
 
+import ForgotPassword from "@/components/modals/ForgotPasswordModal/ForgotPassword.vue";
 import {
   emailValidator,
   minLengthValidator,
@@ -31,6 +32,8 @@ const data = ref<TPersonalDataParentPayload>({
 });
 
 const children = ref<Array<TPersonalDataChildrenPayload & { isValid: boolean }>>([]);
+
+const showForgotPasswordModal = ref(false);
 
 const { handleBlur, getErrorAttrs, isValid } = useValidation<TPersonalDataParentPayload>(data, emit, {
   name: { requiredValidator, splitNameValidator },
@@ -140,6 +143,10 @@ onMounted(() => {
             @blur="handleBlur('region_id')" />
         </div>
 
+        <div class="personal-data__box">
+          <q-btn label="Сбросить пароль" class="q-btn--form" color="primary" @click="showForgotPasswordModal = true" />
+        </div>
+
         <div class="personal-data__header">
           <h5>Информация о детях</h5>
         </div>
@@ -174,6 +181,10 @@ onMounted(() => {
           @click="handleForm" />
       </div>
     </div>
+    <ForgotPassword
+      v-if="showForgotPasswordModal"
+      :email="data.email"
+      @close="showForgotPasswordModal = false"></ForgotPassword>
   </div>
 </template>
 
