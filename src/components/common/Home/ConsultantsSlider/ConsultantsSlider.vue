@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 
-import { collectionsApi } from "@/api";
+import { consultantApi } from "@/api";
 import ConsultantsCard from "@/components/common/Home/ConsultantsCard/ConsultantsCard.vue";
 
 import type { Consultant } from "../ConsultantsCard/types";
@@ -11,7 +11,7 @@ const consultants = ref<Consultant[]>([]);
 const sliderQuantityItem = 3;
 
 const getConsultants = () => {
-  collectionsApi.getConsultants().then((response) => {
+  consultantApi.getAllConsultants().then((response) => {
     consultants.value = response.data.data;
     consultants.value.push(...response.data.data); // аля моки пока нет пагинации
   });

@@ -60,7 +60,6 @@ export const useConsultantStore = defineStore("consultantStore", () => {
 
   const getConsultants = computed(() => {
     return consultants.value.map((item: any) => {
-      console.log(item);
       return { label: item.fullName, value: item.userId };
     });
   });
