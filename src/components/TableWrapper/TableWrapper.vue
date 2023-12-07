@@ -1,9 +1,8 @@
 <script setup lang="ts" generic="T extends Record<string, unknown>">
-import { QTableColumn } from "quasar";
-
 import CardTableWrapper from "./CardTableWrapper.vue";
 import ListTableWrapper from "./ListTableWrapper.vue";
-export type TTableWrapperHeaders = Array<QTableColumn & { width: number }>;
+import { TTableWrapperHeaders } from "./types";
+
 defineProps<{ items: T[]; title: string; cardsList?: boolean; headers?: TTableWrapperHeaders }>();
 </script>
 
@@ -23,8 +22,8 @@ defineProps<{ items: T[]; title: string; cardsList?: boolean; headers?: TTableWr
         </template>
       </CardTableWrapper>
       <ListTableWrapper v-else :items="items" :headers="headers">
-        <template #item="{ item, index, cellClass }">
-          <slot name="item" v-bind="{ item, index, cellClass }"></slot>
+        <template #item="{ item, index }">
+          <slot name="item" v-bind="{ item, index }"></slot>
         </template>
       </ListTableWrapper>
     </div>

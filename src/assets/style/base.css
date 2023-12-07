@@ -67,6 +67,11 @@ h5 {
   line-height: 120%;
   margin: 0;
 }
+.subtitle {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+}
 
 .gap-1 {
   gap: 4px;

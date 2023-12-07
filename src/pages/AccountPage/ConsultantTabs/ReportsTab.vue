@@ -4,7 +4,8 @@ import { computed, onMounted, ref } from "vue";
 
 import { TGetConsultantReportsFilter } from "@/api/Consultant/types";
 import ReportModal from "@/components/modals/ReportModal/ReportModal.vue";
-import TableWrapper, { TTableWrapperHeaders } from "@/components/TableWrapper/TableWrapper.vue";
+import TableWrapper from "@/components/TableWrapper/TableWrapper.vue";
+import { TTableWrapperHeaders } from "@/components/TableWrapper/types";
 import { useRequestPayload } from "@/hooks/useRequestPayload";
 import { useConsultantStore } from "@/stores/consultantStore";
 import notify from "@/utils/notify";
@@ -115,14 +116,14 @@ onMounted(() => {
         </q-input>
       </div>
     </template>
-    <template #item="{ item, index, cellClass }">
-      <div :class="cellClass" class="justify-center items-center">{{ index + 1 }}</div>
-      <div :class="cellClass" class="items-center">{{ item.fileName }}</div>
-      <div :class="cellClass" class="justify-center items-center">{{ item.createdAt }}</div>
+    <template #item="{ item, index }">
+      <div class="justify-center items-center">{{ index + 1 }}</div>
+      <div class="items-center">{{ item.fileName }}</div>
+      <div class="justify-center items-center">{{ item.createdAt }}</div>
       <div :class="[cellClass, { error: item.uploadStatus === 'fail' }]" class="justify-center items-center">
         {{ statusTranslate[item.uploadStatus] || item.uploadStatus }}
       </div>
-      <div :class="cellClass" class="justify-center items-center">
+      <div class="justify-center items-center">
         <q-btn flat @click="handleFileDownload(item.fileUrl, item.fileName)">
           <svg
             fill="currentColor"

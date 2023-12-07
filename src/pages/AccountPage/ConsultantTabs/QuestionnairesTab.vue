@@ -2,7 +2,12 @@
 import { computed, ref } from "vue";
 
 import { TGetConsultantQuestionnairesFilter } from "@/api/Questionnaires/types";
+<<<<<<< HEAD
 import TableWrapper, { TTableWrapperHeaders } from "@/components/TableWrapper/TableWrapper.vue";
+=======
+import TableWrapper from "@/components/TableWrapper/TableWrapper.vue";
+import { TTableWrapperHeaders } from "@/components/TableWrapper/types";
+>>>>>>> 733c955 (feat: add right types)
 import useAlert from "@/hooks/useAlert";
 import { useRequestPayload } from "@/hooks/useRequestPayload";
 import { useQuestionnairesStore } from "@/stores/questionnairesStore";
@@ -61,6 +66,11 @@ const handleDelete = (questionnaireId: number) => {
     },
     cancel: () => void 0,
   });
+};
+
+//TODO: временный метод для тестирования
+const questionaireToParented = (questionnaireId: number | string | null | undefined) => {
+  questionnairesStore.setQuestionnaireToParented(questionnaireId);
 };
 const deleteQuestionnaire = (questionnaireId: number) => {
   questionnairesStore.deleteQuestionnaire(Number(questionnaireId));
@@ -123,8 +133,6 @@ const questionnairesListHeaders = [
 
 <template>
   <div>
-    dfsdfsfdsfdsdfsdfsdfsdfdsfsdf
-    {{ dateFilter }}
     <TableWrapper :items="questionnairesListRows" :headers="questionnairesListHeaders" :title="'Анкеты'">
       <template #header_right>
         <router-link :to="'/questionnaires'">
@@ -161,19 +169,21 @@ const questionnairesListHeaders = [
             @update:model-value="(value) => setStatusFilter(value)" />
         </div>
       </template>
-      <template #item="{ item, index, cellClass }">
-        <div :class="cellClass">{{ index + 1 }}</div>
-        <div :class="cellClass" class="justify-center">{{ item.title }}</div>
-        <div :class="cellClass" class="justify-center">{{ item.updatedAt }}</div>
-        <div :class="cellClass" class="justify-center">
+      <template #item="{ item, index }">
+        <div>{{ index + 1 }}</div>
+        <div>{{ item.title }}</div>
+        <div>{{ item.updatedAt }}</div>
+        <div>
           <span v-if="!item.status">Ожидает ответа</span>
           <span v-else>Ответ от {{ item.status }}</span>
         </div>
-        <div :class="cellClass" class="justify-center">
-          <span v-if="!item.parented">Не назначено</span>
+        <div>
+          <span v-if="!item.parented" style="cursor: pointer" @click="questionaireToParented(item.id)">
+            Не назначено
+          </span>
           <span>{{ item.parented }}</span>
         </div>
-        <div :class="cellClass">
+        <div>
           <q-btn flat @click="handleFileDownload(String(item.fileUrl), String(item.fileName))">
             <svg
               fill="currentColor"
@@ -190,12 +200,12 @@ const questionnairesListHeaders = [
             </svg>
           </q-btn>
         </div>
-        <div :class="cellClass" class="flex gap-1 justify-end">
+        <div class="flex gap-1 justify-end">
           <div>
             <q-btn v-if="item.id" dense icon="edit" size="xs" color="primary" :to="`/questionnaire/${item.id}`"></q-btn>
           </div>
         </div>
-        <div :class="cellClass" class="flex gap-1 justify-end">
+        <div class="flex gap-1 justify-end">
           <div>
             <q-btn v-if="item.id" dense size="xs" icon="delete" color="negative" @click="handleDelete(item.id)"></q-btn>
           </div>

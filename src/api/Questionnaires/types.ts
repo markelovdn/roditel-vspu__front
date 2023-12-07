@@ -15,6 +15,7 @@ export type TQuestionnairePayload = {
   fileName?: string;
   status?: string;
   parented?: string;
+  consultant?: string;
   updatedAt?: string;
   questions: Array<TDefaultQuestion>;
 };
@@ -36,3 +37,13 @@ export type TQuestionnairesData = {
   links: any;
   meta: any;
 };
+
+export type TSelectedAnsweres = Array<{
+  questionId: number;
+  optionId: number;
+}>;
+
+export type TOtherAnsweres = Array<{
+  questionId: number;
+  text: string;
+}>;

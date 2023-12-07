@@ -2,7 +2,12 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 
 import { questionnairesApi } from "@/api";
-import { TGetConsultantQuestionnairesFilter, TQuestionnairePayload } from "@/api/Questionnaires/types";
+import {
+  TGetConsultantQuestionnairesFilter,
+  TOtherAnsweres,
+  TQuestionnairePayload,
+  TSelectedAnsweres,
+} from "@/api/Questionnaires/types";
 import notify from "@/utils/notify";
 
 import { useAuthStore } from "./authStore";
@@ -23,6 +28,8 @@ export const useQuestionnairesStore = defineStore("questionnaresStore", () => {
     current: 1,
     max: 1,
   });
+
+  const temp: any = ref([]);
 
   function clearFilters() {
     page.value.current = 1;
@@ -51,8 +58,7 @@ export const useQuestionnairesStore = defineStore("questionnaresStore", () => {
   }
 
   async function updateQuestionnaire(questionnaireId: number, questionnaire: TQuestionnairePayload) {
-    await questionnairesApi.updateQuestionnaire(questionnaireId, questionnaire).then((resp) => {
-      console.log(resp);
+    await questionnairesApi.updateQuestionnaire(questionnaireId, questionnaire).then(() => {
       notify({ type: "positive", message: "Анкета успешно обновлена" });
     });
   }
@@ -64,15 +70,45 @@ export const useQuestionnairesStore = defineStore("questionnaresStore", () => {
     });
   }
 
+  async function setSelectedParentedAnswers(
+    questionnaireId: number | string,
+    selected: TSelectedAnsweres,
+    other: TOtherAnsweres,
+  ) {
+    await questionnairesApi.setSelectedParentedAnswers(questionnaireId, selected, other).then((resp) => {
+      console.log(resp);
+      notify({ type: "positive", message: "Ответы на анкету добавлены" });
+    });
+  }
+
+  async function getSelectedParentedAnswers(questionnaireId: number | string) {
+    await questionnairesApi.getSelectedParentedAnswers(questionnaireId).then((resp) => {
+      temp.value = resp.data;
+      console.log(resp);
+      notify({ type: "positive", message: "Ответы загружены" });
+    });
+  }
+
+  async function setQuestionnaireToParented(questionnaireId: number | string | null | undefined) {
+    await questionnairesApi.setQuestionnaireToParented(questionnaireId).then((resp) => {
+      console.log(resp);
+      notify({ type: "positive", message: "Родитель назначен для анкеты" });
+    });
+  }
+
   return {
     questionnaires,
     questionnaire,
     page,
+    temp,
     getQuestionnaires,
     addQuestionnaire,
     showQuestionnaire,
     updateQuestionnaire,
     deleteQuestionnaire,
     clearFilters,
+    setSelectedParentedAnswers,
+    setQuestionnaireToParented,
+    getSelectedParentedAnswers,
   };
 });

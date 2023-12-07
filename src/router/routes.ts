@@ -40,9 +40,17 @@ const routes: Array<RouteRecordRaw> = [
     path: "/questionnaire/:id",
     name: "ShowQuestionnaire",
     meta: {
-      requireAuth: false,
+      requireAuth: true,
     },
     component: () => import("@/pages/QuestionnairesPage/QuestionnairesPage.vue"),
+  },
+  {
+    path: "/answerParentedQuesstionaire/:id",
+    name: "AnswerQuestionnaire",
+    meta: {
+      requireAuth: true,
+    },
+    component: () => import("@/pages/ParentedAnswerQuesstionnairePage/ParentedAnswerQuesstionnairePage.vue"),
   },
 ];
 
