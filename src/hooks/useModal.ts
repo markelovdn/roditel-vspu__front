@@ -61,6 +61,21 @@ export function useToQuestions(showLoginModal: Ref<boolean>) {
     showLoginModal.value = true;
   }
 }
+export function useCreateQuestion(showModal: Ref<boolean>, showLoginModal: Ref<boolean>, consultant: any) {
+  const authStore = useAuthStore();
+  consultant;
+  if (!authStore.getUserInfo) {
+    router.push({ query: { isOpenNewConsultation: "true", tabId: "questions" } });
+    showLoginModal.value = true;
+    return;
+  }
+  showModal.value = true;
+  if (authStore.user?.role.title !== "Консультант") {
+    router.push({ name: "My", query: { isOpenNewConsultation: "true", tabId: "questions" } });
+  } else {
+    router.push({ name: "My", query: { tabId: "applications" } });
+  }
+}
 
 export function useToOldWebinars(showLoginModal: Ref<boolean>) {
   const authStore = useAuthStore();
