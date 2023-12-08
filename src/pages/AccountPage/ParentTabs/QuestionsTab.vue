@@ -184,13 +184,11 @@ onBeforeMount(() => {
 .question {
   display: flex;
   flex-direction: column;
-  gap: 4px;
   border-radius: 10px;
   background-color: #e4ebf5;
 
   &__wrapper {
     display: flex;
-    gap: 2px;
     height: 592px;
   }
 
@@ -218,6 +216,7 @@ onBeforeMount(() => {
     display: flex;
     background-color: #ffffff;
     flex-basis: 36%;
+    border-right: 1px solid var(--grey-2);
   }
   &__content {
     display: flex;
