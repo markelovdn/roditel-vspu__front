@@ -115,7 +115,7 @@ onBeforeMount(() => {
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale">
                   <q-date v-model="inputDate" range @update:model-value="setData">
                     <div class="row items-center justify-end">
-                      <q-btn v-close-popup label="Close" color="primary" flat />
+                      <q-btn v-close-popup label="Закрыть" color="primary" flat />
                       <q-btn v-close-popup label="Сбросить" color="primary" flat @click="dateClear()" />
                     </div>
                   </q-date>
