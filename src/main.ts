@@ -5,6 +5,7 @@ import "./assets/style/main.css";
 import { createPinia } from "pinia";
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 import { Dialog, Notify, Quasar } from "quasar";
+import rus from "quasar/lang/ru";
 import { createApp } from "vue";
 
 import App from "./App.vue";
@@ -22,6 +23,7 @@ app.use(Quasar, {
     Dialog,
     Notify,
   }, // import Quasar plugins and add here
+  lang: rus,
 });
 
 app.mount("#app");

@@ -67,7 +67,7 @@ onMounted(() => {
       <template #filters>
         <div class="flex">
           <div class="q-pa-md" style="width: 250px">
-            <q-input v-model="search" debounce="500" filled placeholder="Search">
+            <q-input v-model="search" debounce="500" filled placeholder="Поиск">
               <template #append>
                 <q-icon name="search" />
               </template>

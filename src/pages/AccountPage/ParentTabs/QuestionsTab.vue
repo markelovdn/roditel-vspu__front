@@ -102,7 +102,7 @@ onBeforeMount(() => {
 
       <div class="flex justify-between justify-between question__header_line">
         <div>
-          <q-input v-model="search" debounce="500" filled placeholder="Search">
+          <q-input v-model="search" debounce="500" filled placeholder="Поиск">
             <template #append>
               <q-icon name="search" />
             </template>
