@@ -82,3 +82,7 @@ h5 {
 .gap-3 {
   gap: 16px;
 }
+
+a {
+  transition: all 0.3s;
+}
