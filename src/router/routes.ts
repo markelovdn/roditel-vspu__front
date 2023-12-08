@@ -8,12 +8,16 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       background: "primary",
       requireAuth: false,
+      title: "Главная",
     },
   },
   {
     path: "/my",
     name: "My",
     component: () => import("@/pages/AccountPage/AccountPage.vue"),
+    meta: {
+      title: "Личный кабинет",
+    },
   },
   {
     path: "/ui",
@@ -25,6 +29,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "ResetPassword",
     meta: {
       requireAuth: false,
+      title: "Сбросить пароль",
     },
     component: () => import("@/pages/ResetPasswordPage/ResetPasswordPage.vue"),
   },
@@ -33,6 +38,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "Questionnaires",
     meta: {
       requireAuth: true,
+      title: "Анкеты",
     },
     component: () => import("@/pages/QuestionnairesPage/QuestionnairesPage.vue"),
   },
@@ -41,6 +47,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "ShowQuestionnaire",
     meta: {
       requireAuth: true,
+      title: "Редактировать анкету",
     },
     component: () => import("@/pages/QuestionnairesPage/QuestionnairesPage.vue"),
   },
@@ -49,6 +56,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "AnswerQuestionnaire",
     meta: {
       requireAuth: true,
+      title: "Ответить на анкету",
     },
     component: () => import("@/pages/ParentedAnswerQuesstionnairePage/ParentedAnswerQuesstionnairePage.vue"),
   },
