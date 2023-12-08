@@ -2,12 +2,8 @@
 import { computed, ref } from "vue";
 
 import { TGetConsultantQuestionnairesFilter } from "@/api/Questionnaires/types";
-<<<<<<< HEAD
-import TableWrapper, { TTableWrapperHeaders } from "@/components/TableWrapper/TableWrapper.vue";
-=======
 import TableWrapper from "@/components/TableWrapper/TableWrapper.vue";
 import { TTableWrapperHeaders } from "@/components/TableWrapper/types";
->>>>>>> 733c955 (feat: add right types)
 import useAlert from "@/hooks/useAlert";
 import { useRequestPayload } from "@/hooks/useRequestPayload";
 import { useQuestionnairesStore } from "@/stores/questionnairesStore";
