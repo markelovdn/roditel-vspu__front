@@ -67,6 +67,11 @@ h5 {
   line-height: 120%;
   margin: 0;
 }
+.subtitle {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+}
 
 .gap-1 {
   gap: 4px;
@@ -76,4 +81,30 @@ h5 {
 }
 .gap-3 {
   gap: 16px;
+}
+
+a {
+  transition: all 0.3s;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 8px;
+  background: transparent;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: gray;
+  border-radius: 0px;
+  width: 6px;
+  opacity: 0.5;
+}
+
+* {
+  scrollbar-color: darkgrey transparent !important;
+  scrollbar-width: thin !important;
 }

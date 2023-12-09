@@ -67,7 +67,7 @@ onMounted(() => {
       <template #filters>
         <div class="flex">
           <div class="q-pa-md" style="width: 250px">
-            <q-input v-model="search" debounce="500" filled placeholder="Search">
+            <q-input v-model="search" debounce="500" filled placeholder="Поиск">
               <template #append>
                 <q-icon name="search" />
               </template>
@@ -80,7 +80,7 @@ onMounted(() => {
                   <q-popup-proxy cover transition-show="scale" transition-hide="scale">
                     <q-date v-model="inputDate" range @update:model-value="setData">
                       <div class="row items-center justify-end">
-                        <q-btn v-close-popup label="Close" color="primary" flat />
+                        <q-btn v-close-popup label="Закрыть" color="primary" flat />
                         <q-btn v-close-popup label="Сбросить" color="primary" flat @click="dateClear()" />
                       </div>
                     </q-date>

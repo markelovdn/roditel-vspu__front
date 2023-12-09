@@ -6,8 +6,12 @@ const props = defineProps<{ items: T[]; headers?: Array<QTableColumn & { width: 
 const gridTemplateColumnsStyle = computed(() => {
   let columnsWidths = "";
   for (let i = 0; i < (props.headers?.length ?? 0); i++) {
-    const width = props.headers?.[i].width ?? "1fr";
-    columnsWidths += ` ${width}`;
+    if (!props.headers?.[i].width) {
+      columnsWidths += "1fr";
+      continue;
+    }
+    const width = props.headers?.[i].width;
+    columnsWidths += ` minmax(${width}, 1fr)`;
   }
   if (!columnsWidths) return;
   return { "grid-template-columns": columnsWidths } as StyleValue;
@@ -27,7 +31,7 @@ const gridTemplateColumnsStyle = computed(() => {
     </div>
     <div class="content">
       <div v-for="(item, index) in items" :key="index" class="table-row content__row" :style="gridTemplateColumnsStyle">
-        <slot name="item" v-bind="{ item, index }" :cell-class="'table-cell'"></slot>
+        <slot name="item" v-bind="{ item, index }"></slot>
       </div>
     </div>
   </div>
@@ -47,21 +51,27 @@ const gridTemplateColumnsStyle = computed(() => {
   }
   .table-row {
     display: grid;
+    &:nth-child(2n) {
+      background: #f9f9fb;
+    }
+    & > div {
+      padding: 16px 14px;
+      word-break: break-word;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 
-  .table-cell {
-    padding: 16px 14px;
-    word-break: break-word;
-    display: flex;
-  }
   .content {
     color: #525252;
     font-size: 14px;
     border: 1px solid #f1f1f1;
     border-radius: 8px;
+    overflow: hidden;
     .table-row {
       height: max-content;
-      &:hover {
+      &:hover > div {
         background: rgba(0, 0, 0, 0.03);
       }
     }

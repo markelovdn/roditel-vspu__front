@@ -1,7 +1,13 @@
 import axios from "@/common/axios";
 import { useParamBuilder, useUrlParams } from "@/hooks/useParamBuilder ";
 
-import { TGetConsultantQuestionnairesFilter, TQuestionnairePayload, TQuestionnairesData } from "./types";
+import {
+  TGetConsultantQuestionnairesFilter,
+  TOtherAnsweres,
+  TQuestionnairePayload,
+  TQuestionnairesData,
+  TSelectedAnsweres,
+} from "./types";
 
 export class QuestionnairesApiService {
   getQuestionnaires(consultantId: number | string, filters: TGetConsultantQuestionnairesFilter) {
@@ -14,8 +20,7 @@ export class QuestionnairesApiService {
     return axios.post<TQuestionnairePayload>(`/consultant/${consultantId}/questionnaires`, {
       title: questionnaire.title,
       description: questionnaire.description,
-      //TODO: поправить метод для даты
-      answerBefore: "10.08.2000",
+      answerBefore: questionnaire.answerBefore,
       questions: questionnaire.questions,
     });
   }
@@ -29,13 +34,31 @@ export class QuestionnairesApiService {
       id: questionnaire.id,
       title: questionnaire.title,
       description: questionnaire.description,
-      //TODO: поправить метод для даты
-      answerBefore: "10.08.2000",
+      answerBefore: questionnaire.answerBefore,
       questions: questionnaire.questions,
     });
   }
 
   deleteQuestionnaire(questionaireId: number | string) {
     return axios.delete(`/questionnaires/${questionaireId}`);
+  }
+
+  //TODO:: временнный метод
+  setQuestionnaireToParented(questionnaireId: number | string | null | undefined) {
+    return axios.post(`/setParentedToQuestionnaire`, {
+      questionnaireId: questionnaireId,
+      parentedId: 21,
+    });
+  }
+
+  setSelectedParentedAnswers(questionaireId: number | string, selected: TSelectedAnsweres, other: TOtherAnsweres) {
+    return axios.post(`/questionnaire/${questionaireId}/selectedOptions`, {
+      selected: selected,
+      other: other,
+    });
+  }
+
+  getSelectedParentedAnswers(questionaireId: number | string) {
+    return axios.get(`/questionnaire/${questionaireId}/selectedOptions`);
   }
 }

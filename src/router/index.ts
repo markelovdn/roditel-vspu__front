@@ -22,6 +22,7 @@ router.afterEach((to) => {
 });
 router.beforeEach(async (to, from, next) => {
   const { user } = useAuthStore();
+  document.title = (to.meta.title as string) || "СОЦИАЛЬНО-ПСИХОЛОГИЧЕСКИЙ ЦЕНТР ВГСПУ";
   if ((to.meta.requireAuth === undefined || to.meta.requireAuth === true) && !user) {
     notify({ type: "negative", message: "Для доступа к этой странице необходима авторизация" });
     next({ name: "Main" });

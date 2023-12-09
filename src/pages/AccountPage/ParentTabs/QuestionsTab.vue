@@ -102,7 +102,7 @@ onBeforeMount(() => {
 
       <div class="flex justify-between justify-between question__header_line">
         <div>
-          <q-input v-model="search" debounce="500" filled placeholder="Search">
+          <q-input v-model="search" debounce="500" filled placeholder="Поиск">
             <template #append>
               <q-icon name="search" />
             </template>
@@ -115,7 +115,7 @@ onBeforeMount(() => {
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale">
                   <q-date v-model="inputDate" range @update:model-value="setData">
                     <div class="row items-center justify-end">
-                      <q-btn v-close-popup label="Close" color="primary" flat />
+                      <q-btn v-close-popup label="Закрыть" color="primary" flat />
                       <q-btn v-close-popup label="Сбросить" color="primary" flat @click="dateClear()" />
                     </div>
                   </q-date>
@@ -184,13 +184,11 @@ onBeforeMount(() => {
 .question {
   display: flex;
   flex-direction: column;
-  gap: 4px;
   border-radius: 10px;
   background-color: #e4ebf5;
 
   &__wrapper {
     display: flex;
-    gap: 2px;
     height: 592px;
   }
 
@@ -218,6 +216,7 @@ onBeforeMount(() => {
     display: flex;
     background-color: #ffffff;
     flex-basis: 36%;
+    border-right: 1px solid var(--grey-2);
   }
   &__content {
     display: flex;
