@@ -2,8 +2,8 @@
 import { computed, ref } from "vue";
 
 import { TGetConsultantQuestionnairesFilter } from "@/api/Questionnaires/types";
-import TableWrapper from "@/components/TableWrapper/TableWrapper.vue";
-import { TTableWrapperHeaders } from "@/components/TableWrapper/types";
+import ConsultantChoiceParentsModal from "@/components/modals/ConsultantChoiceParentsModal/ConsultantChoiceParentsModal.vue";
+import TableWrapper, { TTableWrapperHeaders } from "@/components/TableWrapper/TableWrapper.vue";
 import useAlert from "@/hooks/useAlert";
 import { useRequestPayload } from "@/hooks/useRequestPayload";
 import { useQuestionnairesStore } from "@/stores/questionnairesStore";
@@ -14,6 +14,10 @@ import { type TDateFilter } from "./types";
 const questionnairesStore = useQuestionnairesStore();
 const dateFilter = ref<TDateFilter | null>();
 const alert = useAlert();
+
+const questionId = ref<number>(0);
+
+const parentsModal = ref(false);
 const queryParams = ref<TGetConsultantQuestionnairesFilter>({ page: 1 });
 const setPage = (page: number) => (queryParams.value.page = page);
 const filterStatusSelect = [
@@ -54,6 +58,11 @@ const dateClear = () => {
 const dateToString = computed(() =>
   dateFilter.value ? `c ${dateFilter.value.from} по ${dateFilter.value.to}` : "Выберите дату",
 );
+
+const handleModal = (value?: number | null) => {
+  parentsModal.value = true;
+  questionId.value = value as number;
+};
 
 const handleDelete = (questionnaireId: number) => {
   alert({
@@ -173,10 +182,16 @@ const questionnairesListHeaders = [
           <span v-if="!item.status">Ожидает ответа</span>
           <span v-else>Ответ от {{ item.status }}</span>
         </div>
+        <div :class="cellClass" class="justify-center">
+          <q-btn
+            v-if="!item.parented"
+            outline
+            rounded
+            color="primary"
+            label="Назначить"
+            class="appoint-btn"
+            @click="handleModal(item.id)" />
         <div>
-          <span v-if="!item.parented" style="cursor: pointer" @click="questionaireToParented(item.id)">
-            Не назначено
-          </span>
           <span>{{ item.parented }}</span>
         </div>
         <div>
@@ -220,6 +235,7 @@ const questionnairesListHeaders = [
           @update:model-value="setPage" />
       </div>
     </div>
+    <ConsultantChoiceParentsModal v-if="parentsModal" :question-id="questionId" @close="parentsModal = false" />
   </div>
 </template>
 
@@ -242,5 +258,11 @@ const questionnairesListHeaders = [
   &__status {
     width: 50px;
   }
+}
+
+.appoint-btn {
+  padding: 4px 6px;
+  font-size: 12px;
+  height: auto;
 }
 </style>

@@ -9,6 +9,7 @@ import {
   TGetConsultantReportsData,
   TGetConsultantReportsFilter,
 } from "@/api/Consultant/types";
+import { TConsultantParentsPayload } from "@/components/modals/ConsultantChoiceParentsModal/types";
 import { TConsultantFeedbackPayload } from "@/components/modals/ConsultantFeedback/types";
 import { TPersonalDataPayload } from "@/pages/AccountPage/ConsultantTabs/types";
 import notify from "@/utils/notify";
@@ -21,6 +22,13 @@ export const useConsultantStore = defineStore("consultantStore", () => {
   const authStore = useAuthStore();
   const consultantId = authStore.getUserId;
   const consultants = ref<TGetAllConsultants[]>([]);
+  const allParents = ref<TConsultantParentsPayload[]>([]);
+
+  const getParentsList = computed(() => {
+    return allParents.value.map((item) => {
+      return item;
+    });
+  });
 
   function requestReports(filters: TGetConsultantReportsFilter) {
     if (consultantId === undefined) return;
@@ -77,6 +85,17 @@ export const useConsultantStore = defineStore("consultantStore", () => {
     return consultantApi.setConsultantFeedBack(payload);
   }
 
+  function getAllParents() {
+    return consultantApi.getAllParentedsForConsultant().then((resp) => (allParents.value = resp.data.data));
+  }
+
+  function setParentQuestion(questionnaireId: number, parentedId: number) {
+    return consultantApi
+      .setParentedToQuestionnaire({ questionnaireId, parentedId })
+      .then(() => notify({ type: "positive", message: "Данные успешно сохранены" }))
+      .catch(() => notify({ type: "negative", message: "Не удалось сохранить данные" }));
+  }
+
   return {
     requestReports,
     reportsModel,
@@ -90,5 +109,9 @@ export const useConsultantStore = defineStore("consultantStore", () => {
     setNewConsultantPhoto,
     setConsultantFeedBack,
     requestAllConsultants,
+    getAllParents,
+    allParents,
+    getParentsList,
+    setParentQuestion,
   };
 });

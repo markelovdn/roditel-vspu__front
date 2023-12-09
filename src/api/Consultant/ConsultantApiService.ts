@@ -1,4 +1,5 @@
 import axios from "@/common/axios";
+import { TConsultantParentsPayload } from "@/components/modals/ConsultantChoiceParentsModal/types";
 import { TConsultantFeedbackPayload } from "@/components/modals/ConsultantFeedback/types";
 import { useParamBuilder, useUrlParams } from "@/hooks/useParamBuilder ";
 import { TPersonalDataPayload } from "@/pages/AccountPage/ConsultantTabs/types";
@@ -60,5 +61,13 @@ export class ConsultantApiService {
     };
 
     return axios.post<{ message: string }>(`/consultationRatings`, payload);
+  }
+
+  getAllParentedsForConsultant() {
+    return axios.post<{ data: TConsultantParentsPayload[] }>(`/getAllParentedsForConsultant?all=true`);
+  }
+
+  setParentedToQuestionnaire(payload: { questionnaireId: number; parentedId: number }) {
+    return axios.post(`/setParentedToQuestionnaire`, payload);
   }
 }
