@@ -9,7 +9,7 @@ import { ComponentDefinition } from "@/types";
 interface IAccountWrapperProps {
   tabs: Array<{ name: string; label: string; panelComponent: ComponentDefinition }>;
   title: string;
-  accountRole: "parented" | "consultant" | string;
+  accountRole: "parented" | "consultant" | "admin" | string;
 }
 
 const props = defineProps<IAccountWrapperProps>();
