@@ -120,7 +120,7 @@ onMounted(() => {
       <div class="justify-center items-center">{{ index + 1 }}</div>
       <div class="items-center">{{ item.fileName }}</div>
       <div class="justify-center items-center">{{ item.createdAt }}</div>
-      <div :class="[cellClass, { error: item.uploadStatus === 'fail' }]" class="justify-center items-center">
+      <div :class="[{ error: item.uploadStatus === 'fail' }]" class="justify-center items-center">
         {{ statusTranslate[item.uploadStatus] || item.uploadStatus }}
       </div>
       <div class="justify-center items-center">

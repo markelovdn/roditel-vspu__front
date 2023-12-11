@@ -182,7 +182,7 @@ const questionnairesListHeaders = [
           <span v-if="!item.status">Ожидает ответа</span>
           <span v-else>Ответ от {{ item.status }}</span>
         </div>
-        <div :class="cellClass" class="justify-center">
+        <div class="justify-center">
           <q-btn
             v-if="!item.parented"
             outline
@@ -191,6 +191,7 @@ const questionnairesListHeaders = [
             label="Назначить"
             class="appoint-btn"
             @click="handleModal(item.id)" />
+        </div>
         <div>
           <span>{{ item.parented }}</span>
         </div>
