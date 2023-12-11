@@ -3,7 +3,8 @@ import { computed, ref } from "vue";
 
 import { TGetConsultantQuestionnairesFilter } from "@/api/Questionnaires/types";
 import ConsultantChoiceParentsModal from "@/components/modals/ConsultantChoiceParentsModal/ConsultantChoiceParentsModal.vue";
-import TableWrapper, { TTableWrapperHeaders } from "@/components/TableWrapper/TableWrapper.vue";
+import TableWrapper from "@/components/TableWrapper/TableWrapper.vue";
+import { TTableWrapperHeaders } from "@/components/TableWrapper/types";
 import useAlert from "@/hooks/useAlert";
 import { useRequestPayload } from "@/hooks/useRequestPayload";
 import { useQuestionnairesStore } from "@/stores/questionnairesStore";
@@ -74,6 +75,7 @@ const handleDelete = (questionnaireId: number) => {
 };
 
 //TODO: временный метод для тестирования
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const questionaireToParented = (questionnaireId: number | string | null | undefined) => {
   questionnairesStore.setQuestionnaireToParented(questionnaireId);
 };
