@@ -44,6 +44,7 @@ onUpdated(() => {
       :item="consultation"
       :message="item"
       :user="findUser(item.userId)" />
+    <div>Оценить {{ consultation.closed }}</div>
   </div>
 </template>
 
