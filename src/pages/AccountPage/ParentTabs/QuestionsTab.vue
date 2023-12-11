@@ -80,7 +80,6 @@ onBeforeMount(() => {
   }
   webinarsStore.requestLectors();
   collectionsStore.requestSpecializations();
-  consultationsStore.requestConsultations({}).then(setFirstActiveChat);
   useRequestPayload(
     queryParams,
     async (filters) => {
@@ -119,8 +118,6 @@ onBeforeMount(() => {
               ]"
               @update:model-value="setActual" />
           </div>
-          <!-- <q-btn label="Актуальные" class="q-btn--form" color="primary" />
-          <q-btn label="Выполненные" class="q-btn--form" flat :ripple="false" color="grey-1" /> -->
         </div>
       </div>
 

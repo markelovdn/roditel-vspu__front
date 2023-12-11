@@ -6,7 +6,7 @@ export type TGetConsultationsFilter = {
   search?: string;
   category?: string;
   consultantId?: string;
-  actual?: boolean;
+  actual?: "yes" | "no" | boolean;
 };
 
 export type TConsultationPayload<ConsultantId extends number | null> = {
