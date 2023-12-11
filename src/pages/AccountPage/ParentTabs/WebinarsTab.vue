@@ -39,8 +39,6 @@ const setData = (value?: any) => {
 const setSpecialization = (value: string) => (queryParams.value.category = Number(value));
 const setLectors = (value: string) => (queryParams.value.lector = Number(value));
 const setActual = (value: "yes" | "no") => {
-  console.log("value:", value);
-
   queryParams.value.actual = value;
 };
 watch(search, () => (queryParams.value.searchField = search.value));

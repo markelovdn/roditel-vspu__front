@@ -89,3 +89,15 @@ export function useToOldWebinars(showLoginModal: Ref<boolean>) {
     showLoginModal.value = true;
   }
 }
+export function useToOldQuestions(showLoginModal: Ref<boolean>) {
+  const authStore = useAuthStore();
+  if (authStore.user?.role.title === "Консультант") {
+    alert("Вы консультант, зайдите под учёткой родителя");
+    return;
+  }
+  router.push({ name: "My", query: { actual: "no", tabId: "questions" } });
+  if (!authStore.getUserInfo) {
+    router.push({ query: { actual: "no", tabId: "questions" } });
+    showLoginModal.value = true;
+  }
+}

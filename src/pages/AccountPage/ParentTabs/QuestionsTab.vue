@@ -30,6 +30,7 @@ const inputDate = ref();
 const search = ref();
 const specializationId = ref(0);
 const lectorId = ref(0);
+const actual = ref<"yes" | "no">((route.query.actual as "yes" | "no") || "yes");
 
 // const setPage = (page: number) => (queryParams.value.page = page);
 // const paginationPage = ref(1);
@@ -71,6 +72,7 @@ const setData = (value?: any) => {
 };
 const setSpecialization = (value: string) => (queryParams.value.category = Number(value));
 const setLectors = (value: string) => (queryParams.value.lector = Number(value));
+const setActual = (value: "yes" | "no") => (queryParams.value.actual = value === "yes");
 
 watch(search, () => (queryParams.value.searchField = search.value));
 
@@ -97,11 +99,26 @@ onBeforeMount(() => {
         </div>
 
         <div class="question__box">
-          <q-btn outline style="color: #f7b70b" class="q-btn--form q-ml-sm">
+          <q-btn outline style="color: #f7b70b" class="q-btn--form q-ml-sm q-mr-sm">
             <span class="text-primary question__btn-label" @click="isShowCreateConsultationModal = true">
               Задать вопрос
             </span>
           </q-btn>
+          <div>
+            <q-btn-toggle
+              v-model="actual"
+              spread
+              no-caps
+              toggle-color="primary"
+              text-color="primary"
+              :options="[
+                { label: 'Актуальные', value: 'yes' },
+                { label: 'Прошедшие', value: 'no' },
+              ]"
+              @update:model-value="setActual" />
+          </div>
+          <!-- <q-btn label="Актуальные" class="q-btn--form" color="primary" />
+          <q-btn label="Выполненные" class="q-btn--form" flat :ripple="false" color="grey-1" /> -->
         </div>
       </div>
 
@@ -169,7 +186,8 @@ onBeforeMount(() => {
         <ChatWrapper
           v-if="idActiveChatConsultation"
           :messages="idActiveChatMessages"
-          :consultation="idActiveChatConsultation" />
+          :consultation="idActiveChatConsultation"
+          :is-actual="actual === 'yes'" />
         <div v-else>
           <h4 class="q-pt-md">Создайте новую заявку</h4>
           <p style="text-align: center" class="q-pt-md">Вы мажите задать вопрос консультанту</p>
