@@ -53,16 +53,14 @@ export interface TGetConsultantInfo {
 }
 
 export type TGetAllConsultants = {
-  data: Array<{
-    user: {
-      id: number;
-      firstName: string;
-      secondName: string;
-      surName: string;
-    };
-    specialization: {
-      id: number;
-      title: string;
-    };
-  }>;
+  data: TAllConsultants;
 };
+export type TAllConsultants = Array<{
+  userId: number;
+  fullName: string;
+  consultantId: number;
+  specialization: {
+    id: number;
+    title: string;
+  };
+}>;

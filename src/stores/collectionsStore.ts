@@ -12,7 +12,7 @@ export const useCollectionsStore = defineStore("collectionsStore", () => {
   function requestRegions() {
     collectionsApi.getRegions().then((resp) => (regions.value = resp.data.data));
   }
-  function requestSpecializations() {
+  async function requestSpecializations() {
     collectionsApi.getSpecializations().then((resp) => (specializations.value = resp.data.data));
   }
   function requestProfessions() {

@@ -4,7 +4,7 @@ import { TConsultantFeedbackPayload } from "@/components/modals/ConsultantFeedba
 import { useParamBuilder, useUrlParams } from "@/hooks/useParamBuilder ";
 import { TPersonalDataPayload } from "@/pages/AccountPage/ConsultantTabs/types";
 
-import { TGetConsultantReportsFilter, TGetConsultantReportsResponseData } from "./types";
+import { TGetAllConsultants, TGetConsultantReportsFilter, TGetConsultantReportsResponseData } from "./types";
 
 export class ConsultantApiService {
   getReports(consultantId: number | string, filters: TGetConsultantReportsFilter) {
@@ -21,7 +21,7 @@ export class ConsultantApiService {
   }
 
   getAllConsultants() {
-    return axios.get("/consultants?all=true");
+    return axios.get<TGetAllConsultants>("/consultants?all=true");
   }
 
   setConsultantInfo(consultantId: number | string, data: TPersonalDataPayload) {

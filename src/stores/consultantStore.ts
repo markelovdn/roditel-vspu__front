@@ -4,7 +4,7 @@ import { computed, ref } from "vue";
 import { consultantApi } from "@/api";
 import { toConsultantReportsData } from "@/api/Consultant/mappers";
 import {
-  TGetAllConsultants,
+  TAllConsultants,
   TGetConsultantInfo,
   TGetConsultantReportsData,
   TGetConsultantReportsFilter,
@@ -21,7 +21,8 @@ export const useConsultantStore = defineStore("consultantStore", () => {
   const consultantInfo = ref<TGetConsultantInfo>();
   const authStore = useAuthStore();
   const consultantId = authStore.getUserId;
-  const consultants = ref<TGetAllConsultants[]>([]);
+  // const consultants = ref<TGetAllConsultants[]>([]);
+  const consultants = ref<TAllConsultants>([]);
   const allParents = ref<TConsultantParentsPayload[]>([]);
 
   const getParentsList = computed(() => {
@@ -55,7 +56,10 @@ export const useConsultantStore = defineStore("consultantStore", () => {
   }
 
   async function requestAllConsultants() {
-    consultantApi.getAllConsultants().then((resp) => (consultants.value = resp.data.data));
+    return consultantApi.getAllConsultants().then((resp) => {
+      consultants.value = resp.data.data;
+      return resp.data.data;
+    });
   }
 
   const getConsultants = computed(() => {

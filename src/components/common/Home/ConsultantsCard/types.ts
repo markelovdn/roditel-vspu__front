@@ -5,6 +5,7 @@ export type Consultant = {
 };
 
 type ConsultantUser = {
+  id: number;
   firstName: string;
   secondName: string;
   surName: string;

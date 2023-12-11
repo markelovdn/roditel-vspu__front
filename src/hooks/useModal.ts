@@ -65,15 +65,16 @@ export function useCreateQuestion(showModal: Ref<boolean>, showLoginModal: Ref<b
   const authStore = useAuthStore();
   consultant;
   if (!authStore.getUserInfo) {
-    router.push({ query: { isOpenNewConsultation: "true", tabId: "questions" } });
+    router.push({
+      query: { isOpenNewConsultation: "true", tabId: "questions", consultantId: consultant.user.id },
+    });
     showLoginModal.value = true;
     return;
-  }
-  showModal.value = true;
-  if (authStore.user?.role.title !== "Консультант") {
-    router.push({ name: "My", query: { isOpenNewConsultation: "true", tabId: "questions" } });
-  } else {
+  } else if (authStore.user?.role.title == "Консультант") {
     router.push({ name: "My", query: { tabId: "applications" } });
+    return;
+  } else {
+    showModal.value = true;
   }
 }
 
