@@ -28,7 +28,6 @@ onMounted(() => {
 
 <template>
   <div class="card">
-    {{ consultant }}
     <q-img class="card__photo" :src="props.consultant.photo" />
     <h5 class="card__name">{{ consultant.user.surName }}</h5>
     <div ref="description" class="card__description" :class="{ card__description_hide: isFullShow }">
@@ -38,6 +37,7 @@ onMounted(() => {
     <ConsultantDescriptionModal v-if="isShowModal" :consultant="consultant" @close="isShowModal = !isShowModal" />
     <CreateConsultationModal
       v-if="isShowCreateConsultationModal"
+      :consultant="consultant"
       @close="isShowCreateConsultationModal = false"></CreateConsultationModal>
 
     <q-btn color="yellow card__button">

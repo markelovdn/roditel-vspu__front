@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { onMounted, ref } from "vue";
+import { useRoute } from "vue-router";
 
+import { TAllConsultants } from "@/api/Consultant/types";
 import { TConsultationPayload } from "@/api/Consultations/types";
+import { Consultant } from "@/components/common/Home/ConsultantsCard/types";
 import { useModal } from "@/hooks/useModal";
 import { requiredValidator, useValidation } from "@/hooks/useValidation";
 import { useCollectionsStore } from "@/stores/collectionsStore";
@@ -10,11 +13,20 @@ import { useConsultantStore } from "@/stores/consultantStore";
 import { useConsultationsStore } from "@/stores/consultationsStore";
 
 import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
-
+const route = useRoute();
 const emit = defineEmits(["close"]);
+const props = defineProps<{
+  consultant?: Consultant;
+}>();
+
+const collectionsStore = useCollectionsStore();
+const consultantStore = useConsultantStore();
+const consultationsStore = useConsultationsStore();
+const { getSpecializations: optionsSpecializations } = storeToRefs(collectionsStore);
+const { getConsultants: optionsConsultants } = storeToRefs(consultantStore);
 
 const data = ref<TConsultationPayload<number | null>>({
-  consultantId: null,
+  consultantId: Number(route.query.consultantId) || props.consultant?.user.id || null,
   allConsultants: false,
   messageText: "",
   specializationId: null,
@@ -28,11 +40,6 @@ const { handleBlur, getErrorAttrs, isValid } = useValidation<TConsultationPayloa
   specializationId: { requiredValidator },
   allConsultants: {},
 });
-const collectionsStore = useCollectionsStore();
-const consultantStore = useConsultantStore();
-const consultationsStore = useConsultationsStore();
-const { getSpecializations: optionsSpecializations } = storeToRefs(collectionsStore);
-const { getConsultants: optionsConsultants } = storeToRefs(consultantStore);
 
 const handleCreateConsultation = () => {
   consultationsStore.createConsultation(data.value);
@@ -41,7 +48,11 @@ const handleCreateConsultation = () => {
 
 onMounted(() => {
   collectionsStore.requestSpecializations();
-  consultantStore.requestAllConsultants();
+  consultantStore.requestAllConsultants().then((res: TAllConsultants) => {
+    data.value.specializationId =
+      res.find((item) => item.userId === Number(route.query.consultantId) || props.consultant?.user.id)?.specialization
+        .id || null;
+  });
 });
 </script>
 
