@@ -50,6 +50,7 @@ onMounted(() => {
   padding: 22px 20px 22px 36px;
   display: flex;
   gap: 8px;
+  cursor: pointer;
 
   // background: rgba(228, 235, 246, 0.2);
   background-color: #ffffff;

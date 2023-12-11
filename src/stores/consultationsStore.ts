@@ -45,7 +45,6 @@ export const useConsultationsStore = defineStore("consultationsStore", () => {
 
   async function createConsultation(consultation: TConsultationPayload<number | null>) {
     if (userId === undefined) return Promise.reject(new Error("userId is undefined"));
-    console.log(userId);
     return consultationsApi
       .addConsultation(userId, consultation)
       .then(() => {

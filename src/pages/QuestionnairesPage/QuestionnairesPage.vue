@@ -44,7 +44,6 @@ const { questionnaire } = storeToRefs(questionnairesStore);
 onMounted(async () => {
   if (router.currentRoute.value.params.id) {
     await questionnairesStore.showQuestionnaire(Number(router.currentRoute.value.params.id));
-    console.log(questionnaire.value.questions);
     SurveyData.value = questionnaire.value;
 
     SurveyData.value.questions.forEach((question) => {
