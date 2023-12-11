@@ -48,8 +48,7 @@ export class ConsultantApiService {
 
   setConsultantFeedBack(data: TConsultantFeedbackPayload) {
     const payload = {
-      // TODO поменять id
-      consultation_id: 21,
+      consultation_id: data.consultationId,
       ratings: [
         { rating_question_id: 1, rating_answer: data.quality },
         { rating_question_id: 2, rating_answer: data.conditions },

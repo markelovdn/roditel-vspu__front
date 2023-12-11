@@ -12,11 +12,13 @@ import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
 import { TConsultantFeedbackPayload } from "./types";
 
 const emit = defineEmits(["close", "validation-change"]);
+const props = defineProps<{ consultationId: number; quality?: number }>();
 
 const consultantStore = useConsultantStore();
 
 const data = ref<TConsultantFeedbackPayload>({
-  quality: 0,
+  consultationId: props.consultationId,
+  quality: props.quality || 0,
   conditions: 0,
   availability: 0,
   politeness: 0,
@@ -33,6 +35,7 @@ const { isValid } = useValidation<TConsultantFeedbackPayload>(data, emit, {
   politeness: { isNotZero },
   complaints: {},
   proposals: {},
+  consultationId: {},
 });
 
 const handleData = () => {

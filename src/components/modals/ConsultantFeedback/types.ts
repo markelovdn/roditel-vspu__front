@@ -1,4 +1,5 @@
 export type TConsultantFeedbackPayload = {
+  consultationId: number;
   quality: number;
   conditions: number;
   availability: number;
