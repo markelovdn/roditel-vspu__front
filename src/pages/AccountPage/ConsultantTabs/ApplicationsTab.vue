@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, onBeforeMount, ref } from "vue";
+import { useRoute } from "vue-router";
 
 import { TConsultation, TGetConsultationsFilter } from "@/api/Consultations/types";
 import ChatSideBarWrapper from "@/components/Chat/ChatSideBarWrapper.vue";
@@ -7,11 +8,11 @@ import ChatWrapper from "@/components/Chat/ChatWrapper.vue";
 import MessageInput from "@/components/Chat/MessageInput.vue";
 import { useRequestPayload } from "@/hooks/useRequestPayload";
 import { useConsultationsStore } from "@/stores/consultationsStore";
-
+const route = useRoute();
 const consultationsStore = useConsultationsStore();
-const queryParams = ref<TGetConsultationsFilter>({});
+const queryParams = ref<TGetConsultationsFilter>({ actual: "yes" });
 const idActiveChat = ref(0);
-useRequestPayload(queryParams, consultationsStore.requestConsultations, {});
+const actual = ref<"yes" | "no">((route.query.actual as "yes" | "no") || "yes");
 
 const setIdActiveChat = (id: number) => {
   consultationsStore.connectChannel(id);
@@ -21,6 +22,8 @@ const setIdActiveChat = (id: number) => {
 const sendMessage = (message: string) => {
   consultationsStore.sendMessage(message, idActiveChat.value);
 };
+const setActual = (value: "yes" | "no") => (queryParams.value.actual = value);
+
 const idActiveChatMessages = computed(
   () => consultationsStore.consultations.find((item) => item.id === idActiveChat.value)?.messages || [],
 );
@@ -32,12 +35,25 @@ const idActiveChatConsultation = computed(
     ],
 );
 
+const setFirstActiveChat = (data: TConsultation[]) => {
+  idActiveChat.value = data[0].id;
+  consultationsStore.connectChannel(data[0].id);
+};
+
 onBeforeMount(() => {
-  //TODO: нужно динамически передавать id консультации не уверен что это надо делать в этом компоненте
   consultationsStore.requestConsultations({}).then((data: TConsultation[]) => {
     idActiveChat.value = data[0].id;
     consultationsStore.connectChannel(data[0].id);
   });
+
+  useRequestPayload(
+    queryParams,
+    async (filters) => {
+      await consultationsStore.requestConsultations(filters);
+      setFirstActiveChat(consultationsStore.consultations);
+    },
+    {},
+  );
 });
 const search = ref("");
 </script>
@@ -56,8 +72,17 @@ const search = ref("");
       </div>
 
       <div class="question__box">
-        <q-btn label="Актуальные" class="q-btn--form" color="primary" />
-        <q-btn label="Выполненные" class="q-btn--form" flat :ripple="false" color="grey-1" />
+        <q-btn-toggle
+          v-model="actual"
+          spread
+          no-caps
+          toggle-color="primary"
+          text-color="primary"
+          :options="[
+            { label: 'Актуальные', value: 'yes' },
+            { label: 'Прошедшие', value: 'no' },
+          ]"
+          @update:model-value="setActual" />
       </div>
     </div>
 
