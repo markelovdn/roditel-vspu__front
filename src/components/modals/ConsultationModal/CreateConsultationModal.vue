@@ -55,6 +55,10 @@ const handleCreateConsultation = () => {
   closeModal({ force: true });
 };
 
+const handleRulesModal = () => {
+  isAcceptRules.value ? null : (isShowRuleModal.value = true);
+};
+
 onMounted(() => {
   collectionsStore.requestSpecializations();
   consultantStore.requestAllConsultants().then((res: TAllConsultants) => {
@@ -112,7 +116,7 @@ onMounted(() => {
         v-model="isAcceptRules"
         class="create-checkbox"
         label="Нажимая кнопку «Отправить», я даю свое согласие на обработку моих персональных данных, в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ «О персональных данных», на условиях и для целей, определенных в Согласии на обработку персональных данных *Поле обязательно для заполнения"
-        @update:model-value="isShowRuleModal = true" />
+        @update:model-value="handleRulesModal" />
 
       <div class="row no-wrap q-mt-lg">
         <q-btn
