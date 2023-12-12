@@ -15,6 +15,15 @@ import { useConsultationsStore } from "@/stores/consultationsStore";
 import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
 const route = useRoute();
 const emit = defineEmits(["close"]);
+
+const isShowRuleModal = defineModel("show", {
+  default: false,
+});
+
+const isAcceptRules = defineModel("accept", {
+  default: false,
+});
+
 const props = defineProps<{
   consultant?: Consultant;
 }>();
@@ -99,10 +108,16 @@ onMounted(() => {
         :disable="data.consultantId === null && data.allConsultants === false"
         @blur="handleBlur('messageText')" />
 
+      <q-checkbox
+        v-model="isAcceptRules"
+        class="create-checkbox"
+        label="Нажимая кнопку «Отправить», я даю свое согласие на обработку моих персональных данных, в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ «О персональных данных», на условиях и для целей, определенных в Согласии на обработку персональных данных *Поле обязательно для заполнения"
+        @update:model-value="isShowRuleModal = true" />
+
       <div class="row no-wrap q-mt-lg">
         <q-btn
           label="Отправить"
-          :disable="!isValid || (data.consultantId === null && data.allConsultants === false)"
+          :disable="(!isAcceptRules && !isValid) || (data.consultantId === null && data.allConsultants === false)"
           class="q-btn--form"
           color="primary"
           @click="handleCreateConsultation()" />
@@ -112,4 +127,8 @@ onMounted(() => {
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.create-checkbox {
+  align-items: flex-start;
+}
+</style>

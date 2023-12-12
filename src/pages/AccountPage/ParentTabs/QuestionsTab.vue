@@ -9,6 +9,7 @@ import ChatSideBarWrapper from "@/components/Chat/ChatSideBarWrapper.vue";
 import ChatWrapper from "@/components/Chat/ChatWrapper.vue";
 import MessageInput from "@/components/Chat/MessageInput.vue";
 import CreateConsultationModal from "@/components/modals/ConsultationModal/CreateConsultationModal.vue";
+import RulesModal from "@/components/modals/RulesModal/RulesModal.vue";
 import { useRequestPayload } from "@/hooks/useRequestPayload";
 import { useCollectionsStore } from "@/stores/collectionsStore";
 import { useConsultationsStore } from "@/stores/consultationsStore";
@@ -30,6 +31,8 @@ const search = ref();
 const specializationId = ref(0);
 const lectorId = ref(0);
 const actual = ref<"yes" | "no">((route.query.actual as "yes" | "no") || "yes");
+const isShowRuleModal = ref(false);
+const isAcceptRules = ref(false);
 
 const setIdActiveChat = (id: number) => {
   consultationsStore.connectChannel(id);
@@ -194,7 +197,15 @@ onBeforeMount(() => {
 
     <CreateConsultationModal
       v-if="isShowCreateConsultationModal"
-      @close="isShowCreateConsultationModal = false"></CreateConsultationModal>
+      v-model:show="isShowRuleModal"
+      v-model:accept="isAcceptRules"
+      @close="isShowCreateConsultationModal = false" />
+
+    <RulesModal
+      v-if="isShowRuleModal"
+      v-model:show="isShowRuleModal"
+      v-model:accept="isAcceptRules"
+      @close="isShowRuleModal = false" />
   </div>
 </template>
 
