@@ -6,12 +6,14 @@ import IconNotificationsBell from "@/components/icons/IconNotificationsBell.vue"
 import { accountRoleMap } from "@/pages/AccountPage/types";
 import { ComponentDefinition } from "@/types";
 
+import { useNotificationStore } from "../../stores/notificationStore";
+
 interface IAccountWrapperProps {
   tabs: Array<{ name: string; label: string; panelComponent: ComponentDefinition }>;
   title: string;
   accountRole: "parented" | "consultant" | "admin" | string;
 }
-
+const notificationsStore = useNotificationStore();
 const props = defineProps<IAccountWrapperProps>();
 
 const router = useRouter();
@@ -35,10 +37,18 @@ const getUserRoleDefinition = (role: string) => {
   return accountRoleMap[role.toUpperCase() as keyof typeof accountRoleMap] ?? "";
 };
 
+const isShowNotificationPoint = (item: string) => {
+  if (notificationsStore.notifications.messages && ["applications", "questions"].includes(item)) return true;
+  if (notificationsStore.notifications.questionnaires && item === "questionnaires") return true;
+  return false;
+};
+
 watch(tab, (newTab) => {
   if (newTab) {
     router.push({ query: { ...route.query, tabId: newTab } });
   }
+  if (["applications", "questions"].includes(newTab)) notificationsStore.updateNotifications({ messages: true });
+  if (newTab === "questionnaires") notificationsStore.updateNotifications({ questionnaires: true });
 });
 
 onMounted(() => openFirstTab());
@@ -51,7 +61,7 @@ onMounted(() => openFirstTab());
       <div class="header__role">{{ getUserRoleDefinition(accountRole) }}</div>
       <q-space />
       <div class="header__notifications flex items-center justify-center">
-        <IconNotificationsBell :count="12" />
+        <IconNotificationsBell :count="notificationsStore.notifications.count" />
       </div>
     </div>
     <q-splitter v-model="splitterModel" class="tabs-menu" disable :separator-class="'separator'">
@@ -69,8 +79,12 @@ onMounted(() => openFirstTab());
             :key="index"
             :content-class="'tabs-wrapper__tab'"
             class="tabs-wrapper__tab"
-            :name="item.name"
-            :label="item.label" />
+            :name="item.name">
+            <div class="flex flex-center q-tab__label">
+              {{ item.label }}
+              <div v-if="isShowNotificationPoint(item.name)" class="red-cyrillic"></div>
+            </div>
+          </q-tab>
         </q-tabs>
       </template>
 
@@ -145,5 +159,13 @@ onMounted(() => openFirstTab());
   /* display: none; */
   width: 4px !important;
   background-color: transparent;
+}
+
+.red-cyrillic {
+  width: 12px;
+  height: 12px;
+  margin-left: 12px;
+  background-color: $red;
+  border-radius: 50%;
 }
 </style>
