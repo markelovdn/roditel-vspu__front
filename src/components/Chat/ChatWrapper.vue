@@ -22,6 +22,11 @@ const handleScroll = () => {
     Math.floor(div.scrollHeight - div.scrollTop) === div.clientHeight;
 };
 
+const feedbackModalClose = () => {
+  showFeedbackModal.value = false;
+  quality.value = 0;
+};
+
 const scrollToBottom = () => chatWrapper.value.scrollTo(0, chatWrapper.value.scrollHeight);
 const findUser = (id: number) => props.consultation.users.find((user) => user.id === id) as TUser;
 
@@ -48,14 +53,14 @@ onUpdated(() => {
       :item="consultation"
       :message="item"
       :user="findUser(item.userId)" />
-    <div v-if="!consultation.closed" @click="showFeedbackModal = true">
+    <div v-if="consultation.closed" @click="showFeedbackModal = true">
       <ReviewGrade v-model="quality" :max="5" />
     </div>
     <ConsultantFeedBack
       v-if="showFeedbackModal"
       :consultation-id="consultation.id"
       :quality="quality"
-      @close="showFeedbackModal = false" />
+      @close="feedbackModalClose" />
   </div>
 </template>
 

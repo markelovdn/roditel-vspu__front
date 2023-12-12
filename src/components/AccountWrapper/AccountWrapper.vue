@@ -143,7 +143,7 @@ onMounted(() => openFirstTab());
 }
 :deep(.separator) {
   /* display: none; */
-  width: 110px !important;
+  width: 4px !important;
   background-color: transparent;
 }
 </style>

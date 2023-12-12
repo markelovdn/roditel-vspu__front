@@ -59,8 +59,9 @@ export type TAllConsultants = Array<{
   userId: number;
   fullName: string;
   consultantId: number;
-  specialization: {
-    id: number;
-    title: string;
-  };
+  specialization: TSpecialization;
 }>;
+export type TSpecialization = {
+  id: number;
+  title: string;
+};

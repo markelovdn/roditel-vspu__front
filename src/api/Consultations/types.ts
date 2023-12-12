@@ -1,4 +1,5 @@
 import { TUser } from "../Auth/types";
+import { TSpecialization } from "../Consultant/types";
 
 export type TGetConsultationsFilter = {
   dateBetween?: string;
@@ -25,6 +26,7 @@ export type TConsultation = {
   closed: boolean;
   createdAt: number;
   updatedAt: number;
+  specialization: TSpecialization;
 };
 
 export type TMessage = {
