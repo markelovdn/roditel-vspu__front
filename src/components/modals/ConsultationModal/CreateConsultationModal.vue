@@ -56,7 +56,7 @@ const handleCreateConsultation = () => {
 };
 
 const handleRulesModal = () => {
-  isAcceptRules.value ? null : (isShowRuleModal.value = true);
+  !isAcceptRules.value && (isShowRuleModal.value = true);
 };
 
 onMounted(() => {
