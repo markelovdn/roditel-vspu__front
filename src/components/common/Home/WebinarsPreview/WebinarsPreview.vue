@@ -21,7 +21,7 @@ useRequestPayload(queryParams, webinarsStore.requestWebinars, {
 </script>
 
 <template>
-  <div class="webinars-container">
+  <div id="webinarsAnchor" class="webinars-container">
     <div class="webinars-container__header">
       <h2>Вебинары</h2>
       <WebinarsFilter @set-filters="setFilters" />

@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 
-import { consultantApi } from "@/api";
+import { collectionsApi, consultantApi } from "@/api";
 import { toConsultantReportsData } from "@/api/Consultant/mappers";
 import {
   TAllConsultants,
@@ -9,6 +9,8 @@ import {
   TGetConsultantReportsData,
   TGetConsultantReportsFilter,
 } from "@/api/Consultant/types";
+import { TWebinarsRequestOption } from "@/api/Webinars/types";
+import { Consultant } from "@/components/common/Home/ConsultantsCard/types";
 import { TConsultantParentsPayload } from "@/components/modals/ConsultantChoiceParentsModal/types";
 import { TConsultantFeedbackPayload } from "@/components/modals/ConsultantFeedback/types";
 import { TPersonalDataPayload } from "@/pages/AccountPage/ConsultantTabs/types";
@@ -22,8 +24,13 @@ export const useConsultantStore = defineStore("consultantStore", () => {
   const authStore = useAuthStore();
   const consultantId = authStore.getUserId;
   // const consultants = ref<TGetAllConsultants[]>([]);
-  const consultants = ref<TAllConsultants>([]);
+  const consultants = ref<TAllConsultants | Consultant[]>([]);
   const allParents = ref<TConsultantParentsPayload[]>([]);
+
+  const page = ref({
+    current: 1,
+    max: 1,
+  });
 
   const getParentsList = computed(() => {
     return allParents.value.map((item) => {
@@ -55,6 +62,14 @@ export const useConsultantStore = defineStore("consultantStore", () => {
     consultantApi.getConsultantInfo(consultantId).then((resp) => (consultantInfo.value = resp.data.data[0]));
   }
 
+  async function requestConsultants(options: TWebinarsRequestOption) {
+    return collectionsApi.getConsultants(options).then((resp) => {
+      consultants.value = resp.data.data;
+      page.value.max = resp.data.meta.last_page;
+      page.value.current = resp.data.meta.current_page;
+      return resp.data.data;
+    });
+  }
   async function requestAllConsultants() {
     return consultantApi.getAllConsultants().then((resp) => {
       consultants.value = resp.data.data;
@@ -116,5 +131,7 @@ export const useConsultantStore = defineStore("consultantStore", () => {
     allParents,
     getParentsList,
     setParentQuestion,
+    requestConsultants,
+    page,
   };
 });

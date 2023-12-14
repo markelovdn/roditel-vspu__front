@@ -1,5 +1,7 @@
+import { TWebinarsRequestOption } from "@/api/Webinars/types";
 import axios from "@/common/axios";
 import { ConsultantsResponse } from "@/components/common/Home/ConsultantsSlider/types";
+import { useParamBuilder, useUrlParams } from "@/hooks/useParamBuilder ";
 
 export class CollectionsApiService {
   //TODO: указать типы response
@@ -12,7 +14,8 @@ export class CollectionsApiService {
   getProfessions() {
     return axios.get("/professions");
   }
-  getConsultants() {
-    return axios.get<ConsultantsResponse>("/consultants");
+  getConsultants(filters: TWebinarsRequestOption) {
+    // return axios.get<ConsultantsResponse>("/consultants");
+    return axios.get<ConsultantsResponse>(useUrlParams("/consultants", useParamBuilder(filters)));
   }
 }
