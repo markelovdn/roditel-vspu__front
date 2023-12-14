@@ -84,6 +84,10 @@ onBeforeMount(() => {
   if (route.query.isOpenNewConsultation) {
     isShowCreateConsultationModal.value = true;
   }
+  if (route.query.actual) {
+    setActual(route.query.actual as "yes" | "no");
+  }
+
   webinarsStore.requestLectors();
   collectionsStore.requestSpecializations();
   useRequestPayload(
