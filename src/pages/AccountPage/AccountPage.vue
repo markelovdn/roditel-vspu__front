@@ -3,7 +3,6 @@ import { computedEager } from "@vueuse/core";
 import { markRaw } from "vue";
 
 import AccountWrapper from "@/components/AccountWrapper/AccountWrapper.vue";
-// eslint-disable-next-line import/no-cycle
 import { useAuthStore } from "@/stores/authStore";
 
 import { adminTabs } from "./AdminTabs/adminTabs";

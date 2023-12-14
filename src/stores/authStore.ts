@@ -6,8 +6,6 @@ import { parse, stringify } from "zipson";
 import { authApi } from "@/api";
 import { TForgotPasswordArgs, TLoginArgs, TRegistrationPayload, TResetPasswordArgs, TUser } from "@/api/Auth/types";
 import axios from "@/common/axios";
-// eslint-disable-next-line import/no-cycle
-import router from "@/router";
 import notify from "@/utils/notify";
 
 export const useAuthStore = defineStore(
@@ -112,7 +110,6 @@ export const useAuthStore = defineStore(
           const unauthorizedStatuses = [401, 403];
           if (status && unauthorizedStatuses.includes(status)) {
             notify({ type: "negative", message: "Необходима авторизация" });
-            router.push({ name: "Main" });
             await logout();
           }
 
