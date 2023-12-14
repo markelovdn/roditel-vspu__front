@@ -72,7 +72,13 @@ const setFirstActiveChat = (data: TConsultation[]) => {
   consultationsStore.connectChannel(data[0].id);
 };
 
-watch(search, () => (queryParams.value.searchField = search.value));
+let searchTimeoutId: ReturnType<typeof setTimeout>;
+watch(search, () => {
+  clearTimeout(searchTimeoutId);
+  searchTimeoutId = setTimeout(() => {
+    queryParams.value.searchField = search.value;
+  }, 300);
+});
 
 onBeforeMount(() => {
   if (route.query.isOpenNewConsultation) {

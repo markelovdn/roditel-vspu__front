@@ -10,6 +10,7 @@ import type { Consultant } from "./types";
 
 const props = defineProps<{
   consultant: Consultant;
+  backGroundColor?: string;
 }>();
 const description = ref<HTMLElement | null>(null);
 const isFullShow = ref(false);
@@ -27,7 +28,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="card">
+  <div class="card" :style="{ 'background-color': props.backGroundColor }">
     <q-img class="card__photo" :src="props.consultant.photo" />
     <h5 class="card__name">{{ consultant.user.surName }}</h5>
     <div ref="description" class="card__description" :class="{ card__description_hide: isFullShow }">

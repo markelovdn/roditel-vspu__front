@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeMount, ref } from "vue";
+import { computed, onBeforeMount, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
 import { TConsultation, TGetConsultationsFilter } from "@/api/Consultations/types";
@@ -56,6 +56,13 @@ onBeforeMount(() => {
   );
 });
 const search = ref("");
+let searchTimeoutId: ReturnType<typeof setTimeout>;
+watch(search, () => {
+  clearTimeout(searchTimeoutId);
+  searchTimeoutId = setTimeout(() => {
+    queryParams.value.search = search.value;
+  }, 300);
+});
 </script>
 
 <template>

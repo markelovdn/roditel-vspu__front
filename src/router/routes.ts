@@ -20,6 +20,15 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
+    path: "/consultants",
+    name: "Consultants",
+    component: () => import("@/pages/ConsultantsPage/ConsultantsPage.vue"),
+    meta: {
+      requireAuth: false,
+      title: "Консультанты",
+    },
+  },
+  {
     path: "/ui",
     name: "Ui",
     component: () => import("@/pages/UiPage/UiPage.vue"),

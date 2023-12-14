@@ -1,24 +1,18 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 
-import { collectionsApi } from "@/api";
 import ConsultantsCard from "@/components/common/Home/ConsultantsCard/ConsultantsCard.vue";
+import type { Consultant } from "@/components/common/Home/ConsultantsCard/types";
+import { useConsultantStore } from "@/stores/consultantStore";
 
-import type { Consultant } from "../ConsultantsCard/types";
-
+const consultantStore = useConsultantStore();
 const slide = ref(0);
-const consultants = ref<Consultant[]>([]);
-const sliderQuantityItem = 3;
 
-const getConsultants = () => {
-  collectionsApi.getConsultants().then((response) => {
-    consultants.value = response.data.data;
-    consultants.value.push(...response.data.data); // аля моки пока нет пагинации
-  });
-};
+const sliderQuantityItem = 3;
+const isLoading = ref(true);
 
 onMounted(() => {
-  getConsultants();
+  consultantStore.requestConsultants({ page: 1 }).then(() => (isLoading.value = false));
 });
 </script>
 
@@ -27,7 +21,7 @@ onMounted(() => {
     <div class="consultants__title">
       <h2 class="">Наши консультанты</h2>
       <div class="consultants__title_subtitle">
-        <span>Показать всех</span>
+        <router-link :to="{ name: 'Consultants' }"><span>Показать всех</span></router-link>
         <svg
           class="consultants__title_underline"
           width="137"
@@ -54,11 +48,14 @@ onMounted(() => {
         arrows
         class="carousel">
         <q-carousel-slide
-          v-for="(list, slideIndex) in Math.trunc(consultants.length / sliderQuantityItem)"
+          v-for="(list, slideIndex) in Math.trunc(consultantStore.consultants.length / sliderQuantityItem)"
           :key="list"
           :name="slideIndex">
-          <div v-if="consultants.length" class="flex carousel-slide">
-            <ConsultantsCard v-for="index in sliderQuantityItem" :key="index" :consultant="consultants[list + index]" />
+          <div v-if="!isLoading" class="flex carousel-slide">
+            <ConsultantsCard
+              v-for="index in sliderQuantityItem"
+              :key="index"
+              :consultant="consultantStore.consultants[list + index] as Consultant" />
           </div>
         </q-carousel-slide>
       </q-carousel>
@@ -83,6 +80,11 @@ onMounted(() => {
       line-height: 120%;
       cursor: pointer;
       font-size: 20px;
+
+      a {
+        color: inherit;
+        text-decoration: inherit;
+      }
     }
 
     &_underline {

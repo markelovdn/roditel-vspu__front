@@ -6,9 +6,12 @@ import logoUrl from "@/assets/img/icons/logo.png";
 import AuthWrapper from "@/components/common/AuthWrapper/AuthWrapper.vue";
 import IconPersonal from "@/components/icons/IconPersonal.vue";
 import IconPhone from "@/components/icons/IconPhone.vue";
+import { useToQuestions } from "@/hooks/useModal";
 
 import { useAuthStore } from "../../../stores/authStore";
 import { headerMenuItems } from "./types";
+
+const toQuestions = () => useToQuestions(showLoginModal);
 
 const authStore = useAuthStore();
 const router = useRouter();
@@ -35,7 +38,7 @@ const logout = () => {
     <div class="contentWrapper">
       <div class="row-1">
         <div class="logo">
-          <router-link :to="'/'">
+          <router-link :to="{ name: 'Main' }">
             <q-img class="logo__img" :src="logoUrl"></q-img>
           </router-link>
           <span class="logo__text">Социально-психологический центр ВГСПУ</span>
@@ -88,7 +91,7 @@ const logout = () => {
             <span class="cursor-pointer materials">Методические материалы</span>
           </a>
 
-          <div class="link-ask-expert">
+          <div class="link-ask-expert" @click="toQuestions">
             <div>Задать вопрос консультанту</div>
             <svg
               style="position: relative; top: -10px"
