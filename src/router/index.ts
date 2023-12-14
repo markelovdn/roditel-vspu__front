@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 import routes from "@/router/routes";
+// eslint-disable-next-line import/no-cycle
 import { useAuthStore } from "@/stores/authStore";
 import notify from "@/utils/notify";
 
