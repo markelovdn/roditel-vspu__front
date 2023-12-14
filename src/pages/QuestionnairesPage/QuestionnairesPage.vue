@@ -78,7 +78,7 @@ onMounted(async () => {
         label="Название анкеты*"
         @blur="handleBlur('title')" />
       <q-input v-model="SurveyData.description" autogrow class="q-mb-sm" label="Описание анкеты" />
-      <q-input v-model="SurveyData.answerBefore" dense mask="##.##.####">
+      <q-input v-model="SurveyData.answerBefore" mask="##.##.####">
         <template #append>
           <q-icon name="event" class="cursor-pointer">
             <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -96,7 +96,7 @@ onMounted(async () => {
     <!-- Вопросы -->
     <div class="row justify-center flex-center q-mt-lg">
       <h5>Вопросы</h5>
-      <q-btn dense class="q-btn--form q-ml-sm" color="primary" @click="addQuestions">Добавить вопрос</q-btn>
+      <q-btn class="q-btn--form q-ml-sm" color="primary" @click="addQuestions">Добавить вопрос</q-btn>
     </div>
     <div class="questions-wrapper">
       <div v-for="(question, questionIndex) in SurveyData.questions" :key="questionIndex" class="question">

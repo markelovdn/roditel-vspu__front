@@ -150,7 +150,7 @@ const questionnairesListHeaders = [
       </template>
       <template #filters>
         <div class="q-pa-md row no-wrap" style="max-width: 300px">
-          <q-input v-model="dateToString" dense filled>
+          <q-input v-model="dateToString" outlined>
             <template #append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -216,12 +216,12 @@ const questionnairesListHeaders = [
         </div>
         <div class="flex gap-1 justify-end">
           <div>
-            <q-btn v-if="item.id" dense icon="edit" size="xs" color="primary" :to="`/questionnaire/${item.id}`"></q-btn>
+            <q-btn v-if="item.id" icon="edit" size="xs" color="primary" :to="`/questionnaire/${item.id}`"></q-btn>
           </div>
         </div>
         <div class="flex gap-1 justify-end">
           <div>
-            <q-btn v-if="item.id" dense size="xs" icon="delete" color="negative" @click="handleDelete(item.id)"></q-btn>
+            <q-btn v-if="item.id" size="xs" icon="delete" color="negative" @click="handleDelete(item.id)"></q-btn>
           </div>
         </div>
       </template>

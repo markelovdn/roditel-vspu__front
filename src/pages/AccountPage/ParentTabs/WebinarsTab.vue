@@ -77,14 +77,14 @@ onMounted(() => {
       <template #filters>
         <div class="flex">
           <div class="q-pa-md" style="width: 250px">
-            <q-input v-model="search" debounce="500" filled placeholder="Поиск">
+            <q-input v-model="search" debounce="500" outlined placeholder="Поиск">
               <template #append>
                 <q-icon name="search" />
               </template>
             </q-input>
           </div>
           <div class="q-pa-md" style="max-width: 200px">
-            <q-input v-model="dateToString" dense filled>
+            <q-input v-model="dateToString" outlined>
               <template #append>
                 <q-icon name="event" class="cursor-pointer">
                   <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -105,7 +105,7 @@ onMounted(() => {
               input-class="q-select--form"
               label="Лектор*"
               outlined
-              class="fit q-mb-sm"
+              class="fit"
               :options="optionsLectors"
               :option-label="(item) => item.label"
               emit-value
@@ -118,7 +118,7 @@ onMounted(() => {
               input-class="q-select--form"
               label="Специализация*"
               outlined
-              class="fit q-mb-sm"
+              class="fit"
               :options="optionsCategories"
               :option-label="(item) => item.label"
               emit-value

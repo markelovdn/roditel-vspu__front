@@ -17,7 +17,7 @@ const sendMessage = () => {
       placeholder="Введите ответ на сообщение"
       class="message__input"
       bg-color="white"
-      filled
+      outlined
       autogrow
       @keydown.enter="sendMessage" />
     <q-btn color="primary" class="message__btn" @click="sendMessage">Отправить</q-btn>
