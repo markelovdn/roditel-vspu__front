@@ -17,7 +17,7 @@ const questionnairesListRows = computed(() => {
 });
 
 useRequestPayload(queryParams, questionnairesStore.getQuestionnaires, {
-  clearableParams: ["page"],
+  // clearableParams: ["page"],
 });
 
 const questionnairesListHeaders = [
