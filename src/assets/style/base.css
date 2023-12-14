@@ -114,8 +114,9 @@ a {
 }
 
 .q-field__control {
-  min-height: 46px !important;
-  max-height: 46px !important;
+  min-height: 50px !important;
+  max-height: 50px !important;
+  height: 50px !important;
 }
 .q-field--float .q-field__label {
   transform: translateY(-60%) scale(0.75) !important;

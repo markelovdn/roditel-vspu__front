@@ -126,7 +126,7 @@ onBeforeMount(() => {
           ]"
           @update:model-value="setActual" />
       </div>
-      <div class="flex question__filter">
+      <div class="question__filter">
         <q-input v-model="search" debounce="500" class="max-width" outlined placeholder="Поиск">
           <template #append>
             <q-icon name="search" />
@@ -237,6 +237,8 @@ onBeforeMount(() => {
 
   &__filter {
     gap: 16px;
+    display: flex;
+    flex-wrap: nowrap;
   }
 
   &__box {
