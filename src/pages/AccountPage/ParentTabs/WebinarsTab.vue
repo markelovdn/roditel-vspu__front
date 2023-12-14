@@ -41,8 +41,14 @@ const setLectors = (value: string) => (queryParams.value.lector = Number(value))
 const setActual = (value: "yes" | "no") => {
   queryParams.value.actual = value;
 };
-watch(search, () => (queryParams.value.searchField = search.value));
 
+let searchTimeoutId: ReturnType<typeof setTimeout>;
+watch(search, () => {
+  clearTimeout(searchTimeoutId);
+  searchTimeoutId = setTimeout(() => {
+    queryParams.value.searchField = search.value;
+  }, 300);
+});
 onMounted(() => {
   webinarsStore.requestWebinarCategories();
   webinarsStore.requestLectors();

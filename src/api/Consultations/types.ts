@@ -3,6 +3,7 @@ import { TSpecialization } from "../Consultant/types";
 
 export type TGetConsultationsFilter = {
   dateBetween?: string;
+  page?: number;
   status?: string;
   search?: string;
   category?: string;
