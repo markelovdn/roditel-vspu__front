@@ -120,3 +120,6 @@ a {
 .q-field--float .q-field__label {
   transform: translateY(-60%) scale(0.75) !important;
 }
+.max-width {
+  width: 100%;
+}
