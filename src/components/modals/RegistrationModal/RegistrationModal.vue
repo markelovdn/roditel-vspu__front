@@ -14,7 +14,7 @@ import ConsultantForm from "./ConsultantForm.vue";
 import ParentedForm from "./ParentedForm.vue";
 import { RegistrationRoleMap } from "./types";
 
-const emit = defineEmits(["close"]);
+const emit = defineEmits(["close", "close-common-modal"]);
 const router = useRouter();
 const route = useRoute();
 
@@ -44,6 +44,11 @@ const isValid = ref(false);
 const handleValidChange = (eventPayload: any) => {
   isValid.value = eventPayload.isValid;
 };
+
+const closeCommonModal = () => {
+  closeModal({ force: true });
+  emit("close-common-modal");
+};
 const onRegisterSuccess = () => {
   router.push({ name: "My", query: { ...route.query } });
   closeModal({ force: true });
@@ -61,7 +66,7 @@ const handleRegistration = async () => {
     header="Добавить данные"
     sub-header="Введите свои данные для регистрации"
     :close-button-header="!isRoleSelected"
-    @close="closeModal">
+    @close="closeCommonModal()">
     <template v-if="!isRoleSelected" #subHeader>
       <div class="row no-wrap q-mt-lg">
         <q-btn
@@ -88,7 +93,13 @@ const handleRegistration = async () => {
         class="q-btn--form"
         color="primary"
         @click="handleRegistration"></q-btn>
-      <q-btn label="Закрыть" class="q-ml-sm q-btn--form" flat :ripple="false" color="grey-1" @click="closeModal()" />
+      <q-btn
+        label="Закрыть"
+        class="q-ml-sm q-btn--form"
+        flat
+        :ripple="false"
+        color="grey-1"
+        @click="closeCommonModal()" />
     </div>
   </ModalWrapper>
 </template>

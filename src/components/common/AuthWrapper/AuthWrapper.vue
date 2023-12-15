@@ -12,7 +12,6 @@ const showRegistrationModal = ref(false);
 const showForgotPasswordModal = ref(false);
 
 const close = () => {
-  showLoginModal.value = false;
   emit("close");
 };
 </script>
@@ -21,10 +20,17 @@ const close = () => {
   <div>
     <LoginModal
       v-if="showLoginModal"
-      @close="close"
+      @close="showLoginModal = false"
+      @close-common-modal="close"
       @show-registration-modal="showRegistrationModal = true"
-      @show-forgot-password-modal="showForgotPasswordModal = true"></LoginModal>
-    <ForgotPassword v-if="showForgotPasswordModal" @close="showForgotPasswordModal = false"></ForgotPassword>
-    <RegistrationModal v-if="showRegistrationModal" @close="showRegistrationModal = false"></RegistrationModal>
+      @show-forgot-password-modal="showForgotPasswordModal = true" />
+    <ForgotPassword
+      v-if="showForgotPasswordModal"
+      @close="showForgotPasswordModal = false"
+      @close-common-modal="close" />
+    <RegistrationModal
+      v-if="showRegistrationModal"
+      @close="showRegistrationModal = false"
+      @close-common-modal="close" />
   </div>
 </template>

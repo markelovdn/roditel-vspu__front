@@ -9,7 +9,7 @@ import { useAuthStore } from "@/stores/authStore";
 import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
 import { TLoginPayload } from "./types";
 
-const emit = defineEmits(["close", "showRegistrationModal", "showForgotPasswordModal"]);
+const emit = defineEmits(["close", "close-common-modal", "showRegistrationModal", "showForgotPasswordModal"]);
 const router = useRouter();
 const route = useRoute();
 
@@ -27,8 +27,14 @@ const { handleBlur, getErrorAttrs, isValid } = useValidation<TLoginPayload>(data
   email: { requiredValidator, emailValidator },
   password: { requiredValidator },
 });
-const onLoginSuccess = () => {
+
+const closeCommonModal = () => {
   closeModal({ force: true });
+  emit("close-common-modal");
+};
+
+const onLoginSuccess = () => {
+  closeCommonModal();
   router.push({ name: "My", query: { ...route.query } });
 };
 const onLoginFail = () => (showLoginError.value = true);
@@ -72,7 +78,13 @@ const handleLogin = () => {
       </q-form>
       <div class="row no-wrap q-mt-lg">
         <q-btn label="Войти" :disable="!isValid" class="q-btn--form" color="primary" @click="handleLogin" />
-        <q-btn label="Закрыть" class="q-ml-sm q-btn--form" flat :ripple="false" color="grey-1" @click="closeModal()" />
+        <q-btn
+          label="Закрыть"
+          class="q-ml-sm q-btn--form"
+          flat
+          :ripple="false"
+          color="grey-1"
+          @click="closeCommonModal()" />
       </div>
       <div class="q-mt-lg q-mb-xs">
         <q-btn
