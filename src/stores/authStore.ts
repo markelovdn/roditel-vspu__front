@@ -1,11 +1,9 @@
-import { AxiosError } from "axios";
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import { parse, stringify } from "zipson";
 
 import { authApi } from "@/api";
 import { TForgotPasswordArgs, TLoginArgs, TRegistrationPayload, TResetPasswordArgs, TUser } from "@/api/Auth/types";
-import axios from "@/common/axios";
 import notify from "@/utils/notify";
 
 export const useAuthStore = defineStore(
@@ -100,23 +98,6 @@ export const useAuthStore = defineStore(
         return Promise.reject(err);
       }
     }
-    function initRespInterceptors() {
-      axios.interceptors.response.use(
-        (response) => {
-          return Promise.resolve(response);
-        },
-        async (err) => {
-          const status = (err as AxiosError)?.response?.status;
-          const unauthorizedStatuses = [401, 403];
-          if (status && unauthorizedStatuses.includes(status)) {
-            notify({ type: "negative", message: "Необходима авторизация" });
-            await logout();
-          }
-
-          return Promise.reject(err);
-        },
-      );
-    }
     const getUserInfo = computed(() => user.value);
     const getUserId = computed(() => user.value?.id);
     const isLoggedIn = computed(() => user.value && token.value);
@@ -129,7 +110,6 @@ export const useAuthStore = defineStore(
       user,
       getUserInfo,
       logout,
-      initRespInterceptors,
       isLoggedIn,
       resetPassword,
       getUserId,
