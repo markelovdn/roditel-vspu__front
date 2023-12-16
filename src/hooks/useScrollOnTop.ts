@@ -1,11 +1,6 @@
-import { nextTick } from "vue";
+import { scroll } from "quasar";
+const { setVerticalScrollPosition } = scroll;
 
-export const useScrollToTop = () => {
-  const scrollToTop = () => {
-    nextTick(() => {
-      window.scrollTo({ top: 0 });
-    });
-  };
-
-  return { scrollToTop };
-};
+export function scrollToTop() {
+  setVerticalScrollPosition(window, 0, 500);
+}

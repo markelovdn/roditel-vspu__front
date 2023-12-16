@@ -14,7 +14,9 @@ const route = useRoute();
 const { getWebinarCategoriesWithAll: optionsCategories, getWebinarLectorsWithAll: optionsLectors } =
   storeToRefs(webinarsStore);
 
-const setPage = (page: number) => (queryParams.value.page = page);
+const setPage = (page: number) => {
+  queryParams.value.page = page;
+};
 const paginationPage = ref(1);
 const inputDate = ref();
 const search = ref();
