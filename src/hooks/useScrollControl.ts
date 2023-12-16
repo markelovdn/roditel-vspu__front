@@ -3,11 +3,11 @@ import { scroll } from "quasar";
 const { getScrollTarget, setVerticalScrollPosition } = scroll;
 
 export function useScrollControl() {
-  const duration = 500;
+  const duration = 300;
 
-  const scrollToTop = () => {
+  const scrollToTop = (speed = 0) => {
     const target = document.querySelector(".scroll") as Element;
-    setVerticalScrollPosition(target, 0, duration);
+    setVerticalScrollPosition(target, 0, speed);
   };
 
   const scrollToElement = (hash: string) => {

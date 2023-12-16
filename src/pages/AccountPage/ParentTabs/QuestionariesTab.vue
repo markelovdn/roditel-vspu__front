@@ -5,12 +5,17 @@ import { TGetConsultantQuestionnairesFilter } from "@/api/Questionnaires/types";
 import TableWrapper from "@/components/TableWrapper/TableWrapper.vue";
 import { TTableWrapperHeaders } from "@/components/TableWrapper/types";
 import { useRequestPayload } from "@/hooks/useRequestPayload";
+import { useScrollControl } from "@/hooks/useScrollControl";
 import { useQuestionnairesStore } from "@/stores/questionnairesStore";
 
 const questionnairesStore = useQuestionnairesStore();
 
 const queryParams = ref<TGetConsultantQuestionnairesFilter>({ page: 1 });
-const setPage = (page: number) => (queryParams.value.page = page);
+const { scrollToTop } = useScrollControl();
+const setPage = (page: number) => {
+  queryParams.value.page = page;
+  scrollToTop(300);
+};
 
 const questionnairesListRows = computed(() => {
   return questionnairesStore.questionnaires;

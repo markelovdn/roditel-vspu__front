@@ -7,6 +7,7 @@ import { TWebinarsRequestOption } from "@/api/Webinars/types";
 import WebinarCard from "@/components/common/Home/WebinarCard/WebinarCard.vue";
 import TableWrapper from "@/components/TableWrapper/TableWrapper.vue";
 import { useRequestPayload } from "@/hooks/useRequestPayload";
+import { useScrollControl } from "@/hooks/useScrollControl";
 import { useWebinarsStore } from "@/stores/webinarsStore";
 
 const webinarsStore = useWebinarsStore();
@@ -14,7 +15,12 @@ const route = useRoute();
 const { getWebinarCategoriesWithAll: optionsCategories, getWebinarLectorsWithAll: optionsLectors } =
   storeToRefs(webinarsStore);
 
-const setPage = (page: number) => (queryParams.value.page = page);
+const { scrollToTop } = useScrollControl();
+
+const setPage = (page: number) => {
+  queryParams.value.page = page;
+  scrollToTop(300);
+};
 const paginationPage = ref(1);
 const inputDate = ref();
 const search = ref();

@@ -7,6 +7,7 @@ import TableWrapper from "@/components/TableWrapper/TableWrapper.vue";
 import { TTableWrapperHeaders } from "@/components/TableWrapper/types";
 import useAlert from "@/hooks/useAlert";
 import { useRequestPayload } from "@/hooks/useRequestPayload";
+import { useScrollControl } from "@/hooks/useScrollControl";
 import { useQuestionnairesStore } from "@/stores/questionnairesStore";
 import handleFileDownload from "@/utils/handlers";
 
@@ -20,7 +21,12 @@ const questionId = ref<number>(0);
 
 const parentsModal = ref(false);
 const queryParams = ref<TGetConsultantQuestionnairesFilter>({ page: 1 });
-const setPage = (page: number) => (queryParams.value.page = page);
+
+const { scrollToTop } = useScrollControl();
+const setPage = (page: number) => {
+  queryParams.value.page = page;
+  scrollToTop(300);
+};
 const filterStatusSelect = [
   { value: "", label: "Все" },
   { value: "answered", label: "Отвеченные" },

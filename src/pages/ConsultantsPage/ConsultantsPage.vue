@@ -5,20 +5,16 @@ import { TGetConsultationsFilter } from "@/api/Consultations/types";
 import ConsultantsCard from "@/components/common/Home/ConsultantsCard/ConsultantsCard.vue";
 import type { Consultant } from "@/components/common/Home/ConsultantsCard/types";
 import { useRequestPayload } from "@/hooks/useRequestPayload";
+import { useScrollControl } from "@/hooks/useScrollControl";
 import { useConsultantStore } from "@/stores/consultantStore";
 
 const consultantStore = useConsultantStore();
 const queryParams = ref<TGetConsultationsFilter>({ page: 1 });
 const search = ref("");
-let divScroll = document.querySelector(".scroll");
+const { scrollToTop } = useScrollControl();
 const setPage = (page: number) => {
   queryParams.value.page = page;
-  if (divScroll) {
-    divScroll.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  }
+  scrollToTop(300);
 };
 let searchTimeoutId: ReturnType<typeof setTimeout>;
 

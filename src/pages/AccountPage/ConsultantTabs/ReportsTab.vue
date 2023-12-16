@@ -7,6 +7,7 @@ import ReportModal from "@/components/modals/ReportModal/ReportModal.vue";
 import TableWrapper from "@/components/TableWrapper/TableWrapper.vue";
 import { TTableWrapperHeaders } from "@/components/TableWrapper/types";
 import { useRequestPayload } from "@/hooks/useRequestPayload";
+import { useScrollControl } from "@/hooks/useScrollControl";
 import { useConsultantStore } from "@/stores/consultantStore";
 import notify from "@/utils/notify";
 
@@ -16,6 +17,7 @@ const statusTranslate = {
 };
 
 const consultantStore = useConsultantStore();
+const { scrollToTop } = useScrollControl();
 const isShowReportModal = ref(false);
 const { reportsModel } = storeToRefs(consultantStore);
 const reportsListRows = computed(() => {
@@ -78,7 +80,11 @@ const setData = (value?: any) => {
     delete queryParams.value["dateBetween"];
   }
 };
-const setPage = (page: number) => (queryParams.value.page = page);
+
+const setPage = (page: number) => {
+  queryParams.value.page = page;
+  scrollToTop(300);
+};
 const handleFileDownload = (fileUrl: string, fileName: string) => {
   const anchorElement = document.createElement("a");
   anchorElement.href = fileUrl;
