@@ -2,7 +2,7 @@ import { scroll } from "quasar";
 
 const { getScrollTarget, setVerticalScrollPosition } = scroll;
 
-export const useScrollControl = () => {
+export function useScrollControl() {
   const duration = 500;
 
   const scrollToTop = () => {
@@ -21,4 +21,4 @@ export const useScrollControl = () => {
   };
 
   return { scrollToTop, scrollToElement };
-};
+}
