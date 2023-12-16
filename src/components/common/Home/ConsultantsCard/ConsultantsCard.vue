@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { inject, onMounted, ref } from "vue";
 
 import AuthWrapper from "@/components/common/AuthWrapper/AuthWrapper.vue";
 import ConsultantDescriptionModal from "@/components/modals/ConsultantDescriptionModal/ConsultantDescriptionModal.vue";
 import CreateConsultationModal from "@/components/modals/ConsultationModal/CreateConsultationModal.vue";
 import RulesModal from "@/components/modals/RulesModal/RulesModal.vue";
-import { useCreateQuestion } from "@/hooks/useModal";
+import { AuthModalInjectionKey, AuthModalProviderData } from "@/utils/injectionKeys";
 
 import type { Consultant } from "./types";
 
@@ -19,7 +19,7 @@ const isShowModal = ref(false);
 const isShowCreateConsultationModal = ref(false);
 const showLoginModal = ref(false);
 const maxDescriptionHeight = 73;
-const createQuestion = () => useCreateQuestion(isShowCreateConsultationModal, showLoginModal, props.consultant);
+const authModal = inject(AuthModalInjectionKey, {} as AuthModalProviderData);
 
 const isShowRuleModal = ref(false);
 const isAcceptRules = ref(false);
@@ -53,7 +53,7 @@ onMounted(() => {
       @close="isShowRuleModal = false" />
 
     <q-btn color="yellow card__button">
-      <div class="btn__label" @click="createQuestion">Задать вопрос специалисту</div>
+      <div class="btn__label" @click="authModal.toCreateQuestion(consultant)">Задать вопрос специалисту</div>
     </q-btn>
 
     <AuthWrapper v-if="showLoginModal" @close="showLoginModal = false" />

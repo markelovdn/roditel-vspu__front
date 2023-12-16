@@ -3,8 +3,10 @@ import { getCssVar } from "quasar";
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 
+import AuthWrapper from "@/components/common/AuthWrapper/AuthWrapper.vue";
 import TheFooter from "@/components/common/TheFooter/TheFooter.vue";
 import TheHeader from "@/components/common/TheHeader/TheHeader.vue";
+import { useAuthModal } from "@/hooks/useModal";
 
 const route = useRoute();
 const pageBackground = computed(() => {
@@ -13,6 +15,7 @@ const pageBackground = computed(() => {
   return { background: getCssVar(`background-${backgroundName}`) };
 });
 const showHeaderOnRoute = computed(() => route.name !== "ResetPassword");
+useAuthModal();
 </script>
 
 <template>
@@ -24,6 +27,7 @@ const showHeaderOnRoute = computed(() => route.name !== "ResetPassword");
       </q-page>
     </q-page-container>
     <TheFooter v-show="showHeaderOnRoute" />
+    <AuthWrapper></AuthWrapper>
   </q-layout>
 </template>
 

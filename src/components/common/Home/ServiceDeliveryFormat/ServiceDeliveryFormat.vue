@@ -1,15 +1,13 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { inject } from "vue";
 
-import AuthWrapper from "@/components/common/AuthWrapper/AuthWrapper.vue";
-import { useToQuestions } from "@/hooks/useModal";
+import { AuthModalInjectionKey, AuthModalProviderData } from "@/utils/injectionKeys";
 
 import BlockContainer from "./BlockContainer.vue";
 import FormatCard from "./FormatCard.vue";
 import FormCard from "./FormCard.vue";
 
-const showLoginModal = ref(false);
-const toQuestions = () => useToQuestions(showLoginModal);
+const authModal = inject(AuthModalInjectionKey, {} as AuthModalProviderData);
 const row1 = [
   {
     title: "Диспетчерское консультирование по телефону",
@@ -61,11 +59,10 @@ const row1 = [
       </a>
     </div>
     <div class="button__container">
-      <q-btn outline style="color: #f7b70b" @click="toQuestions">
+      <q-btn outline style="color: #f7b70b" @click="authModal.toQuestions">
         <span class="button__label text-primary">Задать вопрос специалисту</span>
       </q-btn>
     </div>
-    <AuthWrapper v-if="showLoginModal" @close="showLoginModal = false" />
   </div>
 </template>
 
