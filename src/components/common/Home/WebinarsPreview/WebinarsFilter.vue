@@ -40,7 +40,7 @@ onMounted(() => {
 <template>
   <div class="filter">
     <div style="max-width: 300px" class="q-pr-md">
-      <q-input v-model="dateToString" filled>
+      <q-input v-model="dateToString" outlined>
         <template #append>
           <q-icon name="event" class="cursor-pointer">
             <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -60,7 +60,7 @@ onMounted(() => {
       input-class="q-select--form"
       label="Специализация*"
       outlined
-      class="fit q-mb-sm"
+      class="fit"
       :options="optionsCategories"
       :option-label="(item) => item.label"
       emit-value

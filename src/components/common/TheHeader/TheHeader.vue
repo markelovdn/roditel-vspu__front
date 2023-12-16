@@ -88,7 +88,7 @@ const logout = () => {
             class="link"
             target="_blank"
             rel="Методические материалы">
-            <span class="cursor-pointer materials">Методические материалы</span>
+            Методические материалы
           </a>
 
           <div class="link-ask-expert" @click="toQuestions">

@@ -107,43 +107,33 @@ onBeforeMount(() => {
 <template>
   <div class="question">
     <div class="question__header">
-      <div class="flex justify-between justify-between question__header">
-        <div class="question__box">
-          <h5>Вопросы</h5>
-        </div>
-
-        <div class="question__box">
-          <q-btn outline style="color: #f7b70b" class="q-btn--form q-ml-sm q-mr-sm">
-            <span class="text-primary question__btn-label" @click="isShowCreateConsultationModal = true">
-              Задать вопрос
-            </span>
-          </q-btn>
-          <div>
-            <q-btn-toggle
-              v-model="actual"
-              spread
-              no-caps
-              toggle-color="primary"
-              text-color="primary"
-              :options="[
-                { label: 'Актуальные', value: 'yes' },
-                { label: 'Прошедшие', value: 'no' },
-              ]"
-              @update:model-value="setActual" />
-          </div>
-        </div>
+      <div class="flex justify-between justify-between">
+        <h5>Вопросы</h5>
+        <q-btn outline style="color: #f7b70b" class="q-btn--form q-ml-sm q-mr-sm">
+          <span class="text-primary question__btn-label" @click="isShowCreateConsultationModal = true">
+            Задать вопрос
+          </span>
+        </q-btn>
+        <q-btn-toggle
+          v-model="actual"
+          spread
+          no-caps
+          toggle-color="primary"
+          text-color="primary"
+          :options="[
+            { label: 'Актуальные', value: 'yes' },
+            { label: 'Прошедшие', value: 'no' },
+          ]"
+          @update:model-value="setActual" />
       </div>
-    </div>
-    <div class="flex question__filter">
-      <div class="q-pa-md">
-        <q-input v-model="search" debounce="500" filled placeholder="Поиск">
+      <div class="question__filter">
+        <q-input v-model="search" debounce="500" class="max-width" outlined placeholder="Поиск">
           <template #append>
             <q-icon name="search" />
           </template>
         </q-input>
-      </div>
-      <div class="q-pa-md" style="width: 250px">
-        <q-input v-model="dateToString" dense filled>
+
+        <q-input v-model="dateToString" outlined class="max-width">
           <template #append>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -157,27 +147,25 @@ onBeforeMount(() => {
             </q-icon>
           </template>
         </q-input>
-      </div>
-      <div class="q-pa-md" style="width: 200px">
+
         <q-select
           v-model="specializationId"
           input-class="q-select--form"
           label="Лектор*"
           outlined
-          class="fit q-mb-sm"
+          class="max-width"
           :options="optionsLectors"
           :option-label="(item) => item.label"
           emit-value
           map-options
           @update:model-value="setLectors" />
-      </div>
-      <div class="q-pa-md" style="width: 200px">
+
         <q-select
           v-model="lectorId"
           input-class="q-select--form"
           label="Категория*"
           outlined
-          class="fit q-mb-sm"
+          class="max-width"
           :options="optionsCategories"
           :option-label="(item) => item.label"
           emit-value
@@ -185,6 +173,7 @@ onBeforeMount(() => {
           @update:model-value="setSpecialization" />
       </div>
     </div>
+
     <div class="question__wrapper">
       <div class="question__sidebar">
         <ChatSideBarWrapper
@@ -232,10 +221,13 @@ onBeforeMount(() => {
   }
 
   &__header {
-    padding: 0 35px;
+    padding: 15px 35px;
     background-color: $white;
     border-radius: 10px 10px 0 0;
-    height: 80px;
+    gap: 16px;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
 
     &_line {
       min-height: 80px;
@@ -244,9 +236,9 @@ onBeforeMount(() => {
   }
 
   &__filter {
-    background-color: $white;
-    align-items: center;
-    filter: drop-shadow(0 4px 4px rgb(0 0 0 / 3%));
+    gap: 16px;
+    display: flex;
+    flex-wrap: nowrap;
   }
 
   &__box {
@@ -277,12 +269,5 @@ onBeforeMount(() => {
     font-weight: 500;
     line-height: 19px;
   }
-}
-</style>
-
-<style lang="scss">
-.q-field__control,
-.q-field__marginal {
-  height: 46px;
 }
 </style>

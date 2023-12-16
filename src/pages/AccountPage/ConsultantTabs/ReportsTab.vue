@@ -100,7 +100,7 @@ onMounted(() => {
     </template>
     <template #filters>
       <div class="q-pa-md" style="max-width: 300px">
-        <q-input v-model="dateToString" dense filled>
+        <q-input v-model="dateToString" outlined>
           <template #append>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy cover transition-show="scale" transition-hide="scale">

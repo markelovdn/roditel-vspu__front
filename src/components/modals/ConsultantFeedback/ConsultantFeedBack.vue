@@ -93,7 +93,7 @@ const handleData = () => {
       <div class="box">
         <div class="divider"></div>
         <div class="text">Есть ли у Вас жалобы на работу Межрегиональной службы консультирования родителей ВГСПУ?</div>
-        <q-input v-model="data.complaints" filled type="textarea" placeholder="Введите ваш комментарий" />
+        <q-input v-model="data.complaints" outlined type="textarea" placeholder="Введите ваш комментарий" />
       </div>
 
       <div class="box">
@@ -102,7 +102,7 @@ const handleData = () => {
           Есть ли у Вас предложения и пожелания по улучшению работы Межрегиональной службы консультирования родителей
           ВГСПУ?
         </div>
-        <q-input v-model="data.proposals" filled type="textarea" placeholder="Введите ваш комментарий" />
+        <q-input v-model="data.proposals" outlined type="textarea" placeholder="Введите ваш комментарий" />
       </div>
 
       <div class="btn-block">
