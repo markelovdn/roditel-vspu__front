@@ -69,7 +69,7 @@ export function useAuthModal() {
       showLoginModal();
     }
   }
-  function toCreateQuestion(consultant: any) {
+  function toCreateQuestion(showModal: Ref<boolean>, consultant: any) {
     if (!authStore.getUserInfo) {
       router.push({
         query: { isOpenNewConsultation: "true", tabId: "questions", consultantId: consultant.user.id },

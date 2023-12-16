@@ -24,6 +24,8 @@ const authModal = inject(AuthModalInjectionKey, {} as AuthModalProviderData);
 const isShowRuleModal = ref(false);
 const isAcceptRules = ref(false);
 
+const createQuestion = () => authModal.toCreateQuestion(isShowCreateConsultationModal, props.consultant);
+
 onMounted(() => {
   if (description.value && description.value?.getBoundingClientRect().height > maxDescriptionHeight) {
     isFullShow.value = true;
@@ -53,7 +55,7 @@ onMounted(() => {
       @close="isShowRuleModal = false" />
 
     <q-btn color="yellow card__button">
-      <div class="btn__label" @click="authModal.toCreateQuestion(consultant)">Задать вопрос специалисту</div>
+      <div class="btn__label" @click="createQuestion()">Задать вопрос специалисту</div>
     </q-btn>
 
     <AuthWrapper v-if="showLoginModal" @close="showLoginModal = false" />
