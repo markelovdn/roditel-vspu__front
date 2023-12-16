@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 
+import { useScrollControl } from "@/hooks/useScrollControl";
 import routes from "@/router/routes";
 import { useAuthStore } from "@/stores/authStore";
 import notify from "@/utils/notify";
@@ -9,14 +10,12 @@ const router = createRouter({
   routes,
 });
 router.afterEach((to) => {
+  const { scrollToElement, scrollToTop } = useScrollControl();
   setTimeout(() => {
     if (to.hash) {
-      const element = document.querySelector(to.hash);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-      }
+      scrollToElement(to.hash);
     } else {
-      document.querySelector("scroll")?.scrollTo({ top: 0, behavior: "smooth" });
+      scrollToTop();
     }
   }, 100);
 });
