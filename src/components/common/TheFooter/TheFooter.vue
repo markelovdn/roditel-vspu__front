@@ -1,15 +1,12 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { inject } from "vue";
 
 import logoUrl from "@/assets/img/icons/VGSPU.png";
-import AuthWrapper from "@/components/common/AuthWrapper/AuthWrapper.vue";
 import CommonLink from "@/components/common/CommonLink/CommonLink.vue";
 import { headerMenuItems } from "@/components/common/TheHeader/types";
-import { useToQuestions } from "@/hooks/useModal";
+import { AuthModalInjectionKey, AuthModalProviderData } from "@/utils/injectionKeys";
 
-const showLoginModal = ref(false);
-
-const toQuestions = () => useToQuestions(showLoginModal);
+const authModal = inject(AuthModalInjectionKey, {} as AuthModalProviderData);
 </script>
 
 <template>
@@ -22,7 +19,7 @@ const toQuestions = () => useToQuestions(showLoginModal);
             <span>Социально-психологический центр ВГСПУ</span>
           </div>
         </div>
-        <q-btn outline class="col-1__btn_border" @click="toQuestions">
+        <q-btn outline class="col-1__btn_border" @click="authModal.toQuestions">
           <div class="col-1__btn_label">Задать вопрос специалисту</div>
         </q-btn>
         <CommonLink :to="'https://ya.ru/'">Политика конфиденциальности</CommonLink>
@@ -65,7 +62,6 @@ const toQuestions = () => useToQuestions(showLoginModal);
         </CommonLink>
       </div>
     </div>
-    <AuthWrapper v-if="showLoginModal" @close="showLoginModal = false" />
   </q-footer>
 </template>
 

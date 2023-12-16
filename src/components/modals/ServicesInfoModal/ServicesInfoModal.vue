@@ -1,14 +1,10 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { inject } from "vue";
 
-import AuthWrapper from "@/components/common/AuthWrapper/AuthWrapper.vue";
-import { useToQuestions } from "@/hooks/useModal";
+import { AuthModalInjectionKey, AuthModalProviderData } from "@/utils/injectionKeys";
 
 import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
-
-const showLoginModal = ref(false);
-
-const toQuestions = () => useToQuestions(showLoginModal);
+const authModal = inject(AuthModalInjectionKey, {} as AuthModalProviderData);
 </script>
 
 <template>
@@ -49,11 +45,10 @@ const toQuestions = () => useToQuestions(showLoginModal);
         <span class="button__label text-primary">Записаться очно</span>
       </q-btn>
     </a>
-    <q-btn class="button" outline style="color: #f7b70b" @click="toQuestions">
+    <q-btn class="button" outline style="color: #f7b70b" @click="authModal.toQuestions">
       <span class="button__label text-primary">Записаться онлайн</span>
     </q-btn>
   </ModalWrapper>
-  <AuthWrapper v-if="showLoginModal" @close="showLoginModal = false" />
 </template>
 
 <style lang="scss">

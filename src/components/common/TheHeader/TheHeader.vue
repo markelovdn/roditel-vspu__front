@@ -1,31 +1,29 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, inject } from "vue";
 import { useRouter } from "vue-router";
 
 import logoUrl from "@/assets/img/icons/logo.png";
-import AuthWrapper from "@/components/common/AuthWrapper/AuthWrapper.vue";
 import IconPersonal from "@/components/icons/IconPersonal.vue";
 import IconPhone from "@/components/icons/IconPhone.vue";
-import { useToQuestions } from "@/hooks/useModal";
+import { AuthModalInjectionKey, AuthModalProviderData } from "@/utils/injectionKeys";
 
 import { useAuthStore } from "../../../stores/authStore";
 import { headerMenuItems } from "./types";
 
-const toQuestions = () => useToQuestions(showLoginModal);
+const authModal = inject(AuthModalInjectionKey, {} as AuthModalProviderData);
 
 const authStore = useAuthStore();
 const router = useRouter();
 
-const showLoginModal = ref(false);
-
 const userCabinetButtontext = computed(() => {
   return authStore.getUserInfo ? "Личный кабинет" : "Войти";
 });
+
 const auth = () => {
   if (authStore.getUserInfo) {
     router.push({ name: "My" });
   } else {
-    showLoginModal.value = true;
+    authModal.showLoginModal();
   }
 };
 const logout = () => {
@@ -91,7 +89,7 @@ const logout = () => {
             Методические материалы
           </a>
 
-          <div class="link-ask-expert" @click="toQuestions">
+          <div class="link-ask-expert" @click="authModal.toQuestions">
             <div>Задать вопрос консультанту</div>
             <svg
               style="position: relative; top: -10px"
@@ -106,7 +104,6 @@ const logout = () => {
           </div>
         </div>
       </div>
-      <AuthWrapper v-if="showLoginModal" @close="showLoginModal = false" />
     </div>
   </q-header>
 </template>

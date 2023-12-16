@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { inject } from "vue";
 
 import bannerUrl from "@/assets/img/help-banner.png";
-import AuthWrapper from "@/components/common/AuthWrapper/AuthWrapper.vue";
-import { useToQuestions } from "@/hooks/useModal";
+import { AuthModalInjectionKey, AuthModalProviderData } from "@/utils/injectionKeys";
 
-const showLoginModal = ref(false);
-const toQuestions = () => useToQuestions(showLoginModal);
+const authModal = inject(AuthModalInjectionKey, {} as AuthModalProviderData);
 
 const content = [
   "Родителям или законным представителям детей дошкольного возраста, не посещающих дошкольные образовательные организации",
@@ -34,7 +32,7 @@ const content = [
           </q-btn>
         </a>
 
-        <q-btn color="primary" @click="toQuestions">
+        <q-btn color="primary" @click="authModal.toQuestions">
           <div class="btn__label">Записаться онлайн</div>
         </q-btn>
       </div>
@@ -49,7 +47,6 @@ const content = [
       </svg>
       <q-img :src="bannerUrl" class="image" />
     </div>
-    <AuthWrapper v-if="showLoginModal" @close="showLoginModal = false" />
   </div>
 </template>
 

@@ -1,15 +1,17 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { inject, ref } from "vue";
 
 import ForgotPassword from "@/components/modals/ForgotPasswordModal/ForgotPassword.vue";
 import LoginModal from "@/components/modals/LoginModal/LoginModal.vue";
 import RegistrationModal from "@/components/modals/RegistrationModal/RegistrationModal.vue";
-
+import { AuthModalInjectionKey, AuthModalProviderData } from "@/utils/injectionKeys";
 const emit = defineEmits(["close"]);
 
-const showLoginModal = ref(true);
-const showRegistrationModal = ref(false);
-const showForgotPasswordModal = ref(false);
+const authModal = inject(AuthModalInjectionKey, {
+  isForgotPasswordModalShowing: ref(false),
+  isLoginModalShowing: ref(false),
+  isRegistrationModalShowing: ref(false),
+} as AuthModalProviderData);
 
 const close = () => {
   emit("close");
@@ -19,18 +21,18 @@ const close = () => {
 <template>
   <div>
     <LoginModal
-      v-if="showLoginModal"
-      @close="showLoginModal = false"
+      v-if="authModal.isLoginModalShowing.value"
+      @close="authModal.isLoginModalShowing.value = false"
       @close-common-modal="close"
-      @show-registration-modal="showRegistrationModal = true"
-      @show-forgot-password-modal="showForgotPasswordModal = true" />
+      @show-registration-modal="authModal.showRegistrationModal"
+      @show-forgot-password-modal="authModal.showForgotPasswordModal" />
     <ForgotPassword
-      v-if="showForgotPasswordModal"
-      @close="showForgotPasswordModal = false"
+      v-if="authModal.isForgotPasswordModalShowing.value"
+      @close="authModal.isForgotPasswordModalShowing.value = false"
       @close-common-modal="close" />
     <RegistrationModal
-      v-if="showRegistrationModal"
-      @close="showRegistrationModal = false"
+      v-if="authModal.isRegistrationModalShowing.value"
+      @close="authModal.isRegistrationModalShowing.value = false"
       @close-common-modal="close" />
   </div>
 </template>

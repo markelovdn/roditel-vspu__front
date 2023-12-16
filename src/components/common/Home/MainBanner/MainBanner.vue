@@ -1,14 +1,10 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { inject } from "vue";
 
 import bannerUrl from "@/assets/img/home-banner.png";
-import AuthWrapper from "@/components/common/AuthWrapper/AuthWrapper.vue";
-import { useToOldQuestions, useToOldWebinars, useToQuestions } from "@/hooks/useModal";
+import { AuthModalInjectionKey, AuthModalProviderData } from "@/utils/injectionKeys";
 
-const showLoginModal = ref(false);
-const toQuestions = () => useToQuestions(showLoginModal);
-const toOldWebinars = () => useToOldWebinars(showLoginModal);
-const toOldQuestions = () => useToOldQuestions(showLoginModal);
+const authModal = inject(AuthModalInjectionKey, {} as AuthModalProviderData);
 </script>
 
 <template>
@@ -17,20 +13,19 @@ const toOldQuestions = () => useToOldQuestions(showLoginModal);
       <div class="content__head">Межрегиональная служба консультирования родителей</div>
       <div class="content__sub-head">Методическая и консультационная помощь родителям</div>
       <div class="content__buttons">
-        <q-btn color="primary" @click="toQuestions">
+        <q-btn color="primary" @click="authModal.toQuestions">
           <div class="btn__label">Задать вопрос специалисту</div>
         </q-btn>
-        <q-btn outline class="btn__border" @click="toOldWebinars">
+        <q-btn outline class="btn__border" @click="authModal.toOldWebinars">
           <div class="btn__label btn__label_dark">Архив вебинаров</div>
         </q-btn>
-        <q-btn color="yellow" @click="toOldQuestions">
+        <q-btn color="yellow" @click="authModal.toOldQuestions">
           <div class="btn__label">Оценить качество консультации</div>
         </q-btn>
       </div>
     </div>
 
     <q-img :src="bannerUrl" :fit="'none'" :position="'100% 50%'" class="container__image" />
-    <AuthWrapper v-if="showLoginModal" @close="showLoginModal = false" />
   </div>
 </template>
 
