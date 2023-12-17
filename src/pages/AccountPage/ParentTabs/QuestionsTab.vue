@@ -71,6 +71,7 @@ const setSpecialization = (value: string) => (queryParams.value.category = Numbe
 const setLectors = (value: string) => (queryParams.value.lector = Number(value));
 const setActual = (value: "yes" | "no") => (queryParams.value.actual = value);
 const setFirstActiveChat = (data: TConsultation[]) => {
+  if (!data.length) return;
   idActiveChat.value = data[0].id;
   consultationsStore.connectChannel(data[0].id);
 };
@@ -187,7 +188,8 @@ onBeforeMount(() => {
           :messages="idActiveChatMessages"
           :consultation="idActiveChatConsultation" />
         <div v-else>
-          <h4 class="q-pt-md">Создайте новую заявку</h4>
+          <h4 v-if="$route.query.actual === 'no'" class="q-pt-md">У вас нету завершенных консультаций</h4>
+          <h4 v-else class="q-pt-md">Создайте новую заявку</h4>
           <p style="text-align: center" class="q-pt-md">Вы мажите задать вопрос консультанту</p>
         </div>
         <MessageInput @send-message="sendMessage" />

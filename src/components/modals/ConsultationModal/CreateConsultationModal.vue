@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { onMounted, ref } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 import { TAllConsultants } from "@/api/Consultant/types";
 import { TConsultationPayload } from "@/api/Consultations/types";
@@ -14,6 +14,7 @@ import { useConsultationsStore } from "@/stores/consultationsStore";
 
 import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
 const route = useRoute();
+const router = useRouter();
 const emit = defineEmits(["close"]);
 
 const isShowRuleModal = defineModel("show", {
@@ -50,11 +51,18 @@ const { handleBlur, getErrorAttrs, isValid } = useValidation<TConsultationPayloa
   allConsultants: {},
 });
 
-const handleCreateConsultation = () => {
-  consultationsStore.createConsultation(data.value);
+const closeCreateConsultationModal = () => {
   closeModal({ force: true });
+  const query = { ...route.query };
+  delete query.consultantId;
+  delete query.isOpenNewConsultation;
+  router.replace({ query });
 };
 
+const handleCreateConsultation = () => {
+  consultationsStore.createConsultation(data.value);
+  closeCreateConsultationModal();
+};
 const handleRulesModal = () => {
   !isAcceptRules.value && (isShowRuleModal.value = true);
 };
@@ -125,7 +133,13 @@ onMounted(() => {
           class="q-btn--form"
           color="primary"
           @click="handleCreateConsultation()" />
-        <q-btn label="Закрыть" class="q-ml-sm q-btn--form" flat :ripple="false" color="grey-1" @click="closeModal()" />
+        <q-btn
+          label="Закрыть"
+          class="q-ml-sm q-btn--form"
+          flat
+          :ripple="false"
+          color="grey-1"
+          @click="closeCreateConsultationModal" />
       </div>
     </ModalWrapper>
   </div>
