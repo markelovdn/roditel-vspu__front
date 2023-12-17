@@ -32,7 +32,7 @@ const collectionsStore = useCollectionsStore();
 const consultantStore = useConsultantStore();
 const consultationsStore = useConsultationsStore();
 const { getSpecializations: optionsSpecializations } = storeToRefs(collectionsStore);
-const { getConsultants: optionsConsultants } = storeToRefs(consultantStore);
+const { getConsultantsAll: optionsConsultants } = storeToRefs(consultantStore);
 
 const data = ref<TConsultationPayload<number | null>>({
   consultantId: Number(route.query.consultantId) || props.consultant?.user.id || null,

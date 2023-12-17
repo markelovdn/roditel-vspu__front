@@ -24,7 +24,8 @@ export const useConsultantStore = defineStore("consultantStore", () => {
   const authStore = useAuthStore();
   const consultantId = authStore.getUserId;
   // const consultants = ref<TGetAllConsultants[]>([]);
-  const consultants = ref<TAllConsultants | Consultant[]>([]);
+  const consultants = ref<Consultant[]>([]);
+  const consultantsAll = ref<TAllConsultants>([]);
   const allParents = ref<TConsultantParentsPayload[]>([]);
 
   const page = ref({
@@ -72,13 +73,18 @@ export const useConsultantStore = defineStore("consultantStore", () => {
   }
   async function requestAllConsultants() {
     return consultantApi.getAllConsultants().then((resp) => {
-      consultants.value = resp.data.data;
+      consultantsAll.value = resp.data.data;
       return resp.data.data;
     });
   }
 
   const getConsultants = computed(() => {
     return consultants.value.map((item: any) => {
+      return { label: item.fullName, value: item.userId };
+    });
+  });
+  const getConsultantsAll = computed(() => {
+    return consultantsAll.value.map((item: any) => {
       return { label: item.fullName, value: item.userId };
     });
   });
@@ -123,6 +129,7 @@ export const useConsultantStore = defineStore("consultantStore", () => {
     createReport,
     getConsultantInfo,
     getConsultants,
+    getConsultantsAll,
     setNewConsultantInfo,
     setNewConsultantPhoto,
     setConsultantFeedBack,
