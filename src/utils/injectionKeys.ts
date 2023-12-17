@@ -7,6 +7,7 @@ export type AuthModalProviderData = {
   toOldQuestions: () => void;
   toOldWebinars: () => void;
   toCreateQuestion: (isShowModal: Ref<boolean>, consultant: Consultant) => void;
+  webinarRegistration: (webinarId: number, userId: number) => void;
   showForgotPasswordModal: () => boolean;
   showRegistrationModal: () => boolean;
   showLoginModal: () => boolean;

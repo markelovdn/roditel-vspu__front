@@ -1,33 +1,25 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { inject, ref } from "vue";
 
 import AuthWrapper from "@/components/common/AuthWrapper/AuthWrapper.vue";
 import { TWebinarCardData } from "@/components/common/Home/WebinarCard/types";
 import { useModal } from "@/hooks/useModal";
 import { useAuthStore } from "@/stores/authStore";
+import { AuthModalInjectionKey, AuthModalProviderData } from "@/utils/injectionKeys";
 
-import { useWebinarsStore } from "../../../stores/webinarsStore";
 import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
 
 const emit = defineEmits(["close"]);
 
-const props = defineProps<{
+defineProps<{
   webinar: TWebinarCardData;
 }>();
 
 const { closeModal } = useModal(emit);
-const webinarStore = useWebinarsStore();
-const { user, getUserInfo } = useAuthStore();
+const { user } = useAuthStore();
+const { webinarRegistration } = inject(AuthModalInjectionKey, {} as AuthModalProviderData);
 
 const showLoginModal = ref(false);
-const webinarRegistration = () => {
-  if (!getUserInfo) {
-    showLoginModal.value = true;
-  } else {
-    webinarStore.registrationPartisipant(props.webinar.id, user?.id || 1);
-    closeModal();
-  }
-};
 </script>
 
 <template>
@@ -44,7 +36,11 @@ const webinarRegistration = () => {
     </div>
 
     <div class="fit q-pt-lg footer">
-      <q-btn label="Принять участие" class="q-btn--form" color="primary" @click="webinarRegistration()" />
+      <q-btn
+        label="Принять участие"
+        class="q-btn--form"
+        color="primary"
+        @click="webinarRegistration(webinar.id, user?.id || 1)" />
     </div>
   </ModalWrapper>
   <AuthWrapper v-if="showLoginModal" @close="showLoginModal = false" />
