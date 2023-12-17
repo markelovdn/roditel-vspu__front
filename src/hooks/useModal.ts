@@ -4,6 +4,7 @@ import { provide, type Ref, ref } from "vue";
 import useAlert from "@/hooks/useAlert";
 import router from "@/router/index";
 import { useAuthStore } from "@/stores/authStore";
+import { useWebinarsStore } from "@/stores/webinarsStore";
 import type { GenericEmit } from "@/types";
 import { AuthModalInjectionKey } from "@/utils/injectionKeys";
 
@@ -50,6 +51,7 @@ export function useModal(emit: GenericEmit, data: Ref<unknown> = ref({})) {
 }
 export function useAuthModal() {
   const authStore = useAuthStore();
+  const webinarStore = useWebinarsStore();
   const isLoginModalShowing = ref(false);
   const isRegistrationModalShowing = ref(false);
   const isForgotPasswordModalShowing = ref(false);
@@ -105,6 +107,15 @@ export function useAuthModal() {
       showLoginModal();
     }
   }
+
+  function webinarRegistration(webinarId: number, userId: number) {
+    if (!authStore.getUserInfo) {
+      showLoginModal();
+    } else {
+      webinarStore.registrationPartisipant(webinarId, userId);
+      useModal(defineEmits(["close"])).closeModal();
+    }
+  }
   provide(AuthModalInjectionKey, {
     toQuestions,
     toOldQuestions,
@@ -113,6 +124,7 @@ export function useAuthModal() {
     showForgotPasswordModal,
     showRegistrationModal,
     showLoginModal,
+    webinarRegistration,
     isLoginModalShowing,
     isRegistrationModalShowing,
     isForgotPasswordModalShowing,
@@ -125,6 +137,7 @@ export function useAuthModal() {
     showForgotPasswordModal,
     showRegistrationModal,
     showLoginModal,
+    webinarRegistration,
     isLoginModalShowing,
     isRegistrationModalShowing,
     isForgotPasswordModalShowing,
