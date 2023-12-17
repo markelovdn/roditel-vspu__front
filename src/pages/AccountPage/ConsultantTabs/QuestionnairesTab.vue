@@ -131,15 +131,9 @@ const questionnairesListHeaders = [
   },
   {
     name: "edit",
-    label: "",
+    label: "Управление",
     field: "edit",
-    width: "40px",
-  },
-  {
-    name: "delete",
-    label: "",
-    field: "delete",
-    width: "40px",
+    width: "80px",
   },
 ] as unknown as TTableWrapperHeaders;
 </script>
@@ -190,7 +184,7 @@ const questionnairesListHeaders = [
           <span v-if="!item.status">Ожидает ответа</span>
           <span v-else>Ответ от {{ item.status }}</span>
         </div>
-        <div class="justify-center">
+        <div>
           <q-btn
             v-if="!item.parented"
             outline
@@ -199,9 +193,7 @@ const questionnairesListHeaders = [
             label="Назначить"
             class="appoint-btn"
             @click="handleModal(item.id)" />
-        </div>
-        <div>
-          <span>{{ item.parented }}</span>
+          <span v-else>{{ item.parented }}</span>
         </div>
         <div>
           <q-btn flat @click="handleFileDownload(String(item.fileUrl), String(item.fileName))">
@@ -220,15 +212,21 @@ const questionnairesListHeaders = [
             </svg>
           </q-btn>
         </div>
-        <div class="flex gap-1 justify-end">
-          <div>
-            <q-btn v-if="item.id" icon="edit" size="xs" color="primary" :to="`/questionnaire/${item.id}`"></q-btn>
-          </div>
-        </div>
-        <div class="flex gap-1 justify-end">
-          <div>
-            <q-btn v-if="item.id" size="xs" icon="delete" color="negative" @click="handleDelete(item.id)"></q-btn>
-          </div>
+        <div class="flex gap-1 justify-end no-wrap">
+          <q-btn
+            v-if="item.id"
+            :size="'15px'"
+            :padding="'5px'"
+            icon="edit"
+            color="primary"
+            :to="`/questionnaire/${item.id}`" />
+          <q-btn
+            v-if="item.id"
+            :size="'15px'"
+            :padding="'5px'"
+            icon="delete"
+            color="negative"
+            @click="handleDelete(item.id)" />
         </div>
       </template>
     </TableWrapper>
