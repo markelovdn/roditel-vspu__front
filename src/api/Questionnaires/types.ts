@@ -38,7 +38,7 @@ export type TQuestionnairesData = {
   meta: any;
 };
 
-export type TSelectedAnsweres = Array<{
+export type TSelectedAnswers = Array<{
   questionId: number;
   optionId: number;
 }>;

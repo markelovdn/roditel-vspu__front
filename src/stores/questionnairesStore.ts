@@ -4,9 +4,9 @@ import { ref } from "vue";
 import { questionnairesApi } from "@/api";
 import {
   TGetConsultantQuestionnairesFilter,
-  TOtherAnsweres,
+  TOtherAnsweres as TOtherAnswers,
   TQuestionnairePayload,
-  TSelectedAnsweres,
+  TSelectedAnswers as TSelectedAnswers,
 } from "@/api/Questionnaires/types";
 import notify from "@/utils/notify";
 
@@ -72,11 +72,10 @@ export const useQuestionnairesStore = defineStore("questionnaresStore", () => {
 
   async function setSelectedParentedAnswers(
     questionnaireId: number | string,
-    selected: TSelectedAnsweres,
-    other: TOtherAnsweres,
+    selected: TSelectedAnswers,
+    other: TOtherAnswers,
   ) {
-    await questionnairesApi.setSelectedParentedAnswers(questionnaireId, selected, other).then((resp) => {
-      console.log(resp);
+    await questionnairesApi.setSelectedParentedAnswers(questionnaireId, selected, other).then(() => {
       notify({ type: "positive", message: "Ответы на анкету добавлены" });
     });
   }
@@ -84,14 +83,12 @@ export const useQuestionnairesStore = defineStore("questionnaresStore", () => {
   async function getSelectedParentedAnswers(questionnaireId: number | string) {
     await questionnairesApi.getSelectedParentedAnswers(questionnaireId).then((resp) => {
       temp.value = resp.data;
-      console.log(resp);
       notify({ type: "positive", message: "Ответы загружены" });
     });
   }
 
   async function setQuestionnaireToParented(questionnaireId: number | string | null | undefined) {
-    await questionnairesApi.setQuestionnaireToParented(questionnaireId).then((resp) => {
-      console.log(resp);
+    await questionnairesApi.setQuestionnaireToParented(questionnaireId).then(() => {
       notify({ type: "positive", message: "Родитель назначен для анкеты" });
     });
   }
