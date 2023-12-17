@@ -62,8 +62,8 @@ watch(
       color="primary"
       :disable="isDisable"
       @blur="handleBlur('age')" />
-    <q-btn padding="xs" icon="edit" size="xs" color="primary" @click="changeDisable"></q-btn>
-    <q-btn padding="xs" size="xs" icon="delete" color="negative" @click="onDeleteChildren"></q-btn>
+    <q-btn padding="sm" icon="edit" size="md" color="primary" @click="changeDisable"></q-btn>
+    <q-btn padding="sm" size="md" icon="delete" color="negative" @click="onDeleteChildren"></q-btn>
   </div>
 </template>
 
