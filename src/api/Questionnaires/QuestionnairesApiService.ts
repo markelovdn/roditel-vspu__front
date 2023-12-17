@@ -6,7 +6,7 @@ import {
   TOtherAnsweres,
   TQuestionnairePayload,
   TQuestionnairesData,
-  TSelectedAnsweres,
+  TSelectedAnswers,
 } from "./types";
 
 export class QuestionnairesApiService {
@@ -51,7 +51,7 @@ export class QuestionnairesApiService {
     });
   }
 
-  setSelectedParentedAnswers(questionaireId: number | string, selected: TSelectedAnsweres, other: TOtherAnsweres) {
+  setSelectedParentedAnswers(questionaireId: number | string, selected: TSelectedAnswers, other: TOtherAnsweres) {
     return axios.post(`/questionnaire/${questionaireId}/selectedOptions`, {
       selected: selected,
       other: other,
