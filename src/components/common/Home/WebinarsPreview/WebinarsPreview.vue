@@ -11,8 +11,12 @@ import WebinarsFilter from "./WebinarsFilter.vue";
 const queryParams = ref<TWebinarsRequestOption>({ page: 1 });
 const webinarsStore = useWebinarsStore();
 
-const setPage = (page: number) => (queryParams.value.page = page);
-const setFilters = (filters: TWebinarsRequestOption) => Object.assign(queryParams.value, filters);
+// const setPage = (page: number) => (queryParams.value.page = page);
+const setFilters = (filters: TWebinarsRequestOption, page: number) => {
+  queryParams.value = { ...filters, page };
+  // console.log(page);
+  // console.log(queryParams.value);
+};
 
 useRequestPayload(queryParams, webinarsStore.requestWebinars, {
   // clearableParams: { page: 1 },
@@ -24,7 +28,7 @@ useRequestPayload(queryParams, webinarsStore.requestWebinars, {
   <div id="webinarsAnchor" class="webinars-container">
     <div class="webinars-container__header">
       <h2>Вебинары</h2>
-      <WebinarsFilter @set-filters="setFilters" />
+      <WebinarsFilter @set-filters="setFilters($event, queryParams.page)" />
     </div>
     <div class="webinars-container__cards">
       <WebinarCard v-for="(item, index) in webinarsStore.webinars" :key="index" :item="item" :type="'grid'" />
@@ -38,7 +42,7 @@ useRequestPayload(queryParams, webinarsStore.requestWebinars, {
           direction-links
           gutter="8px"
           active-color="yellow"
-          @update:model-value="setPage" />
+          @update:model-value="setFilters(queryParams, $event)" />
       </div>
     </div>
   </div>

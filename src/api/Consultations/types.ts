@@ -6,6 +6,7 @@ export type TGetConsultationsFilter = {
   page?: number;
   status?: string;
   search?: string;
+  searchField?: string;
   category?: string;
   consultantId?: string;
   actual?: "yes" | "no" | boolean;

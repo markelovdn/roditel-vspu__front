@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 
 import { TWebinarsRequestOption } from "@/api/Webinars/types";
 import { useWebinarsStore } from "@/stores/webinarsStore";
@@ -22,16 +22,16 @@ const dateClear = () => {
 };
 const setSpecialization = (value: string) => {
   filters.value.category = Number(value);
-  emit("setFilters", filters.value);
 };
 const setData = (value?: any) => {
   if (value) {
     filters.value.dateBetween = `${value.from}, ${value.to}`;
   } else {
-    delete filters.value["dateBetween"];
+    delete filters.value.dateBetween;
   }
-  emit("setFilters", filters.value);
 };
+
+watch(filters, () => emit("setFilters", filters.value), { deep: true });
 onMounted(() => {
   webinarsStore.requestWebinarCategories();
 });

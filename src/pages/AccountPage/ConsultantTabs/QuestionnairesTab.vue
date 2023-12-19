@@ -96,7 +96,7 @@ const questionnairesListHeaders = [
     name: "index",
     label: "#",
     field: "index",
-    align: "left",
+    // align: "left",
     width: "40px",
   },
   {

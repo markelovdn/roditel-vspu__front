@@ -21,7 +21,6 @@ const labels = computed(() => [
       "",
     ),
   },
-  { category: "Стоимость", value: props.item.cost ? props.item.cost + " р" : "бесплатно" },
 ]);
 const isShowWebinarModal = ref(false);
 </script>

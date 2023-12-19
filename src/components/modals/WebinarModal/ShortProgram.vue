@@ -40,7 +40,7 @@ const showLoginModal = ref(false);
         label="Принять участие"
         class="q-btn--form"
         color="primary"
-        @click="webinarRegistration(webinar.id, user?.id || 1)" />
+        @click="webinarRegistration(webinar.id, user?.id || 1, emit)" />
     </div>
   </ModalWrapper>
   <AuthWrapper v-if="showLoginModal" @close="showLoginModal = false" />
