@@ -3,9 +3,10 @@ import { ref } from "vue";
 
 import { adminsApi } from "@/api";
 import { TConsultantForAdmin, TGetConsultantsForAdminFilter } from "@/api/Admin/types";
+import { TWebinarPayload } from "@/api/Webinars/types";
 import notify from "@/utils/notify";
 
-export const useConsultantsAdminStore = defineStore("consultantsAdminStore", () => {
+export const useConsultantsAdminStore = defineStore("consultantAdminStore", () => {
   const consultants = ref<TConsultantForAdmin[]>([]);
 
   const page = ref({
@@ -21,7 +22,7 @@ export const useConsultantsAdminStore = defineStore("consultantsAdminStore", () 
     });
   }
 
-  async function updateContractNumber(consultantId: number, contractNumber: string) {
+  async function updateContractNumber(consultantId: number | null, contractNumber: string) {
     await adminsApi.updateContractNumber(consultantId, contractNumber).then(() => {
       const consultantIndex = consultants.value.findIndex((c) => c.consultantId === consultantId);
       if (consultantIndex !== -1) {
@@ -41,11 +42,21 @@ export const useConsultantsAdminStore = defineStore("consultantsAdminStore", () 
     });
   }
 
+  function createWebinar(data: TWebinarPayload) {
+    adminsApi.createWebinar(data);
+  }
+  async function getLectors() {
+    const resp = await adminsApi.getLectors();
+    return resp.data.data;
+  }
+
   return {
     consultants,
     page,
     requestAllConsultants,
     updateContractNumber,
     deleteConsultant,
+    createWebinar,
+    getLectors,
   };
 });
