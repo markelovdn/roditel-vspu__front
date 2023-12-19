@@ -5,7 +5,7 @@ import { adminsApi } from "@/api";
 import { TGetParentedsForAdminFilter, TParentedForAdmin } from "@/api/Admin/types";
 import notify from "@/utils/notify";
 
-export const useParentedsAdminStore = defineStore("parentedAdminStore", () => {
+export const useParentedsAdminStore = defineStore("parentedsAdminStore", () => {
   const parenteds = ref<TParentedForAdmin[]>([]);
 
   const page = ref({
@@ -39,4 +39,3 @@ export const useParentedsAdminStore = defineStore("parentedAdminStore", () => {
     page,
   };
 });
-
