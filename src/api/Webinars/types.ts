@@ -44,3 +44,16 @@ export type WebinarCategoriesResponse = {
   meta: any;
 };
 export type TWebinarQuestion = { id: number; questionText: string };
+
+export type TWebinarPayload = {
+  id: number | null;
+  title: string;
+  date: string;
+  timeStart: string;
+  timeEnd: string;
+  logo: string;
+  cost: number;
+  videoLink: string;
+  webinarCategoryId: number | null;
+  webinarQuestions: Array<TWebinarQuestion>;
+};
