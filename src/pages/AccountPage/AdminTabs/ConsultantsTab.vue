@@ -58,18 +58,6 @@ const consultantsListHeaders = [
     width: "110px",
   },
   {
-    name: "contractNumberEdit",
-    label: "",
-    field: "",
-    width: "25px",
-  },
-  {
-    name: "specialization",
-    label: "Специализация",
-    field: "specialization",
-    width: "150px",
-  },
-  {
     name: "phone",
     label: "Телефон",
     field: "phone",
@@ -117,24 +105,22 @@ const consultantsListHeaders = [
                 (consultantModelData.contractNumber = item.contractNumber)
             "></q-btn>
         </div>
-        <div>{{ item.fullName }}</div>
-        <div>{{ item.contractNumber }}</div>
         <div>
           <q-btn dense icon="delete" color="negative" size="xs" @click="deleteConsultant(item.consultantId)"></q-btn>
         </div>
-        <div>{{ item.specializationTitle }}</div>
-        <div>{{ item.phone }}</div>
       </template>
     </TableWrapper>
-    <div class="q-gutter-md q-pa-lg">
-      <q-pagination
-        v-model="consultantAdminStore.page.current"
-        :max="consultantAdminStore.page.max"
-        :max-pages="10"
-        direction-links
-        gutter="8px"
-        active-color="yellow"
-        @update:model-value="setPage" />
+    <div class="q-pa-lg">
+      <div class="q-gutter-md">
+        <q-pagination
+          v-model="consultantAdminStore.page.current"
+          :max="consultantAdminStore.page.max"
+          :max-pages="10"
+          direction-links
+          gutter="8px"
+          active-color="yellow"
+          @update:model-value="setPage" />
+      </div>
     </div>
   </div>
   <ConsultantContractModal
@@ -149,3 +135,4 @@ const consultantsListHeaders = [
   border-radius: 5px;
 }
 </style>
+@/stores/adminStore/adminStore
