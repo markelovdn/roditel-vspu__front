@@ -1,6 +1,7 @@
 import axios from "@/common/axios";
 import { useParamBuilder, useUrlParams } from "@/hooks/useParamBuilder ";
 
+import { TWebinarPayload, TWebinarsLector } from "../Webinars/types";
 import {
   TGetConsultantsForAdminData,
   TGetConsultantsForAdminFilter,
@@ -23,6 +24,13 @@ export class AdminsApiService {
 
   getAllParentedsForAdmin(filters: TGetParentedsForAdminFilter) {
     return axios.get<TGetParentedsForAdminData>(useUrlParams("/parenteds", useParamBuilder(filters)));
+  }
+
+  createWebinar(data: TWebinarPayload) {
+    return axios.post("/webinars", data);
+  }
+  getLectors() {
+    return axios.get<{ data: TWebinarsLector[] }>("/lectors");
   }
 
   deleteParented(parentedId: number) {
