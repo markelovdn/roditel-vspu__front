@@ -60,7 +60,7 @@ let searchTimeoutId: ReturnType<typeof setTimeout>;
 watch(search, () => {
   clearTimeout(searchTimeoutId);
   searchTimeoutId = setTimeout(() => {
-    queryParams.value.search = search.value;
+    queryParams.value.searchField = search.value;
   }, 300);
 });
 </script>
@@ -72,7 +72,7 @@ watch(search, () => {
         <h5>Заявки</h5>
         <q-input v-model="search" outlined bottom-slots class="q-pb-none">
           <template #append>
-            <q-icon v-if="search !== ''" name="close" class="cursor-pointer" />
+            <q-icon v-if="search !== ''" name="close" class="cursor-pointer" @click="search = ''" />
             <q-icon name="search" style="cursor: pointer" />
           </template>
         </q-input>
@@ -105,7 +105,7 @@ watch(search, () => {
           v-if="idActiveChatConsultation"
           :messages="idActiveChatMessages"
           :consultation="idActiveChatConsultation" />
-        <div v-else><h2>загрузка</h2></div>
+        <div v-else><h2>Ничего не нашлось</h2></div>
         <MessageInput @send-message="sendMessage" />
       </div>
     </div>

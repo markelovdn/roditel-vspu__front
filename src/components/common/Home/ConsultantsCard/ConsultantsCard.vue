@@ -38,7 +38,7 @@ onMounted(() => {
     <div ref="description" class="card__description" :class="{ card__description_hide: isFullShow }">
       <span>{{ consultant.description }}</span>
     </div>
-    <div v-if="isFullShow" class="card__next"><span @click="isShowModal = true">читать далее</span></div>
+    <div v-if="isFullShow" class="card__next"><span @click="isShowModal = true">Подробнее</span></div>
     <ConsultantDescriptionModal v-if="isShowModal" :consultant="consultant" @close="isShowModal = !isShowModal" />
     <CreateConsultationModal
       v-if="isShowCreateConsultationModal"

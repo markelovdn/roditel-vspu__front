@@ -68,7 +68,7 @@ const setData = (value?: any) => {
   }
 };
 const setSpecialization = (value: string) => (queryParams.value.category = Number(value));
-const setLectors = (value: string) => (queryParams.value.lector = Number(value));
+const setConsultant = (value: string) => (queryParams.value.consultant = Number(value));
 const setActual = (value: "yes" | "no") => (queryParams.value.actual = value);
 const setFirstActiveChat = (data: TConsultation[]) => {
   if (!data.length) return;
@@ -152,19 +152,19 @@ onBeforeMount(() => {
         <q-select
           v-model="specializationId"
           input-class="q-select--form"
-          label="Лектор*"
+          label="Консультант*"
           outlined
           class="max-width"
           :options="optionsLectors"
           :option-label="(item) => item.label"
           emit-value
           map-options
-          @update:model-value="setLectors" />
+          @update:model-value="setConsultant" />
 
         <q-select
           v-model="lectorId"
           input-class="q-select--form"
-          label="Категория*"
+          label="Категория"
           outlined
           class="max-width"
           :options="optionsCategories"
@@ -270,6 +270,15 @@ onBeforeMount(() => {
     font-style: normal;
     font-weight: 500;
     line-height: 19px;
+  }
+}
+
+.question__filter {
+  &:deep(.q-field__control-container) {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    // max-width: 300px;
   }
 }
 </style>

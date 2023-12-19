@@ -6,6 +6,7 @@ import { TConsultation, TMessage } from "@/api/Consultations/types";
 import ReviewGrade from "@/components/common/Home/ReviewGrade/ReviewGrade.vue";
 import ConsultantFeedBack from "@/components/modals/ConsultantFeedback/ConsultantFeedBack.vue";
 
+import { useAuthStore } from "../../stores/authStore";
 import ChatItem from "./ChatItem.vue";
 
 const props = defineProps<{ messages: TMessage[]; consultation: TConsultation }>();
@@ -14,6 +15,7 @@ const chatWrapper = ref();
 const isScrollOnDown = ref(false);
 const showFeedbackModal = ref(false);
 const quality = ref(0);
+const { user } = useAuthStore();
 
 const handleScroll = () => {
   const div = chatWrapper.value;
@@ -28,7 +30,7 @@ const feedbackModalClose = () => {
 };
 
 const scrollToBottom = () => chatWrapper.value.scrollTo(0, chatWrapper.value.scrollHeight);
-const findUser = (id: number) => props.consultation.users.find((user) => user.id === id) as TUser;
+const findUser = (id: number) => (props.consultation.users.find((user) => user.id === id) as TUser) || user;
 
 onMounted(() => {
   scrollToBottom();
@@ -53,7 +55,7 @@ onUpdated(() => {
       :item="consultation"
       :message="item"
       :user="findUser(item.userId)" />
-    <div v-if="consultation.closed" @click="showFeedbackModal = true">
+    <div v-if="consultation.closed && user?.role.code !== 'consultant'" @click="showFeedbackModal = true">
       <ReviewGrade v-model="quality" :max="5" />
     </div>
     <ConsultantFeedBack

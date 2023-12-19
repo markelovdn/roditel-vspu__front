@@ -37,7 +37,7 @@ export const useRequestPayload = <T extends Record<string, unknown>>(
   };
 
   const stopWatching = watch(
-    () => cloneDeep(data),
+    () => data,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     (newValue, oldValue) => {
       // newValue;
@@ -49,7 +49,7 @@ export const useRequestPayload = <T extends Record<string, unknown>>(
   );
 
   onMounted(() => {
-    triggerCallback();
+    // triggerCallback(); //Вероятно это ошибка, так как есть immediate: true в watch
     initialParams.value = cloneDeep(toValue(data));
   });
 

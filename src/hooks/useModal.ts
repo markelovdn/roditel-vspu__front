@@ -108,12 +108,12 @@ export function useAuthModal() {
     }
   }
 
-  function webinarRegistration(webinarId: number, userId: number) {
+  function webinarRegistration(webinarId: number, userId: number, emit: GenericEmit) {
     if (!authStore.getUserInfo) {
       showLoginModal();
     } else {
       webinarStore.registrationPartisipant(webinarId, userId);
-      useModal(defineEmits(["close"])).closeModal();
+      useModal(emit).closeModal();
     }
   }
   provide(AuthModalInjectionKey, {

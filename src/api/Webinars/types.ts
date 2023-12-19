@@ -12,6 +12,7 @@ export type TRequestWebinarsLectors = {
 export type TWebinarsRequestOption = {
   page: number;
   lector?: number; // lector id
+  consultant?: number; // lector id
   category?: number; // id категории
   actual?: "yes" | "no" | boolean;
   dateBetween?: string; //Вебинары в указанный промежуток дат "04.10.2023,07.10.2023";
