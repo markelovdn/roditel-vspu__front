@@ -43,7 +43,7 @@ export type WebinarCategoriesResponse = {
   links: any;
   meta: any;
 };
-export type TWebinarQuestion = { id: number; questionText: string };
+export type TWebinarQuestion = { id: number | null; questionText: string };
 
 export type TWebinarPayload = {
   id: number | null;
