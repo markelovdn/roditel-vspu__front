@@ -113,11 +113,6 @@ a {
   scrollbar-width: thin !important;
 }
 
-.q-field__control {
-  min-height: 50px !important;
-  max-height: 50px !important;
-  height: 50px !important;
-}
 .q-field--float .q-field__label {
   transform: translateY(-60%) scale(0.75) !important;
 }
