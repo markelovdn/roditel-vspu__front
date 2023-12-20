@@ -1,12 +1,15 @@
 <script setup lang="ts">
-import { inject } from "vue";
+import { inject, ref } from "vue";
 
 import logoUrl from "@/assets/img/icons/VGSPU.png";
 import CommonLink from "@/components/common/CommonLink/CommonLink.vue";
 import { headerMenuItems } from "@/components/common/TheHeader/types";
+import RulesModal from "@/components/modals/RulesModal/RulesModal.vue";
 import { AuthModalInjectionKey, AuthModalProviderData } from "@/utils/injectionKeys";
 
 const authModal = inject(AuthModalInjectionKey, {} as AuthModalProviderData);
+const isShowRuleModal = ref(false);
+const isAcceptRules = ref(false);
 </script>
 
 <template>
@@ -22,7 +25,12 @@ const authModal = inject(AuthModalInjectionKey, {} as AuthModalProviderData);
         <q-btn outline class="col-1__btn_border" @click="authModal.toQuestions">
           <div class="col-1__btn_label">Задать вопрос специалисту</div>
         </q-btn>
-        <CommonLink :to="'https://ya.ru/'">Политика конфиденциальности</CommonLink>
+        <span class="link" @click="isShowRuleModal = true">Политика конфиденциальности</span>
+        <RulesModal
+          v-if="isShowRuleModal"
+          v-model:show="isShowRuleModal"
+          v-model:accept="isAcceptRules"
+          @close="isShowRuleModal = false" />
       </div>
       <div class="footer__col-2">
         <div class="col-2_links">
@@ -150,6 +158,17 @@ const authModal = inject(AuthModalInjectionKey, {} as AuthModalProviderData);
 
   .col-3__link {
     cursor: default;
+  }
+}
+
+.link {
+  font-size: 16px;
+  color: $grey-2;
+  cursor: pointer;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
   }
 }
 

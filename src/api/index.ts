@@ -1,3 +1,4 @@
+import { AdminsApiService } from "./Admin/AdminsApiService";
 import { AuthApiService } from "./Auth/AuthApiService";
 import { CollectionsApiService } from "./Collections/CollectionsApiService";
 import { ConsultantApiService } from "./Consultant/ConsultantApiService";
@@ -15,3 +16,4 @@ export const consultantApi = new ConsultantApiService();
 export const parentsApi = new ParentsApiService();
 export const consultationsApi = new ConsultationsApiService();
 export const notificationsApi = new NotificationApiService();
+export const adminsApi = new AdminsApiService();

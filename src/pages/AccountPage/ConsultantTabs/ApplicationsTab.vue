@@ -3,11 +3,12 @@ import { computed, onBeforeMount, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
 import { TConsultation, TGetConsultationsFilter } from "@/api/Consultations/types";
-import ChatSideBarWrapper from "@/components/Chat/ChatSideBarWrapper.vue";
 import ChatWrapper from "@/components/Chat/ChatWrapper.vue";
 import MessageInput from "@/components/Chat/MessageInput.vue";
+import SideBarItem from "@/components/Chat/SideBarItem.vue";
 import { useRequestPayload } from "@/hooks/useRequestPayload";
 import { useConsultationsStore } from "@/stores/consultationsStore";
+
 const route = useRoute();
 const consultationsStore = useConsultationsStore();
 const queryParams = ref<TGetConsultationsFilter>({ actual: "yes" });
@@ -70,7 +71,7 @@ watch(search, () => {
     <div class="question__header">
       <div class="question__box">
         <h5>Заявки</h5>
-        <q-input v-model="search" outlined bottom-slots class="q-pb-none">
+        <q-input v-model="search" label="Поиск" outlined bottom-slots class="q-pb-none">
           <template #append>
             <q-icon v-if="search !== ''" name="close" class="cursor-pointer" @click="search = ''" />
             <q-icon name="search" style="cursor: pointer" />
@@ -95,10 +96,12 @@ watch(search, () => {
 
     <div class="question__wrapper">
       <div class="question__sidebar">
-        <ChatSideBarWrapper
-          :active-chat="idActiveChat"
-          :consultations="consultationsStore.consultations"
-          @set-change-chat="setIdActiveChat" />
+        <SideBarItem
+          v-for="(item, index) in consultationsStore.consultations"
+          :key="index"
+          :item="item"
+          :is-active="idActiveChat === item.id"
+          @click="setIdActiveChat(item.id)" />
       </div>
       <div class="question__content">
         <ChatWrapper
@@ -116,14 +119,14 @@ watch(search, () => {
 .question {
   display: flex;
   flex-direction: column;
-  gap: 4px;
   border-radius: 10px 10px 10px 10px;
   background-color: #e4ebf5;
 
   &__wrapper {
-    display: flex;
-    gap: 2px;
-    height: 592px;
+    display: grid;
+    // gap: 2px;
+    // height: 592px;
+    grid-template-columns: 1fr 3fr;
   }
 
   &__header {
@@ -131,7 +134,7 @@ watch(search, () => {
     justify-content: space-between;
     align-items: center;
     height: 80px;
-    padding: 0 35px;
+    padding: 15px 35px;
     background-color: $white;
     border-radius: 10px 10px 0 0;
     filter: drop-shadow(0 4px 4px rgb(0 0 0 / 3%));
@@ -149,21 +152,15 @@ watch(search, () => {
   &__sidebar {
     display: flex;
     background-color: #ffffff;
-    flex-basis: 36%;
+    flex-direction: column;
+    overflow-y: auto;
   }
   &__content {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    flex-basis: 64%;
+
     height: 100%;
   }
-}
-</style>
-
-<style lang="scss">
-.q-field__control,
-.q-field__marginal {
-  height: 46px;
 }
 </style>

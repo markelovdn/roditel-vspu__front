@@ -16,17 +16,13 @@ const isMyMessage = authStore.user?.id === props.user.id;
 </script>
 
 <template>
-  <div class="chat-item">
+  <div class="chat-item" :class="isMyMessage ? 'chat-item--consultant' : 'chat-item--customer'">
     <div class="chat-item__wrapper">
-      <div
-        :class="isMyMessage ? 'chat-item__box chat-item__box--customer' : 'chat-item__box chat-item__box--consultant'"
-        class="chat-item__box">
-        <div class="chat-item__info">
-          <h3 class="chat-item__name">{{ user.fullName }}</h3>
-          <h4 class="chat-item__spec">Кат. {{ item.specialization.title }}</h4>
-        </div>
-        <div class="chat-item__content">{{ message.text }}</div>
+      <div class="chat-item__info">
+        <h3 class="chat-item__name">{{ user.fullName }}</h3>
+        <h4 class="chat-item__spec">Кат. {{ item.specialization.title }}</h4>
       </div>
+      <div class="chat-item__content">{{ message.text }}</div>
       <div class="chat-item__time">{{ message.createdAt }}</div>
     </div>
   </div>
@@ -34,24 +30,23 @@ const isMyMessage = authStore.user?.id === props.user.id;
 
 <style lang="scss" scoped>
 .chat-item {
+  display: flex;
   &__wrapper {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-  }
-  &__box {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding: 25px 33px 34px;
     background-color: #ffffff;
-
-    &--consultant {
-      border-radius: 25px 0px 25px 25px;
-    }
-    &--customer {
-      border-top-right-radius: 25px;
-    }
+    max-width: 75%;
+    padding: 10px;
+    gap: 15px;
+  }
+  &--consultant {
+    justify-content: flex-end;
+  }
+  &--consultant > &__wrapper {
+    border-radius: 25px 25px 0px 25px;
+  }
+  &--customer > &__wrapper {
+    border-radius: 25px 25px 25px 0px;
   }
 
   &__info {
@@ -63,7 +58,6 @@ const isMyMessage = authStore.user?.id === props.user.id;
   &__name {
     margin: 0;
     color: $Blue-lighter;
-
     font-size: 16px;
     font-weight: 500;
     line-height: 120%;
