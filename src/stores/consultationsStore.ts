@@ -64,11 +64,17 @@ export const useConsultationsStore = defineStore("consultationsStore", () => {
       });
   }
 
+  function closeConsultation(consultationId: number) {
+    consultationsApi.closeConsultation(consultationId);
+    consultations.value[consultations.value.findIndex((c) => c.id === consultationId)].closed = true;
+  }
+
   return {
     connectChannel,
     requestConsultations,
     sendMessage,
     createConsultation,
     consultations,
+    closeConsultation,
   };
 });

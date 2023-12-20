@@ -5,9 +5,9 @@ import { useRoute } from "vue-router";
 
 import { TConsultation } from "@/api/Consultations/types";
 import { TWebinarsRequestOption } from "@/api/Webinars/types";
-import ChatSideBarWrapper from "@/components/Chat/ChatSideBarWrapper.vue";
 import ChatWrapper from "@/components/Chat/ChatWrapper.vue";
 import MessageInput from "@/components/Chat/MessageInput.vue";
+import SideBarItem from "@/components/Chat/SideBarItem.vue";
 import CreateConsultationModal from "@/components/modals/ConsultationModal/CreateConsultationModal.vue";
 import RulesModal from "@/components/modals/RulesModal/RulesModal.vue";
 import { useRequestPayload } from "@/hooks/useRequestPayload";
@@ -177,10 +177,12 @@ onBeforeMount(() => {
 
     <div class="question__wrapper">
       <div class="question__sidebar">
-        <ChatSideBarWrapper
-          :active-chat="idActiveChat"
-          :consultations="consultationsStore.consultations"
-          @set-change-chat="setIdActiveChat" />
+        <SideBarItem
+          v-for="(item, index) in consultationsStore.consultations"
+          :key="index"
+          :is-active="idActiveChat === item.id"
+          :item="item"
+          @click="setIdActiveChat(item.id)" />
       </div>
       <div class="question__content">
         <ChatWrapper
@@ -254,6 +256,7 @@ onBeforeMount(() => {
 
   &__sidebar {
     display: flex;
+    flex-direction: column;
     background-color: #ffffff;
     flex-basis: 36%;
     border-right: 1px solid var(--grey-2);

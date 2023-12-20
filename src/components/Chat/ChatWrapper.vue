@@ -72,6 +72,7 @@ onUpdated(() => {
   flex-direction: column;
   gap: 24px;
   padding: 24px;
-  overflow-y: auto;
+  overflow-y: scroll;
+  height: 500px;
 }
 </style>

@@ -2,7 +2,6 @@
 import { onMounted, ref } from "vue";
 
 import ConsultantsCard from "@/components/common/Home/ConsultantsCard/ConsultantsCard.vue";
-import type { Consultant } from "@/components/common/Home/ConsultantsCard/types";
 import { useConsultantStore } from "@/stores/consultantStore";
 
 const consultantStore = useConsultantStore();
@@ -53,9 +52,9 @@ onMounted(() => {
           :name="slideIndex">
           <div v-if="!isLoading" class="flex carousel-slide">
             <ConsultantsCard
-              v-for="index in sliderQuantityItem"
+              v-for="(item, index) in sliderQuantityItem"
               :key="index"
-              :consultant="consultantStore.consultants[list + index] as Consultant" />
+              :consultant="consultantStore.consultants[slideIndex + index]" />
           </div>
         </q-carousel-slide>
       </q-carousel>

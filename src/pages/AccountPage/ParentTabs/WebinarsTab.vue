@@ -109,7 +109,7 @@ onMounted(() => {
             <q-select
               v-model="specializationId"
               input-class="q-select--form"
-              label="Лектор*"
+              label="Ведущий*"
               outlined
               class="fit"
               :options="optionsLectors"

@@ -53,7 +53,7 @@ onMounted(async () => {
         <q-select
           v-model="lectorsChange[index]"
           input-class="q-select--form"
-          label="Выберите лектора*"
+          label="Выберите ведущего*"
           outlined
           class="fit q-mb-sm"
           :options="lectors"
@@ -63,7 +63,7 @@ onMounted(async () => {
         <q-btn v-if="index" @click="lectorsChange.splice(index, 1)">X</q-btn>
       </div>
 
-      <q-btn @click="addLector(lectors[0])">добавить еще лектора</q-btn>
+      <q-btn @click="addLector(lectors[0])">добавить еще ведущего</q-btn>
 
       <div class="row no-wrap q-mt-lg">
         <q-btn label="Отправить" class="q-btn--form" color="primary" @click="handleCreateWebinar()" />

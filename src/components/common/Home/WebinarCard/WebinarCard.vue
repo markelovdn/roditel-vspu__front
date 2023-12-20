@@ -15,7 +15,7 @@ const labels = computed(() => [
   { category: "Категория", value: props.item.category },
   { category: "Дата и время", value: props.item.date },
   {
-    category: props.item.lectors?.length > 1 ? "Лекторы" : "Лектор",
+    category: props.item.lectors?.length > 1 ? "Ведущие" : "Ведущий",
     value: props.item.lectors.reduce(
       (acm, item, i, arr) => acm + item.lectorName + (i === arr.length - 1 ? "" : ", "),
       "",

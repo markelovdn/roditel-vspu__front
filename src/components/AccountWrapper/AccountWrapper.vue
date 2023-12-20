@@ -51,6 +51,13 @@ watch(tab, (newTab) => {
   if (newTab === "questionnaires") notificationsStore.updateNotifications({ questionnaires: true });
 });
 
+watch(
+  () => route.query.tabId,
+  (tabId) => {
+    if (tabId) tab.value = tabId;
+  },
+);
+
 onMounted(() => openFirstTab());
 </script>
 

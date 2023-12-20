@@ -54,8 +54,8 @@ onMounted(() => {
       v-model:accept="isAcceptRules"
       @close="isShowRuleModal = false" />
 
-    <q-btn color="yellow card__button">
-      <div class="btn__label" @click="createQuestion()">Задать вопрос специалисту</div>
+    <q-btn color="yellow card__button" @click="createQuestion()">
+      <div class="btn__label">Задать вопрос специалисту</div>
     </q-btn>
   </div>
 </template>
