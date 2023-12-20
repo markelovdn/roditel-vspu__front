@@ -41,6 +41,10 @@ const setFirstActiveChat = (data: TConsultation[]) => {
   consultationsStore.connectChannel(data[0].id);
 };
 
+const closeConsultation = (id: number) => {
+  consultationsStore.closeConsultation(id);
+};
+
 onBeforeMount(() => {
   consultationsStore.requestConsultations({}).then((data: TConsultation[]) => {
     idActiveChat.value = data[0].id;
@@ -109,7 +113,10 @@ watch(search, () => {
           :messages="idActiveChatMessages"
           :consultation="idActiveChatConsultation" />
         <div v-else><h2>Ничего не нашлось</h2></div>
-        <MessageInput @send-message="sendMessage" />
+        <MessageInput
+          :is-show-closed-button="true"
+          @close-consultation="closeConsultation(idActiveChat)"
+          @send-message="sendMessage" />
       </div>
     </div>
   </div>

@@ -1,6 +1,7 @@
 import axios from "@/common/axios";
 import { useParamBuilder, useUrlParams } from "@/hooks/useParamBuilder ";
 
+import notify from "../../utils/notify";
 import { TConsultation, TConsultationPayload, TGetConsultationsFilter } from "./types";
 
 export class ConsultationsApiService {
@@ -22,5 +23,16 @@ export class ConsultationsApiService {
       console.log(err);
       //TODO: обработать ошибку 423
     });
+  }
+  closeConsultation(consultationId: number) {
+    axios
+      .post(`/closeConsultation/`, { consultationId })
+      .then(() => {
+        notify({ type: "positive", message: "Консультация успешно закрыта" });
+      })
+      .catch((err) => {
+        notify({ type: "negative", message: "Не удалось Закрыть консультацию" });
+        console.log(err);
+      });
   }
 }

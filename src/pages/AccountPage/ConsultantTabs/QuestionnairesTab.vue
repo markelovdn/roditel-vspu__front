@@ -175,7 +175,7 @@ const questionnairesListHeaders = [
         <div>{{ index + 1 }}</div>
         <div>{{ item.title }}</div>
         <div>{{ item.updatedAt }}</div>
-        <div>
+        <div style="text-align: center">
           <span v-if="!item.status">Ожидает ответа</span>
           <span v-else>Ответ от {{ item.status }}</span>
         </div>
