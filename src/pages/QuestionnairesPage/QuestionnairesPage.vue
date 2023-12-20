@@ -54,22 +54,11 @@ onMounted(async () => {
     });
   }
 });
-
-//TODO: можно сделать разделение компонентов в будущем попытка разделения сохранена в ветке devQuestionnaire
-//эту надпись можно удалить
 </script>
 
 <template>
   <div class="main-container">
     <h4>Создать анкету</h4>
-    <div class="row justify-center no-wrap q-mt-lg">
-      <q-btn
-        label="Сохранить анкету"
-        class="q-btn--form"
-        color="primary"
-        :disable="!isValid"
-        @click="submitQuestionnaires"></q-btn>
-    </div>
     <q-form class="fit q-mb-sm form">
       <q-input
         v-bind="getErrorAttrs('title')"
@@ -78,7 +67,7 @@ onMounted(async () => {
         label="Название анкеты*"
         @blur="handleBlur('title')" />
       <q-input v-model="SurveyData.description" autogrow class="q-mb-sm" label="Описание анкеты" />
-      <q-input v-model="SurveyData.answerBefore" mask="##.##.####">
+      <q-input v-model="SurveyData.answerBefore" mask="##.##.####" label="Ответить до:">
         <template #append>
           <q-icon name="event" class="cursor-pointer">
             <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -96,7 +85,6 @@ onMounted(async () => {
     <!-- Вопросы -->
     <div class="row justify-center flex-center q-mt-lg">
       <h5>Вопросы</h5>
-      <q-btn class="q-btn--form q-ml-sm" color="primary" @click="addQuestions">Добавить вопрос</q-btn>
     </div>
     <div class="questions-wrapper">
       <div v-for="(question, questionIndex) in SurveyData.questions" :key="questionIndex" class="question">
@@ -111,6 +99,7 @@ onMounted(async () => {
         <q-input
           v-bind="getErrorAttrs('questions', 'text', questionIndex)"
           v-model="question.text"
+          autogrow
           class="q-mb-sm"
           label="Текст вопроса*"
           @blur="handleBlur('text')" />
@@ -146,6 +135,15 @@ onMounted(async () => {
           <q-icon class="btn-delete" :name="'delete'" label="" @click="delQuestion(questionIndex)" />
         </div>
       </div>
+    </div>
+    <q-btn class="q-btn--form q-ml-sm" color="primary" @click="addQuestions">Добавить вопрос</q-btn>
+    <div class="row justify-center no-wrap q-mt-lg">
+      <q-btn
+        label="Сохранить анкету"
+        class="q-btn--form"
+        color="primary"
+        :disable="!isValid"
+        @click="submitQuestionnaires"></q-btn>
     </div>
   </div>
 </template>
