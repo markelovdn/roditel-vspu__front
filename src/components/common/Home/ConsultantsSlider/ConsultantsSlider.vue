@@ -48,7 +48,7 @@ onMounted(() => {
         arrows
         class="carousel">
         <q-carousel-slide
-          v-for="(list, slideIndex) in Math.trunc(consultantStore.consultants.length / sliderQuantityItem)"
+          v-for="(list, slideIndex) in Math.ceil(consultantStore.consultants.length / sliderQuantityItem)"
           :key="list"
           :name="slideIndex">
           <div v-if="!isLoading" class="flex carousel-slide">
