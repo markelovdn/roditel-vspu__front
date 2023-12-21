@@ -191,7 +191,7 @@ const questionnairesListHeaders = [
           <span v-else>{{ item.parented }}</span>
         </div>
         <div>
-          <q-btn flat @click="handleFileDownload(String(item.fileUrl), String(item.fileName))">
+          <q-btn flat :disable="!item.status" @click="handleFileDownload(String(item.fileUrl), String(item.fileName))">
             <svg
               fill="currentColor"
               stroke-width="0"
