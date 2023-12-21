@@ -41,6 +41,10 @@ const { handleBlur, getErrorAttrs, isValid } = useValidation<TQuestionnairePaylo
 
 const { questionnaire } = storeToRefs(questionnairesStore);
 
+const back = () => {
+  router.push({ name: "My", query: { tabId: "questionnaires" } });
+};
+
 onMounted(async () => {
   if (router.currentRoute.value.params.id) {
     await questionnairesStore.showQuestionnaire(Number(router.currentRoute.value.params.id));
@@ -136,29 +140,41 @@ onMounted(async () => {
         </div>
       </div>
     </div>
-    <q-btn class="q-btn--form q-ml-sm" color="primary" @click="addQuestions">Добавить вопрос</q-btn>
-    <div class="row justify-center no-wrap q-mt-lg">
+    <div class="add-question">
+      <q-btn class="q-btn--form q-mt-sm float-right" color="primary" @click="addQuestions">Добавить вопрос</q-btn>
+    </div>
+    <div class="footer">
       <q-btn
         label="Сохранить анкету"
-        class="q-btn--form"
+        class="q-btn--form q-mt-lg float-right"
         color="primary"
         :disable="!isValid"
         @click="submitQuestionnaires"></q-btn>
+      <q-btn label="Назад" class="q-btn--form q-mt-lg float-left" color="grey-2" @click="back"></q-btn>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
+.main-container {
+  width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+}
 .btn-delete {
   height: unset;
 }
 .questions-wrapper {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(1, 1fr);
   gap: 20px;
   .question {
     display: flex;
     flex-direction: column;
+    background: var(--q-background-primary);
+    border-radius: 16px;
+    padding: 20px;
+    width: 100%;
   }
   .question-delete {
     margin-top: 20px;
@@ -178,5 +194,13 @@ onMounted(async () => {
       flex-grow: 2;
     }
   }
+}
+.add-question {
+  display: inline-block;
+  width: 100%;
+}
+.footer {
+  display: inline-block;
+  width: 100%;
 }
 </style>

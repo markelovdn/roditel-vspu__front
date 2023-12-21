@@ -30,7 +30,7 @@ export function useQuestionnaire() {
       questionnairesStore.updateQuestionnaire(Number(router.currentRoute.value.params.id), SurveyData.value);
     }
 
-    router.push({ name: "My" });
+    router.push({ name: "My", query: { tabId: "questionnaires" } });
   };
 
   const addQuestions = () => {

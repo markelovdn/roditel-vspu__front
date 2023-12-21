@@ -80,11 +80,6 @@ const handleDelete = (questionnaireId: number) => {
   });
 };
 
-//TODO: временный метод для тестирования
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const questionaireToParented = (questionnaireId: number | string | null | undefined) => {
-  questionnairesStore.setQuestionnaireToParented(questionnaireId);
-};
 const deleteQuestionnaire = (questionnaireId: number) => {
   questionnairesStore.deleteQuestionnaire(Number(questionnaireId));
   const updatedQuestionnairesList = questionnairesStore.questionnaires.filter((item) => item.id !== questionnaireId);

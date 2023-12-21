@@ -87,12 +87,6 @@ export const useQuestionnairesStore = defineStore("questionnaresStore", () => {
     });
   }
 
-  async function setQuestionnaireToParented(questionnaireId: number | string | null | undefined) {
-    await questionnairesApi.setQuestionnaireToParented(questionnaireId).then(() => {
-      notify({ type: "positive", message: "Родитель назначен для анкеты" });
-    });
-  }
-
   return {
     questionnaires,
     questionnaire,
@@ -105,7 +99,6 @@ export const useQuestionnairesStore = defineStore("questionnaresStore", () => {
     deleteQuestionnaire,
     clearFilters,
     setSelectedParentedAnswers,
-    setQuestionnaireToParented,
     getSelectedParentedAnswers,
   };
 });
