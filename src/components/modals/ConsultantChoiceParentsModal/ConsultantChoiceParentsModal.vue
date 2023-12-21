@@ -63,7 +63,7 @@ onMounted(() => {
           class="q-btn--form"
           color="primary"
           @click="handleForm" />
-        <q-btn label="Отменить" class="q-ml-sm q-btn--form" flat :ripple="false" color="grey-1" />
+        <q-btn label="Отменить" class="q-ml-sm q-btn--form" :ripple="false" flat color="grey-1" @click="closeModal()" />
       </div>
     </div>
   </ModalWrapper>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 
 import { TGetConsultantQuestionnairesFilter } from "@/api/Questionnaires/types";
 import TableWrapper from "@/components/TableWrapper/TableWrapper.vue";
@@ -19,10 +19,6 @@ const setPage = (page: number) => {
 
 const questionnairesListRows = computed(() => {
   return questionnairesStore.questionnaires;
-});
-
-useRequestPayload(queryParams, questionnairesStore.getQuestionnaires, {
-  // clearableParams: ["page"],
 });
 
 const questionnairesListHeaders = [
@@ -64,6 +60,12 @@ const questionnairesListHeaders = [
     width: "110px",
   },
 ] as unknown as TTableWrapperHeaders;
+
+onMounted(() => {
+  useRequestPayload(queryParams, questionnairesStore.getQuestionnaires, {
+    // clearableParams: ["page"],
+  });
+});
 </script>
 
 <template>
@@ -78,7 +80,14 @@ const questionnairesListHeaders = [
         <div>{{ item.updatedAt }}</div>
         <div>{{ item.answerBefore }}</div>
         <div class="answer-btn-cell">
-          <q-btn flat :padding="'xs'" color="primary" :to="`/answerParentedQuesstionaire/${item.id}`">Ответить</q-btn>
+          <q-btn
+            flat
+            :padding="'xs'"
+            :disable="item.status !== null"
+            color="primary"
+            :to="`/answerParentedQuesstionaire/${item.id}`">
+            Ответить
+          </q-btn>
         </div>
       </template>
     </TableWrapper>
