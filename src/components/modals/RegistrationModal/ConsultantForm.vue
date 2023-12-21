@@ -68,7 +68,7 @@ onMounted(() => {
       class="fit q-mb-sm"
       input-class="q-input--form"
       label="Телефон*"
-      mask="+7 (###) ### ####"
+      mask="+# (###) ### ####"
       borderless
       @blur="handleBlur('phone')" />
 

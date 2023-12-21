@@ -113,11 +113,13 @@ export const useConsultantStore = defineStore("consultantStore", () => {
     return consultantApi.getAllParentedsForConsultant().then((resp) => (allParents.value = resp.data.data));
   }
 
-  function setParentQuestion(questionnaireId: number, parentedId: number) {
-    return consultantApi
-      .setParentedToQuestionnaire({ questionnaireId, parentedId })
-      .then(() => notify({ type: "positive", message: "Данные успешно сохранены" }))
-      .catch(() => notify({ type: "negative", message: "Не удалось сохранить данные" }));
+  async function setParentQuestion(questionnaireId: number, parentedId: number) {
+    try {
+      await consultantApi.setParentedToQuestionnaire({ questionnaireId, parentedId });
+      return notify({ type: "positive", message: "Данные успешно сохранены" });
+    } catch {
+      return notify({ type: "negative", message: "Не удалось сохранить данные" });
+    }
   }
 
   return {

@@ -43,14 +43,6 @@ export class QuestionnairesApiService {
     return axios.delete(`/questionnaires/${questionaireId}`);
   }
 
-  //TODO:: временнный метод
-  setQuestionnaireToParented(questionnaireId: number | string | null | undefined) {
-    return axios.post(`/setParentedToQuestionnaire`, {
-      questionnaireId: questionnaireId,
-      parentedId: 21,
-    });
-  }
-
   setSelectedParentedAnswers(questionaireId: number | string, selected: TSelectedAnswers, other: TOtherAnsweres) {
     return axios.post(`/questionnaire/${questionaireId}/selectedOptions`, {
       selected: selected,
