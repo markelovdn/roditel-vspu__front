@@ -93,7 +93,10 @@ const handleLogin = () => {
           flat
           :ripple="false"
           color="primary"
-          @click="closeModal(), emit('showRegistrationModal')" />
+          @click="
+            closeModal({ force: true });
+            emit('showRegistrationModal');
+          " />
       </div>
       <div class="q-mt-xs">
         <q-btn
@@ -102,7 +105,10 @@ const handleLogin = () => {
           flat
           :ripple="false"
           color="primary"
-          @click="closeModal(), emit('showForgotPasswordModal')" />
+          @click="
+            closeModal({ force: true });
+            emit('showForgotPasswordModal');
+          " />
       </div>
     </ModalWrapper>
   </div>
