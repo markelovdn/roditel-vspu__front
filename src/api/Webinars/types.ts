@@ -1,10 +1,11 @@
 export type TWebinarsLector = {
-  id: number;
+  id: number | null;
   lectorName: string;
   lectorDescription: string;
   lectorDepartment: string;
-  lectorPhoto: string;
+  lectorPhoto: File | FileList | null;
 };
+
 export type TWebinarsLectors = TWebinarsLector[];
 export type TRequestWebinarsLectors = {
   data: TWebinarsLectors;
@@ -53,8 +54,9 @@ export type TWebinarPayload = {
   date: string;
   timeStart: string;
   timeEnd: string;
-  logo: string;
+  logo: File | FileList | null;
   cost: number;
   webinarCategoryId: number | null;
   webinarQuestions: Array<TWebinarQuestion>;
+  webinarLectorsId: Array<number>;
 };
