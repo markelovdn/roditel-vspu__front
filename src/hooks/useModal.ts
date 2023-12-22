@@ -1,5 +1,5 @@
 import { watchOnce } from "@vueuse/core";
-import { provide, type Ref, ref } from "vue";
+import { onBeforeUnmount, provide, type Ref, ref } from "vue";
 
 import useAlert from "@/hooks/useAlert";
 import router from "@/router/index";
@@ -39,14 +39,14 @@ export function useModal(emit: GenericEmit, data: Ref<unknown> = ref({})) {
   };
 
   //TODO: добавить закрытие по клавише Escape
-  // const onEscape = (e: KeyboardEvent) => {
-  //     if (e.key === "Escape") hide();
-  // };
+  const onEscape = (e: KeyboardEvent) => {
+    if (e.key === "Escape") closeModal({ force: true });
+  };
 
-  //     document.addEventListener("keydown", onEscape);
-  // onBeforeUnmount(() => {
-  // 	document.removeEventListener("keydown", onEscape);
-  // });
+  document.addEventListener("keydown", onEscape);
+  onBeforeUnmount(() => {
+    document.removeEventListener("keydown", onEscape);
+  });
   return { closeModal };
 }
 export function useAuthModal() {

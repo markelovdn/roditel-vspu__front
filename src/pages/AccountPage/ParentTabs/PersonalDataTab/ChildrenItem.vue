@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { watch } from "vue";
 
 import { ageChildrenValidator, maxLengthValidator, requiredValidator, useValidation } from "@/hooks/useValidation";
 import { useParentStore } from "@/stores/parentStore";
@@ -16,8 +16,6 @@ const emit = defineEmits(["update-list", "validation-change", "delete-child"]);
 
 const parentStore = useParentStore();
 
-const isDisable = ref(true);
-
 const { handleBlur, getErrorAttrs, isValid } = useValidation(data, emit, {
   age: { requiredValidator, maxLengthValidator: maxLengthValidator(2), ageChildrenValidator },
   id: {},
@@ -25,19 +23,17 @@ const { handleBlur, getErrorAttrs, isValid } = useValidation(data, emit, {
 });
 
 const onDeleteChildren = () => {
-  if (data.value.id) {
-    parentStore.deleteChildren(data.value.id as number).then(() => {
-      emit("update-list");
-    });
+  if (confirm("Вы уверены, что хотите удалить ребенка?")) {
+    if (data.value.id) {
+      parentStore.deleteChildren(data.value.id as number).then(() => {
+        emit("update-list");
+      });
 
-    return;
+      return;
+    }
   }
 
   emit("delete-child", props.index);
-};
-
-const changeDisable = () => {
-  isDisable.value = !isDisable.value;
 };
 
 watch(
@@ -60,9 +56,7 @@ watch(
       :label="`Возраст ребенка №${props.index + 1}*`"
       borderless
       color="primary"
-      :disable="isDisable"
       @blur="handleBlur('age')" />
-    <q-btn padding="sm" icon="edit" size="md" color="primary" @click="changeDisable"></q-btn>
     <q-btn padding="sm" size="md" icon="delete" color="negative" @click="onDeleteChildren"></q-btn>
   </div>
 </template>
