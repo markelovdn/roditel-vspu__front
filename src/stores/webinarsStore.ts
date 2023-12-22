@@ -36,16 +36,18 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
           type: "positive",
           message: "Вы успешно зарегистрированы на вебинар",
         });
+        webinars.value[webinars.value.findIndex((w) => w.id === webinarId)].registered = true;
       })
       .catch((err) => {
         if (err.response.status !== 401) {
-          notify({
-            type: "negative",
-            message: "Произошла ошибка!",
-            // message: "Вы уже зарегистрированы на вебинар",
-          });
+          notify({ type: "negative", message: "Произошла ошибка!" });
         }
       });
+  }
+  function downloadSertificate(webinarId: number, userId: number) {
+    return webinarsApi.downloadSertificate(webinarId, userId).then((resp) => {
+      return resp;
+    });
   }
   function requestWebinars(options: TWebinarsRequestOption) {
     webinarsApi.getWebinars(options).then((resp) => {
@@ -82,5 +84,6 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
     getWebinarCategoriesWithAll,
     getWebinarLectors,
     getWebinarLectorsWithAll,
+    downloadSertificate,
   };
 });

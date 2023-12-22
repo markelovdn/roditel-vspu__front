@@ -23,4 +23,10 @@ export class WebinarsApiService {
       userId,
     });
   }
+  downloadSertificate(webinarId: number, userId: number) {
+    return axios.post(`/downloadSertificate`, {
+      webinarId,
+      userId,
+    });
+  }
 }

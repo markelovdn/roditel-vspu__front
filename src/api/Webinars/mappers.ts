@@ -12,6 +12,8 @@ export const toTWebinarCardData = (webinarData: TWebinarData): TWebinarCardData[
       lectors: item.lectors,
       cost: item.cost,
       date: item.date + ` с ${item.timeStart} до ${item.timeEnd}`,
+      registered: item.registered,
+      videoLink: item.videoLink,
       questions: item.questions,
     };
   });
