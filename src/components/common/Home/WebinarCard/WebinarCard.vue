@@ -2,8 +2,13 @@
 import { computed, ref } from "vue";
 
 import ShortProgram from "@/components/modals/WebinarModal/ShortProgram.vue";
+import { useAuthStore } from "@/stores/authStore";
+import { useWebinarsStore } from "@/stores/webinarsStore";
 
 import { TWebinarCardData } from "./types";
+
+const webinarStore = useWebinarsStore();
+const authStore = useAuthStore();
 
 interface IWebinarsCard {
   item: TWebinarCardData;
@@ -22,6 +27,26 @@ const labels = computed(() => [
     ),
   },
 ]);
+const idDownload = (dataString: string) => {
+  const dateParts = dataString.split(".");
+  const day = parseInt(dateParts[0]);
+  const month = parseInt(dateParts[1]) - 1; // Месяцы в объекте Date начинаются с 0
+  const year = parseInt(dateParts[2]);
+  const targetDate = new Date(year, month, day);
+  return targetDate <= new Date();
+};
+
+const downloadCertificate = (webinarId: number) => {
+  if (authStore.user) {
+    webinarStore.downloadSertificate(webinarId, authStore.user?.id).then((resp) => {
+      const link = document.createElement("a");
+      link.href = resp.data.linkSertificate;
+      link.target = "_blank";
+      link.download = "Certificate.pdf";
+      link.click();
+    });
+  }
+};
 const isShowWebinarModal = ref(false);
 </script>
 
@@ -37,16 +62,30 @@ const isShowWebinarModal = ref(false);
           class="webinar-card__image" />
       </div>
       <div class="webinar-card__description q-ml-md">
+        {{ item.registered }}
         <div class="webinar-card__title">{{ item.title }}</div>
 
         <div class="hr"></div>
-
+        {{ idDownload(item.date) }}
         <div v-if="type === 'grid'">
           <div v-for="(label, index) in labels" :key="index" class="info">
             <div class="info__description">{{ label.category }}:</div>
             <div class="info__value">{{ label.value }}</div>
           </div>
-          <q-btn color="primary q-mt-lg" @click="isShowWebinarModal = true">Принять участие</q-btn>
+          <div v-if="item.registered" class="info">
+            <div class="info__description">Ссылка:</div>
+            <div class="info__value">
+              <a :href="item.videoLink" target="_blank" rel="noopener noreferrer">Перейти</a>
+            </div>
+          </div>
+
+          <q-btn v-if="!item.registered" color="primary q-mt-lg" @click="isShowWebinarModal = true">
+            Принять участие
+          </q-btn>
+          <q-btn v-else-if="idDownload(item.date)" color="primary q-mt-lg" @click="downloadCertificate(item.id)">
+            Скачать сертификат
+          </q-btn>
+          <q-btn v-else color="primary q-mt-lg" disable>Зарегистрирован</q-btn>
         </div>
 
         <div v-else class="flex justify-between">
@@ -66,7 +105,7 @@ const isShowWebinarModal = ref(false);
                 <div class="info__value">{{ labels[labels.length - 1].value }}</div>
               </div>
             </div>
-            <div class="info__link" @click="isShowWebinarModal = true">
+            <div v-if="!item.registered" class="info__link" @click="isShowWebinarModal = true">
               Принять участие
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -87,6 +126,10 @@ const isShowWebinarModal = ref(false);
                 </defs>
               </svg>
             </div>
+            <div v-else-if="idDownload(item.date)" class="info__link" @click="downloadCertificate(item.id)">
+              Скачать сертификат
+            </div>
+            <div v-else class="info__link">Зарегистрирован</div>
           </div>
         </div>
       </div>

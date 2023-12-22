@@ -28,6 +28,8 @@ export type TWebinarData = {
       title: string;
     };
     cost: number;
+    registered: boolean;
+    videoLink: string;
     date: string; // "17.01.2016";
     timeStart: string; // "03.58";
     timeEnd: string; //"05.36";
@@ -53,7 +55,6 @@ export type TWebinarPayload = {
   timeEnd: string;
   logo: string;
   cost: number;
-  videoLink: string;
   webinarCategoryId: number | null;
   webinarQuestions: Array<TWebinarQuestion>;
 };

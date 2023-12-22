@@ -7,6 +7,8 @@ export type TWebinarCardData = {
   category: string; //* Добавить категории
   lectors: TWebinarsLectors;
   cost: "Бесплатно" | number | string;
+  registered: boolean;
+  videoLink: string;
   date: string; //* Временно, пока непонятно в каком формате это будет
   questions: TWebinarQuestion[];
 };
