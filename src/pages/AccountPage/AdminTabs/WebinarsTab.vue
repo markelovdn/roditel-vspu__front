@@ -4,7 +4,6 @@ import { computed, onMounted, ref, watch } from "vue";
 
 import { TWebinarsRequestOption } from "@/api/Webinars/types";
 import WebinarCard from "@/components/common/Home/WebinarCard/WebinarCard.vue";
-import CreateWebinar from "@/components/modals/WebinarModal/CreateWebinar.vue";
 import TableWrapper from "@/components/TableWrapper/TableWrapper.vue";
 import { useRequestPayload } from "@/hooks/useRequestPayload";
 import { useWebinarsStore } from "@/stores/webinarsStore";
@@ -14,7 +13,6 @@ const { getWebinarCategoriesWithAll: optionsCategories, getWebinarLectorsWithAll
   storeToRefs(webinarsStore);
 
 const setPage = (page: number) => (queryParams.value.page = page);
-const isShowCreateWebinarModal = ref(false);
 const paginationPage = ref(1);
 const inputDate = ref();
 const search = ref();
@@ -53,7 +51,9 @@ onMounted(() => {
     <TableWrapper :items="webinarsStore.webinars" :cards-list="true" :title="'Вебинары'">
       <template #header_right>
         <div style="width: 100%">
-          <q-btn class="q-ml-sm" icon="add" @click="isShowCreateWebinarModal = true"></q-btn>
+          <router-link :to="'/createWebinar'">
+            <q-btn class="q-ml-sm" icon="add"></q-btn>
+          </router-link>
         </div>
         <div>
           <q-btn-toggle
@@ -140,7 +140,6 @@ onMounted(() => {
         </div>
       </template>
     </TableWrapper>
-    <CreateWebinar v-if="isShowCreateWebinarModal" />
   </div>
 </template>
 

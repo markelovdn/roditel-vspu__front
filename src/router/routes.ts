@@ -69,6 +69,15 @@ const routes: Array<RouteRecordRaw> = [
     },
     component: () => import("@/pages/ParentedAnswerQuesstionnairePage/ParentedAnswerQuesstionnairePage.vue"),
   },
+  {
+    path: "/createWebinar",
+    name: "CreateWebinar",
+    meta: {
+      requireAuth: true,
+      title: "Создать вебинар",
+    },
+    component: () => import("@/pages/CreateWebinarPage/CreateWebinarPage.vue"),
+  },
 ];
 
 export default routes;

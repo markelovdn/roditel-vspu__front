@@ -18,7 +18,6 @@ export const useParentedsAdminStore = defineStore("parentedsAdminStore", () => {
       page.value.max = resp.data.meta.last_page;
       page.value.current = resp.data.meta.current_page;
       parenteds.value = resp.data.data;
-      console.log(parenteds);
     });
   }
 
