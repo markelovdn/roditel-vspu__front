@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 import { questionnairesApi } from "@/api";
 import {
@@ -14,7 +14,7 @@ import { useAuthStore } from "./authStore";
 
 export const useQuestionnairesStore = defineStore("questionnaresStore", () => {
   const authStore = useAuthStore();
-  const consultantId = authStore.getUserId;
+  const consultantId = computed(() => authStore.getUserId);
   const questionnaires = ref<TQuestionnairePayload[]>([]);
   const questionnaire = ref<TQuestionnairePayload>({
     id: null,
@@ -37,8 +37,8 @@ export const useQuestionnairesStore = defineStore("questionnaresStore", () => {
   }
 
   function getQuestionnaires(filters: TGetConsultantQuestionnairesFilter) {
-    if (consultantId === undefined) return;
-    questionnairesApi.getQuestionnaires(consultantId, filters).then((resp) => {
+    if (consultantId.value === undefined) return;
+    questionnairesApi.getQuestionnaires(consultantId.value, filters).then((resp) => {
       page.value.max = resp.data.meta.last_page;
       page.value.current = resp.data.meta.current_page;
       questionnaires.value = resp.data.data;
