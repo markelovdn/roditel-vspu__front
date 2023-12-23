@@ -26,10 +26,11 @@ export class ConsultantApiService {
 
   setConsultantInfo(consultantId: number | string, data: TPersonalDataPayload) {
     const splitName: Array<string> = (data.name as string).split(" ");
+    console.log(splitName);
 
     return axios.put<any>(`/users/${consultantId}`, {
-      firstName: splitName[0],
-      secondName: splitName[1],
+      firstName: splitName[1],
+      secondName: splitName[0],
       patronymic: splitName[2],
       phone: data.phone,
       email: data.email,

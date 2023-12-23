@@ -25,8 +25,8 @@ export class AuthApiService {
     const splitName: Array<string> = data.name.split(" ");
 
     return axios.post<TRegistrationResponse>("/register", {
-      first_name: splitName[0],
-      second_name: splitName[1],
+      first_name: splitName[1],
+      second_name: splitName[0],
       patronymic: splitName[2],
       phone: data.phone,
       email: data.email,
