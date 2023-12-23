@@ -119,7 +119,7 @@ onMounted(() => {
             class="personal-data__item"
             input-class="q-input--form"
             label="Телефон*"
-            mask="+7 (###) ### ####"
+            mask="+# (###) ### ####"
             borderless
             @blur="handleBlur('phone')" />
         </div>
