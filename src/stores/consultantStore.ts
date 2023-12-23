@@ -58,7 +58,7 @@ export const useConsultantStore = defineStore("consultantStore", () => {
     }
   }
 
-  function getConsultantInfo() {
+  async function getConsultantInfo() {
     if (consultantId === undefined) return;
     consultantApi.getConsultantInfo(consultantId).then((resp) => (consultantInfo.value = resp.data.data[0]));
   }
