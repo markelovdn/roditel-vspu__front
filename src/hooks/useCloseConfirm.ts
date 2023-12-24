@@ -4,7 +4,7 @@ import { useRouter } from "vue-router";
 
 import useAlert from "@/hooks/useAlert";
 
-export function useCloseConfirm(data: Ref<unknown> = ref({})) {
+export function useCloseConfirm(data: Ref<unknown> = ref({}), routerName: string, queryParams: Record<string, any>) {
   const hasChanges = ref(false);
   const forceClose = ref(false);
   const router = useRouter();
@@ -24,7 +24,7 @@ export function useCloseConfirm(data: Ref<unknown> = ref({})) {
         confirm: () => {
           forceClose.value = true;
           confirmCancel();
-          router.push({ name: "My", query: { tabId: "webinars" } });
+          router.push({ name: routerName, query: queryParams });
         },
         cancel: () => void 0,
       });
@@ -32,7 +32,7 @@ export function useCloseConfirm(data: Ref<unknown> = ref({})) {
     } else {
       setTimeout(() => {
         forceClose.value = false;
-        router.push({ name: "My", query: { tabId: "webinars" } });
+        router.push({ name: routerName, query: queryParams });
       }, 100);
       console.log("noChanges");
     }
