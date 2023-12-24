@@ -54,6 +54,7 @@ export type TWebinarPayload = {
   date: string;
   timeStart: string;
   timeEnd: string;
+  videoLink: string;
   logo: File | FileList | null;
   cost: number;
   webinarCategoryId: number | null;

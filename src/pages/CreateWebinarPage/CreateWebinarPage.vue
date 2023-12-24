@@ -1,16 +1,15 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { onMounted, ref } from "vue";
-import { useRouter } from "vue-router";
 
 import { TWebinarPayload, TWebinarsLector } from "@/api/Webinars/types";
+import { useCloseConfirm } from "@/hooks/useCloseConfirm";
 import { useConsultantsAdminStore } from "@/stores/adminStore/consultantsAdminStore";
 import { useWebinarsStore } from "@/stores/webinarsStore";
 
 const consultationsAdminStore = useConsultantsAdminStore();
 const webinarsStore = useWebinarsStore();
 const { getWebinarCategoriesWithAll: optionsCategories } = storeToRefs(webinarsStore);
-const router = useRouter();
 
 const data = ref<TWebinarPayload>({
   id: null,
@@ -32,12 +31,10 @@ const data = ref<TWebinarPayload>({
 });
 
 const lectors = ref<TWebinarsLector[]>([]);
+const { confirmCancel } = useCloseConfirm(data);
 
 const handleCreateWebinar = () => {
   consultationsAdminStore.createWebinar(data.value);
-};
-const back = () => {
-  router.push({ name: "My", query: { tabId: "webinars" } });
 };
 
 const addQuestion = () => {
@@ -151,7 +148,7 @@ onMounted(async () => {
 
     <div class="row justify-between q-mt-lg">
       <q-btn label="Сохранить" class="q-btn--form" color="primary" @click="handleCreateWebinar()" />
-      <q-btn label="Отменить" class="q-btn--form" color="grey-2" @click="back"></q-btn>
+      <q-btn label="Отменить" class="q-btn--form" color="grey-2" @click="confirmCancel()"></q-btn>
     </div>
   </div>
 </template>
