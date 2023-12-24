@@ -31,7 +31,7 @@ const data = ref<TWebinarPayload>({
 });
 
 const lectors = ref<TWebinarsLector[]>([]);
-const { confirmCancel } = useCloseConfirm(data);
+const { confirmCancel } = useCloseConfirm(data, "My", { tabId: "webinars" });
 
 const handleCreateWebinar = () => {
   consultationsAdminStore.createWebinar(data.value);
