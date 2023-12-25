@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useDebounceFn } from "@vueuse/core";
 import { onMounted, onUpdated, ref, watch } from "vue";
 
 import { TUser } from "@/api/Auth/types";
@@ -11,25 +12,20 @@ import ChatItem from "./ChatItem.vue";
 
 const props = defineProps<{ messages: TMessage[]; consultation: TConsultation }>();
 
-const chatWrapper = ref();
-const isScrollOnDown = ref(false);
+const chatWrapper = ref<HTMLElement | null>(null);
 const showFeedbackModal = ref(false);
 const quality = ref(0);
 const { user } = useAuthStore();
-
-const handleScroll = () => {
-  const div = chatWrapper.value;
-  isScrollOnDown.value =
-    Math.ceil(div.scrollHeight - div.scrollTop) === div.clientHeight ||
-    Math.floor(div.scrollHeight - div.scrollTop) === div.clientHeight;
-};
 
 const feedbackModalClose = () => {
   showFeedbackModal.value = false;
   quality.value = 0;
 };
 
-const scrollToBottom = () => chatWrapper.value.scrollTo(0, chatWrapper.value.scrollHeight);
+const scrollToBottom = () => {
+  if (!chatWrapper.value) return false;
+  chatWrapper.value.scrollTo(0, chatWrapper.value.scrollHeight);
+};
 const findUser = (id: number) => (props.consultation.users.find((user) => user.id === id) as TUser) || user;
 
 onMounted(() => {
@@ -37,18 +33,21 @@ onMounted(() => {
 });
 
 onUpdated(() => {
-  watch(
-    props.messages,
-    () => {
-      if (isScrollOnDown.value) setTimeout(() => scrollToBottom());
-    },
-    { deep: true },
-  );
+  scrollToBottom();
 });
+watch(
+  props.messages,
+  () => {
+    useDebounceFn(() => {
+      scrollToBottom();
+    });
+  },
+  { deep: true },
+);
 </script>
 
 <template>
-  <div ref="chatWrapper" class="chat-wrapper scroll" @scroll="handleScroll">
+  <div ref="chatWrapper" class="chat-wrapper scroll">
     <ChatItem
       v-for="(item, i) in messages"
       :key="i"

@@ -34,6 +34,8 @@ const actual = ref<"yes" | "no">((route.query.actual as "yes" | "no") || "yes");
 const isShowRuleModal = ref(false);
 const isAcceptRules = ref(false);
 
+const isActual = computed(() => actual.value === "yes");
+
 const setIdActiveChat = (id: number) => {
   consultationsStore.connectChannel(id);
   idActiveChat.value = id;
@@ -110,10 +112,12 @@ onBeforeMount(() => {
     <div class="question__header">
       <div class="flex justify-between justify-between">
         <h5>Вопросы</h5>
-        <q-btn outline style="color: #f7b70b" class="q-btn--form q-ml-sm q-mr-sm">
-          <span class="text-primary question__btn-label" @click="isShowCreateConsultationModal = true">
-            Задать вопрос
-          </span>
+        <q-btn
+          outline
+          style="color: #f7b70b"
+          class="q-btn--form q-ml-sm q-mr-sm"
+          @click="isShowCreateConsultationModal = true">
+          <span class="text-primary question__btn-label">Задать вопрос</span>
         </q-btn>
         <q-btn-toggle
           v-model="actual"
@@ -192,9 +196,9 @@ onBeforeMount(() => {
         <div v-else>
           <h4 v-if="$route.query.actual === 'no'" class="q-pt-md">У вас нету завершенных консультаций</h4>
           <h4 v-else class="q-pt-md">Создайте новую заявку</h4>
-          <p style="text-align: center" class="q-pt-md">Вы мажите задать вопрос консультанту</p>
+          <p style="text-align: center" class="q-pt-md">Вы можете задать вопрос консультанту</p>
         </div>
-        <MessageInput @send-message="sendMessage" />
+        <MessageInput v-if="isActual" @send-message="sendMessage" />
       </div>
     </div>
 
