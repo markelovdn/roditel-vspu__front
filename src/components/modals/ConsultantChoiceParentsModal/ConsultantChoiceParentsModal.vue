@@ -15,7 +15,7 @@ const props = defineProps<{
   questionId: number;
 }>();
 
-const emit = defineEmits(["close"]);
+const emit = defineEmits(["close", "reload"]);
 
 const data = ref({
   parents: null as TConsultantParentsPayload | null,
@@ -32,6 +32,7 @@ const { closeModal } = useModal(emit);
 const handleForm = () => {
   consultantStore.setParentQuestion(props.questionId, data.value.parents?.parentedId as number).then(() => {
     closeModal();
+    emit("reload");
   });
 };
 

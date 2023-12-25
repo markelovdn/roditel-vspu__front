@@ -38,9 +38,10 @@ const questionnairesListRows = computed(() => {
   return questionnairesStore.questionnaires;
 });
 
-useRequestPayload(queryParams, questionnairesStore.getQuestionnaires, {
+const { reload } = useRequestPayload(queryParams, questionnairesStore.getQuestionnaires, {
   clearableParams: { page: 1 },
 });
+
 const setDataFilter = (value?: any) => {
   if (value) {
     queryParams.value.dateBetween = `${value.from}, ${value.to}`;
@@ -237,7 +238,11 @@ const questionnairesListHeaders = [
           @update:model-value="setPage" />
       </div>
     </div>
-    <ConsultantChoiceParentsModal v-if="parentsModal" :question-id="questionId" @close="parentsModal = false" />
+    <ConsultantChoiceParentsModal
+      v-if="parentsModal"
+      :question-id="questionId"
+      @close="parentsModal = false"
+      @reload="reload" />
   </div>
 </template>
 
