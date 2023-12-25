@@ -46,7 +46,7 @@ onMounted(async () => {
       <q-input v-model="data.lectorDepartment" class="q-mb-sm" label="Место работы" />
       <q-input v-model="data.lectorDescription" autogrow class="q-mb-sm" label="Регалии ведущего" />
 
-      <img v-if="data.lectorPhoto" :src="data.lectorPhoto" alt="" />
+      <!-- <img v-if="data.lectorPhoto" :src="data.lectorPhoto" alt="" /> -->
       <q-file v-model="data.lectorPhoto" accept="image/*" :filter="checkFileType" label="Фото ведущего" />
 
       <div class="row no-wrap q-mt-lg">
