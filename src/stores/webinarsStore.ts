@@ -56,6 +56,12 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
       webinars.value = toTWebinarCardData(resp.data);
     });
   }
+
+  async function requestLectorInfo(lectorId: number) {
+    const resp = await webinarsApi.getLectorInfo(lectorId);
+    return resp.data;
+  }
+
   const getWebinarCategories = computed(() => {
     return webinarCategories.value.map((item: TCollectionItem) => {
       return { label: item.title, value: item.id };
@@ -72,6 +78,7 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
   const getWebinarLectorsWithAll = computed(() => {
     return [{ label: "Все", value: 0 }, ...getWebinarLectors.value];
   });
+
   return {
     webinars,
     page,
@@ -85,5 +92,6 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
     getWebinarLectors,
     getWebinarLectorsWithAll,
     downloadSertificate,
+    requestLectorInfo,
   };
 });

@@ -1,7 +1,13 @@
 import axios from "@/common/axios";
 import { useParamBuilder, useUrlParams } from "@/hooks/useParamBuilder ";
 
-import { TRequestWebinarsLectors, TWebinarData, TWebinarsRequestOption, WebinarCategoriesResponse } from "./types";
+import {
+  TRequestWebinarsLectors,
+  TWebinarData,
+  TWebinarsLector,
+  TWebinarsRequestOption,
+  WebinarCategoriesResponse,
+} from "./types";
 
 export class WebinarsApiService {
   getLectors() {
@@ -28,5 +34,9 @@ export class WebinarsApiService {
       webinarId,
       userId,
     });
+  }
+
+  getLectorInfo(lectorId: number) {
+    return axios.get<TWebinarsLector>(`/lectors/${lectorId}`);
   }
 }
