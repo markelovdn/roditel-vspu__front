@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, onBeforeMount, ref, watch } from "vue";
+import { useDebounce } from "@vueuse/core";
+import { computed, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
 import { TConsultation, TGetConsultationsFilter } from "@/api/Consultations/types";
@@ -14,6 +15,11 @@ const consultationsStore = useConsultationsStore();
 const queryParams = ref<TGetConsultationsFilter>({ actual: "yes" });
 const idActiveChat = ref(0);
 const actual = ref<"yes" | "no">((route.query.actual as "yes" | "no") || "yes");
+
+const isActual = computed(() => actual.value === "yes");
+
+const search = ref("");
+const debouncedSearch = useDebounce(search, 300);
 
 const setIdActiveChat = (id: number) => {
   consultationsStore.connectChannel(id);
@@ -45,28 +51,20 @@ const closeConsultation = (id: number) => {
   consultationsStore.closeConsultation(id);
 };
 
-onBeforeMount(() => {
-  consultationsStore.requestConsultations({}).then((data: TConsultation[]) => {
-    idActiveChat.value = data[0].id;
-    consultationsStore.connectChannel(data[0].id);
-  });
+useRequestPayload(
+  queryParams,
+  async (filters) => {
+    await consultationsStore.requestConsultations(filters).then((data: TConsultation[]) => {
+      idActiveChat.value = data[0].id;
+      consultationsStore.connectChannel(data[0].id);
+    });
+    setFirstActiveChat(consultationsStore.consultations);
+  },
+  {},
+);
 
-  useRequestPayload(
-    queryParams,
-    async (filters) => {
-      await consultationsStore.requestConsultations(filters);
-      setFirstActiveChat(consultationsStore.consultations);
-    },
-    {},
-  );
-});
-const search = ref("");
-let searchTimeoutId: ReturnType<typeof setTimeout>;
-watch(search, () => {
-  clearTimeout(searchTimeoutId);
-  searchTimeoutId = setTimeout(() => {
-    queryParams.value.searchField = search.value;
-  }, 300);
+watch(debouncedSearch, () => {
+  queryParams.value.searchField = debouncedSearch.value;
 });
 </script>
 
@@ -114,6 +112,7 @@ watch(search, () => {
           :consultation="idActiveChatConsultation" />
         <div v-else><h2>Ничего не нашлось</h2></div>
         <MessageInput
+          v-if="isActual"
           :is-show-closed-button="true"
           @close-consultation="closeConsultation(idActiveChat)"
           @send-message="sendMessage" />

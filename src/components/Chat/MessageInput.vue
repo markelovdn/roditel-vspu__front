@@ -26,7 +26,7 @@ const closeConsultation = () => {
       bg-color="white"
       outlined
       autogrow
-      @keydown.enter="sendMessage" />
+      @keydown.enter.prevent="sendMessage" />
     <q-btn color="primary" class="message__btn" @click="sendMessage">Отправить</q-btn>
     <q-btn v-if="isShowClosedButton" color="red" class="message__btn" @click="closeConsultation">Закрыть</q-btn>
   </div>
