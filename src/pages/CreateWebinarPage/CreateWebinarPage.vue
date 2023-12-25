@@ -3,6 +3,7 @@ import { storeToRefs } from "pinia";
 import { onMounted, ref } from "vue";
 
 import { TWebinarPayload, TWebinarsLector } from "@/api/Webinars/types";
+import LectorModal from "@/components/modals/LectorModal/LectorModal.vue";
 import { useCloseConfirm } from "@/hooks/useCloseConfirm";
 import { useConsultantsAdminStore } from "@/stores/adminStore/consultantsAdminStore";
 import { useWebinarsStore } from "@/stores/webinarsStore";
@@ -31,6 +32,7 @@ const data = ref<TWebinarPayload>({
 });
 
 const lectors = ref<TWebinarsLector[]>([]);
+const isShowLectorModal = ref(false);
 const { confirmCancel } = useCloseConfirm(data, "My", { tabId: "webinars" });
 
 const handleCreateWebinar = () => {
@@ -126,18 +128,22 @@ onMounted(async () => {
       :option-label="(item) => item.label"
       emit-value
       map-options />
+    <div class="questions">
+      <q-select
+        v-model="data.webinarLectorsId"
+        input-class="q-select--form"
+        label="Выберите ведущих*"
+        class="fit q-mb-sm"
+        multiple
+        :options="lectors"
+        :option-label="(item) => item.lectorName"
+        :option-value="(item) => item.id"
+        emit-value
+        map-options />
 
-    <q-select
-      v-model="data.webinarLectorsId"
-      input-class="q-select--form"
-      label="Выберите ведущих*"
-      class="fit q-mb-sm"
-      multiple
-      :options="lectors"
-      :option-label="(item) => item.lectorName"
-      :option-value="(item) => item.id"
-      emit-value
-      map-options />
+      <q-btn icon="edit" color="grey-2" size="xs" class="q-ml-md" @click="isShowLectorModal = true"></q-btn>
+    </div>
+
     <div v-for="(question, id) in data.webinarQuestions" :key="id" class="questions">
       <q-input v-model="question.questionText" style="width: 100%" :label="`Вопрос ${id + 1}`" />
       <q-icon :name="'close'" style="font-size: large; cursor: pointer" @click="delQuestion(id)" />
@@ -151,6 +157,8 @@ onMounted(async () => {
       <q-btn label="Отменить" class="q-btn--form" color="grey-2" @click="confirmCancel()"></q-btn>
     </div>
   </div>
+
+  <LectorModal v-if="isShowLectorModal" @close="isShowLectorModal = false"></LectorModal>
 </template>
 
 <style lang="scss" scoped>
