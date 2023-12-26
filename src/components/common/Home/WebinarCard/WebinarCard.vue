@@ -66,7 +66,6 @@ const isShowWebinarModal = ref(false);
         <div class="webinar-card__title">{{ item.title }}</div>
 
         <div class="hr"></div>
-        {{ idDownload(item.date) }}
         <div v-if="type === 'grid'">
           <div v-for="(label, index) in labels" :key="index" class="info">
             <div class="info__description">{{ label.category }}:</div>
