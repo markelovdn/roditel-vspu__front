@@ -3,7 +3,6 @@ import { ref } from "vue";
 
 import { adminsApi } from "@/api";
 import { TConsultantForAdmin, TGetConsultantsForAdminFilter } from "@/api/Admin/types";
-import { TWebinarPayload } from "@/api/Webinars/types";
 import notify from "@/utils/notify";
 
 export const useConsultantsAdminStore = defineStore("consultantAdminStore", () => {
@@ -42,21 +41,11 @@ export const useConsultantsAdminStore = defineStore("consultantAdminStore", () =
     });
   }
 
-  function createWebinar(data: TWebinarPayload) {
-    adminsApi.createWebinar(data);
-  }
-  // async function getLectors() {
-  //   const resp = await adminsApi.getLectors();
-  //   return resp.data.data;
-  // }
-
   return {
     consultants,
     page,
     requestAllConsultants,
     updateContractNumber,
     deleteConsultant,
-    createWebinar,
-    // getLectors,
   };
 });

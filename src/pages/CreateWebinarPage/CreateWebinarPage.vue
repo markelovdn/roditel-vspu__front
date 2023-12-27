@@ -5,10 +5,8 @@ import { onMounted, ref } from "vue";
 import { TWebinarPayload } from "@/api/Webinars/types";
 import LectorModal from "@/components/modals/LectorModal/LectorModal.vue";
 import { useCloseConfirm } from "@/hooks/useCloseConfirm";
-import { useConsultantsAdminStore } from "@/stores/adminStore/consultantsAdminStore";
 import { useWebinarsStore } from "@/stores/webinarsStore";
 
-const consultationsAdminStore = useConsultantsAdminStore();
 const webinarsStore = useWebinarsStore();
 const { getWebinarCategoriesWithAll: optionsCategories, getWebinarLectorsWithAll: optionsLectors } =
   storeToRefs(webinarsStore);
@@ -36,7 +34,7 @@ const isShowLectorModal = ref(false);
 const { confirmCancel } = useCloseConfirm(data, "My", { tabId: "webinars" });
 
 const handleCreateWebinar = () => {
-  consultationsAdminStore.createWebinar(data.value);
+  webinarsStore.addWebinar(data.value);
 };
 
 const addQuestion = () => {
@@ -76,7 +74,6 @@ const handleLectorAdded = () => {
 <template>
   <div class="main-container">
     <h4>Создать вебинар</h4>
-    {{ data }}
     <q-input v-model="data.title" autogrow class="q-mb-sm" label="Название вебинара" />
     <q-input v-model="data.date" mask="##.##.####" label="Дата проведения:">
       <template #append>
@@ -163,13 +160,17 @@ const handleLectorAdded = () => {
         @click="isShowLectorModal = true"></q-btn>
     </div>
 
-    <div v-for="(question, id) in data.webinarQuestions" :key="id" class="questions">
-      <q-input v-model="question.questionText" style="width: 100%" :label="`Вопрос ${id + 1}`" />
-      <q-icon :name="'close'" style="font-size: large; cursor: pointer" @click="delQuestion(id)" />
+    <div class="questions">
+      <div v-for="(question, id) in data.webinarQuestions" :key="id" class="questions">
+        <q-input v-model="question.questionText" style="width: 100%" :label="`Вопрос ${id + 1}`" />
+        <q-icon :name="'close'" style="font-size: large; cursor: pointer" @click="delQuestion(id)" />
+      </div>
+
+      <q-btn icon="add" size="xs" class="q-ml-lg" color="primary" @click="addQuestion()" />
     </div>
-    <div class="add-question">
-      <q-btn label="Добавить вопрос" class="q-btn--form float-left q-mt-lg" color="primary" @click="addQuestion()" />
-    </div>
+    <!-- <div class="add-question">
+     
+    </div> -->
 
     <div class="row justify-between q-mt-lg">
       <q-btn label="Сохранить" class="q-btn--form" color="primary" @click="handleCreateWebinar()" />
