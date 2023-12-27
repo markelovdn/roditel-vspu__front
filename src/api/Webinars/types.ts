@@ -1,10 +1,11 @@
-export type TWebinarsLector = {
+export interface TWebinarsLector {
   id: number | null;
   lectorName: string;
   lectorDescription: string;
   lectorDepartment: string;
-  lectorPhoto: File | FileList | null;
-};
+  lectorPhotoURL?: string;
+  lectorPhoto?: File | null;
+}
 
 export type TWebinarsLectors = TWebinarsLector[];
 export type TRequestWebinarsLectors = {
@@ -57,7 +58,7 @@ export type TWebinarPayload = {
   videoLink: string;
   logo: File | FileList | null;
   cost: number;
-  webinarCategoryId: number | null;
+  webinarCategoryId: number;
   webinarQuestions: Array<TWebinarQuestion>;
   webinarLectorsId: Array<number>;
 };

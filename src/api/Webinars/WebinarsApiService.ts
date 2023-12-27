@@ -4,6 +4,7 @@ import { useParamBuilder, useUrlParams } from "@/hooks/useParamBuilder ";
 import {
   TRequestWebinarsLectors,
   TWebinarData,
+  TWebinarPayload,
   TWebinarsLector,
   TWebinarsRequestOption,
   WebinarCategoriesResponse,
@@ -38,5 +39,52 @@ export class WebinarsApiService {
 
   getLectorInfo(lectorId: number) {
     return axios.get<TWebinarsLector>(`/lectors/${lectorId}`);
+  }
+
+  addLector(lector: TWebinarsLector) {
+    const formData = new FormData();
+    formData.append("photo", lector.lectorPhoto as File);
+    formData.append("name", lector.lectorName);
+    formData.append("description", lector.lectorDescription);
+    formData.append("department", lector.lectorDepartment);
+
+    return axios.post(`/lectors`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  }
+
+  updateLector(lectorId: number, lector: TWebinarsLector) {
+    const formData = new FormData();
+    formData.append("name", lector.lectorName);
+    formData.append("description", lector.lectorDescription);
+    formData.append("department", lector.lectorDepartment);
+    formData.append("photo", lector.lectorPhoto as File);
+
+    return axios.post(`/updateLector/${lectorId}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  }
+
+  addWebinar(webinar: TWebinarPayload) {
+    const formData = new FormData();
+    formData.append("title", webinar.title);
+    formData.append("date", webinar.date);
+    formData.append("timeStart", webinar.timeStart);
+    formData.append("timeEnd", webinar.timeEnd);
+    formData.append("logo", webinar.logo as File);
+    formData.append("cost", "0.00");
+    formData.append("videoLink", webinar.videoLink);
+    const webinarCategoryIdString = webinar.webinarCategoryId !== null ? webinar.webinarCategoryId.toString() : "";
+    formData.append("webinarCategoryId", webinarCategoryIdString);
+
+    return axios.post(`/webinars`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
   }
 }
