@@ -4,7 +4,7 @@ import { computed, ref } from "vue";
 import { webinarsApi } from "@/api";
 import { TCollectionItem } from "@/api/Collections/types";
 import { toTWebinarCardData } from "@/api/Webinars/mappers";
-import { TWebinarsLectors, TWebinarsRequestOption } from "@/api/Webinars/types";
+import { TWebinarsLector, TWebinarsLectors, TWebinarsRequestOption } from "@/api/Webinars/types";
 import { TWebinarCardData } from "@/components/common/Home/WebinarCard/types";
 import notify from "@/utils/notify";
 
@@ -62,6 +62,14 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
     return resp.data;
   }
 
+  function addLector(lector: TWebinarsLector) {
+    return webinarsApi.addLector(lector);
+  }
+
+  function updateLector(lectorId: number, lector: TWebinarsLector) {
+    return webinarsApi.updateLector(lectorId, lector);
+  }
+
   const getWebinarCategories = computed(() => {
     return webinarCategories.value.map((item: TCollectionItem) => {
       return { label: item.title, value: item.id };
@@ -82,6 +90,8 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
   return {
     webinars,
     page,
+    lectors,
+    updateLector,
     requestLectors,
     requestWebinars,
     requestWebinarCategories,
@@ -93,5 +103,6 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
     getWebinarLectorsWithAll,
     downloadSertificate,
     requestLectorInfo,
+    addLector,
   };
 });

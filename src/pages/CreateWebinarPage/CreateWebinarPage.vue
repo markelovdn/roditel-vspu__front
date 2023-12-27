@@ -2,7 +2,7 @@
 import { storeToRefs } from "pinia";
 import { onMounted, ref } from "vue";
 
-import { TWebinarPayload, TWebinarsLector } from "@/api/Webinars/types";
+import { TWebinarPayload } from "@/api/Webinars/types";
 import LectorModal from "@/components/modals/LectorModal/LectorModal.vue";
 import { useCloseConfirm } from "@/hooks/useCloseConfirm";
 import { useConsultantsAdminStore } from "@/stores/adminStore/consultantsAdminStore";
@@ -10,7 +10,8 @@ import { useWebinarsStore } from "@/stores/webinarsStore";
 
 const consultationsAdminStore = useConsultantsAdminStore();
 const webinarsStore = useWebinarsStore();
-const { getWebinarCategoriesWithAll: optionsCategories } = storeToRefs(webinarsStore);
+const { getWebinarCategoriesWithAll: optionsCategories, getWebinarLectorsWithAll: optionsLectors } =
+  storeToRefs(webinarsStore);
 
 const data = ref<TWebinarPayload>({
   id: null,
@@ -21,7 +22,7 @@ const data = ref<TWebinarPayload>({
   logo: null,
   cost: 0.0,
   videoLink: "",
-  webinarCategoryId: null,
+  webinarCategoryId: 0,
   webinarQuestions: [
     {
       id: null,
@@ -31,7 +32,6 @@ const data = ref<TWebinarPayload>({
   webinarLectorsId: [],
 });
 
-const lectors = ref<TWebinarsLector[]>([]);
 const isShowLectorModal = ref(false);
 const { confirmCancel } = useCloseConfirm(data, "My", { tabId: "webinars" });
 
@@ -62,15 +62,21 @@ const checkFileType = (files: readonly File[] | FileList | null | undefined) => 
   return filteredFiles;
 };
 
-onMounted(async () => {
-  lectors.value = await consultationsAdminStore.getLectors();
+onMounted(() => {
+  webinarsStore.requestLectors();
   webinarsStore.requestWebinarCategories();
 });
+
+const handleLectorAdded = () => {
+  webinarsStore.requestLectors();
+  isShowLectorModal.value = false;
+};
 </script>
 
 <template>
   <div class="main-container">
     <h4>Создать вебинар</h4>
+    {{ data }}
     <q-input v-model="data.title" autogrow class="q-mb-sm" label="Название вебинара" />
     <q-input v-model="data.date" mask="##.##.####" label="Дата проведения:">
       <template #append>
@@ -135,13 +141,26 @@ onMounted(async () => {
         label="Выберите ведущих*"
         class="fit q-mb-sm"
         multiple
-        :options="lectors"
-        :option-label="(item) => item.lectorName"
-        :option-value="(item) => item.id"
+        :options="optionsLectors"
+        :option-label="(item) => item.label"
+        :option-value="(item) => item.value"
         emit-value
         map-options />
 
-      <q-btn icon="edit" color="grey-2" size="xs" class="q-ml-md" @click="isShowLectorModal = true"></q-btn>
+      <q-btn
+        v-show="data.webinarLectorsId.length === 1"
+        icon="edit"
+        color="primary"
+        size="xs"
+        class="q-ml-md"
+        @click="isShowLectorModal = true"></q-btn>
+      <q-btn
+        v-show="data.webinarLectorsId.length === 0"
+        icon="add"
+        color="primary"
+        size="xs"
+        class="q-ml-md"
+        @click="isShowLectorModal = true"></q-btn>
     </div>
 
     <div v-for="(question, id) in data.webinarQuestions" :key="id" class="questions">
@@ -158,7 +177,7 @@ onMounted(async () => {
     </div>
   </div>
 
-  <LectorModal v-if="isShowLectorModal" @close="isShowLectorModal = false"></LectorModal>
+  <LectorModal v-if="isShowLectorModal" :lector-id="data.webinarLectorsId[0]" @close="handleLectorAdded"></LectorModal>
 </template>
 
 <style lang="scss" scoped>

@@ -45,10 +45,10 @@ export const useConsultantsAdminStore = defineStore("consultantAdminStore", () =
   function createWebinar(data: TWebinarPayload) {
     adminsApi.createWebinar(data);
   }
-  async function getLectors() {
-    const resp = await adminsApi.getLectors();
-    return resp.data.data;
-  }
+  // async function getLectors() {
+  //   const resp = await adminsApi.getLectors();
+  //   return resp.data.data;
+  // }
 
   return {
     consultants,
@@ -57,6 +57,6 @@ export const useConsultantsAdminStore = defineStore("consultantAdminStore", () =
     updateContractNumber,
     deleteConsultant,
     createWebinar,
-    getLectors,
+    // getLectors,
   };
 });
