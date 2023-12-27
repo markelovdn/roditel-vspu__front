@@ -4,7 +4,7 @@ import { computed, ref } from "vue";
 import { webinarsApi } from "@/api";
 import { TCollectionItem } from "@/api/Collections/types";
 import { toTWebinarCardData } from "@/api/Webinars/mappers";
-import { TWebinarsLector, TWebinarsLectors, TWebinarsRequestOption } from "@/api/Webinars/types";
+import { TWebinarPayload, TWebinarsLector, TWebinarsLectors, TWebinarsRequestOption } from "@/api/Webinars/types";
 import { TWebinarCardData } from "@/components/common/Home/WebinarCard/types";
 import notify from "@/utils/notify";
 
@@ -70,19 +70,26 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
     return webinarsApi.updateLector(lectorId, lector);
   }
 
+  function addWebinar(webinar: TWebinarPayload) {
+    return webinarsApi.addWebinar(webinar);
+  }
+
   const getWebinarCategories = computed(() => {
     return webinarCategories.value.map((item: TCollectionItem) => {
       return { label: item.title, value: item.id };
     });
   });
+
   const getWebinarCategoriesWithAll = computed(() => {
     return [{ label: "Все", value: 0 }, ...getWebinarCategories.value];
   });
+
   const getWebinarLectors = computed(() => {
     return lectors.value.map((item) => {
       return { label: item.lectorName, value: item.id };
     });
   });
+
   const getWebinarLectorsWithAll = computed(() => {
     return [{ label: "Все", value: 0 }, ...getWebinarLectors.value];
   });
@@ -91,6 +98,7 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
     webinars,
     page,
     lectors,
+    addWebinar,
     updateLector,
     requestLectors,
     requestWebinars,

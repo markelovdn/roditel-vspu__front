@@ -78,8 +78,9 @@ export class WebinarsApiService {
     formData.append("logo", webinar.logo as File);
     formData.append("cost", "0.00");
     formData.append("videoLink", webinar.videoLink);
-    const webinarCategoryIdString = webinar.webinarCategoryId !== null ? webinar.webinarCategoryId.toString() : "";
-    formData.append("webinarCategoryId", webinarCategoryIdString);
+    formData.append("webinarCategoryId", JSON.stringify(webinar.webinarCategoryId));
+    formData.append("questions", JSON.stringify(webinar.webinarQuestions));
+    formData.append("lectors", JSON.stringify(webinar.webinarLectorsId));
 
     return axios.post(`/webinars`, formData, {
       headers: {
