@@ -27,6 +27,13 @@ const labels = computed(() => [
     ),
   },
 ]);
+const isShowWebinarModal = ref(false);
+const editWebinar = () => {
+  console.log("editWebinar");
+};
+const deleteWebinar = () => {
+  console.log("deleteWebinar");
+};
 const idDownload = (dataString: string) => {
   const dateParts = dataString.split(".");
   const day = parseInt(dateParts[0]);
@@ -47,7 +54,6 @@ const downloadCertificate = (webinarId: number) => {
     });
   }
 };
-const isShowWebinarModal = ref(false);
 </script>
 
 <template>
@@ -63,7 +69,6 @@ const isShowWebinarModal = ref(false);
       </div>
       <div class="webinar-card__description q-ml-md">
         <div class="webinar-card__title">{{ item.title }}</div>
-
         <div class="hr"></div>
         <div v-if="type === 'grid'">
           <div v-for="(label, index) in labels" :key="index" class="info">
@@ -89,7 +94,7 @@ const isShowWebinarModal = ref(false);
         <div v-else class="flex justify-between">
           <div>
             <div v-for="(label, index) in labels" :key="index">
-              <div v-if="index !== labels.length - 1" class="info">
+              <div v-if="index !== labels.length" class="info">
                 <div class="info__description">{{ label.category }}:</div>
                 <div class="info__value">{{ label.value }}</div>
               </div>
@@ -97,13 +102,10 @@ const isShowWebinarModal = ref(false);
           </div>
 
           <div class="flex column justify-between">
-            <div>
-              <div class="info info_right">
-                <div class="info__description">{{ labels[labels.length - 1].category }}:</div>
-                <div class="info__value">{{ labels[labels.length - 1].value }}</div>
-              </div>
+            <div v-if="authStore.user?.role.code === 'admin'" class="info__link" @click="isShowWebinarModal = true">
+              Скачать список участников
             </div>
-            <div v-if="!item.registered" class="info__link" @click="isShowWebinarModal = true">
+            <div v-else-if="!item.registered" class="info__link" @click="isShowWebinarModal = true">
               Принять участие
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -129,6 +131,10 @@ const isShowWebinarModal = ref(false);
             </div>
             <div v-else class="info__link">Зарегистрирован</div>
           </div>
+        </div>
+        <div v-if="authStore.user?.role.code === 'admin' && type !== 'grid'" class="q-mt-md flex justify-between">
+          <q-btn dense icon="edit" color="primary" size="md" class="q-px-sm" @click="editWebinar"></q-btn>
+          <q-btn dense icon="delete" color="negative" size="md" class="q-ml-sm q-px-sm" @click="deleteWebinar"></q-btn>
         </div>
       </div>
     </div>
