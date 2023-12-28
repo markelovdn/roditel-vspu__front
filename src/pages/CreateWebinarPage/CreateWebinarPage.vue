@@ -27,12 +27,7 @@ const data = ref<TWebinarPayload>({
   cost: 0.0,
   videoLink: "",
   webinarCategoryId: null,
-  webinarQuestions: [
-    {
-      id: null,
-      questionText: "",
-    },
-  ],
+  webinarQuestions: [],
   webinarLectorsId: [],
 });
 
