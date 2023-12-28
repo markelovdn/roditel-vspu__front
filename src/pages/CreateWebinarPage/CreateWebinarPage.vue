@@ -1,15 +1,21 @@
 <script setup lang="ts">
+import { ValidationArgs } from "@vuelidate/core";
+import { helpers } from "@vuelidate/validators";
 import { storeToRefs } from "pinia";
 import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
 
 import { TWebinarPayload } from "@/api/Webinars/types";
 import LectorModal from "@/components/modals/LectorModal/LectorModal.vue";
 import { useCloseConfirm } from "@/hooks/useCloseConfirm";
+import { maxLengthValidator, requiredValidator, useValidation } from "@/hooks/useValidation";
 import { useWebinarsStore } from "@/stores/webinarsStore";
 
 const webinarsStore = useWebinarsStore();
 const { getWebinarCategoriesWithAll: optionsCategories, getWebinarLectorsWithAll: optionsLectors } =
   storeToRefs(webinarsStore);
+const emit = defineEmits(["validation-change", "update:model-value"]);
+const router = useRouter();
 
 const data = ref<TWebinarPayload>({
   id: null,
@@ -20,7 +26,7 @@ const data = ref<TWebinarPayload>({
   logo: null,
   cost: 0.0,
   videoLink: "",
-  webinarCategoryId: 0,
+  webinarCategoryId: null,
   webinarQuestions: [
     {
       id: null,
@@ -30,11 +36,30 @@ const data = ref<TWebinarPayload>({
   webinarLectorsId: [],
 });
 
+const { handleBlur, getErrorAttrs, isValid } = useValidation<TWebinarPayload>(data, emit, {
+  title: { requiredValidator, maxLengthValidator: maxLengthValidator(255) },
+  date: { requiredValidator },
+  id: {},
+  timeStart: { requiredValidator },
+  timeEnd: { requiredValidator },
+  videoLink: { requiredValidator },
+  logo: {},
+  cost: {},
+  webinarCategoryId: { requiredValidator },
+  webinarQuestions: {
+    $each: helpers.forEach({
+      questionText: { requiredValidator },
+    }),
+  } as ValidationArgs,
+  webinarLectorsId: { requiredValidator },
+});
+
 const isShowLectorModal = ref(false);
 const { confirmCancel } = useCloseConfirm(data, "My", { tabId: "webinars" });
 
 const handleCreateWebinar = () => {
   webinarsStore.addWebinar(data.value);
+  router.push({ name: "My", query: { tabId: "webinars" } });
 };
 
 const addQuestion = () => {
@@ -74,8 +99,19 @@ const handleLectorAdded = () => {
 <template>
   <div class="main-container">
     <h4>Создать вебинар</h4>
-    <q-input v-model="data.title" autogrow class="q-mb-sm" label="Название вебинара" />
-    <q-input v-model="data.date" mask="##.##.####" label="Дата проведения:">
+    <q-input
+      v-bind="getErrorAttrs('title')"
+      v-model="data.title"
+      autogrow
+      class="q-mb-sm"
+      label="Название вебинара"
+      @blur="handleBlur('title')" />
+    <q-input
+      v-bind="getErrorAttrs('date')"
+      v-model="data.date"
+      mask="##.##.####"
+      label="Дата проведения:"
+      @blur="handleBlur('date')">
       <template #append>
         <q-icon name="event" class="cursor-pointer">
           <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -89,7 +125,13 @@ const handleLectorAdded = () => {
       </template>
     </q-input>
     <div>
-      <q-input v-model="data.timeStart" mask="time" :rules="['time']" label="Время начала:">
+      <q-input
+        v-bind="getErrorAttrs('timeStart')"
+        v-model="data.timeStart"
+        mask="time"
+        :rules="['time']"
+        label="Время начала:"
+        @blur="handleBlur('timeStart')">
         <template #append>
           <q-icon name="access_time" class="cursor-pointer">
             <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -103,7 +145,13 @@ const handleLectorAdded = () => {
         </template>
       </q-input>
 
-      <q-input v-model="data.timeEnd" mask="time" :rules="['time']" label="Время окончания:">
+      <q-input
+        v-bind="getErrorAttrs('timeEnd')"
+        v-model="data.timeEnd"
+        mask="time"
+        :rules="['time']"
+        label="Время окончания:"
+        @blur="handleBlur('timeEnd')">
         <template #append>
           <q-icon name="access_time" class="cursor-pointer">
             <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -120,9 +168,15 @@ const handleLectorAdded = () => {
 
     <q-file v-model="data.logo" accept="image/*" :filter="checkFileType" label="Выберите логотип" />
 
-    <q-input v-model="data.videoLink" class="q-mb-sm" label="Ссылка на видео" />
+    <q-input
+      v-bind="getErrorAttrs('videoLink')"
+      v-model="data.videoLink"
+      class="q-mb-sm"
+      label="Ссылка на видео"
+      @blur="handleBlur('videoLink')" />
 
     <q-select
+      v-bind="getErrorAttrs('webinarCategoryId')"
       v-model="data.webinarCategoryId"
       input-class="q-select--form"
       label="Категория*"
@@ -130,9 +184,11 @@ const handleLectorAdded = () => {
       :options="optionsCategories"
       :option-label="(item) => item.label"
       emit-value
-      map-options />
+      map-options
+      @blur="handleBlur('webinarCategoryId')" />
     <div class="questions">
       <q-select
+        v-bind="getErrorAttrs('webinarLectorsId')"
         v-model="data.webinarLectorsId"
         input-class="q-select--form"
         label="Выберите ведущих*"
@@ -142,7 +198,8 @@ const handleLectorAdded = () => {
         :option-label="(item) => item.label"
         :option-value="(item) => item.value"
         emit-value
-        map-options />
+        map-options
+        @blur="handleBlur('webinarLectorsId')" />
 
       <q-btn
         v-show="data.webinarLectorsId.length === 1"
@@ -160,20 +217,28 @@ const handleLectorAdded = () => {
         @click="isShowLectorModal = true"></q-btn>
     </div>
 
-    <div class="questions">
-      <div v-for="(question, id) in data.webinarQuestions" :key="id" class="questions">
-        <q-input v-model="question.questionText" style="width: 100%" :label="`Вопрос ${id + 1}`" />
-        <q-icon :name="'close'" style="font-size: large; cursor: pointer" @click="delQuestion(id)" />
-      </div>
-
-      <q-btn icon="add" size="xs" class="q-ml-lg" color="primary" @click="addQuestion()" />
+    <div v-for="(question, id) in data.webinarQuestions" :key="id" class="questions">
+      <q-input
+        v-bind="getErrorAttrs('webinarQuestions', 'questionText', id)"
+        v-model="question.questionText"
+        style="width: 100%"
+        :label="`Вопрос ${id + 1}`"
+        @blur="handleBlur('questionText')" />
+      <q-icon :name="'close'" style="font-size: large; cursor: pointer" @click="delQuestion(id)" />
     </div>
-    <!-- <div class="add-question">
-     
-    </div> -->
+
+    <div class="add-question">
+      <q-btn label="Добавить вопрос" size="md" class="q-mt-sm float-left" color="primary" @click="addQuestion()" />
+    </div>
 
     <div class="row justify-between q-mt-lg">
-      <q-btn label="Сохранить" class="q-btn--form" color="primary" @click="handleCreateWebinar()" />
+      <q-btn
+        label="Сохранить"
+        class="q-btn--form"
+        size="md"
+        color="primary"
+        :disable="!isValid"
+        @click="handleCreateWebinar()" />
       <q-btn label="Отменить" class="q-btn--form" color="grey-2" @click="confirmCancel()"></q-btn>
     </div>
   </div>
@@ -184,6 +249,8 @@ const handleLectorAdded = () => {
 <style lang="scss" scoped>
 .add-question {
   display: inline-block;
+  width: 100%;
+  align-items: start;
 }
 .questions {
   display: flex;

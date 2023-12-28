@@ -58,7 +58,7 @@ export type TWebinarPayload = {
   videoLink: string;
   logo: File | FileList | null;
   cost: number;
-  webinarCategoryId: number;
+  webinarCategoryId: number | null;
   webinarQuestions: Array<TWebinarQuestion>;
   webinarLectorsId: Array<number>;
 };
