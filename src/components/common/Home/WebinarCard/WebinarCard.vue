@@ -62,7 +62,6 @@ const isShowWebinarModal = ref(false);
           class="webinar-card__image" />
       </div>
       <div class="webinar-card__description q-ml-md">
-        {{ item.registered }}
         <div class="webinar-card__title">{{ item.title }}</div>
 
         <div class="hr"></div>
