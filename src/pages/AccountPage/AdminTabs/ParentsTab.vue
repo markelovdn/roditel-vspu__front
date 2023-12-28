@@ -13,7 +13,9 @@ const queryParams = ref<TGetParentedsForAdminFilter>({ page: 1 });
 const setPage = (page: number) => (queryParams.value.page = page);
 
 const deleteParented = (parentedId: number) => {
-  parentedAdminStore.deleteParented(parentedId);
+  if (confirm("Вы уверены, что хотите удалить данного родителя?")) {
+    parentedAdminStore.deleteParented(parentedId);
+  }
 };
 
 const parentedsListRows = computed(() => {
@@ -64,7 +66,7 @@ const consultantsListHeaders = [
         <div>{{ item.fullName }}</div>
         <div>{{ item.email }}</div>
         <div>
-          <q-btn dense icon="delete" color="negative" size="xs" @click="deleteParented(item.parentedId)"></q-btn>
+          <q-btn icon="delete" color="negative" size="xs" @click="deleteParented(item.parentedId)"></q-btn>
         </div>
       </template>
     </TableWrapper>

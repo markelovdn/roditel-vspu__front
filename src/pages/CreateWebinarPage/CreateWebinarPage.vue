@@ -98,7 +98,6 @@ const handleLectorAdded = () => {
       v-bind="getErrorAttrs('title')"
       v-model="data.title"
       autogrow
-      class="q-mb-sm"
       label="Название вебинара"
       @blur="handleBlur('title')" />
     <q-input
@@ -166,7 +165,6 @@ const handleLectorAdded = () => {
     <q-input
       v-bind="getErrorAttrs('videoLink')"
       v-model="data.videoLink"
-      class="q-mb-sm"
       label="Ссылка на видео"
       @blur="handleBlur('videoLink')" />
 
@@ -201,14 +199,14 @@ const handleLectorAdded = () => {
         icon="edit"
         color="primary"
         size="xs"
-        class="q-ml-md"
+        class="q-ml-md q-mb-md"
         @click="isShowLectorModal = true"></q-btn>
       <q-btn
         v-show="data.webinarLectorsId.length === 0"
         icon="add"
         color="primary"
         size="xs"
-        class="q-ml-md"
+        class="q-ml-md q-mb-md"
         @click="isShowLectorModal = true"></q-btn>
     </div>
 
@@ -253,5 +251,6 @@ const handleLectorAdded = () => {
   justify-content: left;
   align-items: center;
   flex-wrap: nowrap;
+  margin-bottom: 0;
 }
 </style>
