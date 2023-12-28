@@ -62,7 +62,7 @@ export class WebinarsApiService {
     formData.append("department", lector.lectorDepartment);
     formData.append("photo", lector.lectorPhoto as File);
 
-    return axios.post(`/updateLector/${lectorId}?XDEBUG_SESSION=VSCODE`, formData, {
+    return axios.post(`/updateLector/${lectorId}`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

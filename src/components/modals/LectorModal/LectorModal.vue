@@ -69,44 +69,42 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div>
-    <ModalWrapper header="Данные ведущего">
-      <div class="photo-container">
-        <input
-          ref="input"
-          style="display: none"
-          type="file"
-          accept="image/jpeg, image/jpg, image/png"
-          @change="handleFileChange" />
+  <ModalWrapper header="Данные ведущего">
+    <div class="photo-container">
+      <input
+        ref="input"
+        style="display: none"
+        type="file"
+        accept="image/jpeg, image/jpg, image/png"
+        @change="handleFileChange" />
 
-        <div v-if="previewImage || data.lectorPhotoURL" class="photo">
-          <img :src="previewImage || data.lectorPhotoURL" class="photo" />
-          <div class="caption">
-            <div class="caption-icon">
-              <div>
-                <q-icon name="edit" size="xs" @click="editPhoto"></q-icon>
-              </div>
-              <div>
-                <q-icon v-if="previewImage" name="delete" size="xs" @click="deletePhoto"></q-icon>
-              </div>
+      <div v-if="previewImage || data.lectorPhotoURL" class="photo">
+        <img :src="previewImage || data.lectorPhotoURL" class="photo" />
+        <div class="caption">
+          <div class="caption-icon">
+            <div>
+              <q-icon name="edit" size="xs" @click="editPhoto"></q-icon>
+            </div>
+            <div>
+              <q-icon v-if="previewImage" name="delete" size="xs" @click="deletePhoto"></q-icon>
             </div>
           </div>
         </div>
-        <div v-if="!previewImage && !data.lectorPhotoURL" class="empty-photo">
-          <q-icon name="camera" size="lg" color="primary" @click="editPhoto"></q-icon>
-        </div>
       </div>
-
-      <q-input v-model="data.lectorName" class="q-mb-sm" label="ФИО ведущего" />
-      <q-input v-model="data.lectorDepartment" class="q-mb-sm" label="Место работы" />
-      <q-input v-model="data.lectorDescription" autogrow class="q-mb-sm" label="Регалии ведущего" />
-
-      <div class="row no-wrap q-mt-lg">
-        <q-btn label="Сохранить" class="q-btn--form" color="primary" @click="handleForm(props.lectorId)" />
-        <q-btn label="Отменить" class="q-ml-sm q-btn--form" flat :ripple="false" color="grey-1" @click="closeModal()" />
+      <div v-if="!previewImage && !data.lectorPhotoURL" class="empty-photo">
+        <q-icon name="camera" size="lg" color="primary" @click="editPhoto"></q-icon>
       </div>
-    </ModalWrapper>
-  </div>
+    </div>
+
+    <q-input v-model="data.lectorName" class="q-mb-sm" label="ФИО ведущего" />
+    <q-input v-model="data.lectorDepartment" class="q-mb-sm" label="Место работы" />
+    <q-input v-model="data.lectorDescription" autogrow class="q-mb-sm" label="Регалии ведущего" />
+
+    <div class="row no-wrap q-mt-lg">
+      <q-btn label="Сохранить" class="q-btn--form" color="primary" @click="handleForm(props.lectorId)" />
+      <q-btn label="Отменить" class="q-ml-sm q-btn--form" flat :ripple="false" color="grey-1" @click="closeModal()" />
+    </div>
+  </ModalWrapper>
 </template>
 
 <style lang="scss" scoped>
