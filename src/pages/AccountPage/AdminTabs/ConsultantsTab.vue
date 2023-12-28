@@ -20,7 +20,9 @@ const consultantModelData = ref({
 });
 
 const deleteConsultant = (consultantId: number) => {
-  consultantAdminStore.deleteConsultant(consultantId);
+  if (confirm("Вы уверены, что хотите удалить данного консультанта?")) {
+    consultantAdminStore.deleteConsultant(consultantId);
+  }
 };
 
 const consultantsListRows = computed(() => {
@@ -95,7 +97,6 @@ const consultantsListHeaders = [
         <div>{{ item.phone }}</div>
         <div>
           <q-btn
-            dense
             icon="edit"
             color="primary"
             size="xs"
@@ -106,7 +107,7 @@ const consultantsListHeaders = [
             "></q-btn>
         </div>
         <div>
-          <q-btn dense icon="delete" color="negative" size="xs" @click="deleteConsultant(item.consultantId)"></q-btn>
+          <q-btn icon="delete" color="negative" size="xs" @click="deleteConsultant(item.consultantId)"></q-btn>
         </div>
       </template>
     </TableWrapper>
