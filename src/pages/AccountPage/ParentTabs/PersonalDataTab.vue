@@ -4,6 +4,7 @@ import { emit } from "process";
 import { computed, onMounted, ref, watch } from "vue";
 
 import ForgotPassword from "@/components/modals/ForgotPasswordModal/ForgotPassword.vue";
+import { useFilteredOptions } from "@/hooks/useFilteredOptions";
 import {
   emailValidator,
   minLengthValidator,
@@ -23,6 +24,8 @@ const parentStore = useParentStore();
 const collectionsStore = useCollectionsStore();
 
 const { getRegions: optionsRegions } = storeToRefs(collectionsStore);
+
+const { filteredOptions, onFilter } = useFilteredOptions(optionsRegions);
 
 const data = ref<TPersonalDataParentPayload>({
   name: authStore.user?.fullName,
@@ -136,11 +139,14 @@ onMounted(() => {
             input-class="q-select--form"
             label="Регион*"
             outlined
-            :options="optionsRegions"
+            :options="filteredOptions"
             :option-label="(item) => item.label"
             emit-value
             map-options
-            @blur="handleBlur('region_id')" />
+            use-input
+            input-debounce="500"
+            @blur="handleBlur('region_id')"
+            @filter="onFilter" />
         </div>
 
         <div class="personal-data__box">
