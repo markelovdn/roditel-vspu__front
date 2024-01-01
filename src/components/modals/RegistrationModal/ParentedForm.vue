@@ -3,6 +3,7 @@ import { storeToRefs } from "pinia";
 import { computed, onMounted, ref } from "vue";
 
 import { TRegistrationPayload } from "@/api/Auth/types";
+import { useFilteredOptions } from "@/hooks/useFilteredOptions";
 import {
   emailValidator,
   minLengthValidator,
@@ -20,6 +21,8 @@ const props = defineProps<{
 
 const collectionsStore = useCollectionsStore();
 const { getRegions: optionsRegions } = storeToRefs(collectionsStore);
+
+const { filteredOptions, onFilter } = useFilteredOptions(optionsRegions);
 
 const isPwd = ref(true);
 
@@ -87,11 +90,14 @@ onMounted(async () => {
       input-class="q-select--form"
       label="Регион*"
       outlined
-      :options="optionsRegions"
+      :options="filteredOptions"
       :option-label="(item) => item.label"
       emit-value
       map-options
-      @blur="handleBlur('region_id')" />
+      input-debounce="500"
+      use-input
+      @blur="handleBlur('region_id')"
+      @filter="onFilter" />
 
     <q-input
       v-bind="getErrorAttrs('password')"
