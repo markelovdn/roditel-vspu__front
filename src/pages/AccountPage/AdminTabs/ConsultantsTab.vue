@@ -99,7 +99,7 @@ const consultantsListHeaders = [
           <q-btn
             icon="edit"
             color="primary"
-            size="xs"
+            size="md"
             @click="
               (showModalUpdateContractNumber = true),
                 (consultantModelData.consultantId = item.consultantId),
@@ -107,7 +107,7 @@ const consultantsListHeaders = [
             "></q-btn>
         </div>
         <div>
-          <q-btn icon="delete" color="negative" size="xs" @click="deleteConsultant(item.consultantId)"></q-btn>
+          <q-btn icon="delete" color="negative" size="md" @click="deleteConsultant(item.consultantId)"></q-btn>
         </div>
       </template>
     </TableWrapper>
