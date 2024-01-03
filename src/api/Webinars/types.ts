@@ -22,22 +22,24 @@ export type TWebinarsRequestOption = {
 };
 
 export type TWebinarData = {
-  data: {
-    id: number;
+  id: number;
+  title: string;
+  logo: string;
+  webinarCategory: {
     title: string;
-    logo: string;
-    webinarCategory: {
-      title: string;
-    };
-    cost: number;
-    registered: boolean;
-    videoLink: string;
-    date: string; // "17.01.2016";
-    timeStart: string; // "03.58";
-    timeEnd: string; //"05.36";
-    questions: TWebinarQuestion[];
-    lectors: TWebinarsLectors;
-  }[];
+  };
+  cost: number;
+  registered: boolean;
+  videoLink: string;
+  date: string; // "17.01.2016";
+  timeStart: string; // "03.58";
+  timeEnd: string; //"05.36";
+  questions: TWebinarQuestion[];
+  lectors: TWebinarsLectors;
+};
+
+export type TWebinarsData = {
+  data: TWebinarData[];
   links: any;
   meta: any;
 };
