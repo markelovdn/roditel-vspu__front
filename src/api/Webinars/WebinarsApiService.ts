@@ -93,4 +93,8 @@ export class WebinarsApiService {
   showWebinar(webinarId: number) {
     return axios.get<TWebinarData>(`/webinars/${webinarId}`);
   }
+
+  deleteWebinar(webinarId: number) {
+    return axios.delete(`/webinars/${webinarId}`);
+  }
 }
