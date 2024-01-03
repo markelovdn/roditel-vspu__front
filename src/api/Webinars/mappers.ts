@@ -1,8 +1,8 @@
 import { TWebinarCardData } from "@/components/common/Home/WebinarCard/types";
 
-import { TWebinarData } from "./types";
+import { TWebinarsData } from "./types";
 
-export const toTWebinarCardData = (webinarData: TWebinarData): TWebinarCardData[] => {
+export const toTWebinarCardData = (webinarData: TWebinarsData): TWebinarCardData[] => {
   return webinarData.data.map((item) => {
     return {
       id: item.id,

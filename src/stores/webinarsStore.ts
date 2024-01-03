@@ -4,15 +4,20 @@ import { computed, ref } from "vue";
 import { webinarsApi } from "@/api";
 import { TCollectionItem } from "@/api/Collections/types";
 import { toTWebinarCardData } from "@/api/Webinars/mappers";
-import { TWebinarPayload, TWebinarsLector, TWebinarsLectors, TWebinarsRequestOption } from "@/api/Webinars/types";
+import {
+  TWebinarData,
+  TWebinarPayload,
+  TWebinarsLector,
+  TWebinarsLectors,
+  TWebinarsRequestOption,
+} from "@/api/Webinars/types";
 import { TWebinarCardData } from "@/components/common/Home/WebinarCard/types";
 import notify from "@/utils/notify";
 
 export const useWebinarsStore = defineStore("webinarsStore", () => {
-  // Вебинары по дефолту загружается 1 страница. Существуют методы пагинации изменяющие
-  // https://markelovdn.ru/api/documentation#/WEBINARS/getWebinarsList
   const webinarCategories = ref<TCollectionItem[]>([]);
   const webinars = ref<TWebinarCardData[]>([]);
+  const webinar = ref<TWebinarData>();
   const lectors = ref<TWebinarsLectors>([]);
   const page = ref({
     current: 1,
@@ -74,6 +79,11 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
     return webinarsApi.addWebinar(webinar);
   }
 
+  async function showWebinar(webinarId: number) {
+    const resp = await webinarsApi.showWebinar(webinarId);
+    webinar.value = resp.data;
+  }
+
   const getWebinarCategories = computed(() => {
     return webinarCategories.value.map((item: TCollectionItem) => {
       return { label: item.title, value: item.id };
@@ -96,6 +106,7 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
 
   return {
     webinars,
+    webinar,
     page,
     lectors,
     addWebinar,
@@ -112,5 +123,6 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
     downloadSertificate,
     requestLectorInfo,
     addLector,
+    showWebinar,
   };
 });
