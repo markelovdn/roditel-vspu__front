@@ -84,6 +84,20 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
     webinar.value = resp.data;
   }
 
+  async function deleteWebinar(webinarId: number) {
+    await webinarsApi
+      .deleteWebinar(webinarId)
+      .then(() => {
+        notify({ type: "positive", message: "Вебинар успешно удален" });
+        webinars.value = webinars.value.filter((w) => w.id !== webinarId);
+      })
+      .catch((err) => {
+        if (err.response.status !== 401) {
+          notify({ type: "negative", message: "Не удалось удалить вебинар" });
+        }
+      });
+  }
+
   const getWebinarCategories = computed(() => {
     return webinarCategories.value.map((item: TCollectionItem) => {
       return { label: item.title, value: item.id };
@@ -124,5 +138,6 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
     requestLectorInfo,
     addLector,
     showWebinar,
+    deleteWebinar,
   };
 });

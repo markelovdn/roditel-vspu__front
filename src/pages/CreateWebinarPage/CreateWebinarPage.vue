@@ -83,18 +83,6 @@ const checkFileType = (files: readonly File[] | FileList | null | undefined) => 
 onMounted(async () => {
   webinarsStore.requestLectors();
   webinarsStore.requestWebinarCategories();
-
-  // if (router.currentRoute.value.params.id) {
-  //   await webinarsStore.showWebinar(Number(router.currentRoute.value.params.id));
-  //   data.value = webinarsStore.webinar;
-
-  //   SurveyData.value.questions.forEach((question) => {
-  //     question.options.push({ text: "" });
-  //     if (question.other === null) {
-  //       question.other = { show: false, text: "" };
-  //     }
-  //   });
-  // }
 });
 
 const handleLectorAdded = () => {
