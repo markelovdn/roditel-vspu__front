@@ -5,6 +5,7 @@ import {
   TRequestWebinarsLectors,
   TWebinarData,
   TWebinarPayload,
+  TWebinarsData,
   TWebinarsLector,
   TWebinarsRequestOption,
   WebinarCategoriesResponse,
@@ -16,7 +17,7 @@ export class WebinarsApiService {
   }
 
   getWebinars(filters: TWebinarsRequestOption) {
-    return axios.get<TWebinarData>(useUrlParams("/webinars", useParamBuilder(filters)));
+    return axios.get<TWebinarsData>(useUrlParams("/webinars", useParamBuilder(filters)));
   }
   getCategories() {
     return axios.get<WebinarCategoriesResponse>("/webinarCategories");
@@ -87,5 +88,13 @@ export class WebinarsApiService {
         "Content-Type": "multipart/form-data",
       },
     });
+  }
+
+  showWebinar(webinarId: number) {
+    return axios.get<TWebinarData>(`/webinars/${webinarId}`);
+  }
+
+  deleteWebinar(webinarId: number) {
+    return axios.delete(`/webinars/${webinarId}`);
   }
 }

@@ -80,7 +80,7 @@ const checkFileType = (files: readonly File[] | FileList | null | undefined) => 
   return filteredFiles;
 };
 
-onMounted(() => {
+onMounted(async () => {
   webinarsStore.requestLectors();
   webinarsStore.requestWebinarCategories();
 });
