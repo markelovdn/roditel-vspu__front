@@ -18,6 +18,8 @@ const webinarsStore = useWebinarsStore();
 const { getWebinarCategoriesWithAll: optionsCategories, getWebinarLectorsWithAll: optionsLectors } =
   storeToRefs(webinarsStore);
 const emit = defineEmits(["validation-change", "update:model-value", "set-webinar"]);
+const previewImage = ref("");
+const input = ref<HTMLInputElement>();
 
 const data = ref<TWebinarPayload>(
   props.webinarItem
@@ -81,17 +83,27 @@ const delQuestion = (index: number) => {
   data.value.webinarQuestions.splice(index, 1);
 };
 
-// const checkFileType = (files: readonly File[] | FileList | null | undefined) => {
-//   if (!files) {
-//     return [];
-//   }
+const handleFileChange = (event: any) => {
+  const file = event.target.files[0];
+  data.value.logo = file;
 
-//   const fileList = "length" in files ? Array.from(files) : files;
-//   const allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/jpg"];
+  if (file) {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.addEventListener("load", () => {
+      previewImage.value = fileReader.result as string;
+    });
+  }
+};
 
-//   const filteredFiles = fileList.filter((file: File) => allowedTypes.includes(file.type));
-//   return filteredFiles;
-// };
+const editPhoto = () => {
+  input.value?.click();
+};
+
+const deletePhoto = () => {
+  previewImage.value = "";
+  data.value.logo = null;
+};
 
 onMounted(async () => {
   webinarsStore.requestLectors();
@@ -115,6 +127,32 @@ const handleSetWebinar = () => {
 <template>
   <div class="main-container">
     <h4>Создать вебинар</h4>
+    <div class="photo-container">
+      <input
+        ref="input"
+        style="display: none"
+        type="file"
+        accept="image/jpeg, image/jpg, image/png"
+        @change="handleFileChange" />
+
+      <div v-if="previewImage || webinarItem" class="photo">
+        <img :src="previewImage || webinarItem?.logo" class="photo" />
+        <div class="caption">
+          <div class="caption-icon">
+            <div>
+              <q-icon name="edit" size="xs" @click="editPhoto"></q-icon>
+            </div>
+            <div>
+              <q-icon v-if="previewImage" name="delete" size="xs" @click="deletePhoto"></q-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div v-if="!previewImage && !webinarItem" class="empty-photo">
+        <q-icon name="camera" size="lg" color="primary" @click="editPhoto"></q-icon>
+        <span>Логотип</span>
+      </div>
+    </div>
     <q-input
       v-bind="getErrorAttrs('title')"
       v-model="data.title"
@@ -181,8 +219,6 @@ const handleSetWebinar = () => {
       </q-input>
     </div>
 
-    <!-- <q-file v-model="data.logo" accept="image/*" :filter="checkFileType" label="Выберите логотип" /> -->
-
     <q-input
       v-bind="getErrorAttrs('videoLink')"
       v-model="data.videoLink"
@@ -247,7 +283,7 @@ const handleSetWebinar = () => {
 
     <div class="row justify-between q-mt-lg">
       <q-btn
-        :label="webinarItem ? 'Сохранить' : 'Изменить'"
+        :label="webinarItem ? 'Изменить' : 'Сохранить'"
         class="q-btn--form"
         size="md"
         color="primary"
@@ -273,5 +309,60 @@ const handleSetWebinar = () => {
   align-items: center;
   flex-wrap: nowrap;
   margin-bottom: 0;
+}
+
+.photo-container {
+  display: flex;
+  position: relative;
+  justify-content: start;
+  align-items: start;
+}
+
+.photo {
+  display: flex;
+  border-radius: 6px;
+  width: 67px;
+  height: 86px;
+  position: relative;
+}
+
+.empty-photo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 6px;
+  width: 67px;
+  height: 86px;
+  position: relative;
+  border: solid 1px #ccc;
+}
+
+.caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: #fff;
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 0 0 6px 6px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  text-align: center;
+}
+
+.photo:hover .caption {
+  opacity: 1;
+}
+
+.caption-icon {
+  opacity: 1;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>

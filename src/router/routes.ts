@@ -76,7 +76,7 @@ const routes: Array<RouteRecordRaw> = [
       requireAuth: true,
       title: "Создать вебинар",
     },
-    component: () => import("@/pages/CreateWebinarPage/CreateWebinarPage.vue"),
+    component: () => import("@/pages/WebinarPage/CreateWebinarPage.vue"),
   },
   {
     path: "/webinar/:id",
@@ -85,7 +85,7 @@ const routes: Array<RouteRecordRaw> = [
       requireAuth: true,
       title: "Редактировать вебинар",
     },
-    component: () => import("@/pages/CreateWebinarPage/CreateWebinarPage.vue"),
+    component: () => import("@/pages/WebinarPage/EditWebinarPage.vue"),
   },
 ];
 
