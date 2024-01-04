@@ -26,6 +26,7 @@ export type TWebinarData = {
   title: string;
   logo: string;
   webinarCategory: {
+    id?: number;
     title: string;
   };
   cost: number;
@@ -58,7 +59,7 @@ export type TWebinarPayload = {
   timeStart: string;
   timeEnd: string;
   videoLink: string;
-  logo: File | FileList | null;
+  logo: File | FileList | null | string;
   cost: number;
   webinarCategoryId: number | null;
   webinarQuestions: Array<TWebinarQuestion>;
