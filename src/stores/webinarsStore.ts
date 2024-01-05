@@ -84,6 +84,10 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
     webinar.value = resp.data;
   }
 
+  function updateWebinar(webinarId: number, webinar: TWebinarPayload) {
+    return webinarsApi.updateWebinar(webinarId, webinar);
+  }
+
   async function deleteWebinar(webinarId: number) {
     await webinarsApi
       .deleteWebinar(webinarId)
@@ -138,6 +142,7 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
     requestLectorInfo,
     addLector,
     showWebinar,
+    updateWebinar,
     deleteWebinar,
   };
 });

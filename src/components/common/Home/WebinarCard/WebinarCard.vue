@@ -28,9 +28,7 @@ const labels = computed(() => [
   },
 ]);
 const isShowWebinarModal = ref(false);
-const editWebinar = () => {
-  console.log("editWebinar");
-};
+
 const deleteWebinar = (id: number) => {
   console.log("deleteWebinar" + id);
   webinarStore.deleteWebinar(id);
@@ -134,7 +132,7 @@ const downloadCertificate = (webinarId: number) => {
           </div>
         </div>
         <div v-if="authStore.user?.role.code === 'admin' && type !== 'grid'" class="q-mt-md flex justify-between">
-          <q-btn dense icon="edit" color="primary" size="md" class="q-px-sm" @click="editWebinar"></q-btn>
+          <q-btn dense icon="edit" color="primary" size="md" class="q-px-sm" :to="`/webinar/${item.id}`"></q-btn>
           <q-btn
             dense
             icon="delete"

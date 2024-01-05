@@ -126,7 +126,9 @@ const handleSetWebinar = () => {
 
 <template>
   <div class="main-container">
-    <h4>Создать вебинар</h4>
+    {{ webinarItem }}
+    <h4 v-if="!webinarItem">Создать вебинар</h4>
+    <h4 v-else>Редактировать вебинар</h4>
     <div class="photo-container">
       <input
         ref="input"

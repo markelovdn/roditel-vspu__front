@@ -94,6 +94,25 @@ export class WebinarsApiService {
     return axios.get<TWebinarData>(`/webinars/${webinarId}`);
   }
 
+  updateWebinar(webinarId: number, webinar: TWebinarPayload) {
+    const formData = new FormData();
+    formData.append("title", webinar.title);
+    formData.append("date", webinar.date);
+    formData.append("timeStart", webinar.timeStart);
+    formData.append("timeEnd", webinar.timeEnd);
+    formData.append("logo", webinar.logo as File);
+    formData.append("cost", "0.00");
+    formData.append("videoLink", webinar.videoLink);
+    formData.append("webinarCategoryId", JSON.stringify(webinar.webinarCategoryId));
+    formData.append("questions", JSON.stringify(webinar.webinarQuestions));
+    formData.append("lectors", JSON.stringify(webinar.webinarLectorsId));
+    return axios.post(`/webinar/${webinarId}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  }
+
   deleteWebinar(webinarId: number) {
     return axios.delete(`/webinars/${webinarId}`);
   }
