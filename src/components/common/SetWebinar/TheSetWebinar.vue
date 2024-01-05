@@ -126,6 +126,7 @@ const handleSetWebinar = () => {
 
 <template>
   <div class="main-container">
+    {{ data }}
     {{ webinarItem }}
     <h4 v-if="!webinarItem">Создать вебинар</h4>
     <h4 v-else>Редактировать вебинар</h4>
@@ -161,28 +162,30 @@ const handleSetWebinar = () => {
       autogrow
       label="Название вебинара"
       @blur="handleBlur('title')" />
-    <q-input
-      v-bind="getErrorAttrs('date')"
-      v-model="data.date"
-      mask="##.##.####"
-      label="Дата проведения:"
-      @blur="handleBlur('date')">
-      <template #append>
-        <q-icon name="event" class="cursor-pointer">
-          <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-            <q-date v-model="data.date" mask="DD.MM.YYYY">
-              <div class="row items-center justify-end">
-                <q-btn v-close-popup label="Закрыть" color="primary" flat />
-              </div>
-            </q-date>
-          </q-popup-proxy>
-        </q-icon>
-      </template>
-    </q-input>
-    <div>
+    <div class="row">
+      <q-input
+        v-bind="getErrorAttrs('date')"
+        v-model="data.date"
+        class="col full-width q-pr-sm"
+        mask="##.##.####"
+        label="Дата проведения:"
+        @blur="handleBlur('date')">
+        <template #append>
+          <q-icon name="event" class="cursor-pointer">
+            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+              <q-date v-model="data.date" mask="DD.MM.YYYY">
+                <div class="row items-center justify-end">
+                  <q-btn v-close-popup label="Закрыть" color="primary" flat />
+                </div>
+              </q-date>
+            </q-popup-proxy>
+          </q-icon>
+        </template>
+      </q-input>
       <q-input
         v-bind="getErrorAttrs('timeStart')"
         v-model="data.timeStart"
+        class="col full-width q-pr-sm"
         mask="time"
         :rules="['time']"
         label="Время начала:"
@@ -203,6 +206,7 @@ const handleSetWebinar = () => {
       <q-input
         v-bind="getErrorAttrs('timeEnd')"
         v-model="data.timeEnd"
+        class="col full-width"
         mask="time"
         :rules="['time']"
         label="Время окончания:"

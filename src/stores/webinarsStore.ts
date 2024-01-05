@@ -75,13 +75,14 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
     return webinarsApi.updateLector(lectorId, lector);
   }
 
-  function addWebinar(webinar: TWebinarPayload) {
-    return webinarsApi.addWebinar(webinar);
+  async function addWebinar(webinar: TWebinarPayload) {
+    await webinarsApi.addWebinar(webinar).then(() => {
+      requestWebinars(options);
+    });
   }
 
   async function showWebinar(webinarId: number) {
-    const resp = await webinarsApi.showWebinar(webinarId);
-    webinar.value = resp.data;
+    await webinarsApi.showWebinar(webinarId).then((resp) => (webinar.value = resp.data));
   }
 
   function updateWebinar(webinarId: number, webinar: TWebinarPayload) {

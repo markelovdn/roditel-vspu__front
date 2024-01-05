@@ -106,7 +106,7 @@ export class WebinarsApiService {
     formData.append("webinarCategoryId", JSON.stringify(webinar.webinarCategoryId));
     formData.append("questions", JSON.stringify(webinar.webinarQuestions));
     formData.append("lectors", JSON.stringify(webinar.webinarLectorsId));
-    return axios.post(`/webinar/${webinarId}`, formData, {
+    return axios.post(`/webinar/${webinarId}?XDEBUG_SESSION=VSCODE`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
