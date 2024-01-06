@@ -76,9 +76,7 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
   }
 
   async function addWebinar(webinar: TWebinarPayload) {
-    await webinarsApi.addWebinar(webinar).then(() => {
-      requestWebinars(options);
-    });
+    await webinarsApi.addWebinar(webinar);
   }
 
   async function showWebinar(webinarId: number) {

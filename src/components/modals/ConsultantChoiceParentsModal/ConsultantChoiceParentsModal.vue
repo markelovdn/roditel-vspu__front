@@ -45,7 +45,7 @@ onMounted(() => {
   <ModalWrapper close-button-header header="Выберите родителей" @close="closeModal">
     <div class="choice-parents">
       <q-select
-        v-bind="getErrorAttrs('region_id')"
+        v-bind="getErrorAttrs('regionId')"
         v-model="data.parents"
         class="fit q-mb-sm"
         input-class="q-select--form"
@@ -55,7 +55,7 @@ onMounted(() => {
         :option-label="(item) => item.fullName"
         emit-value
         map-options
-        @blur="handleBlur('region_id')" />
+        @blur="handleBlur('regionId')" />
 
       <div class="choice-parents__block">
         <q-btn
