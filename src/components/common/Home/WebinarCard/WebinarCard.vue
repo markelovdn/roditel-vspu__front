@@ -30,8 +30,17 @@ const labels = computed(() => [
 const isShowWebinarModal = ref(false);
 
 const deleteWebinar = (id: number) => {
-  console.log("deleteWebinar" + id);
   webinarStore.deleteWebinar(id);
+};
+
+const donwloadParticipantsList = (webinarId: number) => {
+  webinarStore.dowloadWebinarPartisipants(webinarId).then((resp) => {
+    console.log(resp.data.linkFilesPartisipant);
+    const link = document.createElement("a");
+    link.href = resp.data.linkFilesPartisipant;
+    link.target = "_blank";
+    link.click();
+  });
 };
 const idDownload = (dataString: string) => {
   const dateParts = dataString.split(".");
@@ -60,7 +69,7 @@ const downloadCertificate = (webinarId: number) => {
     <div class="flex no-wrap">
       <div class="webinar-card__image">
         <q-img
-          v-if="item.imageUrl"
+          v-if="item && item.imageUrl"
           :src="item.imageUrl"
           :fit="'cover'"
           :position="'100% 50%'"
@@ -101,7 +110,10 @@ const downloadCertificate = (webinarId: number) => {
           </div>
 
           <div class="flex column justify-between">
-            <div v-if="authStore.user?.role.code === 'admin'" class="info__link" @click="isShowWebinarModal = true">
+            <div
+              v-if="authStore.user?.role.code === 'admin'"
+              class="info__link"
+              @click="donwloadParticipantsList(item.id)">
               Скачать список участников
             </div>
             <div v-else-if="!item.registered" class="info__link" @click="isShowWebinarModal = true">

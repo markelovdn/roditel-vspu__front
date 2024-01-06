@@ -38,6 +38,12 @@ export class WebinarsApiService {
     });
   }
 
+  downloadParticipantList(webinarId: number) {
+    return axios.post(`/dowloadWebinarPartisipants`, {
+      webinarId: webinarId,
+    });
+  }
+
   getLectorInfo(lectorId: number) {
     return axios.get<TWebinarsLector>(`/lectors/${lectorId}`);
   }
@@ -106,7 +112,7 @@ export class WebinarsApiService {
     formData.append("webinarCategoryId", JSON.stringify(webinar.webinarCategoryId));
     formData.append("questions", JSON.stringify(webinar.webinarQuestions));
     formData.append("lectors", JSON.stringify(webinar.webinarLectorsId));
-    return axios.post(`/webinar/${webinarId}?XDEBUG_SESSION=VSCODE`, formData, {
+    return axios.post(`/webinar/${webinarId}`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

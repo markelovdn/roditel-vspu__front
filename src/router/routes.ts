@@ -80,7 +80,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/webinar/:id",
-    name: "ShowWebinar",
+    name: "EditWebinar",
     meta: {
       requireAuth: true,
       title: "Редактировать вебинар",

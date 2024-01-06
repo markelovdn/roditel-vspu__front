@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 
 import { TWebinarPayload } from "@/api/Webinars/types";
@@ -8,6 +8,7 @@ import { useWebinarsStore } from "@/stores/webinarsStore";
 
 const webinarsStore = useWebinarsStore();
 const router = useRouter();
+const isLoading = ref(false);
 
 const handleUpdateWebinar = (event: TWebinarPayload) => {
   webinarsStore.updateWebinar(Number(router.currentRoute.value.params.id), event);
@@ -15,14 +16,14 @@ const handleUpdateWebinar = (event: TWebinarPayload) => {
 };
 
 onMounted(async () => {
-  await webinarsStore.showWebinar(Number(router.currentRoute.value.params.id)).then(() => {
-    webinarsStore.webinar;
-  });
+  await webinarsStore.showWebinar(Number(router.currentRoute.value.params.id));
+  webinarsStore.webinar;
+  isLoading.value = true;
 });
 </script>
 
 <template>
-  <TheSetWebinar :webinar-item="webinarsStore.webinar" @set-webinar="handleUpdateWebinar" />
+  <TheSetWebinar v-if="isLoading" :webinar-item="webinarsStore.webinar" @set-webinar="handleUpdateWebinar" />
 </template>
 
 <style lang="scss" scoped></style>
