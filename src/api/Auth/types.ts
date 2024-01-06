@@ -19,8 +19,8 @@ export type TUser = {
   id: number;
   email: string;
   fullName: string;
-  first_name: string;
-  second_name: string;
+  firstName: string;
+  secondName: string;
   surName: string;
   phone: string;
   role: TUserRole;
