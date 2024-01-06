@@ -6,8 +6,8 @@ export type TRegistrationPayload = {
   professionId?: number | null;
   password: string;
   passwordConfirm?: string;
-  role_code: string;
-  region_id?: number | null;
+  roleCode: string;
+  regionId?: number | null;
 };
 
 export type TLoginArgs = {

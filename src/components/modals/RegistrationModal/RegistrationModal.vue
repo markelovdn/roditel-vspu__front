@@ -26,18 +26,18 @@ const data = ref<TRegistrationPayload>({
   professionId: null,
   password: "",
   passwordConfirm: "",
-  role_code: "",
-  region_id: null,
+  roleCode: "",
+  regionId: null,
 });
 
 const { closeModal } = useModal(emit, data);
 const authStore = useAuthStore();
 const isRoleSelected = ref(false);
-const setRole = (role_code: string) => {
-  data.value.role_code = role_code;
+const setRole = (roleCode: string) => {
+  data.value.roleCode = roleCode;
   isRoleSelected.value = true;
 };
-const isConsultant = computedEager(() => data.value.role_code === RegistrationRoleMap.CONSULTANT);
+const isConsultant = computedEager(() => data.value.roleCode === RegistrationRoleMap.CONSULTANT);
 const isValid = ref(false);
 
 //TODO: добавить тип нормальный вместо any

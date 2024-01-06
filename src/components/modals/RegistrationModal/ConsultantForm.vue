@@ -39,7 +39,7 @@ const { handleBlur, getErrorAttrs } = useValidation<TRegistrationPayload>(data, 
   professionId: { requiredValidator },
   password: { requiredValidator },
   passwordConfirm: { repeatPasswordValidator: repeatPasswordValidator(computed(() => data.value.password)) },
-  role_code: { requiredValidator },
+  roleCode: { requiredValidator },
 });
 
 onMounted(() => {

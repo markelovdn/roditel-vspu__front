@@ -50,12 +50,15 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
       });
   }
   function downloadSertificate(webinarId: number, userId: number) {
-    return webinarsApi.downloadSertificate(webinarId, userId).then((resp) => {
-      return resp;
-    });
+    return webinarsApi.downloadSertificate(webinarId, userId);
   }
-  function requestWebinars(options: TWebinarsRequestOption) {
-    webinarsApi.getWebinars(options).then((resp) => {
+
+  function dowloadWebinarPartisipants(webinarId: number) {
+    return webinarsApi.downloadParticipantList(webinarId);
+  }
+
+  async function requestWebinars(options: TWebinarsRequestOption) {
+    await webinarsApi.getWebinars(options).then((resp) => {
       page.value.max = resp.data.meta.last_page;
       page.value.current = resp.data.meta.current_page;
       webinars.value = toTWebinarCardData(resp.data);
@@ -75,21 +78,37 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
     return webinarsApi.updateLector(lectorId, lector);
   }
 
-  function addWebinar(webinar: TWebinarPayload) {
-    return webinarsApi.addWebinar(webinar);
+  async function addWebinar(webinar: TWebinarPayload) {
+    await webinarsApi.addWebinar(webinar).then(() => {
+      const options = {} as TWebinarsRequestOption;
+      webinarsApi.getWebinars(options).then((resp) => {
+        page.value.max = resp.data.meta.last_page;
+        page.value.current = resp.data.meta.current_page;
+        webinars.value = toTWebinarCardData(resp.data);
+      });
+    });
   }
 
   async function showWebinar(webinarId: number) {
-    const resp = await webinarsApi.showWebinar(webinarId);
-    webinar.value = resp.data;
+    await webinarsApi.showWebinar(webinarId).then((resp) => (webinar.value = resp.data));
+  }
+
+  function updateWebinar(webinarId: number, webinar: TWebinarPayload) {
+    return webinarsApi.updateWebinar(webinarId, webinar);
   }
 
   async function deleteWebinar(webinarId: number) {
     await webinarsApi
       .deleteWebinar(webinarId)
       .then(() => {
+        // webinars.value = webinars.value.filter((w) => w.id !== webinarId);
+        const options = {} as TWebinarsRequestOption;
+        webinarsApi.getWebinars(options).then((resp) => {
+          page.value.max = resp.data.meta.last_page;
+          page.value.current = resp.data.meta.current_page;
+          webinars.value = toTWebinarCardData(resp.data);
+        });
         notify({ type: "positive", message: "Вебинар успешно удален" });
-        webinars.value = webinars.value.filter((w) => w.id !== webinarId);
       })
       .catch((err) => {
         if (err.response.status !== 401) {
@@ -135,9 +154,11 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
     getWebinarLectors,
     getWebinarLectorsWithAll,
     downloadSertificate,
+    dowloadWebinarPartisipants,
     requestLectorInfo,
     addLector,
     showWebinar,
+    updateWebinar,
     deleteWebinar,
   };
 });
