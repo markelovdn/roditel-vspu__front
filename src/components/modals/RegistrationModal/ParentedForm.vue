@@ -40,8 +40,8 @@ const { handleBlur, getErrorAttrs } = useValidation<TRegistrationPayload>(data, 
   email: { requiredValidator, emailValidator },
   passwordConfirm: { repeatPasswordValidator: repeatPasswordValidator(computed(() => data.value.password)) },
   password: { requiredValidator },
-  region_id: { requiredValidator },
-  role_code: { requiredValidator },
+  regionId: { requiredValidator },
+  roleCode: { requiredValidator },
 });
 
 onMounted(async () => {
@@ -84,8 +84,8 @@ onMounted(async () => {
       @blur="handleBlur('email')" />
 
     <q-select
-      v-bind="getErrorAttrs('region_id')"
-      v-model="data.region_id"
+      v-bind="getErrorAttrs('regionId')"
+      v-model="data.regionId"
       class="fit q-mb-sm"
       input-class="q-select--form"
       label="Регион*"
@@ -96,7 +96,7 @@ onMounted(async () => {
       map-options
       input-debounce="500"
       use-input
-      @blur="handleBlur('region_id')"
+      @blur="handleBlur('regionId')"
       @filter="onFilter" />
 
     <q-input

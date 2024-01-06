@@ -31,7 +31,7 @@ const data = ref<TPersonalDataParentPayload>({
   name: authStore.user?.fullName,
   phone: authStore.user?.phone,
   email: authStore.user?.email,
-  region_id: authStore?.user?.ragionId,
+  regionId: authStore?.user?.ragionId,
 });
 
 const children = ref<Array<TPersonalDataChildrenPayload & { isValid: boolean }>>([]);
@@ -42,7 +42,7 @@ const { handleBlur, getErrorAttrs, isValid } = useValidation<TPersonalDataParent
   name: { requiredValidator, splitNameValidator },
   phone: { requiredValidator, minLengthValidator: minLengthValidator(17) },
   email: { requiredValidator, emailValidator },
-  region_id: { requiredValidator },
+  regionId: { requiredValidator },
 });
 
 const handleForm = () => {
@@ -133,8 +133,8 @@ onMounted(() => {
             @blur="handleBlur('phone')" />
 
           <q-select
-            v-bind="getErrorAttrs('region_id')"
-            v-model="data.region_id"
+            v-bind="getErrorAttrs('regionId')"
+            v-model="data.regionId"
             class="personal-data__item"
             input-class="q-select--form"
             label="Регион*"
@@ -145,7 +145,7 @@ onMounted(() => {
             map-options
             use-input
             input-debounce="500"
-            @blur="handleBlur('region_id')"
+            @blur="handleBlur('regionId')"
             @filter="onFilter" />
         </div>
 

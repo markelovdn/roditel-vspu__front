@@ -19,7 +19,7 @@ export class ParentsApiService {
       patronymic: splitName[2],
       phone: data.phone,
       email: data.email,
-      regionId: data.region_id,
+      regionId: data.regionId,
       childrens: data.childrens,
     });
   }
