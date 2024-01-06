@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject } from "vue";
+import { inject } from "vue";
 import { useRouter } from "vue-router";
 
 import logoUrl from "@/assets/img/icons/logo.png";
@@ -14,10 +14,6 @@ const authModal = inject(AuthModalInjectionKey, {} as AuthModalProviderData);
 
 const authStore = useAuthStore();
 const router = useRouter();
-
-const userCabinetButtontext = computed(() => {
-  return authStore.getUserInfo ? "Личный кабинет" : "Войти";
-});
 
 const auth = () => {
   if (authStore.getUserInfo) {
@@ -52,7 +48,12 @@ const logout = () => {
 
           <q-btn outline style="color: #f7b70b" class="personal-cabinet" @click="auth()">
             <IconPersonal />
-            <span class="personal-cabinet__label text-primary">{{ userCabinetButtontext }}</span>
+            <div v-if="authStore.getUserInfo" class="personal-cabinet__name-box">
+              <span class="text-primary text-elipsis">{{ authStore.user?.secondName }}</span>
+              <span class="text-primary">{{ authStore.user?.firstName.charAt(0) }}.</span>
+              <span class="text-primary">{{ authStore.user?.surName.charAt(0) }}.</span>
+            </div>
+            <span v-else class="personal-cabinet__label text-primary">Войти</span>
           </q-btn>
           <q-btn
             v-if="authStore.isLoggedIn"
@@ -201,6 +202,11 @@ const logout = () => {
           display: flex;
           align-items: center;
         }
+
+        .personal-cabinet__name-box {
+          display: flex;
+          gap: 5px;
+        }
       }
     }
   }
@@ -259,6 +265,13 @@ const logout = () => {
         color: $Blue-lighter;
       }
     }
+  }
+
+  .text-elipsis {
+    max-width: 80px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 </style>
