@@ -45,6 +45,12 @@ export const useConsultantStore = defineStore("consultantStore", () => {
       .getReports(consultantId.value, filters)
       .then((resp) => (reportsModel.value = toConsultantReportsData(resp.data)));
   }
+
+  function getReportsForAdmin(filters: TGetConsultantReportsFilter) {
+    return consultantApi
+      .getReportsForAdmin(filters)
+      .then((resp) => (reportsModel.value = toConsultantReportsData(resp.data)));
+  }
   function getReports(filters: TGetConsultantReportsFilter) {
     if (consultantId.value === undefined) return;
     return consultantApi.getReports(consultantId.value, filters).then((resp) => toConsultantReportsData(resp.data));
@@ -142,5 +148,6 @@ export const useConsultantStore = defineStore("consultantStore", () => {
     setParentQuestion,
     requestConsultants,
     page,
+    getReportsForAdmin,
   };
 });

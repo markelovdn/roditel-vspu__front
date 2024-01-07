@@ -12,6 +12,12 @@ export class ConsultantApiService {
       useUrlParams(`/consultant/${consultantId}/reports`, useParamBuilder(filters)),
     );
   }
+
+  getReportsForAdmin(filters: TGetConsultantReportsFilter) {
+    return axios.get<TGetConsultantReportsResponseData>(
+      useUrlParams(`/getConsultantsReports`, useParamBuilder(filters)),
+    );
+  }
   createReport(consultantId: number | string, payload: FormData) {
     return axios.post<any>(`/consultant/${consultantId}/reports`, payload);
   }
