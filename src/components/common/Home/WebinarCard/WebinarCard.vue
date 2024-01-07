@@ -35,7 +35,6 @@ const deleteWebinar = (id: number) => {
 
 const donwloadParticipantsList = (webinarId: number) => {
   webinarStore.dowloadWebinarPartisipants(webinarId).then((resp) => {
-    console.log(resp.data.linkFilesPartisipant);
     const link = document.createElement("a");
     link.href = resp.data.linkFilesPartisipant;
     link.target = "_blank";

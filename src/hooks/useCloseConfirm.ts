@@ -28,13 +28,11 @@ export function useCloseConfirm(data: Ref<unknown> = ref({}), routerName: string
         },
         cancel: () => void 0,
       });
-      console.log("hasChanges");
     } else {
       setTimeout(() => {
         forceClose.value = false;
         router.push({ name: routerName, query: queryParams });
       }, 100);
-      console.log("noChanges");
     }
   };
 

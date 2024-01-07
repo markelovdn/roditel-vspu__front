@@ -11,11 +11,8 @@ import WebinarsFilter from "./WebinarsFilter.vue";
 const queryParams = ref<TWebinarsRequestOption>({ page: 1 });
 const webinarsStore = useWebinarsStore();
 
-// const setPage = (page: number) => (queryParams.value.page = page);
 const setFilters = (filters: TWebinarsRequestOption, page: number) => {
   queryParams.value = { ...filters, page };
-  // console.log(page);
-  // console.log(queryParams.value);
 };
 
 useRequestPayload(queryParams, webinarsStore.requestWebinars, {
