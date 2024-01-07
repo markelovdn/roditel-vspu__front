@@ -15,7 +15,7 @@ export class ConsultantApiService {
 
   getReportsForAdmin(filters: TGetConsultantReportsFilter) {
     return axios.get<TGetConsultantReportsResponseData>(
-      useUrlParams(`/getConsultantsReports?XDEBUG_SESSION=VSCODE`, useParamBuilder(filters)),
+      useUrlParams(`/getConsultantsReports`, useParamBuilder(filters)),
     );
   }
   createReport(consultantId: number | string, payload: FormData) {

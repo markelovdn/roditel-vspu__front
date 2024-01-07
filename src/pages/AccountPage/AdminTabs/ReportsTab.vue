@@ -3,7 +3,6 @@ import { storeToRefs } from "pinia";
 import { computed, onMounted, ref } from "vue";
 
 import { TGetConsultantReportsFilter } from "@/api/Consultant/types";
-import ReportModal from "@/components/modals/ReportModal/ReportModal.vue";
 import TableWrapper from "@/components/TableWrapper/TableWrapper.vue";
 import { TTableWrapperHeaders } from "@/components/TableWrapper/types";
 import { useRequestPayload } from "@/hooks/useRequestPayload";
@@ -11,14 +10,8 @@ import { useScrollControl } from "@/hooks/useScrollControl";
 import { useConsultantStore } from "@/stores/consultantStore";
 import notify from "@/utils/notify";
 
-const statusTranslate = {
-  fail: "Не загружен",
-  success: "Загружено",
-};
-
 const consultantStore = useConsultantStore();
 const { scrollToTop } = useScrollControl();
-const isShowReportModal = ref(false);
 const { reportsModel } = storeToRefs(consultantStore);
 const reportsListRows = computed(() => {
   return reportsModel.value?.data.map((el) => el) || [];
@@ -37,7 +30,7 @@ const reportListHeaders = [
     name: "name",
     label: "Название файла",
     field: "name",
-    align: "left",
+    align: "center",
     width: "auto",
   },
   {
@@ -48,17 +41,8 @@ const reportListHeaders = [
     width: "100px",
   },
   {
-    name: "status",
-    label: "Статус",
-    //TODO: форматирование статуса
-    field: "status",
-    align: "center",
-    width: "120px",
-  },
-  {
     name: "saveUrl",
     label: "Скачать",
-    //TODO: кнопка скачать
     field: "saveUrl",
     align: "center",
     width: "100px",
@@ -102,9 +86,6 @@ onMounted(() => {
 <template>
   <TableWrapper :items="reportsListRows" :headers="reportListHeaders" :title="'Журналы'">
     <template #header_right>
-      <q-btn @click="isShowReportModal = true">Загрузить файл</q-btn>
-    </template>
-    <template #filters>
       <div class="q-pa-md" style="max-width: 300px">
         <q-input v-model="dateToString" outlined>
           <template #append>
@@ -126,9 +107,6 @@ onMounted(() => {
       <div class="justify-center items-center">{{ index + 1 }}</div>
       <div class="items-center">{{ item.fileName }}</div>
       <div class="justify-center items-center">{{ item.createdAt }}</div>
-      <div :class="[{ error: item.uploadStatus === 'fail' }]" class="justify-center items-center">
-        {{ statusTranslate[item.uploadStatus] || item.uploadStatus }}
-      </div>
       <div class="justify-center items-center">
         <q-btn flat @click="handleFileDownload(item.fileUrl, item.fileName)">
           <svg
@@ -162,8 +140,6 @@ onMounted(() => {
       </div>
     </template>
   </TableWrapper>
-
-  <ReportModal v-if="isShowReportModal" @close="isShowReportModal = false"></ReportModal>
 </template>
 
 <style lang="scss" scoped>

@@ -46,10 +46,10 @@ export const useConsultantStore = defineStore("consultantStore", () => {
       .then((resp) => (reportsModel.value = toConsultantReportsData(resp.data)));
   }
 
-  async function getReportsForAdmin(filters: TGetConsultantReportsFilter) {
-    await consultantApi
+  function getReportsForAdmin(filters: TGetConsultantReportsFilter) {
+    return consultantApi
       .getReportsForAdmin(filters)
-      .then((resp) => ((reportsModel.value = toConsultantReportsData(resp.data)), console.log(resp.data)));
+      .then((resp) => (reportsModel.value = toConsultantReportsData(resp.data)));
   }
   function getReports(filters: TGetConsultantReportsFilter) {
     if (consultantId.value === undefined) return;
