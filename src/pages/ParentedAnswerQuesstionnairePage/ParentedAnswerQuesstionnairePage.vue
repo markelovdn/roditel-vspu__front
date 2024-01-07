@@ -85,6 +85,10 @@ onMounted(() => {
       .then(() => (temp.value = questionnairesStore.temp));
   }
 });
+
+const back = () => {
+  router.push({ name: "My", query: { tabId: "questionaries" } });
+};
 </script>
 
 <template>
@@ -94,14 +98,6 @@ onMounted(() => {
       <p class="survey__description subtitle q-mb-sm">{{ SurveyData.description }}</p>
       <p class="survey__answerBefore q-mb-sm">Ответить до: {{ SurveyData.answerBefore }}</p>
     </div>
-
-    <!-- <p>Выбаранные ответы (уходят на бэк): {{ selected }}</p>
-    <p>Другое (уходят на бэк): {{ other }}</p>
-    <p>Answers: {{ answers }}</p>
-    <p>Checked: {{ checked }}</p>
-    <p>Radio: {{ radio }}</p>
-    <p>Text: {{ text }}</p> -->
-
     <!-- Вопросы -->
     <div class="questions-wrapper">
       <div v-for="(question, questionIndex) in SurveyData.questions" :key="questionIndex" class="question shadow-1">
@@ -135,21 +131,10 @@ onMounted(() => {
         </div>
       </div>
     </div>
-    <div class="fit flex flex-center q-mt-sm">
-      <q-btn label="Отправить" class="q-btn--form" color="primary" @click="submitSurvey"></q-btn>
+    <div class="footer">
+      <q-btn label="Отправить" class="q-btn--form q-mt-lg float-left" color="primary" @click="submitSurvey"></q-btn>
+      <q-btn label="Отменить" class="q-btn--form q-mt-lg float-right" color="grey-2" @click="back"></q-btn>
     </div>
-
-    <!-- <h5>Ответы</h5>
-    <div>
-      <ul v-for="(question, questionIndex) in temp.questions" :key="questionIndex">
-        Вопрос:{{
-          question.text
-        }}
-        <p>Ответы:</p>
-        <li v-for="(option, optionIndex) in question.options" :key="optionIndex">{{ option.text }}</li>
-        <p v-if="question.option_other">Другое: {{ question.option_other.text }}</p>
-      </ul>
-    </div> -->
   </div>
 </template>
 
@@ -160,8 +145,6 @@ onMounted(() => {
   }
   &__description {
     color: var(--grey-1);
-  }
-  &__answerBefore {
   }
 }
 .btn-delete {
@@ -205,5 +188,9 @@ onMounted(() => {
       flex-grow: 2;
     }
   }
+}
+.footer {
+  display: inline-block;
+  width: 100%;
 }
 </style>

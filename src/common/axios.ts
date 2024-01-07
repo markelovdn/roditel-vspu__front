@@ -29,7 +29,6 @@ axios.interceptors.request.use(
   },
   async (err) => {
     notify({ type: "negative", message: "Не удалось запросить данные" });
-    console.log(err);
     return Promise.reject(err);
   },
 );
