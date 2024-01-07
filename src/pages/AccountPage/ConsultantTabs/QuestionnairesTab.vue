@@ -145,31 +145,35 @@ const questionnairesListHeaders = [
         </router-link>
       </template>
       <template #filters>
-        <div class="q-pa-md row no-wrap" style="max-width: 300px">
-          <q-input v-model="dateToString" outlined>
-            <template #append>
-              <q-icon name="event" class="cursor-pointer">
-                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                  <q-date v-model="dateFilter" range @update:model-value="setDataFilter">
-                    <div class="row items-center justify-end">
-                      <q-btn v-close-popup label="Закрыть" color="primary" flat />
-                      <q-btn v-close-popup label="Сбросить" color="primary" flat @click="dateClear()" />
-                    </div>
-                  </q-date>
-                </q-popup-proxy>
-              </q-icon>
-            </template>
-          </q-input>
-          <q-select
-            v-model="statusFilter"
-            input-class="q-select--form"
-            label="Статус*"
-            outlined
-            :options="filterStatusSelect"
-            :option-label="(item) => item.label"
-            emit-value
-            map-options
-            @update:model-value="(value) => setStatusFilter(value)" />
+        <div class="flex">
+          <div class="q-pa-md" style="max-width: 300px">
+            <q-input v-model="dateToString" outlined>
+              <template #append>
+                <q-icon name="event" class="cursor-pointer">
+                  <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                    <q-date v-model="dateFilter" range @update:model-value="setDataFilter">
+                      <div class="row items-center justify-end">
+                        <q-btn v-close-popup label="Закрыть" color="primary" flat />
+                        <q-btn v-close-popup label="Сбросить" color="primary" flat @click="dateClear()" />
+                      </div>
+                    </q-date>
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+            </q-input>
+          </div>
+          <div class="q-pa-md" style="width: 200px">
+            <q-select
+              v-model="statusFilter"
+              input-class="q-select--form"
+              label="Статус*"
+              outlined
+              :options="filterStatusSelect"
+              :option-label="(item) => item.label"
+              emit-value
+              map-options
+              @update:model-value="(value) => setStatusFilter(value)" />
+          </div>
         </div>
       </template>
       <template #item="{ item, index }">

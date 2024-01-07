@@ -37,7 +37,7 @@ const reportListHeaders = [
     name: "name",
     label: "Название файла",
     field: "name",
-    align: "left",
+    align: "center",
     width: "auto",
   },
   {
@@ -91,7 +91,7 @@ const handleFileDownload = (fileUrl: string, fileName: string) => {
   anchorElement.download = fileName;
   anchorElement.target = "_blank";
   anchorElement.click();
-  notify({ message: "TODO: скачивание файла" });
+  notify({ message: "Скачивание файла" });
 };
 
 onMounted(() => {
