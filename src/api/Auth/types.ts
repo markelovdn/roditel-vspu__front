@@ -38,7 +38,9 @@ export type TLoginResponse = {
   userData: TUser;
 };
 
-export interface TRegistrationResponse extends TLoginResponse {}
+export interface TRegistrationResponse extends TLoginResponse {
+  message: string[];
+}
 
 export type TForgotPasswordArgs = {
   email: string;

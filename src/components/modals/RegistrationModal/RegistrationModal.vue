@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { computedEager } from "@vueuse/core";
+import type { AxiosError } from "axios";
 import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
-import { type TRegistrationPayload } from "@/api/Auth/types";
+import { TRegistrationPayload, TRegistrationResponse } from "@/api/Auth/types";
 import { useModal } from "@/hooks/useModal";
 import { useAuthStore } from "@/stores/authStore";
 import notify from "@/utils/notify";
@@ -53,7 +54,12 @@ const onRegisterSuccess = () => {
   router.push({ name: "My", query: { ...route.query } });
   closeModal({ force: true });
 };
-const onRegisterFail = () => notify({ type: "negative", message: "Не удалось зарегистрироваться" });
+const onRegisterFail = (err: AxiosError) => {
+  const errorMessage = (err.response?.data as TRegistrationResponse).message;
+  errorMessage.forEach((item) => {
+    notify({ type: "negative", message: item });
+  });
+};
 const handleRegistration = async () => {
   authStore
     .registration(omit(data.value, "passwordConfirm") as TRegistrationPayload)
