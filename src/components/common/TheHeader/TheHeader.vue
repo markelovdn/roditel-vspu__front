@@ -118,6 +118,10 @@ const logout = () => {
     padding: 12px 0 0;
     white-space: nowrap;
     max-width: var(--maxContentWidth);
+
+    @media screen and (max-width: $mobile-max-width) {
+      white-space: unset;
+    }
   }
 
   .row-1 {
@@ -150,9 +154,10 @@ const logout = () => {
         text-transform: uppercase;
         cursor: default;
 
-        @media (max-width: 375px) {
-          font-size: 10px;
+        @media screen and (max-width: $mobile-max-width) {
+          font-size: 14px;
           gap: 0;
+          flex-wrap: wrap;
         }
       }
     }
@@ -170,7 +175,7 @@ const logout = () => {
           color: $grey-2;
         }
 
-        @media (max-width: 375px) {
+        @media screen and (max-width: $mobile-max-width) {
           font-size: 16px;
           justify-content: center;
           margin: 0 10px 0 0;
@@ -188,7 +193,7 @@ const logout = () => {
         border: 1px solid #f3f3f3;
         border-radius: 10px;
 
-        @media (max-width: 375px) {
+        @media screen and (max-width: $mobile-max-width) {
           margin: 0 10px 0 0;
           width: 28px;
           height: 28px;
@@ -215,7 +220,7 @@ const logout = () => {
         }
       }
 
-      @media (max-width: 375px) {
+      @media screen and (max-width: $mobile-max-width) {
         flex-wrap: wrap;
         justify-content: center;
         gap: 20px;
@@ -269,7 +274,7 @@ const logout = () => {
       color: $Text-color;
       cursor: pointer;
 
-      @media (max-width: 475px) {
+      @media screen and (max-width: $mobile-max-width) {
         display: none;
       }
 
