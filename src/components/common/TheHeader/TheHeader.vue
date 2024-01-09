@@ -81,7 +81,7 @@ const logout = () => {
             {{ item.name }}
           </router-link>
         </div>
-        <div class="fit row wrap justify-end">
+        <div class="row wrap justify-end">
           <a
             href="https://bitrix24public.com/b24-l12664.bitrix24.ru/docs/pub/8ceb665e20b23b3aa5b2f0444d4069f4/default/?&"
             class="link"
@@ -150,8 +150,8 @@ const logout = () => {
         text-transform: uppercase;
         cursor: default;
 
-        @media (max-width: 601px) {
-          font-size: 12px;
+        @media (max-width: 375px) {
+          font-size: 10px;
           gap: 0;
         }
       }
@@ -161,12 +161,6 @@ const logout = () => {
       display: flex;
       align-items: center;
 
-      @media (max-width: 601px) {
-        font-size: 12px;
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-
       .contacts__phone-number {
         font-size: 20px;
         margin: 0 38px 0 0;
@@ -174,6 +168,12 @@ const logout = () => {
 
         .contacts__phone-number_optional {
           color: $grey-2;
+        }
+
+        @media (max-width: 375px) {
+          font-size: 16px;
+          justify-content: center;
+          margin: 0 10px 0 0;
         }
       }
 
@@ -187,6 +187,12 @@ const logout = () => {
         background: $background;
         border: 1px solid #f3f3f3;
         border-radius: 10px;
+
+        @media (max-width: 375px) {
+          margin: 0 10px 0 0;
+          width: 28px;
+          height: 28px;
+        }
       }
 
       .personal-cabinet {
@@ -207,6 +213,12 @@ const logout = () => {
           display: flex;
           gap: 5px;
         }
+      }
+
+      @media (max-width: 375px) {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
       }
     }
   }
@@ -257,8 +269,8 @@ const logout = () => {
       color: $Text-color;
       cursor: pointer;
 
-      @media (max-width: 470px) {
-        margin: 0;
+      @media (max-width: 475px) {
+        display: none;
       }
 
       &:hover {

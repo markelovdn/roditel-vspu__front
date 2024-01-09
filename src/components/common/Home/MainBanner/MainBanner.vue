@@ -42,10 +42,18 @@ const authModal = inject(AuthModalInjectionKey, {} as AuthModalProviderData);
     position: absolute;
     z-index: 1;
     padding: 152px 0 0 80px;
+
+    @media (max-width: 375px) {
+      padding: 20px 0 0 18px;
+    }
   }
 
   &__image {
     z-index: 0;
+
+    @media (max-width: 375px) {
+      opacity: 0.2;
+    }
   }
 }
 
@@ -56,6 +64,11 @@ const authModal = inject(AuthModalInjectionKey, {} as AuthModalProviderData);
     font-size: 52px;
     font-weight: 700;
     line-height: 115%;
+
+    @media (max-width: 375px) {
+      width: 370px;
+      font-size: 22px;
+    }
   }
 
   &__sub-head {
@@ -70,6 +83,11 @@ const authModal = inject(AuthModalInjectionKey, {} as AuthModalProviderData);
     padding: 60px 0 0;
     grid-template-columns: auto auto;
     gap: 16px;
+
+    @media (max-width: 375px) {
+      width: 320px;
+      grid-template-columns: none;
+    }
   }
 }
 
