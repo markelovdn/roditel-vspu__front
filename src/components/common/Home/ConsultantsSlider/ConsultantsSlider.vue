@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 
 import ConsultantsCard from "@/components/common/Home/ConsultantsCard/ConsultantsCard.vue";
 import { useConsultantStore } from "@/stores/consultantStore";
@@ -7,7 +7,14 @@ import { useConsultantStore } from "@/stores/consultantStore";
 const consultantStore = useConsultantStore();
 const slide = ref(0);
 
-const sliderQuantityItem = 3;
+const sliderQuantityItem = computed(() => {
+  if (window.innerWidth < 720) {
+    return 1;
+  } else {
+    console.log(window.innerWidth);
+    return 3;
+  }
+});
 const isLoading = ref(true);
 
 onMounted(() => {
@@ -73,12 +80,24 @@ onMounted(() => {
     justify-content: space-between;
     align-items: center;
 
+    @media screen and (max-width: $mobile-max-width) {
+      flex-direction: column;
+      gap: 8px;
+      h2 {
+        font-size: 22px;
+      }
+    }
+
     &_subtitle {
       position: relative;
       color: $Text-color;
       line-height: 120%;
       cursor: pointer;
       font-size: 20px;
+
+      @media screen and (max-width: $mobile-max-width) {
+        font-size: 12px;
+      }
 
       a {
         color: inherit;
