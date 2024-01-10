@@ -84,7 +84,7 @@ onMounted(() => {
       flex-direction: column;
       gap: 8px;
       h2 {
-        font-size: 22px;
+        font-size: 32px;
       }
     }
 
@@ -96,7 +96,7 @@ onMounted(() => {
       font-size: 20px;
 
       @media screen and (max-width: $mobile-max-width) {
-        font-size: 12px;
+        font-size: 22px;
       }
 
       a {
@@ -115,6 +115,12 @@ onMounted(() => {
   &__carousel {
     &:deep(.q-carousel) {
       height: 100%;
+
+      @media screen and (max-width: $mobile-max-width) {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
     }
 
     &:deep(.q-carousel .absolute) {
@@ -131,12 +137,20 @@ onMounted(() => {
 .carousel {
   cursor: grab;
 
-  &:deep(.q-carousel__navigation-inner) {
-    // justify-content: left;
-  }
+  @media screen and (max-width: $mobile-max-width) {
+    .q-carousel__slides-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-  &:deep(.q-carousel__slide) {
-    // padding: 52px 0;
+    &:deep(.q-carousel__slide) {
+      align-items: center;
+      padding: 52px 0;
+    }
+    &:deep(.q-carousel__arrow) {
+      display: none;
+    }
   }
 
   //что бы на маленьких размерах слайдер оставлася в линию

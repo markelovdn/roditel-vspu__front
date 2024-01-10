@@ -44,7 +44,7 @@ const authModal = inject(AuthModalInjectionKey, {} as AuthModalProviderData);
     padding: 152px 0 0 80px;
 
     @media screen and (max-width: $mobile-max-width) {
-      padding: 20px 0 0 18px;
+      padding: 20px 20px 0 18px;
     }
   }
 
