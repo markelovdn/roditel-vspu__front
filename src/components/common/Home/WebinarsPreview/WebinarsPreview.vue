@@ -51,16 +51,37 @@ useRequestPayload(queryParams, webinarsStore.requestWebinars, {
   border-radius: 30px;
   background: var(--background-card);
 
+  @media screen and (max-width: $mobile-max-width) {
+    padding: 30px 10px;
+  }
+
   &__cards {
     display: grid;
     grid-template-columns: auto auto;
     gap: 30px;
+
+    @media screen and (max-width: $mobile-max-width) {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 10px;
+    }
   }
 
   &__header {
     display: flex;
     justify-content: space-between;
     padding-bottom: 48px;
+
+    @media screen and (max-width: $mobile-max-width) {
+      h2 {
+        font-size: 32px;
+      }
+      flex-direction: column;
+      gap: 8px;
+      align-items: center;
+    }
   }
 }
 </style>
