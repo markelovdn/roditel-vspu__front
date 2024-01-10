@@ -43,15 +43,15 @@ const authModal = inject(AuthModalInjectionKey, {} as AuthModalProviderData);
     z-index: 1;
     padding: 152px 0 0 80px;
 
-    @media (max-width: 375px) {
-      padding: 20px 0 0 18px;
+    @media screen and (max-width: $mobile-max-width) {
+      padding: 20px 20px 0 18px;
     }
   }
 
   &__image {
     z-index: 0;
 
-    @media (max-width: 375px) {
+    @media screen and (max-width: $mobile-max-width) {
       opacity: 0.2;
     }
   }
@@ -65,8 +65,8 @@ const authModal = inject(AuthModalInjectionKey, {} as AuthModalProviderData);
     font-weight: 700;
     line-height: 115%;
 
-    @media (max-width: 375px) {
-      width: 370px;
+    @media screen and (max-width: $mobile-max-width) {
+      width: 100%;
       font-size: 22px;
     }
   }
@@ -84,8 +84,8 @@ const authModal = inject(AuthModalInjectionKey, {} as AuthModalProviderData);
     grid-template-columns: auto auto;
     gap: 16px;
 
-    @media (max-width: 375px) {
-      width: 320px;
+    @media screen and (max-width: $mobile-max-width) {
+      width: 100%;
       grid-template-columns: none;
     }
   }

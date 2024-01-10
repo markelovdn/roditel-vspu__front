@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 
 import ConsultantsCard from "@/components/common/Home/ConsultantsCard/ConsultantsCard.vue";
 import { useConsultantStore } from "@/stores/consultantStore";
@@ -7,7 +7,14 @@ import { useConsultantStore } from "@/stores/consultantStore";
 const consultantStore = useConsultantStore();
 const slide = ref(0);
 
-const sliderQuantityItem = 3;
+const sliderQuantityItem = computed(() => {
+  if (window.innerWidth < 720) {
+    return 1;
+  } else {
+    console.log(window.innerWidth);
+    return 3;
+  }
+});
 const isLoading = ref(true);
 
 onMounted(() => {
@@ -73,12 +80,24 @@ onMounted(() => {
     justify-content: space-between;
     align-items: center;
 
+    @media screen and (max-width: $mobile-max-width) {
+      flex-direction: column;
+      gap: 8px;
+      h2 {
+        font-size: 32px;
+      }
+    }
+
     &_subtitle {
       position: relative;
       color: $Text-color;
       line-height: 120%;
       cursor: pointer;
       font-size: 20px;
+
+      @media screen and (max-width: $mobile-max-width) {
+        font-size: 22px;
+      }
 
       a {
         color: inherit;
@@ -96,6 +115,12 @@ onMounted(() => {
   &__carousel {
     &:deep(.q-carousel) {
       height: 100%;
+
+      @media screen and (max-width: $mobile-max-width) {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
     }
 
     &:deep(.q-carousel .absolute) {
@@ -112,12 +137,20 @@ onMounted(() => {
 .carousel {
   cursor: grab;
 
-  &:deep(.q-carousel__navigation-inner) {
-    // justify-content: left;
-  }
+  @media screen and (max-width: $mobile-max-width) {
+    .q-carousel__slides-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-  &:deep(.q-carousel__slide) {
-    // padding: 52px 0;
+    &:deep(.q-carousel__slide) {
+      align-items: center;
+      padding: 52px 0;
+    }
+    &:deep(.q-carousel__arrow) {
+      display: none;
+    }
   }
 
   //что бы на маленьких размерах слайдер оставлася в линию

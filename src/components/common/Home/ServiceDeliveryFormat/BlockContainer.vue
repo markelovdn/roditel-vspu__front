@@ -32,12 +32,30 @@ defineProps<{
     display: flex;
     justify-content: space-between;
 
+    @media screen and (max-width: $mobile-max-width) {
+      justify-content: center;
+      align-items: center;
+    }
+
     &_sub-title {
       width: 541px;
       color: #678570;
       font-size: 16px;
       font-weight: 500;
       line-height: 120%;
+
+      @media screen and (max-width: $mobile-max-width) {
+        width: 90%;
+        text-align: center;
+      }
+    }
+
+    @media screen and (max-width: $mobile-max-width) {
+      flex-direction: column;
+      gap: 8px;
+      h2 {
+        font-size: 32px;
+      }
     }
   }
 
@@ -51,7 +69,7 @@ defineProps<{
     &_format {
       @media screen and (width < 1280px) {
         display: grid;
-        grid-template-columns: auto auto;
+        grid-template-columns: min-content;
         justify-content: space-around;
       }
     }

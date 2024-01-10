@@ -45,7 +45,7 @@ useAuthModal();
       padding: 20px 0;
     }
 
-    @media screen and (width < 721px) {
+    @media screen and (max-width: $mobile-max-width) {
       // width: 730px;
       width: 100%;
       overflow-x: auto;
