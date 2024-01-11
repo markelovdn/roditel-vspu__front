@@ -66,6 +66,10 @@ defineProps<{
     margin-top: 75px;
     gap: 32px;
 
+    @media screen and (width < 1280px) {
+      margin-top: 35px;
+    }
+
     &_format {
       @media screen and (width < 1280px) {
         display: grid;
