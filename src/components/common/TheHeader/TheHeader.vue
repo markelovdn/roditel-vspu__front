@@ -179,6 +179,7 @@ const logout = () => {
           font-size: 16px;
           justify-content: center;
           margin: 0 10px 0 0;
+          display: none;
         }
       }
 
@@ -194,9 +195,7 @@ const logout = () => {
         border-radius: 10px;
 
         @media screen and (max-width: $mobile-max-width) {
-          margin: 0 10px 0 0;
-          width: 28px;
-          height: 28px;
+          display: none;
         }
       }
 
@@ -221,9 +220,7 @@ const logout = () => {
       }
 
       @media screen and (max-width: $mobile-max-width) {
-        flex-wrap: wrap;
         justify-content: center;
-        gap: 20px;
       }
     }
   }
@@ -236,6 +233,7 @@ const logout = () => {
     @media (max-width: 1024px) {
       flex-wrap: wrap;
       justify-content: center;
+      display: none;
     }
 
     .links {
