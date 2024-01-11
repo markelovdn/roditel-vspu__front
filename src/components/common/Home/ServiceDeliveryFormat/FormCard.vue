@@ -32,6 +32,10 @@ const isShowModal = ref(false);
   border-radius: 20px;
   flex-direction: column;
 
+  @media screen and (max-width: $mobile-max-width) {
+    padding: 10px 15px 10px 40px;
+  }
+
   &__title {
     position: relative;
 

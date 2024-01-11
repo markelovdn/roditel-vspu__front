@@ -76,6 +76,12 @@ const row1 = [
 .button {
   &__container {
     width: 100%;
+
+    a {
+      button {
+        margin: 0;
+      }
+    }
   }
 
   &__label {
