@@ -77,9 +77,6 @@ const isAcceptRules = ref(false);
 .footer {
   background-color: var(--q-background-primary);
 
-  @media (max-width: 601px) {
-    visibility: hidden;
-  }
   .contentWrapper {
     display: flex;
     justify-content: space-between;
@@ -88,6 +85,9 @@ const isAcceptRules = ref(false);
     padding: 48px 0;
     font-size: 16px;
     max-width: var(--maxContentWidth);
+    @media screen and (max-width: $mobile-max-width) {
+      flex-direction: column;
+    }
   }
 
   .footer__col-1 {
@@ -95,6 +95,10 @@ const isAcceptRules = ref(false);
     width: 290px;
     flex-direction: column;
     gap: 20px;
+
+    @media screen and (max-width: $mobile-max-width) {
+      display: none;
+    }
 
     .col-1__vgspu {
       display: flex;
@@ -134,6 +138,9 @@ const isAcceptRules = ref(false);
   flex-direction: column;
   justify-content: space-between;
 
+  @media screen and (max-width: $mobile-max-width) {
+    margin-bottom: 16px;
+  }
   .col-2_links {
     display: flex;
     flex-direction: column;
@@ -155,6 +162,10 @@ const isAcceptRules = ref(false);
   justify-content: space-between;
   width: 540px;
   flex-direction: column;
+
+  @media screen and (max-width: $mobile-max-width) {
+    margin-bottom: 16px;
+  }
 
   .col-3__link {
     cursor: default;

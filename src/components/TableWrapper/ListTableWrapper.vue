@@ -45,6 +45,10 @@ const gridTemplateColumnsStyle = computed(() => {
   overflow-x: auto;
   font-weight: 500;
   line-height: 16px;
+
+  @media screen and (max-width: $mobile-max-width) {
+    overflow-x: hidden;
+  }
   .header {
     color: #a3a3a3;
     font-size: 12px;

@@ -40,15 +40,10 @@ useAuthModal();
     margin: 0 auto;
     padding: 70px 0;
 
-    @media screen and (width < 1280px) {
-      width: 100%;
-      padding: 20px 0;
-    }
-
     @media screen and (max-width: $mobile-max-width) {
-      // width: 730px;
       width: 100%;
-      overflow-x: auto;
+      padding: 20px 4px 0px 10px;
+      overflow-x: hidden;
     }
   }
 }

@@ -10,7 +10,7 @@ const content = [
   "Родителям или законным представителям детей дошкольного возраста, не посещающих дошкольные образовательные организации",
   "Родителям или законным представителям, чьи дети находятся на семейном обучении",
   "Родителям или законным представителям детей с ограниченными возможностями здоровья (ОВЗ) и инвалидностью,в первую очередь раннего возраста",
-  "Родителям или законным представителям нуждающимся в помощи при воспитании детей, посещающих образовательныеорганизации, но имеющих различные проблемы в поведении, развитии, социализации",
+  "Родителям или законным представителям нуждающимся в помощи при воспитании детей, посещающих образовательные организации, но имеющих различные проблемы в поведении, развитии, социализации",
   "Гражданам, желающим принять на воспитание в свои семьи детей, оставшихся без попечения родителей",
 ];
 </script>
@@ -62,13 +62,26 @@ const content = [
   margin-top: 98px;
   min-height: 768px;
   overflow: hidden;
+
+  @media screen and (max-width: $mobile-max-width) {
+    padding: 20px 10px 10px 20px;
+    margin-top: 58px;
+    flex-direction: column;
+  }
 }
 
 .title {
   width: 50%;
+  @media screen and (max-width: $mobile-max-width) {
+    width: 100%;
+    font-size: 24px;
+  }
 
   & > h2 {
     width: 448px;
+    @media screen and (max-width: $mobile-max-width) {
+      font-size: 24px;
+    }
   }
 }
 
@@ -87,7 +100,9 @@ const content = [
       font-size: 20px;
       line-height: 120%;
 
-      /* 24px */
+      @media screen and (max-width: $mobile-max-width) {
+        font-size: 18px;
+      }
     }
 
     &_point {
@@ -98,12 +113,14 @@ const content = [
       margin-top: 8px;
     }
   }
+  @media screen and (max-width: $mobile-max-width) {
+    width: 100%;
+  }
 }
 
 .buttons {
   display: flex;
   gap: 20px;
-  // justify-content: space-between;
   margin-left: 32px;
 }
 
@@ -111,6 +128,10 @@ const content = [
   position: absolute;
   bottom: -5px;
   left: 0;
+
+  @media screen and (max-width: $mobile-max-width) {
+    display: none;
+  }
 }
 
 .btn {
