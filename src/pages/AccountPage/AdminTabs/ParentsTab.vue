@@ -78,6 +78,7 @@ const consultantsListHeaders = [
           :max-pages="10"
           direction-links
           gutter="8px"
+          class="pagination"
           active-color="yellow"
           @update:model-value="setPage" />
       </div>
@@ -89,5 +90,14 @@ const consultantsListHeaders = [
 .photo {
   height: 60px;
   border-radius: 5px;
+}
+
+.pagination {
+  :deep(.q-btn) {
+    height: 24px;
+  }
+  :deep(.q-icon) {
+    font-size: 18px;
+  }
 }
 </style>

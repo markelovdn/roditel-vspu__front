@@ -156,6 +156,7 @@ onMounted(() => {
             :max-pages="6"
             direction-links
             gutter="8px"
+            class="pagination"
             active-color="yellow"
             @update:model-value="setPage" />
         </div>
@@ -170,5 +171,14 @@ onMounted(() => {
 .error {
   color: var(--error, #d00);
   white-space: nowrap;
+}
+
+.pagination {
+  :deep(.q-btn) {
+    height: 24px;
+  }
+  :deep(.q-icon) {
+    font-size: 18px;
+  }
 }
 </style>

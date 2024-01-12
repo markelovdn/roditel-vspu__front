@@ -4,6 +4,7 @@ import { inject, ref } from "vue";
 import logoUrl from "@/assets/img/icons/VGSPU.png";
 import CommonLink from "@/components/common/CommonLink/CommonLink.vue";
 import { headerMenuItems } from "@/components/common/TheHeader/types";
+import IconPhone from "@/components/icons/IconPhone.vue";
 import RulesModal from "@/components/modals/RulesModal/RulesModal.vue";
 import { AuthModalInjectionKey, AuthModalProviderData } from "@/utils/injectionKeys";
 
@@ -42,17 +43,14 @@ const isAcceptRules = ref(false);
             {{ item.name }}
           </router-link>
         </div>
-        <!-- <div class="col-2_icons">
-        <router-link to="">
-          <IconTelegram />
-        </router-link>
-        <router-link to="">
-          <IconWhatsapp />
-        </router-link>
-        <router-link to="">
-          <IconSkype />
-        </router-link>
-      </div> -->
+        <div class="metodic_material col-2_link btn-link">
+          <a
+            href="https://bitrix24public.com/b24-l12664.bitrix24.ru/docs/pub/8ceb665e20b23b3aa5b2f0444d4069f4/default/?&"
+            target="_blank"
+            rel="Методические материалы">
+            Методические материалы
+          </a>
+        </div>
       </div>
       <div class="footer__col-3">
         <span class="text-primary col-3__link" :to="'https://ya.ru/'">
@@ -68,6 +66,15 @@ const isAcceptRules = ref(false);
           :to="'https://bitrix24public.com/b24-l12664.bitrix24.ru/docs/pub/e656905b09fa602e0aeb129129ed007a/default/?&'">
           Положение о межрегиональной службе консультирования родителей социально-психологического центра ФГБОУ ВО ВГСПУ
         </CommonLink>
+        <div class="contacts">
+          <a href="tel:+7-800-444-2232p771" class="contacts__phone-number text-primary">
+            8 (800) 444-22-32
+            <span class="contacts__phone-number_optional">(доб. 711)</span>
+          </a>
+          <a href="tel:+78004442232" class="phone-wrapper">
+            <IconPhone />
+          </a>
+        </div>
       </div>
     </div>
   </q-footer>
@@ -87,6 +94,7 @@ const isAcceptRules = ref(false);
     max-width: var(--maxContentWidth);
     @media screen and (max-width: $mobile-max-width) {
       flex-direction: column;
+      overflow: hidden;
     }
   }
 
@@ -165,6 +173,8 @@ const isAcceptRules = ref(false);
 
   @media screen and (max-width: $mobile-max-width) {
     margin-bottom: 16px;
+    width: 100%;
+    gap: 16px;
   }
 
   .col-3__link {
@@ -187,6 +197,37 @@ const isAcceptRules = ref(false);
 @media screen and (width < 1280px) {
   .footer {
     padding: 12px 20px;
+  }
+}
+
+.metodic_material {
+  margin-top: 16px;
+  a {
+    color: $black;
+  }
+  @media screen and (min-width: $mobile-max-width) {
+    display: none;
+  }
+}
+
+.contacts {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  @media screen and (min-width: $mobile-max-width) {
+    font-size: 16px;
+    justify-content: center;
+    margin: 0 10px 0 0;
+    display: none;
+  }
+  .contacts__phone-number {
+    font-size: 20px;
+    margin: 0 38px 0 0;
+    text-decoration: none;
+
+    .contacts__phone-number_optional {
+      color: $grey-2;
+    }
   }
 }
 </style>

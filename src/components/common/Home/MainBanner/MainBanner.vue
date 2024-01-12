@@ -67,7 +67,7 @@ const authModal = inject(AuthModalInjectionKey, {} as AuthModalProviderData);
 
     @media screen and (max-width: $mobile-max-width) {
       width: 100%;
-      font-size: 22px;
+      font-size: 32px;
     }
   }
 

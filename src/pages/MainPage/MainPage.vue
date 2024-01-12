@@ -16,8 +16,4 @@ import WebinarsPreview from "@/components/common/Home/WebinarsPreview/WebinarsPr
   </div>
 </template>
 
-<style scoped>
-.main-container {
-  /* padding: 0 75px; */
-}
-</style>
+<style scoped></style>
