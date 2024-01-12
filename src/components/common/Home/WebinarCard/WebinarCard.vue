@@ -171,6 +171,12 @@ const downloadCertificate = (webinarId: number) => {
     width: 90px;
     height: 90px;
     border-radius: 10px;
+
+    @media screen and (max-width: $mobile-max-width) {
+      width: 45px;
+      height: 45px;
+      border-radius: 5px;
+    }
   }
   &__title {
     color: var(--text-color, #525252);

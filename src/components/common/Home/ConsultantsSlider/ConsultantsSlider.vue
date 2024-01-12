@@ -72,6 +72,10 @@ onMounted(() => {
 <style lang="scss" scoped>
 .wrapper {
   margin: 75px 0 70px;
+
+  @media screen and (max-width: $mobile-max-width) {
+    margin-top: 30px;
+  }
 }
 
 .consultants {
@@ -96,7 +100,7 @@ onMounted(() => {
       font-size: 20px;
 
       @media screen and (max-width: $mobile-max-width) {
-        font-size: 22px;
+        font-size: 20px;
       }
 
       a {
@@ -109,6 +113,10 @@ onMounted(() => {
       position: absolute;
       bottom: -6px;
       left: 0;
+
+      @media screen and (max-width: $mobile-max-width) {
+        bottom: 0px;
+      }
     }
   }
 

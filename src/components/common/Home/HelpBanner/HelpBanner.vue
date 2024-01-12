@@ -75,12 +75,14 @@ const content = [
   @media screen and (max-width: $mobile-max-width) {
     width: 100%;
     font-size: 24px;
+    padding-bottom: 10px;
   }
 
   & > h2 {
     width: 448px;
     @media screen and (max-width: $mobile-max-width) {
       font-size: 24px;
+      width: 100%;
     }
   }
 }
@@ -89,6 +91,9 @@ const content = [
   display: grid;
   width: 50%;
   row-gap: 44px;
+  @media screen and (max-width: $mobile-max-width) {
+    row-gap: 22px;
+  }
 
   &__item {
     display: grid;
@@ -122,6 +127,9 @@ const content = [
   display: flex;
   gap: 20px;
   margin-left: 32px;
+  @media screen and (max-width: $mobile-max-width) {
+    margin: 0 10px 5px 5px;
+  }
 }
 
 .image {

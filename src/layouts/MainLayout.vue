@@ -28,6 +28,9 @@ useAuthModal();
     </q-page-container>
     <TheFooter v-show="showHeaderOnRoute" />
     <AuthWrapper></AuthWrapper>
+    <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
+      <q-btn fab icon="keyboard_arrow_up" color="primary" class="scroll-top__btn" />
+    </q-page-scroller>
   </q-layout>
 </template>
 
@@ -46,5 +49,10 @@ useAuthModal();
       overflow-x: hidden;
     }
   }
+}
+
+.scroll-top__btn {
+  border-radius: 50px;
+  opacity: 0.6;
 }
 </style>
