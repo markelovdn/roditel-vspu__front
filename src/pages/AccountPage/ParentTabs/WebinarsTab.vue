@@ -145,6 +145,7 @@ onMounted(() => {
               :max-pages="6"
               direction-links
               gutter="8px"
+              class="pagination"
               active-color="yellow"
               @update:model-value="setPage" />
           </div>
@@ -154,4 +155,13 @@ onMounted(() => {
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.pagination {
+  :deep(.q-btn) {
+    height: 24px;
+  }
+  :deep(.q-icon) {
+    font-size: 18px;
+  }
+}
+</style>

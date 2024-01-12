@@ -238,6 +238,7 @@ const questionnairesListHeaders = [
           :max-pages="6"
           direction-links
           gutter="8px"
+          class="pagination"
           active-color="yellow"
           @update:model-value="setPage" />
       </div>
@@ -275,5 +276,14 @@ const questionnairesListHeaders = [
   padding: 4px 6px;
   font-size: 12px;
   height: auto;
+}
+
+.pagination {
+  :deep(.q-btn) {
+    height: 24px;
+  }
+  :deep(.q-icon) {
+    font-size: 18px;
+  }
 }
 </style>

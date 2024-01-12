@@ -134,6 +134,7 @@ const logout = () => {
       flex-wrap: wrap;
       justify-content: center;
       gap: 0;
+      padding-bottom: 15px;
     }
 
     .logo {

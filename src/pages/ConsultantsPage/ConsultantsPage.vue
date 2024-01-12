@@ -55,6 +55,7 @@ onMounted(() => {
           :max-pages="6"
           direction-links
           gutter="8px"
+          class="pagination"
           active-color="yellow"
           @update:model-value="setPage" />
       </div>
@@ -63,18 +64,21 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.container {
-  /* padding: 0 75px; */
-}
-
 .content {
   margin-top: 60px;
-  /* width: 100%; */
   display: grid;
-  /* grid-template-columns: repeat(3, 1fr); */
   grid-template-columns: repeat(auto-fill, minmax(360px, 358px));
   gap: 40px;
   justify-items: stretch;
   justify-content: space-between;
+}
+
+.pagination {
+  :deep(.q-btn) {
+    height: 24px;
+  }
+  :deep(.q-icon) {
+    font-size: 18px;
+  }
 }
 </style>

@@ -112,12 +112,25 @@ onMounted(() => openFirstTab());
   align-items: baseline;
   margin-bottom: 52px;
 
+  @media screen and (max-width: $mobile-max-width) {
+    h2 {
+      font-size: 22px;
+    }
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
   &__role {
     color: $grey-1;
     line-height: 34px;
     font-size: 28px;
     font-weight: 700;
     letter-spacing: 0;
+
+    @media screen and (max-width: $mobile-max-width) {
+      font-size: 12px;
+      width: 50%;
+    }
   }
 
   &__notifications {

@@ -38,6 +38,7 @@ useRequestPayload(queryParams, webinarsStore.requestWebinars, {
           :max-pages="6"
           direction-links
           gutter="8px"
+          class="pagination"
           active-color="yellow"
           @update:model-value="setFilters(queryParams, $event)" />
       </div>
@@ -82,6 +83,15 @@ useRequestPayload(queryParams, webinarsStore.requestWebinars, {
       gap: 8px;
       align-items: center;
     }
+  }
+}
+
+.pagination {
+  :deep(.q-btn) {
+    height: 24px;
+  }
+  :deep(.q-icon) {
+    font-size: 18px;
   }
 }
 </style>
