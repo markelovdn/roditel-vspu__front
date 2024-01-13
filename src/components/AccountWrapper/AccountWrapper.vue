@@ -2,11 +2,11 @@
 import { onMounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
-import IconNotificationsBell from "@/components/icons/IconNotificationsBell.vue";
 import { accountRoleMap } from "@/pages/AccountPage/types";
 import { ComponentDefinition } from "@/types";
 
 import { useNotificationStore } from "../../stores/notificationStore";
+import TheNotification from "../common/TheHeader/TheNotification.vue";
 
 interface IAccountWrapperProps {
   tabs: Array<{ name: string; label: string; panelComponent: ComponentDefinition }>;
@@ -67,9 +67,7 @@ onMounted(() => openFirstTab());
       <h2 class="header__title q-mr-lg">{{ title }}</h2>
       <div class="header__role">{{ getUserRoleDefinition(accountRole) }}</div>
       <q-space />
-      <div class="header__notifications flex items-center justify-center">
-        <IconNotificationsBell :count="notificationsStore.notifications.count" />
-      </div>
+      <TheNotification :count="notificationsStore.notifications.count" />
     </div>
     <q-splitter v-model="splitterModel" class="tabs-menu" disable :separator-class="'separator'">
       <template #before>
@@ -134,12 +132,6 @@ onMounted(() => openFirstTab());
   }
 
   &__notifications {
-    width: 48px;
-    height: 48px;
-    background: var(--q-background-primary);
-    border-radius: 10px;
-    box-shadow: 0 4px 35px 0 rgb(46 56 144 / 8%);
-    cursor: pointer;
   }
 }
 
