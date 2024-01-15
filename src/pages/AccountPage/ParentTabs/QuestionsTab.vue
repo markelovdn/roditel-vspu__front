@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { computed, onBeforeMount, ref, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
 import { TConsultation } from "@/api/Consultations/types";
@@ -86,7 +86,7 @@ watch(search, () => {
   }, 300);
 });
 
-onBeforeMount(() => {
+onMounted(() => {
   if (route.query.isOpenNewConsultation) {
     isShowCreateConsultationModal.value = true;
   }
@@ -104,6 +104,9 @@ onBeforeMount(() => {
     },
     {},
   );
+
+  console.log(consultationsStore.consultations[0]?.id);
+  setIdActiveChat(consultationsStore.consultations[0]?.id);
 });
 </script>
 
