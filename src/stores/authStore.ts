@@ -4,6 +4,7 @@ import { parse, stringify } from "zipson";
 
 import { authApi } from "@/api";
 import { TForgotPasswordArgs, TLoginArgs, TRegistrationPayload, TResetPasswordArgs, TUser } from "@/api/Auth/types";
+import { socketConnection } from "@/common/socket";
 import notify from "@/utils/notify";
 
 export const useAuthStore = defineStore(
