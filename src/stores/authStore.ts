@@ -58,6 +58,7 @@ export const useAuthStore = defineStore(
         }
         localStorage.removeItem("token");
         user.value = undefined;
+        socketConnection.disconnect();
         return Promise.resolve();
       } catch (err) {
         console.log(err);

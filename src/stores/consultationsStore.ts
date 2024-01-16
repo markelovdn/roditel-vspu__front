@@ -3,7 +3,7 @@ import { ref } from "vue";
 
 import { consultationsApi } from "@/api";
 import { TConsultation, TConsultationPayload, TGetConsultationsFilter, TMessage } from "@/api/Consultations/types";
-import { socketConnection } from "@/common/socket";
+import { socketConnection, socketReset } from "@/common/socket";
 import notify from "@/utils/notify";
 
 import { useAuthStore } from "./authStore";
@@ -19,8 +19,9 @@ export const useConsultationsStore = defineStore("consultationsStore", () => {
   const consultations = ref<TConsultation[]>([]);
 
   function connectChannel(consultationId: number) {
-    if (socketConnection.options.auth.headers.Authorization === "Bearer null" && authStore.token) {
-      socketConnection.options.auth.headers.Authorization = `Bearer ${authStore.token}`;
+    const socketToken = socketConnection.options.auth.headers.Authorization;
+    if ((socketToken === "Bearer null" && authStore.token) || socketToken !== `Bearer ${authStore.token}`) {
+      socketReset();
     }
     socketConnection.leaveAllChannels();
     socketConnection.private(`Consultation.${consultationId}`).listen("ConsultationEvent", (event: TSocketEvent) => {

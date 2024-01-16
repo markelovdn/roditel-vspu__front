@@ -3,7 +3,7 @@ import { storeToRefs } from "pinia";
 import { computed, onBeforeMount, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
-import { TConsultation } from "@/api/Consultations/types";
+// import { TConsultation } from "@/api/Consultations/types";
 import { TWebinarsRequestOption } from "@/api/Webinars/types";
 import ChatWrapper from "@/components/Chat/ChatWrapper.vue";
 import MessageInput from "@/components/Chat/MessageInput.vue";
@@ -72,11 +72,6 @@ const setData = (value?: any) => {
 const setSpecialization = (value: string) => (queryParams.value.category = Number(value));
 const setConsultant = (value: string) => (queryParams.value.consultant = Number(value));
 const setActual = (value: "yes" | "no") => (queryParams.value.actual = value);
-const setFirstActiveChat = (data: TConsultation[]) => {
-  if (!data.length) return;
-  idActiveChat.value = data[0].id;
-  consultationsStore.connectChannel(data[0].id);
-};
 
 let searchTimeoutId: ReturnType<typeof setTimeout>;
 watch(search, () => {
@@ -100,7 +95,7 @@ onBeforeMount(() => {
     queryParams,
     async (filters) => {
       await consultationsStore.requestConsultations(filters);
-      setFirstActiveChat(consultationsStore.consultations);
+      setIdActiveChat(consultationsStore.consultations[0].id);
     },
     {},
   );
