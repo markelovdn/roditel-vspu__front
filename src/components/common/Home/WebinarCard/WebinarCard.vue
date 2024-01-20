@@ -88,8 +88,11 @@ const downloadCertificate = (webinarId: number) => {
               <a :href="item.videoLink" target="_blank" rel="noopener noreferrer">Перейти</a>
             </div>
           </div>
-
-          <q-btn v-if="!item.registered" color="primary q-mt-lg" @click="isShowWebinarModal = true">
+          {{ authStore.user?.role.code }}
+          <q-btn
+            v-if="!item.registered || authStore.user?.role.code == 'consultant'"
+            color="primary q-mt-lg"
+            @click="isShowWebinarModal = true">
             Принять участие
           </q-btn>
           <q-btn v-else-if="idDownload(item.date)" color="primary q-mt-lg" @click="downloadCertificate(item.id)">
@@ -208,7 +211,7 @@ const downloadCertificate = (webinarId: number) => {
     color: var(--grey-1, #a3a3a3);
   }
   &__value {
-    color: var(--q-blue-lighter, #315194);
+    color: var(--text-color, #525252);
   }
   &__link {
     color: var(--yellow, #f7b70b);
