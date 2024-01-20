@@ -88,17 +88,15 @@ const downloadCertificate = (webinarId: number) => {
               <a :href="item.videoLink" target="_blank" rel="noopener noreferrer">Перейти</a>
             </div>
           </div>
-          {{ authStore.user?.role.code }}
-          <q-btn
-            v-if="!item.registered || authStore.user?.role.code == 'consultant'"
-            color="primary q-mt-lg"
-            @click="isShowWebinarModal = true">
-            Принять участие
-          </q-btn>
-          <q-btn v-else-if="idDownload(item.date)" color="primary q-mt-lg" @click="downloadCertificate(item.id)">
-            Скачать сертификат
-          </q-btn>
-          <q-btn v-else color="primary q-mt-lg" disable>Зарегистрирован</q-btn>
+          <div v-if="authStore.user?.role.code !== 'consultant' && authStore.user?.role.code !== 'admin'">
+            <q-btn v-if="!item.registered" color="primary q-mt-lg" @click="isShowWebinarModal = true">
+              Принять участие
+            </q-btn>
+            <q-btn v-else-if="idDownload(item.date)" color="primary q-mt-lg" @click="downloadCertificate(item.id)">
+              Скачать сертификат
+            </q-btn>
+            <q-btn v-else color="primary q-mt-lg" disable>Зарегистрирован</q-btn>
+          </div>
         </div>
 
         <div v-else class="flex justify-between">
@@ -107,6 +105,12 @@ const downloadCertificate = (webinarId: number) => {
               <div v-if="index !== labels.length" class="info">
                 <div class="info__description">{{ label.category }}:</div>
                 <div class="info__value">{{ label.value }}</div>
+              </div>
+            </div>
+            <div v-if="item.registered" class="info">
+              <div class="info__description">Ссылка:</div>
+              <div class="info__value">
+                <a :href="item.videoLink" target="_blank" rel="noopener noreferrer">Перейти</a>
               </div>
             </div>
           </div>
