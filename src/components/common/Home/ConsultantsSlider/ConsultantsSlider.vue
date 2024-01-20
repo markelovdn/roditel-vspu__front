@@ -11,7 +11,6 @@ const sliderQuantityItem = computed(() => {
   if (window.innerWidth < 720) {
     return 1;
   } else {
-    console.log(window.innerWidth);
     return 3;
   }
 });
@@ -129,10 +128,6 @@ onMounted(() => {
         justify-content: center;
         align-items: center;
       }
-    }
-
-    &:deep(.q-carousel .absolute) {
-      // position: static;
     }
   }
 }
