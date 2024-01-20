@@ -71,11 +71,27 @@ export const useWebinarsStore = defineStore("webinarsStore", () => {
   }
 
   function addLector(lector: TWebinarsLector) {
-    return webinarsApi.addLector(lector);
+    return webinarsApi
+      .addLector(lector)
+      .then(() =>
+        notify({
+          type: "positive",
+          message: "Лектор успешно добавлен",
+        }),
+      )
+      .catch(() => notify({ type: "negative", message: "Поле ФИО обязательно для заполнения" }));
   }
 
   function updateLector(lectorId: number, lector: TWebinarsLector) {
-    return webinarsApi.updateLector(lectorId, lector);
+    return webinarsApi
+      .updateLector(lectorId, lector)
+      .then(() =>
+        notify({
+          type: "positive",
+          message: "Данные успешно обновлены",
+        }),
+      )
+      .catch(() => notify({ type: "negative", message: "Поле ФИО обязательно для заполнения" }));
   }
 
   async function addWebinar(webinar: TWebinarPayload) {
