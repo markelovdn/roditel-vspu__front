@@ -29,6 +29,7 @@ export type TConsultation = {
   createdAt: number;
   updatedAt: number;
   specialization: TSpecialization;
+  region: string;
 };
 
 export type TMessage = {
