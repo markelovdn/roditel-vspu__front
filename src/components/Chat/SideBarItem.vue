@@ -8,7 +8,11 @@ import { timeConvertor } from "@/utils/timeConvertor";
 
 const props = defineProps<{ item: TConsultation; isActive: boolean }>();
 const authStore = useAuthStore();
-const interlocutor = ref("");
+const interlocutor = ref({
+  fullName: "",
+  phone: "",
+  email: "",
+});
 
 const getDays = () => {
   const days = new Date().getTime() - new Date(props.item.createdAt).getTime();
@@ -23,11 +27,15 @@ const textColor = ref({
 onMounted(() => {
   (function start() {
     if (props.item.users.length > 2) {
-      interlocutor.value = "Поиск консультанта";
+      interlocutor.value.fullName = "Поиск консультанта";
       return;
     }
-    interlocutor.value =
+    interlocutor.value.fullName =
       props.item.users.find((user: TUser) => user.id !== authStore.user?.id)?.fullName || "неизвестно";
+    interlocutor.value.phone =
+      props.item.users.find((user: TUser) => user.id !== authStore.user?.id)?.phone || "неизвестно";
+    interlocutor.value.email =
+      props.item.users.find((user: TUser) => user.id !== authStore.user?.id)?.email || "неизвестно";
   })();
 });
 </script>
@@ -40,7 +48,11 @@ onMounted(() => {
     </div>
     <div class="sidebar-item__box">
       <div class="sidebar-item__question" :class="textColor">{{ item.title }}</div>
-      <div class="sidebar-item__name">{{ interlocutor }}</div>
+      <div class="sidebar-item__question" :class="textColor"></div>
+      <div class="sidebar-item__name">{{ interlocutor.fullName }}</div>
+      <div class="sidebar-item__name">{{ interlocutor.phone }}</div>
+      <div class="sidebar-item__name">{{ interlocutor.email }}</div>
+      <div class="sidebar-item__name">{{ item.region }}</div>
     </div>
   </div>
 </template>
