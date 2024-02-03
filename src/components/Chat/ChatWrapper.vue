@@ -73,5 +73,9 @@ watch(
   padding: 24px;
   overflow-y: scroll;
   height: 500px;
+
+  @media (max-width: 576px) {
+    padding: 12px;
+  }
 }
 </style>

@@ -46,9 +46,9 @@ const gridTemplateColumnsStyle = computed(() => {
   font-weight: 500;
   line-height: 16px;
 
-  @media screen and (max-width: $mobile-max-width) {
-    overflow-x: hidden;
-  }
+  // @media screen and (max-width: $mobile-max-width) {
+  //   overflow-x: hidden;
+  // }
   .header {
     color: #a3a3a3;
     font-size: 12px;
@@ -81,6 +81,10 @@ const gridTemplateColumnsStyle = computed(() => {
     }
     &__row:nth-child(2n) {
       background: #f9f9fb;
+    }
+    @media (max-width: 1100px) {
+      overflow: unset;
+      border: none;
     }
   }
 }

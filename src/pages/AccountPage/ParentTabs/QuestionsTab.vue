@@ -33,12 +33,14 @@ const lectorId = ref(0);
 const actual = ref<"yes" | "no">((route.query.actual as "yes" | "no") || "yes");
 const isShowRuleModal = ref(false);
 const isAcceptRules = ref(false);
+const isChatSidebar = ref(false);
 
 const isActual = computed(() => actual.value === "yes");
 
 const setIdActiveChat = (id: number) => {
   consultationsStore.connectChannel(id);
   idActiveChat.value = id;
+  isChatSidebar.value = false;
 };
 
 const sendMessage = (message: string) => {
@@ -69,11 +71,17 @@ const setData = (value?: any) => {
     delete queryParams.value["dateBetween"];
   }
 };
+
+const handleChatMobile = () => {
+  isChatSidebar.value = !isChatSidebar.value;
+};
+
 const setSpecialization = (value: string) => (queryParams.value.category = Number(value));
 const setConsultant = (value: string) => (queryParams.value.consultant = Number(value));
 const setActual = (value: "yes" | "no") => (queryParams.value.actual = value);
 
 let searchTimeoutId: ReturnType<typeof setTimeout>;
+
 watch(search, () => {
   clearTimeout(searchTimeoutId);
   searchTimeoutId = setTimeout(() => {
@@ -105,7 +113,7 @@ onBeforeMount(() => {
 <template>
   <div class="question">
     <div class="question__header">
-      <div class="flex justify-between justify-between">
+      <div class="flex justify-between justify-between question__column">
         <h5>Вопросы</h5>
         <q-btn
           outline
@@ -171,11 +179,17 @@ onBeforeMount(() => {
           emit-value
           map-options
           @update:model-value="setSpecialization" />
+
+        <q-btn outline class="q-ml-sm q-mr-sm question__btn-chat" @click="handleChatMobile">
+          <span class="text-primary question__btn-label">
+            {{ isChatSidebar ? "Скрыть другие чаты" : "Показать другие чаты" }}
+          </span>
+        </q-btn>
       </div>
     </div>
 
     <div class="question__wrapper">
-      <div class="question__sidebar">
+      <div class="question__sidebar" :class="{ [`question__sidebar--active`]: isChatSidebar }">
         <SideBarItem
           v-for="(item, index) in consultationsStore.consultations"
           :key="index"
@@ -221,6 +235,10 @@ onBeforeMount(() => {
   &__wrapper {
     display: flex;
     height: 592px;
+
+    @media (max-width: 576px) {
+      position: relative;
+    }
   }
 
   &__header {
@@ -242,6 +260,10 @@ onBeforeMount(() => {
     gap: 16px;
     display: flex;
     flex-wrap: nowrap;
+
+    @media (max-width: 576px) {
+      flex-direction: column;
+    }
   }
 
   &__box {
@@ -259,6 +281,24 @@ onBeforeMount(() => {
     background-color: #ffffff;
     flex-basis: 36%;
     border-right: 1px solid var(--grey-2);
+
+    @media (max-width: 576px) {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      z-index: 1;
+      transform: translateX(-100%);
+      transition: transform 0.5s;
+    }
+
+    &--active {
+      @media (max-width: 576px) {
+        transform: translateX(0%);
+        transition: transform 0.5s;
+      }
+    }
   }
   &__content {
     display: flex;
@@ -266,12 +306,34 @@ onBeforeMount(() => {
     justify-content: space-between;
     flex-basis: 64%;
     height: 100%;
+
+    @media (max-width: 576px) {
+      flex-basis: 100%;
+    }
   }
   &__btn-label {
     font-size: 16px;
     font-style: normal;
     font-weight: 500;
     line-height: 19px;
+  }
+
+  &__btn-chat {
+    display: none;
+
+    @media (max-width: 576px) {
+      display: flex;
+    }
+  }
+}
+
+.question__column {
+  @media (max-width: 576px) {
+    flex-direction: column;
+    gap: 20px;
+    button {
+      margin: 0;
+    }
   }
 }
 

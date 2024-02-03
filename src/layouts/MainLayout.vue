@@ -43,6 +43,10 @@ useAuthModal();
     margin: 0 auto;
     padding: 70px 0;
 
+    @media (max-width: 1270px) {
+      width: 100%;
+    }
+
     @media screen and (max-width: $mobile-max-width) {
       width: 100%;
       padding: 20px 4px 0px 10px;
