@@ -76,7 +76,7 @@ onMounted(() => openFirstTab());
           vertical
           :no-caps="true"
           indicator-color="transparent"
-          content-class="'tabs-wrapper'"
+          :content-class="'tabs-wrapper'"
           :active-class="'tabs-wrapper_active'">
           <!-- TODO: Сделать сохранение выбранной вкладки в route страницы, через q-route-tab или отдельный метод изменения route -->
           <q-tab
@@ -138,14 +138,29 @@ onMounted(() => openFirstTab());
 .tabs-menu {
   height: 100%;
   min-height: 600px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 20px;
+  }
 }
 
 .tabs-wrapper {
   width: 300px;
+
   &__tab {
     border-radius: 6px;
     justify-content: start;
     padding-left: 18px;
+
+    @media (max-width: 1100px) {
+      white-space: break-spaces;
+      text-align: left;
+    }
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
   }
   &__tab :deep(.q-tab__label) {
     color: var(--q-blue-lighter, #315194);
@@ -179,5 +194,11 @@ onMounted(() => openFirstTab());
   margin-left: 12px;
   background-color: $red;
   border-radius: 50%;
+}
+
+:deep(.q-splitter__panel.q-splitter__before) {
+  @media (max-width: 768px) {
+    width: 100% !important;
+  }
 }
 </style>

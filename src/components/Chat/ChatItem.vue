@@ -38,9 +38,16 @@ const isMyMessage = authStore.user?.id === props.user.id;
     max-width: 75%;
     padding: 10px;
     gap: 15px;
+
+    @media (max-width: 576px) {
+      max-width: none;
+    }
   }
   &--consultant {
     justify-content: flex-end;
+    @media (max-width: 576px) {
+      justify-content: normal;
+    }
   }
   &--consultant > &__wrapper {
     border-radius: 25px 25px 0px 25px;

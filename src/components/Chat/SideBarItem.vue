@@ -67,6 +67,10 @@ onMounted(() => {
   // background: rgba(228, 235, 246, 0.2);
   background-color: #ffffff;
 
+  @media (max-width: 576px) {
+    padding: 11px 10px 11px 18px;
+  }
+
   &__box {
     display: flex;
     gap: 4px;

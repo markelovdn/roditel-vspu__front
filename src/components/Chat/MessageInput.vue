@@ -40,6 +40,11 @@ const closeConsultation = () => {
   padding: 18px 20px 18px 23px;
   background-color: #fff;
 
+  @media (max-width: 576px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
   &__input {
     flex-grow: 1;
     color: $grey-2;

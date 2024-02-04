@@ -47,6 +47,13 @@ defineProps<{ items: T[]; title: string; cardsList?: boolean; headers?: TTableWr
     background-color: $white;
     border-radius: 10px 10px 0 0;
     filter: drop-shadow(0 4px 4px rgb(0 0 0 / 3%));
+
+    @media (max-width: 576px) {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 20px;
+      height: auto;
+    }
   }
   &__noData {
     text-align: center;
