@@ -218,6 +218,10 @@ onMounted(() => {
     background-color: $white;
     border-radius: 0px 0px 10px 10px;
     filter: drop-shadow(0 4px 4px rgb(0 0 0 / 3%));
+
+    @media (max-width: 576px) {
+      flex-direction: column;
+    }
   }
 
   &__kids {
@@ -228,6 +232,10 @@ onMounted(() => {
     background-color: $white;
     border-radius: 0px 0px 10px 10px;
     filter: drop-shadow(0 4px 4px rgb(0 0 0 / 3%));
+
+    @media (max-width: 576px) {
+      grid-template-columns: 1fr;
+    }
   }
 
   &__item {

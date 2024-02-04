@@ -81,15 +81,15 @@ onMounted(() => {
         </div>
       </template>
       <template #filters>
-        <div class="flex">
-          <div class="q-pa-md" style="width: 250px">
+        <div class="flex filter-box">
+          <div class="q-pa-md filter-tablet" style="width: 250px">
             <q-input v-model="search" debounce="500" outlined placeholder="Поиск">
               <template #append>
                 <q-icon name="search" />
               </template>
             </q-input>
           </div>
-          <div class="q-pa-md" style="max-width: 200px">
+          <div class="q-pa-md filter-tablet" style="max-width: 200px">
             <q-input v-model="dateToString" outlined>
               <template #append>
                 <q-icon name="event" class="cursor-pointer">
@@ -105,7 +105,7 @@ onMounted(() => {
               </template>
             </q-input>
           </div>
-          <div class="q-pa-md" style="width: 200px">
+          <div class="q-pa-md filter-tablet" style="width: 200px">
             <q-select
               v-model="specializationId"
               input-class="q-select--form"
@@ -118,7 +118,7 @@ onMounted(() => {
               map-options
               @update:model-value="setLectors" />
           </div>
-          <div class="q-pa-md" style="width: 250px">
+          <div class="q-pa-md filter-tablet" style="width: 250px">
             <q-select
               v-model="lectorId"
               input-class="q-select--form"
@@ -162,6 +162,24 @@ onMounted(() => {
   }
   :deep(.q-icon) {
     font-size: 18px;
+  }
+}
+
+.filter-box {
+  @media (max-width: 576px) {
+    flex-direction: column;
+  }
+}
+
+.filter-tablet {
+  @media (max-width: 768px) {
+    width: 50% !important;
+    max-width: none !important;
+  }
+
+  @media (max-width: 576px) {
+    flex-direction: column;
+    width: 100% !important;
   }
 }
 </style>
