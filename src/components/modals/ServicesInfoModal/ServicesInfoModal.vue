@@ -25,7 +25,9 @@ const authModal = inject(AuthModalInjectionKey, {} as AuthModalProviderData);
       <div class="info__line">
         <div class="info__block info__block_half">
           <div class="info__block_title">График работы диспетчерской службы</div>
-          <span class="info__block_text">С понедельника по пятницу С 9:00 до 17:00 Без перерыва на обед</span>
+          <span class="info__block_text">
+            С понедельника по четверг с 9:00 до 17:00, пятница с 9:00 до 16:00 Без перерыва на обед
+          </span>
         </div>
         <div class="info__block info__block_half">
           <div class="info__block_title">График работы консультантов</div>

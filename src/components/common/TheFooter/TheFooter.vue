@@ -57,13 +57,11 @@ const isAcceptRules = ref(false);
           Для жителей Волгограда и Волгоградской области возможны очные консультации по адресу г.Волгоград, проспект
           Ленина, 27
         </span>
-        <CommonLink
-          :to="'https://bitrix24public.com/b24-l12664.bitrix24.ru/docs/pub/259c2a702e5b56107f15299be4997cc6/default/?&/'">
+        <CommonLink :to="'https://psyho.legion34.ru/storage/docs/Prikaz_02-31.pdf'">
           Приказ Об утверждении Положения о Межрегиональной службе консультирования родителей социально -
           психологическим центром "ВГСПУ"
         </CommonLink>
-        <CommonLink
-          :to="'https://bitrix24public.com/b24-l12664.bitrix24.ru/docs/pub/e656905b09fa602e0aeb129129ed007a/default/?&'">
+        <CommonLink :to="'https://psyho.legion34.ru/storage/docs/Polozhenie.pdf'">
           Положение о межрегиональной службе консультирования родителей социально-психологического центра ФГБОУ ВО ВГСПУ
         </CommonLink>
         <div class="contacts">

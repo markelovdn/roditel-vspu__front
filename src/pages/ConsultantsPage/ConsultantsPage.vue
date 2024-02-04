@@ -35,7 +35,7 @@ onMounted(() => {
     <div class="search">
       <q-input v-model="search" outlined bottom-slots class="q-pb-none">
         <template #append>
-          <q-icon v-if="search !== ''" name="close" class="cursor-pointer" />
+          <q-icon v-if="search !== ''" name="close" class="cursor-pointer" @click="search = ''" />
           <q-icon name="search" style="cursor: pointer" />
         </template>
       </q-input>
