@@ -35,7 +35,7 @@ onMounted(() => {
   <div class="card" :style="{ 'background-color': props.backGroundColor }">
     <q-img class="card__photo" :src="props.consultant.photo" />
     <h5 class="card__name">
-      {{ consultant.user.secondName }} {{ consultant.user.surName }} {{ consultant.user.firstName }}
+      {{ consultant.user.firstName }} {{ consultant.user.surName }} {{ consultant.user.secondName }}
     </h5>
     <div ref="description" class="card__description" :class="{ card__description_hide: isFullShow }">
       <span>{{ consultant.description }}</span>
