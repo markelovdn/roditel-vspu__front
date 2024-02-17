@@ -38,7 +38,7 @@ const reportListHeaders = [
     label: "Название файла",
     field: "name",
     align: "center",
-    width: "auto",
+    width: "130px",
   },
   {
     name: "createdAt",
