@@ -35,6 +35,12 @@ defineProps<{
 .notify {
   position: relative;
 
+  @media screen and (max-width: $mobile-max-width) {
+    display: flex;
+    justify-content: end;
+    padding-right: 20px;
+  }
+
   &__block {
     position: absolute;
     padding: 10px;

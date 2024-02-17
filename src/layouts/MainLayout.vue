@@ -14,7 +14,7 @@ const pageBackground = computed(() => {
 
   return { background: getCssVar(`background-${backgroundName}`) };
 });
-const showHeaderOnRoute = computed(() => route.name !== "ResetPassword");
+const showHeaderOnRoute = computed(() => route.meta.footer);
 useAuthModal();
 </script>
 
