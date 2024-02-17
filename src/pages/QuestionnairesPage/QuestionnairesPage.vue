@@ -87,7 +87,7 @@ onMounted(async () => {
     </q-form>
 
     <!-- Вопросы -->
-    <div class="row justify-center flex-center q-mt-lg">
+    <div class="row justify-center flex-center q-mt-lg q-mb-lg">
       <h5>Вопросы</h5>
     </div>
     <div class="questions-wrapper">
@@ -160,6 +160,10 @@ onMounted(async () => {
   width: 640px;
   margin-left: auto;
   margin-right: auto;
+
+  @media (max-width: $mobile-max-width) {
+    width: 100%;
+  }
 }
 .btn-delete {
   height: unset;
@@ -202,5 +206,9 @@ onMounted(async () => {
 .footer {
   display: inline-block;
   width: 100%;
+
+  @media (max-width: $mobile-max-width) {
+    padding-bottom: 100px;
+  }
 }
 </style>

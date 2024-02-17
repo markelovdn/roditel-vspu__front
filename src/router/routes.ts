@@ -9,6 +9,7 @@ const routes: Array<RouteRecordRaw> = [
       background: "primary",
       requireAuth: false,
       title: "Главная",
+      footer: true,
     },
   },
   {
@@ -48,6 +49,7 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       requireAuth: true,
       title: "Анкеты",
+      footer: false,
     },
     component: () => import("@/pages/QuestionnairesPage/QuestionnairesPage.vue"),
   },

@@ -15,15 +15,21 @@ const consultationsStore = useConsultationsStore();
 const queryParams = ref<TGetConsultationsFilter>({ actual: "yes" });
 const idActiveChat = ref(0);
 const actual = ref<"yes" | "no">((route.query.actual as "yes" | "no") || "yes");
+const isChatSidebar = ref(false);
 
 const isActual = computed(() => actual.value === "yes");
 
 const search = ref("");
 const debouncedSearch = useDebounce(search, 300);
 
+const handleChatMobile = () => {
+  isChatSidebar.value = !isChatSidebar.value;
+};
+
 const setIdActiveChat = (id: number) => {
   consultationsStore.connectChannel(id);
   idActiveChat.value = id;
+  isChatSidebar.value = false;
 };
 
 const sendMessage = (message: string) => {
@@ -71,9 +77,9 @@ watch(debouncedSearch, () => {
 <template>
   <div class="question">
     <div class="question__header">
-      <div class="question__box">
+      <div class="flex justify-between justify-between question__box">
         <h5>Заявки</h5>
-        <q-input v-model="search" label="Поиск" outlined bottom-slots class="q-pb-none">
+        <q-input v-model="search" debounce="500" class="max-width" outlined placeholder="Поиск">
           <template #append>
             <q-icon v-if="search !== ''" name="close" class="cursor-pointer" @click="search = ''" />
             <q-icon name="search" style="cursor: pointer" />
@@ -81,23 +87,27 @@ watch(debouncedSearch, () => {
         </q-input>
       </div>
 
-      <div class="question__box">
-        <q-btn-toggle
-          v-model="actual"
-          spread
-          no-caps
-          toggle-color="primary"
-          text-color="primary"
-          :options="[
-            { label: 'Актуальные', value: 'yes' },
-            { label: 'Прошедшие', value: 'no' },
-          ]"
-          @update:model-value="setActual" />
-      </div>
+      <q-btn-toggle
+        v-model="actual"
+        spread
+        no-caps
+        toggle-color="primary"
+        text-color="primary"
+        :options="[
+          { label: 'Актуальные', value: 'yes' },
+          { label: 'Прошедшие', value: 'no' },
+        ]"
+        @update:model-value="setActual" />
+
+      <q-btn outline class="q-ml-sm q-mr-sm question__btn-chat" @click="handleChatMobile">
+        <span class="text-primary question__btn-label">
+          {{ isChatSidebar ? "Скрыть другие чаты" : "Показать другие чаты" }}
+        </span>
+      </q-btn>
     </div>
 
     <div class="question__wrapper">
-      <div class="question__sidebar">
+      <div class="question__sidebar" :class="{ [`question__sidebar--active`]: isChatSidebar }">
         <SideBarItem
           v-for="(item, index) in consultationsStore.consultations"
           :key="index"
@@ -129,10 +139,12 @@ watch(debouncedSearch, () => {
   background-color: #e4ebf5;
 
   &__wrapper {
-    display: grid;
-    // gap: 2px;
-    // height: 592px;
-    grid-template-columns: 1fr 3fr;
+    display: flex;
+    height: 592px;
+
+    @media (max-width: 576px) {
+      position: relative;
+    }
   }
 
   &__header {
@@ -144,11 +156,22 @@ watch(debouncedSearch, () => {
     background-color: $white;
     border-radius: 10px 10px 0 0;
     filter: drop-shadow(0 4px 4px rgb(0 0 0 / 3%));
+
+    @media (max-width: $mobile-max-width) {
+      flex-direction: column;
+      height: 100%;
+      gap: 35px;
+    }
   }
 
   &__box {
     display: flex;
     align-items: center;
+    flex-wrap: nowrap;
+
+    @media (max-width: $mobile-max-width) {
+      flex-wrap: wrap;
+    }
 
     &:first-child {
       gap: 35px;
@@ -160,13 +183,60 @@ watch(debouncedSearch, () => {
     background-color: #ffffff;
     flex-direction: column;
     overflow-y: auto;
+
+    @media (max-width: 576px) {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      z-index: 1;
+      transform: translateX(-100%);
+      transition: transform 0.5s;
+    }
+
+    &--active {
+      @media (max-width: 576px) {
+        transform: translateX(0%);
+        transition: transform 0.5s;
+      }
+    }
   }
   &__content {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-
+    flex-basis: 64%;
     height: 100%;
+
+    @media (max-width: 576px) {
+      flex-basis: 100%;
+      width: 100%;
+    }
+  }
+  &__btn-label {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 19px;
+  }
+
+  &__btn-chat {
+    display: none;
+
+    @media (max-width: 576px) {
+      display: flex;
+    }
+  }
+}
+
+.question__column {
+  @media (max-width: 576px) {
+    flex-direction: column;
+    gap: 20px;
+    button {
+      margin: 0;
+    }
   }
 }
 </style>
