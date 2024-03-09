@@ -30,6 +30,8 @@ export type TWebinarData = {
     title: string;
   };
   cost: number;
+  prefixSertificate: string;
+  numberSertificate: number;
   registered: boolean;
   videoLink: string;
   date: string; // "17.01.2016";
@@ -61,6 +63,8 @@ export type TWebinarPayload = {
   videoLink: string;
   logo: File | FileList | null | string;
   cost: number;
+  prefixSertificate: string;
+  numberSertificate: number;
   webinarCategoryId: number | null;
   webinarQuestions: Array<TWebinarQuestion>;
   webinarLectorsId: Array<number>;

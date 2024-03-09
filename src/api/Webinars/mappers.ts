@@ -11,6 +11,8 @@ export const toTWebinarCardData = (webinarData: TWebinarsData): TWebinarCardData
       category: item.webinarCategory.title,
       lectors: item.lectors,
       cost: item.cost,
+      prefixSertificate: item.prefixSertificate,
+      numberSertificate: item.numberSertificate,
       date: item.date + ` с ${item.timeStart} до ${item.timeEnd}`,
       registered: item.registered,
       videoLink: item.videoLink,
