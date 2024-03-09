@@ -31,6 +31,8 @@ const data = ref<TWebinarPayload>(
         timeEnd: props.webinarItem.timeEnd,
         logo: props.webinarItem.logo,
         cost: props.webinarItem.cost,
+        prefixSertificate: props.webinarItem.prefixSertificate,
+        numberSertificate: props.webinarItem.numberSertificate,
         videoLink: props.webinarItem.videoLink,
         webinarCategoryId: props.webinarItem.webinarCategory.id || null,
         webinarQuestions: props.webinarItem.questions,
@@ -44,6 +46,8 @@ const data = ref<TWebinarPayload>(
         timeEnd: "",
         logo: null,
         cost: 0.0,
+        prefixSertificate: "",
+        numberSertificate: 0,
         videoLink: "",
         webinarCategoryId: null,
         webinarQuestions: [],
@@ -60,6 +64,8 @@ const { handleBlur, getErrorAttrs, isValid } = useValidation<TWebinarPayload>(da
   videoLink: { requiredValidator },
   logo: {},
   cost: {},
+  prefixSertificate: { requiredValidator },
+  numberSertificate: { requiredValidator },
   webinarCategoryId: { requiredValidator },
   webinarQuestions: {
     $each: helpers.forEach({
@@ -228,6 +234,17 @@ const handleSetWebinar = () => {
       v-model="data.videoLink"
       label="Ссылка на видео"
       @blur="handleBlur('videoLink')" />
+
+    <q-input
+      v-bind="getErrorAttrs('prefixSertificate')"
+      v-model="data.prefixSertificate"
+      label="Префикс номера сертификата"
+      @blur="handleBlur('prefixSertificate')" />
+    <q-input
+      v-bind="getErrorAttrs('numberSertificate')"
+      v-model="data.numberSertificate"
+      label="Стартовый номер сертификата"
+      @blur="handleBlur('numberSertificate')" />
 
     <q-select
       v-bind="getErrorAttrs('webinarCategoryId')"
