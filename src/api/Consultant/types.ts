@@ -42,10 +42,7 @@ export interface TGetConsultantInfo {
   userId: number;
   photo: string;
   description: string | null;
-  specialization: {
-    id: number;
-    title: string;
-  };
+  specializations: Array<TSpecialization>;
   profession: {
     id: number;
     title: string;

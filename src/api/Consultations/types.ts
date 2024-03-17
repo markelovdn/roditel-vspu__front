@@ -28,7 +28,7 @@ export type TConsultation = {
   closed: boolean;
   createdAt: number;
   updatedAt: number;
-  specialization: TSpecialization;
+  specializations: Array<TSpecialization>;
   region: string;
 };
 

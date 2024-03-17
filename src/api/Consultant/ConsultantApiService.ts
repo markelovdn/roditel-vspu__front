@@ -39,7 +39,7 @@ export class ConsultantApiService {
       patronymic: splitName[2],
       phone: data.phone,
       email: data.email,
-      specializationId: data.specializationId,
+      specializationsId: data.specializationsId,
       professionId: data.professionId,
       description: data.description,
     });
