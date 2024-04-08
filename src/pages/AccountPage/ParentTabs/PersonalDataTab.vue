@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { emit } from "process";
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, onMounted, Ref, ref, watch } from "vue";
 
 import ForgotPassword from "@/components/modals/ForgotPasswordModal/ForgotPassword.vue";
 import { useFilteredOptions } from "@/hooks/useFilteredOptions";
@@ -17,15 +17,14 @@ import { useCollectionsStore } from "@/stores/collectionsStore";
 import { useParentStore } from "@/stores/parentStore";
 
 import ChildrenItem from "./PersonalDataTab/ChildrenItem.vue";
-import { TPersonalDataChildrenPayload, TPersonalDataParentPayload } from "./types";
+import { RegionOption, TPersonalDataChildrenPayload, TPersonalDataParentPayload } from "./types";
 
 const authStore = useAuthStore();
 const parentStore = useParentStore();
 const collectionsStore = useCollectionsStore();
 
-const { getRegions: optionsRegions } = storeToRefs(collectionsStore);
-
-const { filteredOptions, onFilter } = useFilteredOptions(optionsRegions);
+let filteredOptions: Ref<RegionOption[]>;
+let onFilter: (val: string, update: Function) => void;
 
 const data = ref<TPersonalDataParentPayload>({
   name: authStore.user?.fullName,
@@ -83,8 +82,12 @@ watch(
   },
 );
 
-onMounted(() => {
-  collectionsStore.requestRegions();
+onMounted(async () => {
+  await collectionsStore.requestRegions();
+  const optionsRegions = storeToRefs(collectionsStore).getRegions;
+  const optionsData = useFilteredOptions(optionsRegions);
+  filteredOptions = optionsData.filteredOptions;
+  onFilter = optionsData.onFilter;
   parentStore.getChildren();
 });
 </script>
@@ -131,7 +134,6 @@ onMounted(() => {
             mask="+# (###) ### ####"
             borderless
             @blur="handleBlur('phone')" />
-
           <q-select
             v-bind="getErrorAttrs('regionId')"
             v-model="data.regionId"

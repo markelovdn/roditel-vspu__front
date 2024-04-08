@@ -10,3 +10,8 @@ export type TPersonalDataParentPayload = {
   regionId?: number;
   childrens?: TPersonalDataChildrenPayload[];
 };
+
+export type RegionOption = {
+  label: string;
+  value: string;
+};

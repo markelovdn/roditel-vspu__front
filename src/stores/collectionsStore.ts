@@ -9,8 +9,10 @@ export const useCollectionsStore = defineStore("collectionsStore", () => {
   const specializations = ref<TCollectionItem[]>([]);
   const professions = ref<TCollectionItem[]>([]);
 
-  function requestRegions() {
-    collectionsApi.getRegions().then((resp) => (regions.value = resp.data.data));
+  async function requestRegions() {
+    await collectionsApi.getRegions().then((resp) => {
+      regions.value = resp.data.data;
+    });
   }
   async function requestSpecializations() {
     collectionsApi.getSpecializations().then((resp) => (specializations.value = resp.data.data));
@@ -18,6 +20,10 @@ export const useCollectionsStore = defineStore("collectionsStore", () => {
   function requestProfessions() {
     collectionsApi.getProfessions().then((resp) => (professions.value = resp.data.data));
   }
+
+  // function setRegions(data: TCollectionItem[]) {
+  //   regions.value = data;
+  // }
 
   const getRegions = computed(() => {
     return regions.value.map((item: TCollectionItem) => {

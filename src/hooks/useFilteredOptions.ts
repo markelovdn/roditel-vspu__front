@@ -9,6 +9,7 @@ export function useFilteredOptions(
   >,
 ) {
   const filteredOptions = ref([...options.value]);
+  console.log("из компазабел", options.value);
 
   const onFilter = (val: string, update: Function) => {
     update(() => {
