@@ -89,6 +89,7 @@ onMounted(() => {
       label="Специализация*"
       outlined
       multiple
+      use-chips
       class="fit q-mb-sm"
       :options="optionsSpecializations"
       :option-label="(item) => item.label"

@@ -23,7 +23,7 @@ const data = ref<TRegistrationPayload>({
   name: "",
   phone: "",
   email: "",
-  specializationId: null,
+  specializationsId: null,
   professionId: null,
   password: "",
   passwordConfirm: "",
