@@ -15,7 +15,7 @@ import { useConsultationsStore } from "@/stores/consultationsStore";
 import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
 const route = useRoute();
 const router = useRouter();
-const emit = defineEmits(["close"]);
+const emit = defineEmits(["close", "validation-change"]);
 
 const isShowRuleModal = defineModel("show", {
   default: false,
@@ -39,7 +39,7 @@ const data = ref<TConsultationPayload<number | null>>({
   consultantId: Number(route.query.consultantId) || props.consultant?.user.id || null,
   allConsultants: false,
   messageText: "",
-  specializationId: null,
+  specializationsId: [],
 });
 
 const { closeModal } = useModal(emit, data);
@@ -47,7 +47,7 @@ const { closeModal } = useModal(emit, data);
 const { handleBlur, getErrorAttrs, isValid } = useValidation<TConsultationPayload<number | null>>(data, emit, {
   consultantId: {},
   messageText: { requiredValidator },
-  specializationId: { requiredValidator },
+  specializationsId: { requiredValidator },
   allConsultants: {},
 });
 
@@ -67,12 +67,28 @@ const handleRulesModal = () => {
   !isAcceptRules.value && (isShowRuleModal.value = true);
 };
 
+// onMounted(() => {
+//   collectionsStore.requestSpecializations();
+//   consultantStore.requestAllConsultants().then((res: TAllConsultants) => {
+//     data.value.specializationsId =
+//       res.find((item) => item.userId === Number(route.query.consultantId) || props.consultant?.user.id)?.specialization
+//         .id || null;
+//   });
+// });
+
 onMounted(() => {
   collectionsStore.requestSpecializations();
   consultantStore.requestAllConsultants().then((res: TAllConsultants) => {
-    data.value.specializationId =
-      res.find((item) => item.userId === Number(route.query.consultantId) || props.consultant?.user.id)?.specialization
-        .id || null;
+    if (props.consultant?.user.id || route.query.consultantId) {
+      const specializationId = res.find(
+        (item) => item.userId === Number(route.query.consultantId) || props.consultant?.user.id,
+      )?.specialization.id;
+
+      console.log(specializationId);
+
+      // Устанавливаем `specializationsId` в виде массива; если ID не найден, используем пустой массив
+      data.value.specializationsId = specializationId ? [specializationId] : [];
+    }
   });
 });
 </script>
@@ -82,10 +98,12 @@ onMounted(() => {
     <ModalWrapper header="Задать вопрос">
       <q-select
         v-bind="getErrorAttrs('specializationId')"
-        v-model="data.specializationId"
+        v-model="data.specializationsId"
         input-class="q-select--form"
         label="Выберите категорию консультации*"
         outlined
+        multiple
+        use-chips
         class="fit q-mb-sm"
         :options="optionsSpecializations"
         :option-label="(item) => item.label"
@@ -103,11 +121,11 @@ onMounted(() => {
         :option-label="(item) => item.label"
         emit-value
         map-options
-        :disable="data.allConsultants || data.specializationId === null" />
+        :disable="data.allConsultants || data.specializationsId === null" />
 
       <q-checkbox
         v-model="data.allConsultants"
-        :disable="data.specializationId === null"
+        :disable="data.specializationsId === null"
         label="Любой специалист"
         @update:model-value="data.consultantId = null" />
 

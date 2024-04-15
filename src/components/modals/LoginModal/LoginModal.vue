@@ -9,7 +9,13 @@ import { useAuthStore } from "@/stores/authStore";
 import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
 import { TLoginPayload } from "./types";
 
-const emit = defineEmits(["close", "close-common-modal", "showRegistrationModal", "showForgotPasswordModal"]);
+const emit = defineEmits([
+  "close",
+  "close-common-modal",
+  "showRegistrationModal",
+  "showForgotPasswordModal",
+  "validation-change",
+]);
 const router = useRouter();
 const route = useRoute();
 
