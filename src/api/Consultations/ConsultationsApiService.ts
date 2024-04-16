@@ -12,6 +12,7 @@ export class ConsultationsApiService {
   }
 
   addConsultation(userId: number | string, consultation: TConsultationPayload<number | null>) {
+    console.log(consultation);
     return axios.post<TConsultationPayload<number | null>>(`/users/${userId}/consultations`, consultation);
   }
 

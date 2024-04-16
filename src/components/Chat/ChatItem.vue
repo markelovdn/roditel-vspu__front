@@ -20,7 +20,7 @@ const isMyMessage = authStore.user?.id === props.user.id;
     <div class="chat-item__wrapper">
       <div class="chat-item__info">
         <h3 class="chat-item__name">{{ user.fullName }}</h3>
-        <h4 class="chat-item__spec">Кат. {{ item.specialization.title }}</h4>
+        <h4 class="chat-item__spec">Кат. {{ item.specializations[0].title }}</h4>
       </div>
       <div class="chat-item__content">{{ message.text }}</div>
       <div class="chat-item__time">{{ message.createdAt }}</div>

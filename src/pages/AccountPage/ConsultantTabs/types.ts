@@ -2,7 +2,7 @@ export type TPersonalDataPayload = {
   name?: string;
   email?: string;
   phone?: string;
-  specializationId?: number | null;
+  specializationsId?: number | Array<number> | null;
   professionId?: number | null;
   description: string;
   image?: File | FileList | null;

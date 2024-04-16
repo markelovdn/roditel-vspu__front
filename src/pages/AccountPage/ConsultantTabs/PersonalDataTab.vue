@@ -27,7 +27,7 @@ const data = ref<TPersonalDataPayload>({
   name: authStore.user?.fullName,
   phone: authStore.user?.phone,
   email: authStore.user?.email,
-  specializationId: null,
+  specializationsId: null,
   professionId: null,
   description: "",
   image: null,
@@ -37,7 +37,7 @@ const { handleBlur, getErrorAttrs, isValid } = useValidation<TPersonalDataPayloa
   name: { requiredValidator, splitNameValidator },
   phone: { requiredValidator, minLengthValidator: minLengthValidator(17) },
   email: { requiredValidator, emailValidator },
-  specializationId: { requiredValidator },
+  specializationsId: { requiredValidator },
   professionId: { requiredValidator },
   description: { requiredValidator, minLengthValidator: minLengthValidator(15) },
 });
@@ -46,7 +46,7 @@ const resetData = () => {
   data.value.name = authStore.user?.fullName;
   data.value.phone = authStore.user?.phone;
   data.value.email = authStore.user?.email;
-  data.value.specializationId = consultantStore.consultantInfo?.specialization?.id;
+  data.value.specializationsId = consultantStore.consultantInfo?.specializations?.map((item) => item.id);
   data.value.professionId = consultantStore.consultantInfo?.profession?.id;
   data.value.image = null;
   data.value.description = "";
@@ -78,7 +78,7 @@ watch(
   () => consultantStore.consultantInfo,
   (newConsultantInfo) => {
     if (newConsultantInfo) {
-      data.value.specializationId = newConsultantInfo.specialization?.id;
+      data.value.specializationsId = newConsultantInfo.specializations?.map((item) => item.id);
       data.value.professionId = newConsultantInfo.profession?.id;
       data.value.description = newConsultantInfo.description ?? "";
     }
@@ -136,17 +136,18 @@ onMounted(() => {
             @blur="handleBlur('email')" />
 
           <q-select
-            v-bind="getErrorAttrs('specializationId')"
-            v-model="data.specializationId"
+            v-bind="getErrorAttrs('specializationsId')"
+            v-model="data.specializationsId"
             input-class="q-select--form"
             label="Специализация*"
             outlined
+            multiple
             class="personal-data__item"
             :options="optionsSpecializations"
             :option-label="(item) => item.label"
             emit-value
             map-options
-            @blur="handleBlur('specializationId')" />
+            @blur="handleBlur('specializationsId')" />
         </div>
 
         <div class="personal-data__box">

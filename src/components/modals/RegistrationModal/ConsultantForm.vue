@@ -35,7 +35,7 @@ const { handleBlur, getErrorAttrs } = useValidation<TRegistrationPayload>(data, 
   name: { requiredValidator, splitNameValidator },
   phone: { requiredValidator, minLengthValidator: minLengthValidator(17) },
   email: { requiredValidator, emailValidator },
-  specializationId: { requiredValidator },
+  specializationsId: { requiredValidator },
   professionId: { requiredValidator },
   password: { requiredValidator },
   passwordConfirm: { repeatPasswordValidator: repeatPasswordValidator(computed(() => data.value.password)) },
@@ -83,17 +83,19 @@ onMounted(() => {
       @blur="handleBlur('email')" />
 
     <q-select
-      v-bind="getErrorAttrs('specializationId')"
-      v-model="data.specializationId"
+      v-bind="getErrorAttrs('specializationsId')"
+      v-model="data.specializationsId"
       input-class="q-select--form"
       label="Специализация*"
       outlined
+      multiple
+      use-chips
       class="fit q-mb-sm"
       :options="optionsSpecializations"
       :option-label="(item) => item.label"
       emit-value
       map-options
-      @blur="handleBlur('specializationId')" />
+      @blur="handleBlur('specializationsId')" />
 
     <q-select
       v-bind="getErrorAttrs('professionId')"

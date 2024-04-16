@@ -13,10 +13,10 @@ export type TGetConsultationsFilter = {
 };
 
 export type TConsultationPayload<ConsultantId extends number | null> = {
-  consultantId?: number | null;
+  consultantId?: ConsultantId;
   allConsultants: ConsultantId extends null ? true : false;
   messageText: string;
-  specializationId: number | null;
+  specializationsId: number[];
 };
 
 export type TConsultation = {
@@ -28,7 +28,7 @@ export type TConsultation = {
   closed: boolean;
   createdAt: number;
   updatedAt: number;
-  specialization: TSpecialization;
+  specializations: Array<TSpecialization>;
   region: string;
 };
 
