@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
 import { emit } from "process";
 import { computed, onMounted, ref, watch } from "vue";
 
@@ -23,7 +22,7 @@ const authStore = useAuthStore();
 const parentStore = useParentStore();
 const collectionsStore = useCollectionsStore();
 
-const { getRegions: optionsRegions } = storeToRefs(collectionsStore);
+const optionsRegions = computed(() => collectionsStore.getRegions);
 
 const { filteredOptions, onFilter } = useFilteredOptions(optionsRegions);
 
@@ -133,6 +132,7 @@ onMounted(() => {
             @blur="handleBlur('phone')" />
 
           <q-select
+            v-if="collectionsStore.regions"
             v-bind="getErrorAttrs('regionId')"
             v-model="data.regionId"
             class="personal-data__item"

@@ -1,4 +1,4 @@
-import { ComputedRef, ref } from "vue";
+import { ComputedRef, ref, watchEffect } from "vue";
 
 export function useFilteredOptions(
   options: ComputedRef<
@@ -10,8 +10,14 @@ export function useFilteredOptions(
 ) {
   const filteredOptions = ref([...options.value]);
 
+  watchEffect(() => {
+    filteredOptions.value = [...options.value];
+  });
+
   const onFilter = (val: string, update: Function) => {
     update(() => {
+      if (!options.value.length) return;
+
       if (val === "") {
         filteredOptions.value = options.value;
       } else {
