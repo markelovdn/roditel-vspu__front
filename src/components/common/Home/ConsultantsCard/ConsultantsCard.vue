@@ -74,6 +74,7 @@ onMounted(() => {
   &__photo {
     height: 214px;
     border-radius: 20px;
+    object-fit: cover;
   }
 
   &__name {
