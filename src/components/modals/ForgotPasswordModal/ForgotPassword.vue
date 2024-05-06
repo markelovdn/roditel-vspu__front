@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 
 import { useModal } from "@/hooks/useModal";
-import { emailValidator, matchEmailValidator, requiredValidator, useValidation } from "@/hooks/useValidation";
+import { emailValidator, requiredValidator, useValidation } from "@/hooks/useValidation";
 import { useAuthStore } from "@/stores/authStore";
 
 import ModalWrapper from "../../ModalWrapper/ModalWrapper.vue";
@@ -35,7 +35,6 @@ const { handleBlur, getErrorAttrs, isValid } = useValidation<TForgotPasswordPayl
   email: {
     requiredValidator,
     emailValidator,
-    sameAsEmail: matchEmailValidator(computed(() => authStore.user?.email as string)),
   },
 });
 
