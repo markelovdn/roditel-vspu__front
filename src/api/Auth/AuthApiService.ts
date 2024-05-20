@@ -24,7 +24,7 @@ export class AuthApiService {
   registration(data: TRegistrationPayload) {
     const splitName: Array<string> = data.name.split(" ");
 
-    return axios.post<TRegistrationResponse>("/register?XDEBUG_SESSION=VSCODE", {
+    return axios.post<TRegistrationResponse>("/register", {
       firstName: splitName[1],
       secondName: splitName[0],
       patronymic: splitName[2],
