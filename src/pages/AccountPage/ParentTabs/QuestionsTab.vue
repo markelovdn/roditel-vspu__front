@@ -229,9 +229,9 @@ onBeforeMount(() => {
 .question {
   display: flex;
   flex-direction: column;
-  border-radius: 10px;
+  overflow: hidden;
   background-color: #e4ebf5;
-
+  border-radius: 10px 10px 0 0;
   &__wrapper {
     display: flex;
     height: 592px;
@@ -244,12 +244,12 @@ onBeforeMount(() => {
   &__header {
     padding: 15px 35px;
     background-color: $white;
-    border-radius: 10px 10px 0 0;
+    z-index: 1;
     gap: 16px;
     display: flex;
     flex-wrap: nowrap;
     flex-direction: column;
-
+    box-shadow: 0 -4px 15px 0px rgba(0, 0, 0, 0.5);
     &_line {
       min-height: 80px;
       height: auto;
